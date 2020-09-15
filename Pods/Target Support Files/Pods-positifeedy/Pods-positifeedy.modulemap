@@ -1,0 +1,6 @@
+framework module Pods_positifeedy {
+  umbrella header "Pods-positifeedy-umbrella.h"
+
+  export *
+  module * { export * }
+}
