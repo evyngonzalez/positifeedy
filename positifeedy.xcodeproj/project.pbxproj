@@ -13,13 +13,43 @@
 		40CF1B57250BC432003B3B82 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 40CF1B55250BC432003B3B82 /* Main.storyboard */; };
 		40CF1B59250BC434003B3B82 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 40CF1B58250BC434003B3B82 /* Assets.xcassets */; };
 		40CF1B5C250BC434003B3B82 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 40CF1B5A250BC434003B3B82 /* LaunchScreen.storyboard */; };
-		40CF1B64250C8170003B3B82 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 40CF1B63250C8170003B3B82 /* GoogleService-Info.plist */; };
 		40CF1B66250C8F15003B3B82 /* signUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40CF1B65250C8F15003B3B82 /* signUpViewController.swift */; };
 		40CF1B68250C8F24003B3B82 /* logInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40CF1B67250C8F24003B3B82 /* logInViewController.swift */; };
 		40CF1B6A250C8F39003B3B82 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40CF1B69250C8F39003B3B82 /* Constants.swift */; };
 		40CF1B6C250C8F57003B3B82 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40CF1B6B250C8F57003B3B82 /* Utilities.swift */; };
 		40CF1B6E250C9039003B3B82 /* welcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40CF1B6D250C9039003B3B82 /* welcomeViewController.swift */; };
 		6E71A5EA7E4B9FBA62F9ED50 /* Pods_positifeedy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8BFCBF95D55B294A5A4F2C1 /* Pods_positifeedy.framework */; };
+		881D22AF251DC476006AE1D8 /* AdsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 881D22AD251DC476006AE1D8 /* AdsTableViewCell.swift */; };
+		881D22B0251DC476006AE1D8 /* AdsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 881D22AE251DC476006AE1D8 /* AdsTableViewCell.xib */; };
+		8838C123251DFA62005FDF45 /* GoogleAdBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8838C122251DFA62005FDF45 /* GoogleAdBannerView.swift */; };
+		887C2996251F0F9E009AFA9E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 887C2995251F0F9E009AFA9E /* GoogleService-Info.plist */; };
+		887C2999251F1D8D009AFA9E /* MyTabbarVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 887C2998251F1D8D009AFA9E /* MyTabbarVC.swift */; };
+		887C299E251F6FEE009AFA9E /* SF-Pro-Display-Semibold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 887C299B251F6FEA009AFA9E /* SF-Pro-Display-Semibold.otf */; };
+		887C299F251F6FEE009AFA9E /* SF-Pro-Display-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 887C299C251F6FEC009AFA9E /* SF-Pro-Display-Medium.otf */; };
+		887C29A0251F6FEE009AFA9E /* SF-Pro-Display-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 887C299D251F6FEE009AFA9E /* SF-Pro-Display-Regular.otf */; };
+		887C29AB251F751E009AFA9E /* TPKeyboardAvoidingTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 887C29A3251F750A009AFA9E /* TPKeyboardAvoidingTableView.m */; };
+		887C29AC251F751E009AFA9E /* UIScrollView+TPKeyboardAvoidingAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 887C29A6251F7513009AFA9E /* UIScrollView+TPKeyboardAvoidingAdditions.m */; };
+		887C29AD251F751E009AFA9E /* TPKeyboardAvoidingScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 887C29A8251F7519009AFA9E /* TPKeyboardAvoidingScrollView.m */; };
+		887C29AE251F751E009AFA9E /* TPKeyboardAvoidingCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 887C29AA251F751E009AFA9E /* TPKeyboardAvoidingCollectionView.m */; };
+		88E1F3CF251C7E610086E650 /* Feed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88E1F3CE251C7E610086E650 /* Feed.swift */; };
+		88E1F3D1251C91A60086E650 /* FeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88E1F3D0251C91A60086E650 /* FeedCell.swift */; };
+		88E1F3DF251C960E0086E650 /* mindfulness-garden.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 88E1F3D3251C95F50086E650 /* mindfulness-garden.jpg */; };
+		88E1F3E0251C960E0086E650 /* mindworks.png in Resources */ = {isa = PBXBuildFile; fileRef = 88E1F3D4251C95F70086E650 /* mindworks.png */; };
+		88E1F3E1251C960E0086E650 /* mindfulnessminutes.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 88E1F3D5251C95F90086E650 /* mindfulnessminutes.jpg */; };
+		88E1F3E2251C960E0086E650 /* mindful.png in Resources */ = {isa = PBXBuildFile; fileRef = 88E1F3D6251C95FC0086E650 /* mindful.png */; };
+		88E1F3E3251C960E0086E650 /* mybrainsnotbroken.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 88E1F3D7251C95FE0086E650 /* mybrainsnotbroken.jpg */; };
+		88E1F3E4251C960E0086E650 /* thetreamentspecialist.png in Resources */ = {isa = PBXBuildFile; fileRef = 88E1F3D8251C96000086E650 /* thetreamentspecialist.png */; };
+		88E1F3E5251C960E0086E650 /* blunt-therapy.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 88E1F3D9251C96030086E650 /* blunt-therapy.jpg */; };
+		88E1F3E6251C960E0086E650 /* defyingmentalillness.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 88E1F3DA251C96050086E650 /* defyingmentalillness.jpg */; };
+		88E1F3E7251C960E0086E650 /* natashatracy.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 88E1F3DB251C96080086E650 /* natashatracy.jpg */; };
+		88E1F3E8251C960E0086E650 /* psychologytoday.png in Resources */ = {isa = PBXBuildFile; fileRef = 88E1F3DC251C960B0086E650 /* psychologytoday.png */; };
+		88E1F3E9251C960E0086E650 /* mrsmindfulness.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 88E1F3DD251C960D0086E650 /* mrsmindfulness.jpg */; };
+		88E1F3EA251C960E0086E650 /* tinybuddha.png in Resources */ = {isa = PBXBuildFile; fileRef = 88E1F3DE251C960E0086E650 /* tinybuddha.png */; };
+		88E1F3EC251CA4D70086E650 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88E1F3EB251CA4D70086E650 /* WebKit.framework */; };
+		88E1F3EE251CA5A40086E650 /* WebViewVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88E1F3ED251CA5A40086E650 /* WebViewVC.swift */; };
+		88E1F3F1251CB1350086E650 /* positifeedy.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 88E1F3EF251CB1350086E650 /* positifeedy.xcdatamodeld */; };
+		88E1F418251CBD260086E650 /* FeedCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 88E1F416251CBD260086E650 /* FeedCell.xib */; };
+		88E1F41A251CBFAC0086E650 /* BookMarkVc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88E1F419251CBFAC0086E650 /* BookMarkVc.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,13 +62,49 @@
 		40CF1B58250BC434003B3B82 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		40CF1B5B250BC434003B3B82 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		40CF1B5D250BC434003B3B82 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		40CF1B63250C8170003B3B82 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		40CF1B65250C8F15003B3B82 /* signUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = signUpViewController.swift; sourceTree = "<group>"; };
 		40CF1B67250C8F24003B3B82 /* logInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = logInViewController.swift; sourceTree = "<group>"; };
 		40CF1B69250C8F39003B3B82 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		40CF1B6B250C8F57003B3B82 /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		40CF1B6D250C9039003B3B82 /* welcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = welcomeViewController.swift; sourceTree = "<group>"; };
 		479E5DE322C08E14E6DD41FD /* Pods-positifeedy.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-positifeedy.release.xcconfig"; path = "Target Support Files/Pods-positifeedy/Pods-positifeedy.release.xcconfig"; sourceTree = "<group>"; };
+		881D22AD251DC476006AE1D8 /* AdsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdsTableViewCell.swift; sourceTree = "<group>"; };
+		881D22AE251DC476006AE1D8 /* AdsTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AdsTableViewCell.xib; sourceTree = "<group>"; };
+		881D22B1251DCD61006AE1D8 /* positifeedy.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = positifeedy.entitlements; sourceTree = "<group>"; };
+		8838C122251DFA62005FDF45 /* GoogleAdBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleAdBannerView.swift; sourceTree = "<group>"; };
+		887C2995251F0F9E009AFA9E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		887C2998251F1D8D009AFA9E /* MyTabbarVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyTabbarVC.swift; sourceTree = "<group>"; };
+		887C299B251F6FEA009AFA9E /* SF-Pro-Display-Semibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Display-Semibold.otf"; sourceTree = "<group>"; };
+		887C299C251F6FEC009AFA9E /* SF-Pro-Display-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Display-Medium.otf"; sourceTree = "<group>"; };
+		887C299D251F6FEE009AFA9E /* SF-Pro-Display-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Display-Regular.otf"; sourceTree = "<group>"; };
+		887C29A2251F7507009AFA9E /* positifeedy-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "positifeedy-Bridging-Header.h"; sourceTree = "<group>"; };
+		887C29A3251F750A009AFA9E /* TPKeyboardAvoidingTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPKeyboardAvoidingTableView.m; sourceTree = "<group>"; };
+		887C29A4251F750D009AFA9E /* TPKeyboardAvoidingCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPKeyboardAvoidingCollectionView.h; sourceTree = "<group>"; };
+		887C29A5251F7511009AFA9E /* TPKeyboardAvoidingTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPKeyboardAvoidingTableView.h; sourceTree = "<group>"; };
+		887C29A6251F7513009AFA9E /* UIScrollView+TPKeyboardAvoidingAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+TPKeyboardAvoidingAdditions.m"; sourceTree = "<group>"; };
+		887C29A7251F7516009AFA9E /* UIScrollView+TPKeyboardAvoidingAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+TPKeyboardAvoidingAdditions.h"; sourceTree = "<group>"; };
+		887C29A8251F7519009AFA9E /* TPKeyboardAvoidingScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPKeyboardAvoidingScrollView.m; sourceTree = "<group>"; };
+		887C29A9251F751B009AFA9E /* TPKeyboardAvoidingScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPKeyboardAvoidingScrollView.h; sourceTree = "<group>"; };
+		887C29AA251F751E009AFA9E /* TPKeyboardAvoidingCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPKeyboardAvoidingCollectionView.m; sourceTree = "<group>"; };
+		88E1F3CE251C7E610086E650 /* Feed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Feed.swift; sourceTree = "<group>"; };
+		88E1F3D0251C91A60086E650 /* FeedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCell.swift; sourceTree = "<group>"; };
+		88E1F3D3251C95F50086E650 /* mindfulness-garden.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "mindfulness-garden.jpg"; sourceTree = "<group>"; };
+		88E1F3D4251C95F70086E650 /* mindworks.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mindworks.png; sourceTree = "<group>"; };
+		88E1F3D5251C95F90086E650 /* mindfulnessminutes.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = mindfulnessminutes.jpg; sourceTree = "<group>"; };
+		88E1F3D6251C95FC0086E650 /* mindful.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mindful.png; sourceTree = "<group>"; };
+		88E1F3D7251C95FE0086E650 /* mybrainsnotbroken.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = mybrainsnotbroken.jpg; sourceTree = "<group>"; };
+		88E1F3D8251C96000086E650 /* thetreamentspecialist.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = thetreamentspecialist.png; sourceTree = "<group>"; };
+		88E1F3D9251C96030086E650 /* blunt-therapy.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "blunt-therapy.jpg"; sourceTree = "<group>"; };
+		88E1F3DA251C96050086E650 /* defyingmentalillness.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = defyingmentalillness.jpg; sourceTree = "<group>"; };
+		88E1F3DB251C96080086E650 /* natashatracy.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = natashatracy.jpg; sourceTree = "<group>"; };
+		88E1F3DC251C960B0086E650 /* psychologytoday.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = psychologytoday.png; sourceTree = "<group>"; };
+		88E1F3DD251C960D0086E650 /* mrsmindfulness.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = mrsmindfulness.jpg; sourceTree = "<group>"; };
+		88E1F3DE251C960E0086E650 /* tinybuddha.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tinybuddha.png; sourceTree = "<group>"; };
+		88E1F3EB251CA4D70086E650 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
+		88E1F3ED251CA5A40086E650 /* WebViewVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewVC.swift; sourceTree = "<group>"; };
+		88E1F3F0251CB1350086E650 /* positifeedy.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = positifeedy.xcdatamodel; sourceTree = "<group>"; };
+		88E1F416251CBD260086E650 /* FeedCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FeedCell.xib; sourceTree = "<group>"; };
+		88E1F419251CBFAC0086E650 /* BookMarkVc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookMarkVc.swift; sourceTree = "<group>"; };
 		D8BFCBF95D55B294A5A4F2C1 /* Pods_positifeedy.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_positifeedy.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -47,6 +113,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				88E1F3EC251CA4D70086E650 /* WebKit.framework in Frameworks */,
 				6E71A5EA7E4B9FBA62F9ED50 /* Pods_positifeedy.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -66,6 +133,7 @@
 		1F6195248221989B1EA618B3 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				88E1F3EB251CA4D70086E650 /* WebKit.framework */,
 				D8BFCBF95D55B294A5A4F2C1 /* Pods_positifeedy.framework */,
 			);
 			name = Frameworks;
@@ -92,6 +160,12 @@
 		40CF1B4E250BC432003B3B82 /* positifeedy */ = {
 			isa = PBXGroup;
 			children = (
+				887C29A1251F74F5009AFA9E /* Keyboard  */,
+				887C299A251F6FDA009AFA9E /* Font */,
+				887C2997251F1D28009AFA9E /* Tabbar */,
+				881D22B1251DCD61006AE1D8 /* positifeedy.entitlements */,
+				88E1F3D2251C95DC0086E650 /* Images */,
+				88E1F3CD251C7E490086E650 /* model */,
 				40CF1B4F250BC432003B3B82 /* AppDelegate.swift */,
 				40CF1B51250BC432003B3B82 /* SceneDelegate.swift */,
 				40CF1B53250BC432003B3B82 /* ViewController.swift */,
@@ -104,9 +178,78 @@
 				40CF1B58250BC434003B3B82 /* Assets.xcassets */,
 				40CF1B5A250BC434003B3B82 /* LaunchScreen.storyboard */,
 				40CF1B5D250BC434003B3B82 /* Info.plist */,
-				40CF1B63250C8170003B3B82 /* GoogleService-Info.plist */,
+				88E1F416251CBD260086E650 /* FeedCell.xib */,
+				88E1F3D0251C91A60086E650 /* FeedCell.swift */,
+				88E1F3ED251CA5A40086E650 /* WebViewVC.swift */,
+				887C2995251F0F9E009AFA9E /* GoogleService-Info.plist */,
+				88E1F3EF251CB1350086E650 /* positifeedy.xcdatamodeld */,
+				88E1F419251CBFAC0086E650 /* BookMarkVc.swift */,
+				881D22AD251DC476006AE1D8 /* AdsTableViewCell.swift */,
+				881D22AE251DC476006AE1D8 /* AdsTableViewCell.xib */,
+				8838C122251DFA62005FDF45 /* GoogleAdBannerView.swift */,
 			);
 			path = positifeedy;
+			sourceTree = "<group>";
+		};
+		887C2997251F1D28009AFA9E /* Tabbar */ = {
+			isa = PBXGroup;
+			children = (
+				887C2998251F1D8D009AFA9E /* MyTabbarVC.swift */,
+			);
+			path = Tabbar;
+			sourceTree = "<group>";
+		};
+		887C299A251F6FDA009AFA9E /* Font */ = {
+			isa = PBXGroup;
+			children = (
+				887C299C251F6FEC009AFA9E /* SF-Pro-Display-Medium.otf */,
+				887C299D251F6FEE009AFA9E /* SF-Pro-Display-Regular.otf */,
+				887C299B251F6FEA009AFA9E /* SF-Pro-Display-Semibold.otf */,
+			);
+			path = Font;
+			sourceTree = "<group>";
+		};
+		887C29A1251F74F5009AFA9E /* Keyboard  */ = {
+			isa = PBXGroup;
+			children = (
+				887C29A4251F750D009AFA9E /* TPKeyboardAvoidingCollectionView.h */,
+				887C29AA251F751E009AFA9E /* TPKeyboardAvoidingCollectionView.m */,
+				887C29A9251F751B009AFA9E /* TPKeyboardAvoidingScrollView.h */,
+				887C29A8251F7519009AFA9E /* TPKeyboardAvoidingScrollView.m */,
+				887C29A5251F7511009AFA9E /* TPKeyboardAvoidingTableView.h */,
+				887C29A3251F750A009AFA9E /* TPKeyboardAvoidingTableView.m */,
+				887C29A7251F7516009AFA9E /* UIScrollView+TPKeyboardAvoidingAdditions.h */,
+				887C29A6251F7513009AFA9E /* UIScrollView+TPKeyboardAvoidingAdditions.m */,
+				887C29A2251F7507009AFA9E /* positifeedy-Bridging-Header.h */,
+			);
+			path = "Keyboard ";
+			sourceTree = "<group>";
+		};
+		88E1F3CD251C7E490086E650 /* model */ = {
+			isa = PBXGroup;
+			children = (
+				88E1F3CE251C7E610086E650 /* Feed.swift */,
+			);
+			path = model;
+			sourceTree = "<group>";
+		};
+		88E1F3D2251C95DC0086E650 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				88E1F3D9251C96030086E650 /* blunt-therapy.jpg */,
+				88E1F3DA251C96050086E650 /* defyingmentalillness.jpg */,
+				88E1F3D3251C95F50086E650 /* mindfulness-garden.jpg */,
+				88E1F3D5251C95F90086E650 /* mindfulnessminutes.jpg */,
+				88E1F3D6251C95FC0086E650 /* mindful.png */,
+				88E1F3D4251C95F70086E650 /* mindworks.png */,
+				88E1F3DD251C960D0086E650 /* mrsmindfulness.jpg */,
+				88E1F3D7251C95FE0086E650 /* mybrainsnotbroken.jpg */,
+				88E1F3DB251C96080086E650 /* natashatracy.jpg */,
+				88E1F3DC251C960B0086E650 /* psychologytoday.png */,
+				88E1F3D8251C96000086E650 /* thetreamentspecialist.png */,
+				88E1F3DE251C960E0086E650 /* tinybuddha.png */,
+			);
+			path = Images;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -143,6 +286,7 @@
 				TargetAttributes = {
 					40CF1B4B250BC432003B3B82 = {
 						CreatedOnToolsVersion = 11.4;
+						LastSwiftMigration = 1130;
 					};
 				};
 			};
@@ -169,10 +313,27 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				88E1F3E5251C960E0086E650 /* blunt-therapy.jpg in Resources */,
+				88E1F3E9251C960E0086E650 /* mrsmindfulness.jpg in Resources */,
+				88E1F3E4251C960E0086E650 /* thetreamentspecialist.png in Resources */,
+				887C299E251F6FEE009AFA9E /* SF-Pro-Display-Semibold.otf in Resources */,
+				887C299F251F6FEE009AFA9E /* SF-Pro-Display-Medium.otf in Resources */,
+				88E1F3E8251C960E0086E650 /* psychologytoday.png in Resources */,
+				887C2996251F0F9E009AFA9E /* GoogleService-Info.plist in Resources */,
+				88E1F3E2251C960E0086E650 /* mindful.png in Resources */,
 				40CF1B5C250BC434003B3B82 /* LaunchScreen.storyboard in Resources */,
-				40CF1B64250C8170003B3B82 /* GoogleService-Info.plist in Resources */,
+				88E1F3E6251C960E0086E650 /* defyingmentalillness.jpg in Resources */,
+				88E1F418251CBD260086E650 /* FeedCell.xib in Resources */,
+				88E1F3E1251C960E0086E650 /* mindfulnessminutes.jpg in Resources */,
+				88E1F3E3251C960E0086E650 /* mybrainsnotbroken.jpg in Resources */,
+				88E1F3E0251C960E0086E650 /* mindworks.png in Resources */,
 				40CF1B59250BC434003B3B82 /* Assets.xcassets in Resources */,
+				88E1F3DF251C960E0086E650 /* mindfulness-garden.jpg in Resources */,
+				88E1F3EA251C960E0086E650 /* tinybuddha.png in Resources */,
 				40CF1B57250BC432003B3B82 /* Main.storyboard in Resources */,
+				881D22B0251DC476006AE1D8 /* AdsTableViewCell.xib in Resources */,
+				887C29A0251F6FEE009AFA9E /* SF-Pro-Display-Regular.otf in Resources */,
+				88E1F3E7251C960E0086E650 /* natashatracy.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -225,11 +386,23 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				881D22AF251DC476006AE1D8 /* AdsTableViewCell.swift in Sources */,
 				40CF1B54250BC432003B3B82 /* ViewController.swift in Sources */,
+				887C29AB251F751E009AFA9E /* TPKeyboardAvoidingTableView.m in Sources */,
+				88E1F3F1251CB1350086E650 /* positifeedy.xcdatamodeld in Sources */,
+				88E1F3D1251C91A60086E650 /* FeedCell.swift in Sources */,
+				88E1F3CF251C7E610086E650 /* Feed.swift in Sources */,
 				40CF1B6E250C9039003B3B82 /* welcomeViewController.swift in Sources */,
+				887C2999251F1D8D009AFA9E /* MyTabbarVC.swift in Sources */,
+				88E1F3EE251CA5A40086E650 /* WebViewVC.swift in Sources */,
 				40CF1B50250BC432003B3B82 /* AppDelegate.swift in Sources */,
+				887C29AE251F751E009AFA9E /* TPKeyboardAvoidingCollectionView.m in Sources */,
 				40CF1B6C250C8F57003B3B82 /* Utilities.swift in Sources */,
 				40CF1B66250C8F15003B3B82 /* signUpViewController.swift in Sources */,
+				8838C123251DFA62005FDF45 /* GoogleAdBannerView.swift in Sources */,
+				887C29AC251F751E009AFA9E /* UIScrollView+TPKeyboardAvoidingAdditions.m in Sources */,
+				88E1F41A251CBFAC0086E650 /* BookMarkVc.swift in Sources */,
+				887C29AD251F751E009AFA9E /* TPKeyboardAvoidingScrollView.m in Sources */,
 				40CF1B52250BC432003B3B82 /* SceneDelegate.swift in Sources */,
 				40CF1B68250C8F24003B3B82 /* logInViewController.swift in Sources */,
 				40CF1B6A250C8F39003B3B82 /* Constants.swift in Sources */,
@@ -377,15 +550,22 @@
 			baseConfigurationReference = 4030A55FA710C7C8A9658B36 /* Pods-positifeedy.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 2YM7A97Q6Z;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = positifeedy/positifeedy.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development: Irving Lopez (FTK4X5NFT6)";
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = DTRPW5TVH6;
 				INFOPLIST_FILE = positifeedy/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.evyngonzalez.positifeedy;
+				PRODUCT_BUNDLE_IDENTIFIER = com.staypos.StayPositive;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = staypos_dev;
+				SWIFT_OBJC_BRIDGING_HEADER = "positifeedy/Keyboard /positifeedy-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -396,15 +576,21 @@
 			baseConfigurationReference = 479E5DE322C08E14E6DD41FD /* Pods-positifeedy.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 2YM7A97Q6Z;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = positifeedy/positifeedy.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development: Irving Lopez (FTK4X5NFT6)";
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = DTRPW5TVH6;
 				INFOPLIST_FILE = positifeedy/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.evyngonzalez.positifeedy;
+				PRODUCT_BUNDLE_IDENTIFIER = com.staypos.StayPositive;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = staypos_dev;
+				SWIFT_OBJC_BRIDGING_HEADER = "positifeedy/Keyboard /positifeedy-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -432,6 +618,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		88E1F3EF251CB1350086E650 /* positifeedy.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				88E1F3F0251CB1350086E650 /* positifeedy.xcdatamodel */,
+			);
+			currentVersion = 88E1F3F0251CB1350086E650 /* positifeedy.xcdatamodel */;
+			path = positifeedy.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 40CF1B44250BC431003B3B82 /* Project object */;
 }

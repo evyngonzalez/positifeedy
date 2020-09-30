@@ -9,6 +9,7 @@
 import UIKit
 import Firebase
 import FirebaseAuth
+import Toast_Swift
 
 class signUpViewController: UIViewController {
     @IBOutlet weak var firstNameTextField: UITextField!
@@ -29,7 +30,19 @@ class signUpViewController: UIViewController {
         super.viewDidLoad()
 
        setUpElements()
+    
+        let tap = UITapGestureRecognizer(target: self, action: #selector(tapHandler))
+               view.addGestureRecognizer(tap)
+    
     }
+    
+    @objc func tapHandler( _ gesture : UITapGestureRecognizer)  {
+           
+           view.endEditing(true)
+           
+       }
+       
+    
     
     func setUpElements() {
         errorLabel.alpha = 0
@@ -37,7 +50,8 @@ class signUpViewController: UIViewController {
     }
     
     func validateFields() -> String? {
-           
+         
+        
            // Check that all fields are filled in
            if firstNameTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" ||
                lastNameTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" ||
@@ -61,11 +75,14 @@ class signUpViewController: UIViewController {
      @IBAction func signUpTapped(_ sender: Any) {
         
         let error = validateFields()
-               
+                self.view.endEditing(true)
                if error != nil {
                    
                    // There's something wrong with the fields, show error message
-                   showError(error!)
+//                   showError(error!)
+               
+                self.view.makeToast(error!)
+                
                }
                else {
                    
@@ -82,10 +99,14 @@ class signUpViewController: UIViewController {
                        if err != nil {
                            
                            // There was an error creating the user
-                           self.showError("Error creating user")
+//                           self.showError("Error creating user")
+                           self.view.makeToast("Error creating user")
                        }
                        else {
                            
+                        
+                         UserDefaults.standard.set(true, forKey: "isLogin")
+                        
                            // User was created successfully, now store the first name and last name
                            let db = Firestore.firestore()
                            
@@ -93,7 +114,9 @@ class signUpViewController: UIViewController {
                                
                                if error != nil {
                                    // Show error message
-                                   self.showError("Error saving user data")
+//                                   self.showError("Error saving user data")
+                                     self.view.makeToast("Error saving user data")
+                                 return
                                }
                            }
                            
@@ -116,8 +139,14 @@ class signUpViewController: UIViewController {
            
            func transitionToHome() {
                
-               let welcomeViewController = storyboard?.instantiateViewController(identifier: Constants.Storyboard.welcomeViewController) as? welcomeViewController
-               
+//               let welcomeViewController = storyboard?.instantiateViewController(identifier: Constants.Storyboard.welcomeViewController) as? welcomeViewController
+            
+            
+            
+//            let welcomeViewController = storyboard?.instantiateViewController(withIdentifier: Constants.Storyboard.welcomeViewController) as! welcomeViewController
+            
+              let welcomeViewController = storyboard?.instantiateViewController(withIdentifier: "MyTabbarVC") as! MyTabbarVC
+            
                view.window?.rootViewController = welcomeViewController
                view.window?.makeKeyAndVisible()
                

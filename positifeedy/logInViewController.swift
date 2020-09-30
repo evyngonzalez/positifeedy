@@ -9,6 +9,7 @@
 import UIKit
 import Firebase
 import FirebaseAuth
+import Toast_Swift
 
 class logInViewController: UIViewController {
 
@@ -24,6 +25,16 @@ class logInViewController: UIViewController {
         super.viewDidLoad()
 
         setUpElements()
+//
+        let tap = UITapGestureRecognizer(target: self, action: #selector(tapHandler))
+        view.addGestureRecognizer(tap)
+    }
+    
+    
+   @objc func tapHandler( _ gesture : UITapGestureRecognizer)  {
+        
+        view.endEditing(true)
+        
     }
     
     func setUpElements() {
@@ -35,6 +46,7 @@ class logInViewController: UIViewController {
         
         // TODO: Validate Text Fields
             
+        view.endEditing(true)
             // Create cleaned versions of the text field
             let email = emailTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
             let password = passwordTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
@@ -44,14 +56,20 @@ class logInViewController: UIViewController {
                 
                 if error != nil {
                     // Couldn't sign in
-                    self.errorLabel.text = error!.localizedDescription
-                    self.errorLabel.alpha = 1
+//                    self.errorLabel.text =
+//                    self.errorLabel.alpha = 1
+                    self.view.makeToast(error!.localizedDescription)
                 }
                 else {
                     
-                    let welcomeViewController = self.storyboard?.instantiateViewController(identifier: Constants.Storyboard.welcomeViewController) as? welcomeViewController
+                    UserDefaults.standard.set(true, forKey: "isLogin")
                     
-                    self.view.window?.rootViewController = welcomeViewController
+//                    let welcomeViewController = self.storyboard?.instantiateViewController(identifier: Constants.Storyboard.welcomeViewController) as? welcomeViewController
+//                    let welcomeViewController = self.storyboard?.instantiateViewController(withIdentifier: Constants.Storyboard.welcomeViewController) as! welcomeViewController
+                    
+                    let welcomeViewController = self.storyboard?.instantiateViewController(withIdentifier: "MyTabbarVC") as! MyTabbarVC
+                    
+                    self.view.window?.rootViewController =  welcomeViewController
                     self.view.window?.makeKeyAndVisible()
                 }
             }

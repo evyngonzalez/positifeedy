@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>698657494322-hdu2ei7amc3vknbc9sntek11v3ed28i9.apps.googleusercontent.com</string>
+	<string>698657494322-ten5rfgbatr12u3m7q2f5a23r0t9ej3v.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.698657494322-hdu2ei7amc3vknbc9sntek11v3ed28i9</string>
+	<string>com.googleusercontent.apps.698657494322-ten5rfgbatr12u3m7q2f5a23r0t9ej3v</string>
 	<key>API_KEY</key>
 	<string>AIzaSyDsEk1-QrvdOgDRcARXpkzCZQTf_CIxSBI</string>
 	<key>GCM_SENDER_ID</key>
@@ -13,7 +13,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.evyngonzalez.positifeedy</string>
+	<string>com.staypos.StayPositive</string>
 	<key>PROJECT_ID</key>
 	<string>positifeedy-2020a</string>
 	<key>STORAGE_BUCKET</key>
@@ -29,7 +29,7 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:698657494322:ios:a98fd0098b0075f270f32b</string>
+	<string>1:698657494322:ios:8dc779c4923b8ba270f32b</string>
 	<key>DATABASE_URL</key>
 	<string>https://positifeedy-2020a.firebaseio.com</string>
 </dict>

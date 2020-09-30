@@ -12,4 +12,12 @@ pod 'Firebase/Analytics'
 # https://firebase.google.com/docs/ios/setup#available-pods
 pod 'Firebase/Auth'
 pod 'Firebase/Firestore'
+pod 'Alamofire', '~> 5.2'
+pod 'SVProgressHUD'
+pod 'Google-Mobile-Ads-SDK'
+pod 'Firebase/Messaging'
+pod 'Toast-Swift', '~> 5.0.1'
+pod 'Firebase/Database'
+pod 'Firebase/Storage'
+
 end
