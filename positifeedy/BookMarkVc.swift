@@ -15,31 +15,28 @@ import FirebaseStorage
 import Toast_Swift
 
 class BookMarkVc: UIViewController {
-
+    
     @IBOutlet weak var tableView : UITableView!
     
     @IBOutlet weak var lblFName : UILabel!
     @IBOutlet weak var lblLName : UILabel!
     @IBOutlet weak var lblEmail : UILabel!
     
+    @IBOutlet weak  var activity : UIActivityIndicatorView!
+    @IBOutlet weak var imageView: UIImageView!
+    
     var arrFeeds : [Feed] = []
     var lblError : UILabel?
     
     var arrBook  : [Feed]?
-
+    
     var myDocId : String?
     
     var isProfileImgLoad = true
     
-   @IBOutlet weak  var activity : UIActivityIndicatorView!
-    
-   
-    @IBOutlet weak var imageView: UIImageView!
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-       
+        
         activity.isHidden = true
         imageView.isUserInteractionEnabled = true
         
@@ -54,36 +51,30 @@ class BookMarkVc: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         
-    
-        
         setNavBackground()
         setNavTitle(title : "postifieedy")
         cofigErroLable()
-       
-        
         
         imageView.contentMode = .scaleAspectFill
         imageView.layer.cornerRadius = 50
         imageView.clipsToBounds = true
-        
     }
-    
     
     func uploadImage()  {
         
         let storage = Storage.storage()
-
+        
         // Create a storage reference from our storage service
         let storageRef = storage.reference()
-
+        
         // Create a reference to "mountains.jpg"
         let data = imageView.image?.jpegData(compressionQuality: 1.0)
-
+        
         let id = Auth.auth().currentUser!.uid + ".jpg"
-    
+        
         // Create a reference to 'images/mountains.jpg'
         let imgRef = storageRef.child("images").child(id)
-
+        
         imgRef.putData(data!, metadata: nil) { (dt, error) in
             
             if error != nil
@@ -111,7 +102,7 @@ class BookMarkVc: UIViewController {
                 db = Firestore.firestore()
                 
                 let d = ["pic" : url.absoluteString ]
-                 self.activity.startAnimating()
+                self.activity.startAnimating()
                 self.activity.isHidden = false
                 db.collection("users").document(self.myDocId!).updateData(d as [AnyHashable : Any]) { (er) in
                     self.activity.stopAnimating()
@@ -122,115 +113,88 @@ class BookMarkVc: UIViewController {
                         
                         return
                     }
-                    
                 }
-                
-                
             }
         }
-
-        
     }
     
     
-    
-    
-    
-    
-@objc    func  tapHandel( _ gesture : UITapGestureRecognizer)  {
+    @objc func  tapHandel( _ gesture : UITapGestureRecognizer)  {
         
         let alertVC = UIAlertController(title: "Postifieedy", message: "User profile", preferredStyle: .actionSheet)
-
-
-              alertVC.addAction(UIAlertAction(title: "Take Photo", style: .default, handler: { (action) in
-
-                  self.openCameraOrPhoto(.camera)
-              }))
-
-
-              alertVC.addAction(UIAlertAction(title: "Photo Library", style: .default   , handler: { (action) in
-
-                  self.openCameraOrPhoto(.photoLibrary)
-              }))
-              
-              
-              alertVC.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-
-              present(alertVC, animated: true, completion: nil)
         
+        
+        alertVC.addAction(UIAlertAction(title: "Take Photo", style: .default, handler: { (action) in
+            
+            self.openCameraOrPhoto(.camera)
+        }))
+        
+        
+        alertVC.addAction(UIAlertAction(title: "Photo Library", style: .default   , handler: { (action) in
+            
+            self.openCameraOrPhoto(.photoLibrary)
+        }))
+        
+        
+        alertVC.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        
+        present(alertVC, animated: true, completion: nil)
     }
     
-   
     
     func openCameraOrPhoto( _ sourceType : UIImagePickerController.SourceType)  {
-           
-           if   UIImagePickerController.isSourceTypeAvailable(sourceType)
-           {
-               let vc = UIImagePickerController()
-               vc.sourceType = sourceType
-               vc.delegate = self
-               present(vc, animated: true)
-           }
-       }
-    
-   @IBAction func barBtnLogoutClick( _ sender : UIBarButtonItem)  {
         
-    let alertVC = UIAlertController(title: "Postifeedy", message: "Are you sure?", preferredStyle: UIAlertController.Style.alert)
-    
-    alertVC.addAction(UIAlertAction(title: "No", style: .cancel, handler: nil))
-    alertVC.addAction(UIAlertAction(title: "Yes", style: .default, handler: { (action) in
-        
-        do
+        if   UIImagePickerController.isSourceTypeAvailable(sourceType)
         {
-            try   Auth.auth().signOut()
+            let vc = UIImagePickerController()
+            vc.sourceType = sourceType
+            vc.delegate = self
+            present(vc, animated: true)
+        }
+    }
+    
+    @IBAction func barBtnLogoutClick( _ sender : UIBarButtonItem)  {
         
-            let appDel =  UIApplication.shared.delegate as! AppDelegate
-            appDel.arrBookMarkLink = []
+        let alertVC = UIAlertController(title: "Postifeedy", message: "Are you sure?", preferredStyle: UIAlertController.Style.alert)
+        
+        alertVC.addAction(UIAlertAction(title: "No", style: .cancel, handler: nil))
+        alertVC.addAction(UIAlertAction(title: "Yes", style: .default, handler: { (action) in
             
-             UserDefaults.standard.set(false, forKey: "isLogin")
-            
-            let loginVC = self.storyboard?.instantiateViewController(withIdentifier: "logInViewController") as! logInViewController
-            
-            
-            let nav = UINavigationController(rootViewController: loginVC )
-            nav.setNavigationBarHidden(true, animated: false)
-            if #available(iOS 13, *)
+            do
             {
-                let sceneDeleage = SceneDelegate.shared
-                sceneDeleage!.window?.rootViewController = nav
-                sceneDeleage?.window?.makeKeyAndVisible()
+                try   Auth.auth().signOut()
                 
-            }
-            else
-            {
-                let appDel = UIApplication.shared.delegate as! AppDelegate
+                let appDel =  UIApplication.shared.delegate as! AppDelegate
+                appDel.arrBookMarkLink = []
+                
+                UserDefaults.standard.set(false, forKey: "isLogin")
+                
+                let loginVC = self.storyboard?.instantiateViewController(withIdentifier: "logInViewController") as! logInViewController
+                
+                
+                let nav = UINavigationController(rootViewController: loginVC )
+                nav.setNavigationBarHidden(true, animated: false)
+                
                 appDel.window?.rootViewController = nav
                 appDel.window?.makeKeyAndVisible()
             }
-            
-            
-        }
-        catch
-        {
-            self.view.makeToast(error.localizedDescription)
-        }
+            catch
+            {
+                self.view.makeToast(error.localizedDescription)
+            }
+        }))
         
-        
-    }))
-    
-    
-     present(alertVC, animated: true, completion: nil)
-    
+        present(alertVC, animated: true, completion: nil)
     }
     
     
     func getProfileData()
     {
         var db: Firestore!
-    
+        
         db = Firestore.firestore()
         
-         db.collection("users").getDocuments { (snap, error) in
+        db.collection("users").getDocuments { (snap, error) in
             if error != nil
             {
                 print("error ", error!.localizedDescription)
@@ -248,8 +212,8 @@ class BookMarkVc: UIViewController {
                     self.lblLName.text = (d["lastname"] as! String)
                     self.lblEmail.text = Auth.auth().currentUser?.email
                     
-                     if let strURL = (d["pic"] as? String)
-                     {
+                    if let strURL = (d["pic"] as? String)
+                    {
                         let url = URL(string: strURL)
                         self.activity.startAnimating()
                         self.activity.isHidden = false
@@ -258,8 +222,8 @@ class BookMarkVc: UIViewController {
                             {
                                 let data = try Data(contentsOf: url!)
                                 DispatchQueue.main.async {
-                                   self.imageView.image = UIImage(data: data)
-                                     self.activity.stopAnimating()
+                                    self.imageView.image = UIImage(data: data)
+                                    self.activity.stopAnimating()
                                     self.activity.isHidden = true
                                 }
                                 
@@ -267,14 +231,11 @@ class BookMarkVc: UIViewController {
                             catch{
                                 self.view.makeToast("Somthing went to wrong")
                             }
-                            
                         }
-                     }
+                    }
                 }
             }
         }
-
-        
     }
     
     
@@ -298,13 +259,13 @@ class BookMarkVc: UIViewController {
         
         
         tableView.backgroundView?.addConstraints([centerX, centerY])
-        
-        
     }
     
     
     override func viewWillAppear(_ animated: Bool) {
         
+        self.tabBarController?.tabBar.isHidden = false
+
         if isProfileImgLoad == true
         {
             getProfileData()
@@ -316,7 +277,7 @@ class BookMarkVc: UIViewController {
     
     func getFeeds() {
         
-       if arrBook != nil
+        if arrBook != nil
         {
             let appDel =  UIApplication.shared.delegate as! AppDelegate
             
@@ -326,51 +287,42 @@ class BookMarkVc: UIViewController {
             {
                 tempBookMark.append(contentsOf:  (arrBook?.filter { $0.link == link})! )
             }
-           
+            
             arrFeeds =  tempBookMark
             self.tableView.reloadData()
             
         }
         
-        
     }
     
-   @objc func btnBookMarkRemoveClick(sender : UIButton)  {
-    
+    @objc func btnBookMarkRemoveClick(sender : UIButton)  {
+        
         let appDel = UIApplication.shared.delegate as! AppDelegate
-
-     let feed = arrFeeds[sender.tag].link
-      
-    if let index =  arrFeeds.firstIndex(of: arrFeeds[sender.tag])
-    {
-        arrFeeds.remove(at: index)
-    }
-    
-    if let index = appDel.arrBookMarkLink.firstIndex(of: feed!)
-    {
-        appDel.arrBookMarkLink.remove(at:index)
-        let d = ["links" : appDel.arrBookMarkLink]
         
-        var db: Firestore!
-        db = Firestore.firestore()
+        let feed = arrFeeds[sender.tag].link
         
-        db.collection("users").document(myDocId!).updateData(d) { (error) in
-            if error != nil
-            {
-                print(error!.localizedDescription)
-            }
+        if let index =  arrFeeds.firstIndex(of: arrFeeds[sender.tag])
+        {
+            arrFeeds.remove(at: index)
         }
-        tableView.reloadData()
+        
+        if let index = appDel.arrBookMarkLink.firstIndex(of: feed!)
+        {
+            appDel.arrBookMarkLink.remove(at:index)
+            let d = ["links" : appDel.arrBookMarkLink]
+            
+            var db: Firestore!
+            db = Firestore.firestore()
+            
+            db.collection("users").document(myDocId!).updateData(d) { (error) in
+                if error != nil
+                {
+                    print(error!.localizedDescription)
+                }
+            }
+            tableView.reloadData()
+        }
     }
-    
-    
-    
-       
-
-    }
-    
-    
-
 }
 
 
@@ -382,7 +334,6 @@ extension BookMarkVc : UITableViewDataSource
         return 1
     }
     
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         lblError?.isHidden =  arrFeeds.count == 0  ? false : true
@@ -392,13 +343,9 @@ extension BookMarkVc : UITableViewDataSource
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        
-        
-        
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! FeedCell
-    
-        let feed = arrFeeds[indexPath.row]
         
+        let feed = arrFeeds[indexPath.row]
         
         let date = feed.time?.toDate()
         
@@ -406,25 +353,21 @@ extension BookMarkVc : UITableViewDataSource
         cell.lblDesc.text = feed.desc
         cell.lblTime.text  = date!.getElapsedInterval((feed.time?.getTimeZone())!)
         
-        
-         cell.btnBookMark.setImage(UIImage(named: "cancel"), for: .normal)
-        
-    
+        cell.btnBookMark.setImage(UIImage(named: "cancel"), for: .normal)
+                
         cell.btnBookMark.tag = indexPath.row
         cell.btnBookMark.addTarget(self, action: #selector(btnBookMarkRemoveClick), for: .touchUpInside)
         cell.imgView.cornerRadius(10)
         
-         if   let link = URL(string: feed.link!)
-         {
+        if   let link = URL(string: feed.link!)
+        {
             if let img = Images(rawValue: (link.domain)!)?.image
             {
                 cell.imgView.image = UIImage(named: img )
             }
         }
-            return cell
+        return cell
     }
-    
-    
 }
 
 
@@ -436,12 +379,12 @@ extension BookMarkVc : UITableViewDelegate
         
         let webVC = self.storyboard?.instantiateViewController(withIdentifier: "WebViewVC") as! WebViewVC
         webVC.url = arrFeeds[indexPath.row].link
+        webVC.myDocID = self.myDocId
+        webVC.isBookmark = true
         navigationController?.pushViewController(webVC, animated: true)
         
     }
-    
 }
-
 
 extension BookMarkVc : UIImagePickerControllerDelegate , UINavigationControllerDelegate
 {

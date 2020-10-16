@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		40CF1B50250BC432003B3B82 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40CF1B4F250BC432003B3B82 /* AppDelegate.swift */; };
-		40CF1B52250BC432003B3B82 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40CF1B51250BC432003B3B82 /* SceneDelegate.swift */; };
 		40CF1B54250BC432003B3B82 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40CF1B53250BC432003B3B82 /* ViewController.swift */; };
 		40CF1B57250BC432003B3B82 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 40CF1B55250BC432003B3B82 /* Main.storyboard */; };
 		40CF1B59250BC434003B3B82 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 40CF1B58250BC434003B3B82 /* Assets.xcassets */; };
@@ -22,6 +21,9 @@
 		881D22AF251DC476006AE1D8 /* AdsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 881D22AD251DC476006AE1D8 /* AdsTableViewCell.swift */; };
 		881D22B0251DC476006AE1D8 /* AdsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 881D22AE251DC476006AE1D8 /* AdsTableViewCell.xib */; };
 		8838C123251DFA62005FDF45 /* GoogleAdBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8838C122251DFA62005FDF45 /* GoogleAdBannerView.swift */; };
+		884D5A13253710F900259DBE /* JournalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 884D5A12253710F900259DBE /* JournalViewController.swift */; };
+		884D5A162537293200259DBE /* AdsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 884D5A142537293200259DBE /* AdsCollectionViewCell.swift */; };
+		884D5A172537293200259DBE /* AdsCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 884D5A152537293200259DBE /* AdsCollectionViewCell.xib */; };
 		887C2996251F0F9E009AFA9E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 887C2995251F0F9E009AFA9E /* GoogleService-Info.plist */; };
 		887C2999251F1D8D009AFA9E /* MyTabbarVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 887C2998251F1D8D009AFA9E /* MyTabbarVC.swift */; };
 		887C299E251F6FEE009AFA9E /* SF-Pro-Display-Semibold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 887C299B251F6FEA009AFA9E /* SF-Pro-Display-Semibold.otf */; };
@@ -31,6 +33,9 @@
 		887C29AC251F751E009AFA9E /* UIScrollView+TPKeyboardAvoidingAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 887C29A6251F7513009AFA9E /* UIScrollView+TPKeyboardAvoidingAdditions.m */; };
 		887C29AD251F751E009AFA9E /* TPKeyboardAvoidingScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 887C29A8251F7519009AFA9E /* TPKeyboardAvoidingScrollView.m */; };
 		887C29AE251F751E009AFA9E /* TPKeyboardAvoidingCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 887C29AA251F751E009AFA9E /* TPKeyboardAvoidingCollectionView.m */; };
+		88D279FD2535AC3000B1DE72 /* FAPaginationLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88D279FC2535AC3000B1DE72 /* FAPaginationLayout.swift */; };
+		88D27A002535ADBA00B1DE72 /* PositifeedyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88D279FE2535ADBA00B1DE72 /* PositifeedyCell.swift */; };
+		88D27A012535ADBA00B1DE72 /* PositifeedyCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 88D279FF2535ADBA00B1DE72 /* PositifeedyCell.xib */; };
 		88E1F3CF251C7E610086E650 /* Feed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88E1F3CE251C7E610086E650 /* Feed.swift */; };
 		88E1F3D1251C91A60086E650 /* FeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88E1F3D0251C91A60086E650 /* FeedCell.swift */; };
 		88E1F3DF251C960E0086E650 /* mindfulness-garden.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 88E1F3D3251C95F50086E650 /* mindfulness-garden.jpg */; };
@@ -56,7 +61,6 @@
 		4030A55FA710C7C8A9658B36 /* Pods-positifeedy.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-positifeedy.debug.xcconfig"; path = "Target Support Files/Pods-positifeedy/Pods-positifeedy.debug.xcconfig"; sourceTree = "<group>"; };
 		40CF1B4C250BC432003B3B82 /* positifeedy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = positifeedy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		40CF1B4F250BC432003B3B82 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		40CF1B51250BC432003B3B82 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		40CF1B53250BC432003B3B82 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		40CF1B56250BC432003B3B82 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		40CF1B58250BC434003B3B82 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -72,6 +76,9 @@
 		881D22AE251DC476006AE1D8 /* AdsTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AdsTableViewCell.xib; sourceTree = "<group>"; };
 		881D22B1251DCD61006AE1D8 /* positifeedy.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = positifeedy.entitlements; sourceTree = "<group>"; };
 		8838C122251DFA62005FDF45 /* GoogleAdBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleAdBannerView.swift; sourceTree = "<group>"; };
+		884D5A12253710F900259DBE /* JournalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalViewController.swift; sourceTree = "<group>"; };
+		884D5A142537293200259DBE /* AdsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdsCollectionViewCell.swift; sourceTree = "<group>"; };
+		884D5A152537293200259DBE /* AdsCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AdsCollectionViewCell.xib; sourceTree = "<group>"; };
 		887C2995251F0F9E009AFA9E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		887C2998251F1D8D009AFA9E /* MyTabbarVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyTabbarVC.swift; sourceTree = "<group>"; };
 		887C299B251F6FEA009AFA9E /* SF-Pro-Display-Semibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Display-Semibold.otf"; sourceTree = "<group>"; };
@@ -86,6 +93,9 @@
 		887C29A8251F7519009AFA9E /* TPKeyboardAvoidingScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPKeyboardAvoidingScrollView.m; sourceTree = "<group>"; };
 		887C29A9251F751B009AFA9E /* TPKeyboardAvoidingScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPKeyboardAvoidingScrollView.h; sourceTree = "<group>"; };
 		887C29AA251F751E009AFA9E /* TPKeyboardAvoidingCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPKeyboardAvoidingCollectionView.m; sourceTree = "<group>"; };
+		88D279FC2535AC3000B1DE72 /* FAPaginationLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FAPaginationLayout.swift; sourceTree = "<group>"; };
+		88D279FE2535ADBA00B1DE72 /* PositifeedyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PositifeedyCell.swift; sourceTree = "<group>"; };
+		88D279FF2535ADBA00B1DE72 /* PositifeedyCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PositifeedyCell.xib; sourceTree = "<group>"; };
 		88E1F3CE251C7E610086E650 /* Feed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Feed.swift; sourceTree = "<group>"; };
 		88E1F3D0251C91A60086E650 /* FeedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCell.swift; sourceTree = "<group>"; };
 		88E1F3D3251C95F50086E650 /* mindfulness-garden.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "mindfulness-garden.jpg"; sourceTree = "<group>"; };
@@ -166,27 +176,32 @@
 				881D22B1251DCD61006AE1D8 /* positifeedy.entitlements */,
 				88E1F3D2251C95DC0086E650 /* Images */,
 				88E1F3CD251C7E490086E650 /* model */,
+				88D279FB2535AC1B00B1DE72 /* Libraries */,
+				40CF1B6B250C8F57003B3B82 /* Utilities.swift */,
+				40CF1B69250C8F39003B3B82 /* Constants.swift */,
 				40CF1B4F250BC432003B3B82 /* AppDelegate.swift */,
-				40CF1B51250BC432003B3B82 /* SceneDelegate.swift */,
 				40CF1B53250BC432003B3B82 /* ViewController.swift */,
+				40CF1B67250C8F24003B3B82 /* logInViewController.swift */,
 				40CF1B65250C8F15003B3B82 /* signUpViewController.swift */,
 				40CF1B6D250C9039003B3B82 /* welcomeViewController.swift */,
-				40CF1B67250C8F24003B3B82 /* logInViewController.swift */,
-				40CF1B69250C8F39003B3B82 /* Constants.swift */,
-				40CF1B6B250C8F57003B3B82 /* Utilities.swift */,
+				88D279FE2535ADBA00B1DE72 /* PositifeedyCell.swift */,
+				88D279FF2535ADBA00B1DE72 /* PositifeedyCell.xib */,
+				88E1F3D0251C91A60086E650 /* FeedCell.swift */,
+				88E1F416251CBD260086E650 /* FeedCell.xib */,
+				88E1F3ED251CA5A40086E650 /* WebViewVC.swift */,
+				88E1F419251CBFAC0086E650 /* BookMarkVc.swift */,
+				884D5A12253710F900259DBE /* JournalViewController.swift */,
+				881D22AD251DC476006AE1D8 /* AdsTableViewCell.swift */,
+				881D22AE251DC476006AE1D8 /* AdsTableViewCell.xib */,
+				884D5A142537293200259DBE /* AdsCollectionViewCell.swift */,
+				884D5A152537293200259DBE /* AdsCollectionViewCell.xib */,
+				8838C122251DFA62005FDF45 /* GoogleAdBannerView.swift */,
 				40CF1B55250BC432003B3B82 /* Main.storyboard */,
 				40CF1B58250BC434003B3B82 /* Assets.xcassets */,
 				40CF1B5A250BC434003B3B82 /* LaunchScreen.storyboard */,
 				40CF1B5D250BC434003B3B82 /* Info.plist */,
-				88E1F416251CBD260086E650 /* FeedCell.xib */,
-				88E1F3D0251C91A60086E650 /* FeedCell.swift */,
-				88E1F3ED251CA5A40086E650 /* WebViewVC.swift */,
 				887C2995251F0F9E009AFA9E /* GoogleService-Info.plist */,
 				88E1F3EF251CB1350086E650 /* positifeedy.xcdatamodeld */,
-				88E1F419251CBFAC0086E650 /* BookMarkVc.swift */,
-				881D22AD251DC476006AE1D8 /* AdsTableViewCell.swift */,
-				881D22AE251DC476006AE1D8 /* AdsTableViewCell.xib */,
-				8838C122251DFA62005FDF45 /* GoogleAdBannerView.swift */,
 			);
 			path = positifeedy;
 			sourceTree = "<group>";
@@ -223,6 +238,14 @@
 				887C29A2251F7507009AFA9E /* positifeedy-Bridging-Header.h */,
 			);
 			path = "Keyboard ";
+			sourceTree = "<group>";
+		};
+		88D279FB2535AC1B00B1DE72 /* Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				88D279FC2535AC3000B1DE72 /* FAPaginationLayout.swift */,
+			);
+			path = Libraries;
 			sourceTree = "<group>";
 		};
 		88E1F3CD251C7E490086E650 /* model */ = {
@@ -264,6 +287,7 @@
 				40CF1B49250BC432003B3B82 /* Frameworks */,
 				40CF1B4A250BC432003B3B82 /* Resources */,
 				FE3F3FF595AF861660F00D68 /* [CP] Embed Pods Frameworks */,
+				735850F3EFB80453B244892D /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -330,8 +354,10 @@
 				40CF1B59250BC434003B3B82 /* Assets.xcassets in Resources */,
 				88E1F3DF251C960E0086E650 /* mindfulness-garden.jpg in Resources */,
 				88E1F3EA251C960E0086E650 /* tinybuddha.png in Resources */,
+				884D5A172537293200259DBE /* AdsCollectionViewCell.xib in Resources */,
 				40CF1B57250BC432003B3B82 /* Main.storyboard in Resources */,
 				881D22B0251DC476006AE1D8 /* AdsTableViewCell.xib in Resources */,
+				88D27A012535ADBA00B1DE72 /* PositifeedyCell.xib in Resources */,
 				887C29A0251F6FEE009AFA9E /* SF-Pro-Display-Regular.otf in Resources */,
 				88E1F3E7251C960E0086E650 /* natashatracy.jpg in Resources */,
 			);
@@ -340,6 +366,23 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		735850F3EFB80453B244892D /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-positifeedy/Pods-positifeedy-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-positifeedy/Pods-positifeedy-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-positifeedy/Pods-positifeedy-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		9223F622352998B585C81E12 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -390,6 +433,7 @@
 				40CF1B54250BC432003B3B82 /* ViewController.swift in Sources */,
 				887C29AB251F751E009AFA9E /* TPKeyboardAvoidingTableView.m in Sources */,
 				88E1F3F1251CB1350086E650 /* positifeedy.xcdatamodeld in Sources */,
+				884D5A162537293200259DBE /* AdsCollectionViewCell.swift in Sources */,
 				88E1F3D1251C91A60086E650 /* FeedCell.swift in Sources */,
 				88E1F3CF251C7E610086E650 /* Feed.swift in Sources */,
 				40CF1B6E250C9039003B3B82 /* welcomeViewController.swift in Sources */,
@@ -398,14 +442,16 @@
 				40CF1B50250BC432003B3B82 /* AppDelegate.swift in Sources */,
 				887C29AE251F751E009AFA9E /* TPKeyboardAvoidingCollectionView.m in Sources */,
 				40CF1B6C250C8F57003B3B82 /* Utilities.swift in Sources */,
+				884D5A13253710F900259DBE /* JournalViewController.swift in Sources */,
 				40CF1B66250C8F15003B3B82 /* signUpViewController.swift in Sources */,
 				8838C123251DFA62005FDF45 /* GoogleAdBannerView.swift in Sources */,
 				887C29AC251F751E009AFA9E /* UIScrollView+TPKeyboardAvoidingAdditions.m in Sources */,
 				88E1F41A251CBFAC0086E650 /* BookMarkVc.swift in Sources */,
 				887C29AD251F751E009AFA9E /* TPKeyboardAvoidingScrollView.m in Sources */,
-				40CF1B52250BC432003B3B82 /* SceneDelegate.swift in Sources */,
 				40CF1B68250C8F24003B3B82 /* logInViewController.swift in Sources */,
+				88D279FD2535AC3000B1DE72 /* FAPaginationLayout.swift in Sources */,
 				40CF1B6A250C8F39003B3B82 /* Constants.swift in Sources */,
+				88D27A002535ADBA00B1DE72 /* PositifeedyCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

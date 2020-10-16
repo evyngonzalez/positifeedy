@@ -7,17 +7,26 @@ target 'positifeedy' do
 
   # Pods for positifeedy
 # add the Firebase pod for Google Analytics
-pod 'Firebase/Analytics'
 # add pods for any other desired Firebase products
 # https://firebase.google.com/docs/ios/setup#available-pods
-pod 'Firebase/Auth'
-pod 'Firebase/Firestore'
+
+
 pod 'Alamofire', '~> 5.2'
 pod 'SVProgressHUD'
 pod 'Google-Mobile-Ads-SDK'
-pod 'Firebase/Messaging'
 pod 'Toast-Swift', '~> 5.0.1'
-pod 'Firebase/Database'
+pod 'GoogleSignIn'
+pod 'IQKeyboardManagerSwift'
+
+pod 'FirebaseUI'
+pod 'FirebaseUI/Auth'
+pod 'FirebaseUI/OAuth'
 pod 'Firebase/Storage'
+pod 'Firebase/Database'
+pod 'Firebase/Firestore'
+pod 'GoogleAnalytics'
+pod 'Firebase/Messaging'
+pod 'Firebase/DynamicLinks'
+
 
 end

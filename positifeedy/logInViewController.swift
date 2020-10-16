@@ -10,9 +10,10 @@ import UIKit
 import Firebase
 import FirebaseAuth
 import Toast_Swift
+import SVProgressHUD
 
 class logInViewController: UIViewController {
-
+    
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
     
@@ -23,67 +24,93 @@ class logInViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         setUpElements()
-//
+        //
         let tap = UITapGestureRecognizer(target: self, action: #selector(tapHandler))
         view.addGestureRecognizer(tap)
     }
     
     
-   @objc func tapHandler( _ gesture : UITapGestureRecognizer)  {
+    @objc func tapHandler( _ gesture : UITapGestureRecognizer)  {
         
         view.endEditing(true)
         
+    }
+    
+    @IBAction func btnSignUp(_ sender: Any) {
+        let vc = storyBoard.instantiateViewController(withIdentifier: "signUpViewController") as! signUpViewController
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     func setUpElements() {
         errorLabel.alpha = 0
-    
+        
     }
     
-    @IBAction func loginTapped(_ sender: Any) {
+    @IBAction func btnForgotTapped(_ sender: UIButton) {
         
-        // TODO: Validate Text Fields
-            
         view.endEditing(true)
-            // Create cleaned versions of the text field
-            let email = emailTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
-            let password = passwordTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
+        
+        let email = emailTextField.text!.trim()
+        
+        if email == "" {
+            self.view.makeToast("please enter email address")
+            return
+        } else if !email.isValidEmail() {
+            self.view.makeToast("Invalid email address")
+            return
+        }
+        
+        Auth.auth().sendPasswordReset(withEmail: email) { (error) in
             
-            // Signing in the user
-            Auth.auth().signIn(withEmail: email, password: password) { (result, error) in
-                
-                if error != nil {
-                    // Couldn't sign in
-//                    self.errorLabel.text =
-//                    self.errorLabel.alpha = 1
-                    self.view.makeToast(error!.localizedDescription)
-                }
-                else {
-                    
-                    UserDefaults.standard.set(true, forKey: "isLogin")
-                    
-//                    let welcomeViewController = self.storyboard?.instantiateViewController(identifier: Constants.Storyboard.welcomeViewController) as? welcomeViewController
-//                    let welcomeViewController = self.storyboard?.instantiateViewController(withIdentifier: Constants.Storyboard.welcomeViewController) as! welcomeViewController
-                    
-                    let welcomeViewController = self.storyboard?.instantiateViewController(withIdentifier: "MyTabbarVC") as! MyTabbarVC
-                    
-                    self.view.window?.rootViewController =  welcomeViewController
-                    self.view.window?.makeKeyAndVisible()
-                }
+            if error != nil {
+                self.view.makeToast(error!.localizedDescription)
+            } else {
+                self.view.makeToast("check your email account")
             }
         }
     }
     
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    @IBAction func loginTapped(_ sender: Any) {
+        
+        view.endEditing(true)
+        
+        SVProgressHUD.show()
+        
+        let email = emailTextField.text!.trim()
+        let password = passwordTextField.text!.trim()
+        
+        if email == "" {
+            self.view.makeToast("please enter email address")
+            return
+        } else if password == "" {
+            self.view.makeToast("please enter password")
+            return
+        } else if !email.isValidEmail() {
+            self.view.makeToast("Invalid email address")
+            return
+        }
+        
+        // Signing in the user
+        Auth.auth().signIn(withEmail: email, password: password) { (result, error) in
+            
+            SVProgressHUD.dismiss()
+            
+            if error != nil {
+                self.view.makeToast(error!.localizedDescription)
+            } else {
+                
+                UserDefaults.standard.set(true, forKey: "isLogin")
+                
+                let welcomeViewController = self.storyboard?.instantiateViewController(withIdentifier: "MyTabbarVC") as! MyTabbarVC
+                
+                self.view.window?.rootViewController =  welcomeViewController
+                self.view.window?.makeKeyAndVisible()
+            }
+        }
     }
-    */
+}
+    
 
 

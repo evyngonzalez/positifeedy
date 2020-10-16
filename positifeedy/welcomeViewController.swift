@@ -14,53 +14,62 @@ import SVProgressHUD
 import GoogleMobileAds
 
 class welcomeViewController: UIViewController {
-
-    var arrFeeds : [Feed] = []
-    
-    var adsCount : Int = 0
-    
-    var refreshControl = UIRefreshControl()
-    
-    var isRefresh = false
-    
-    var myDocID : String?
-    
-    var ac : UIActivityIndicatorView!
     
     @IBOutlet weak var tableView : UITableView!
+    @IBOutlet var collectionView: UICollectionView!
+    @IBOutlet weak var heightCol: NSLayoutConstraint!
     
+    var arrFeeds : [Feed] = []
+    var adsCount : Int = 0
+    var refreshControl = UIRefreshControl()
+    var isRefresh = false
+    var myDocID : String?
+    var ac : UIActivityIndicatorView!
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // configure collection view
+        collectionView.register(UINib(nibName: "PositifeedyCell", bundle: nil), forCellWithReuseIdentifier: "PositifeedyCell")
+        collectionView.register(UINib(nibName: "AdsCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "AdsCollectionViewCell")
+
+        collectionView.contentInset = UIEdgeInsets.init(top: 0, left: 30, bottom: 0, right: 30)
+        collectionView.decelerationRate = UIScrollView.DecelerationRate.fast
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        
+        let layout = collectionView?.collectionViewLayout as! UICollectionViewFlowLayout
+        layout.estimatedItemSize = .zero
+        
+        collectionView.reloadData()
+        
+        // configure tableview
         tableView.rowHeight = UITableView.automaticDimension
         
         tableView.register(UINib(nibName: "FeedCell", bundle: nil), forCellReuseIdentifier: "cell")
-        
-         tableView.register(UINib(nibName: "AdsTableViewCell", bundle: nil), forCellReuseIdentifier: "adsCell")
+        tableView.register(UINib(nibName: "AdsTableViewCell", bundle: nil), forCellReuseIdentifier: "adsCell")
         
         tableView.tableFooterView = UIView()
         tableView.dataSource = self
         tableView.delegate = self
         
-//         UIApplication.shared.statusBarView?.backgroundColor = UIColor.green
+        //         UIApplication.shared.statusBarView?.backgroundColor = UIColor.green
         
         getBookmarsData()
         
         getFeeds()
-         setNavBackground()
+        setNavBackground()
         
-//        refreshControl.attributedTitle = NSAttributedString(string: )
-      //  refreshControl.tintColor = .clear
+        //        refreshControl.attributedTitle = NSAttributedString(string: )
+        //  refreshControl.tintColor = .clear
         refreshControl.addTarget(self, action: #selector(self.refresh(_:)), for: .valueChanged)
         tableView.addSubview(refreshControl) // not required when using UITableViewController
         
     }
     
-    
     override func viewWillAppear(_ animated: Bool) {
-        
-        
+        self.tabBarController?.tabBar.isHidden = false
         tableView.reloadData()
     }
     
@@ -70,18 +79,17 @@ class welcomeViewController: UIViewController {
     
     @objc func refresh(_ sender: AnyObject) {
         self.isRefresh = true
-       getFeeds()
+        getFeeds()
     }
     
     
     func getBookmarsData()
     {
         var db: Firestore!
-    
+        
         db = Firestore.firestore()
         
-        
-         db.collection("users").getDocuments { (snap, error) in
+        db.collection("users").getDocuments { (snap, error) in
             if error != nil
             {
                 print("error ", error!.localizedDescription)
@@ -91,23 +99,22 @@ class welcomeViewController: UIViewController {
             for doc in snap?.documents ?? []
             {
                 let  d = doc.data()
-                if (d["uid"] as! String)  ==  Auth.auth().currentUser?.uid
+                if (d["uid"] as! String) == Auth.auth().currentUser?.uid
                 {
+                    let appDel = UIApplication.shared.delegate as! AppDelegate
+
                     self.myDocID = doc.documentID
-                     if let links = (d["links"] as? [String])
-                     {
-                        let appDel = UIApplication.shared.delegate as! AppDelegate
+                    appDel.myDocID = doc.documentID
+                    
+                    if let links = (d["links"] as? [String])
+                    {
                         appDel.arrBookMarkLink = links
-                     }
+                    }
+                    
                 }
             }
         }
-
-        
     }
-    
-    
-    
     
     func getFeeds()  {
         
@@ -146,113 +153,55 @@ class welcomeViewController: UIViewController {
             }
             
         }
-        }
+    }
         
-        
-   
     
-   @objc func btnBookMarkClick(_ sender : UIButton)  {
+    @objc func btnBookMarkClick(_ sender : UIButton)  {
         
-    let appDel = UIApplication.shared.delegate as! AppDelegate
-//      let context = appDel.persistentContainer.viewContext
-    
-    var db: Firestore!
-    db = Firestore.firestore()
-    
-    if sender.isSelected == false
-    {
-        sender.isSelected = true
+        let appDel = UIApplication.shared.delegate as! AppDelegate
+        //      let context = appDel.persistentContainer.viewContext
         
-        appDel.arrBookMarkLink.append(arrFeeds[sender.tag].link!)
-        let d = ["links" : appDel.arrBookMarkLink]
-        db.collection("users").document(myDocID!).updateData(d) { (error) in
-             if error != nil
-             {
-                print(error!.localizedDescription)
+        var db: Firestore!
+        db = Firestore.firestore()
+        
+        if sender.isSelected == false
+        {
+            sender.isSelected = true
+            
+            appDel.arrBookMarkLink.append(arrFeeds[sender.tag].link!)
+            let d = ["links" : appDel.arrBookMarkLink]
+            db.collection("users").document(myDocID!).updateData(d) { (error) in
+                if error != nil
+                {
+                    print(error!.localizedDescription)
+                }
             }
         }
-        
-        
-//        let  feedBookMark = NSEntityDescription.insertNewObject(forEntityName: "FeedBookMark", into: context) as! FeedBookMark
-//
-//        feedBookMark.desc  = arrFeeds[sender.tag].desc
-//        feedBookMark.title = arrFeeds[sender.tag].title
-//        feedBookMark.link  = arrFeeds[sender.tag].link
-//        feedBookMark.time = arrFeeds[sender.tag].time
-//        feedBookMark.timestamp  = Int64("\(arrFeeds[sender.tag].timestamp!)")!
-//        feedBookMark.guid = arrFeeds[sender.tag].guid
-//
-//        do {
-//
-//            try context.save()
-//            var arr : [String] = []
-//            if UserDefaults.standard.value(forKey: "BookMarks") != nil
-//            {
-//                arr =  UserDefaults.standard.value(forKey: "BookMarks") as! [String]
-//                arr.append(arrFeeds[sender.tag].link!)
-//                  UserDefaults.standard.setValue(arr, forKey: "BookMarks")
-//            }
-//            else
-//            {
-//              arr.append(arrFeeds[sender.tag].link!)
-//              UserDefaults.standard.setValue(arr, forKey: "BookMarks")
-//            }
-//
-//        } catch  {
-//            print(error.localizedDescription)
-//        }
-        
-    }
-    else
-    {
-        sender.isSelected = false
-        
-        let link = arrFeeds[sender.tag].link
-        
-        if let index = appDel.arrBookMarkLink.firstIndex(of: link!) {
-            appDel.arrBookMarkLink.remove(at: index)
+        else
+        {
+            sender.isSelected = false
+            
+            let link = arrFeeds[sender.tag].link
+            
+            if let index = appDel.arrBookMarkLink.firstIndex(of: link!) {
+                appDel.arrBookMarkLink.remove(at: index)
+            }
+            
+            let d = ["links" : appDel.arrBookMarkLink]
+            db.collection("users").document(myDocID!).updateData(d) { (error) in
+                if error != nil
+                {
+                    print(error!.localizedDescription)
+                }
+            }
+            tableView.reloadData()
         }
         
-        let d = ["links" : appDel.arrBookMarkLink]
-               db.collection("users").document(myDocID!).updateData(d) { (error) in
-                    if error != nil
-                    {
-                       print(error!.localizedDescription)
-                   }
-               }
-        
-        
-//        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "FeedBookMark")
-//        fetchRequest.predicate = NSPredicate(format: "link == %@", link!)
-//
-//        do {
-//            let feed = try context.fetch(fetchRequest) as! [FeedBookMark]
-//            context.delete(feed.first!)
-//
-//            var arr : [String] = []
-//            if UserDefaults.standard.value(forKey: "BookMarks") != nil
-//            {
-//                arr =  UserDefaults.standard.value(forKey: "BookMarks") as! [String]
-//                if let index = arr.firstIndex(of: link!)
-//                {
-//                    arr.remove(at:index)
-//                }
-//                UserDefaults.standard.setValue(arr, forKey: "BookMarks")
-//            }
-            
-            tableView.reloadData()
-      
-       
-    }
-    
-            
-    
-    
     }
     
     
-   
-    func isBookMark (link : String) -> Bool
+    
+    func isBookMark(link : String) -> Bool
     {
         let appDel = UIApplication.shared.delegate as! AppDelegate
         
@@ -261,21 +210,61 @@ class welcomeViewController: UIViewController {
         {
             return true
         }
-
+        
         return false
     }
     
     
 }
 
+//MARK:- Collection View Delegate & Data Source
+extension welcomeViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UICollectionViewDelegate {
+    
+    
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 1
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 10
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        if indexPath.row % 5 == 0 && indexPath.row != 0
+        {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "AdsCollectionViewCell", for: indexPath) as! AdsCollectionViewCell
+            cell.controller = self
+            
+            return cell
+        }
+
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PositifeedyCell", for: indexPath) as! PositifeedyCell
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
+        var cellSize: CGSize = collectionView.bounds.size
+        
+        cellSize.width -= collectionView.contentInset.left
+        cellSize.width -= collectionView.contentInset.right
+        
+        return cellSize
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print("Item selected at \(indexPath.row)")
+    }
+}
 
 //MARK:- UITableViewDataSource
 extension welcomeViewController : UITableViewDataSource
 {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return arrFeeds.count
         
+        return arrFeeds.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -291,7 +280,7 @@ extension welcomeViewController : UITableViewDataSource
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! FeedCell
       
-        let feed = arrFeeds[indexPath.row ]
+        let feed = arrFeeds[indexPath.row]
         
         let date =  feed.time?.toDate()
         
@@ -302,10 +291,10 @@ extension welcomeViewController : UITableViewDataSource
         cell.btnBookMark.setImage(UIImage(named: "bookmark"), for: .normal)
         cell.btnBookMark.setImage(UIImage(named: "bookmarkSelected"), for: .selected)
         cell.btnBookMark.tag = indexPath.row
-        cell.btnBookMark.isSelected =  isBookMark(link: feed.link!)
+        cell.btnBookMark.isSelected = isBookMark(link: feed.link!)
         cell.btnBookMark.addTarget(self, action: #selector(btnBookMarkClick), for: .touchUpInside)
         cell.imgView.cornerRadius(10)
-         if   let link = URL(string: feed.link!)
+         if let link = URL(string: feed.link!)
          {
             if let img = Images(rawValue: (link.domain)!)!.image
             {
@@ -322,7 +311,7 @@ extension welcomeViewController : UITableViewDelegate
 {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-
+        
         if indexPath.row % 5 == 0 && indexPath.row != 0
         {
             return 155
@@ -332,9 +321,12 @@ extension welcomeViewController : UITableViewDelegate
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
+        let feed = arrFeeds[indexPath.row]
+        
         let webVC = self.storyboard?.instantiateViewController(withIdentifier: "WebViewVC") as! WebViewVC
         webVC.url = arrFeeds[indexPath.row].link
-        
+        webVC.myDocID = self.myDocID
+        webVC.isBookmark = isBookMark(link: feed.link!)
         navigationController?.pushViewController(webVC, animated: true)
         
     }

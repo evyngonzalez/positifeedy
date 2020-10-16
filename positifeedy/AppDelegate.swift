@@ -10,7 +10,11 @@ import UIKit
 import Firebase
 import CoreData
 import GoogleMobileAds
-
+import GoogleSignIn
+import FBSDKCoreKit
+import FBSDKLoginKit
+import IQKeyboardManagerSwift
+import FirebaseDynamicLinks
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -18,27 +22,34 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   var window: UIWindow?
 
     var arrBookMarkLink : [String] = []
-    
+    var myDocID : String?
+
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
         window = UIWindow(frame: UIScreen.main.bounds)
         
         FirebaseApp.configure()
+        GIDSignIn.sharedInstance().clientID = FirebaseApp.app()?.options.clientID
+        ApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
+        
         GADMobileAds.sharedInstance().start(completionHandler: nil)
         GADMobileAds.sharedInstance().requestConfiguration.testDeviceIdentifiers = ["891430e50eb0d8ffb21a4a28013d829b"]
         Messaging.messaging().delegate = self
+        
+        IQKeyboardManager.shared.enable = true
+        IQKeyboardManager.shared.shouldResignOnTouchOutside = true
         
         if #available(iOS 10.0, *) {
             // For iOS 10 display notification (sent via APNS)
             UNUserNotificationCenter.current().delegate = self
             
             
-            
             let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
             UNUserNotificationCenter.current().requestAuthorization(
                 options: authOptions,
                 completionHandler: {_, _ in })
+            
         } else {
             let settings: UIUserNotificationSettings =
                 UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
@@ -47,46 +58,198 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         application.registerForRemoteNotifications()
         
+        setRoot()
         
-          let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        if  (UserDefaults.standard.value(forKey: "isLogin") as? Bool ?? false)
-        {
-            let welcomeViewController = storyboard.instantiateViewController(withIdentifier: "MyTabbarVC") as! MyTabbarVC
-
-                      window?.rootViewController = welcomeViewController
-                      window?.makeKeyAndVisible()
-        }
-        else
-        {
-            let welcomeViewController = storyboard.instantiateViewController(withIdentifier: "ViewController") as! ViewController
-
-            window?.rootViewController = welcomeViewController
-            window?.makeKeyAndVisible()
-        }
-        
-        
-        
+        UIApplication.shared.applicationIconBadgeNumber = 0
         
         return true
     }
     
-    
-    func openToHomeVC()
-    {
-//         let tabbarVC = UITabBarController()
-//
-//        let welcomVC = 
-//
-//        let nav1 = UINavigationController()
-//
-//        let nav2 = UINavigationController()
-//
-//        let nav3 = UINavigationController()
-//
+    func setRoot() {
         
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        if (UserDefaults.standard.value(forKey: "isLogin") as? Bool ?? false)
+        {
+            let vcHome = storyboard.instantiateViewController(withIdentifier: "MyTabbarVC") as! MyTabbarVC
+            
+            self.window?.rootViewController = vcHome
+            self.window?.makeKeyAndVisible()
+            
+        }
+        else
+        {
+            let welcomeViewController = storyboard.instantiateViewController(withIdentifier: "navLogin") as! UINavigationController
+            
+            self.window?.rootViewController = welcomeViewController
+            self.window?.makeKeyAndVisible()
+        }
     }
     
+    func application(_ application: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any]) -> Bool {
+        
+        if let dynamicLink = DynamicLinks.dynamicLinks().dynamicLink(fromCustomSchemeURL: url) {
+            self.handleIncomingDynamicLink(dynamicLink)
+            return true
+        } else {
+            return GIDSignIn.sharedInstance().handle(url) || ApplicationDelegate.shared.application(application, open: url, sourceApplication: (options[UIApplication.OpenURLOptionsKey.sourceApplication] as! String), annotation: options[UIApplication.OpenURLOptionsKey.annotation])
+        }
+    }
     
+    func application(_ application: UIApplication, didUpdate userActivity: NSUserActivity) {
+        print(userActivity)
+    }
+    func application(_ application: UIApplication, continue userActivity: NSUserActivity,
+                     restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
+        let handled = DynamicLinks.dynamicLinks().handleUniversalLink(userActivity.webpageURL!) { [weak self] (dynamiclink, error) in
+            guard error == nil else {
+                print(error!.localizedDescription)
+                return
+            }
+            if let dynamiclink = dynamiclink {
+                self?.handleIncomingDynamicLink(dynamiclink)
+            }
+        }
+        
+        return handled
+    }
+    
+    func handleIncomingDynamicLink(_ dynamicLink: DynamicLink) {
+        guard let url = dynamicLink.url else {
+            print("That's wired.")
+            return
+        }
+        
+        print(url.absoluteString)
+        
+        guard let component = URLComponents(url: url, resolvingAgainstBaseURL: false), let queryItems = component.queryItems else {
+            return
+        }
+        
+        
+        
+        if component.path == "/share" {
+            
+            if (UserDefaults.standard.value(forKey: "isLogin") as? Bool ?? false) {
+                
+                var feedURL: String = ""
+                for queryItem in queryItems {
+                    if queryItem.name == "feedURL" {
+                        feedURL = queryItem.value ?? ""
+                        break
+                    }
+                }
+                
+                if feedURL != "" {
+                    if self.window!.rootViewController != nil {
+                        
+                        var isWebOpened: Bool = false
+                        for vc in ((self.window!.rootViewController as! MyTabbarVC).selectedViewController as! UINavigationController).viewControllers {
+                            if vc is WebViewVC {
+                                isWebOpened = true
+                                break
+                            }
+                        }
+                        if isWebOpened {
+                            let dict = ["isBookmark": self.isBookMark(link: feedURL), "url": feedURL] as [String : Any]
+                            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "RELOAD_WEB"), object: dict)
+
+                        } else {
+                            let webVC = storyBoard.instantiateViewController(withIdentifier: "WebViewVC") as! WebViewVC
+                            webVC.url = feedURL
+                            webVC.myDocID = self.myDocID
+                            webVC.isBookmark = isBookMark(link: feedURL)
+                            ((self.window!.rootViewController as! MyTabbarVC).selectedViewController as! UINavigationController).pushViewController(webVC, animated: true)
+                        }
+                    } else {
+                        
+                    }
+                }
+            }
+
+            
+        } else {
+            
+            if Auth.auth().isSignIn(withEmailLink: url.absoluteString) {
+                
+                guard let email = UserDefaults.standard.value(forKey: "emailRegister") as? String, let password = UserDefaults.standard.value(forKey: "passwordRegister") as? String else {
+                    return
+                }
+                
+                let firstName = UserDefaults.standard.value(forKey: "firstNameRegister") as? String ?? ""
+                let lastName = UserDefaults.standard.value(forKey: "lastNameRegister") as? String ?? ""
+                
+                // Create the user
+                Auth.auth().createUser(withEmail: email, password: password) { (result, err) in
+                    
+                    // Check for errors
+                    if err != nil {
+                        self.window!.rootViewController?.view.makeToast(err!.localizedDescription)
+                    } else {
+                        self.createUserCloudData(firstName: firstName, lastName: lastName, uid: result!.user.uid)
+                    }
+                }
+                //
+                //            Auth.auth().signIn(withEmail: email, link: url.absoluteString) { (user, error) in
+                //                if error != nil {
+                //                    self.window!.rootViewController?.view.makeToast(error!.localizedDescription)
+                //                } else {
+                //
+                //
+                //
+                //                    let credential = EmailAuthProvider.credential(withEmail: email, password: password)
+                //                    Auth.auth().currentUser?.link(with: credential) { authData, error in
+                //                        if error != nil {
+                //                        self.window!.rootViewController?.view.makeToast(error!.localizedDescription)
+                //                        return
+                //                      } else {
+                //                          self.createUserCloudData(firstName: firstName, lastName: lastName, uid: user!.user.uid)
+                //                      }
+                //                      // The provider was successfully linked.
+                //                      // The phone user can now sign in with their phone number or email.
+                //                    }
+                //
+                //                }
+                //            }
+            }
+        }
+        
+        
+
+    }
+    
+    func createUserCloudData(firstName: String, lastName: String, uid: String) {
+        
+        // User was created successfully, now store the first name and last name
+        let db = Firestore.firestore()
+        
+        db.collection("users").addDocument(data: ["firstname":firstName, "lastname":lastName, "uid": uid]) { (error) in
+            
+            if error != nil {
+                // Show error message
+                self.window!.rootViewController?.view.makeToast(error!.localizedDescription)
+                return
+            }
+            
+            UserDefaults.standard.removeObject(forKey: "emailRegister")
+            UserDefaults.standard.removeObject(forKey: "passwordRegister")
+            
+            UserDefaults.standard.set(true, forKey: "isLogin")
+            
+            // Transition to the home screen
+            self.setRoot()
+        }
+    }
+    
+    func isBookMark(link: String) -> Bool
+    {
+        let ind = self.arrBookMarkLink.firstIndex(of: link) ?? -1
+        if ind > -1
+        {
+            return true
+        }
+        
+        return false
+    }
     
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any]) {
        // If you are receiving a notification message while your app is in the background,
@@ -135,25 +298,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // With swizzling disabled you must set the APNs token here.
          Messaging.messaging().apnsToken = deviceToken
       }
-    
-    
-    
-    
-
-    // MARK: UISceneSession Lifecycle
-@available(iOS 13.0, *)
-    func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
-        // Called when a new scene session is being created.
-        // Use this method to select a configuration to create the new scene with.
-        return UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)
-    }
-
-    @available(iOS 13.0, *)
-    func application(_ application: UIApplication, didDiscardSceneSessions sceneSessions: Set<UISceneSession>) {
-        // Called when the user discards a scene session.
-        // If any sessions were discarded while the application was not running, this will be called shortly after application:didFinishLaunchingWithOptions.
-        // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
-    }
 
 
     

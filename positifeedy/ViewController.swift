@@ -15,6 +15,14 @@ class ViewController: UIViewController {
         
     }
 
-
+    @IBAction func btnSignUp(_ sender: Any) {
+        let vc = storyBoard.instantiateViewController(withIdentifier: "signUpViewController") as! signUpViewController
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    @IBAction func btnLogin(_ sender: UIButton) {
+        let vc = storyBoard.instantiateViewController(withIdentifier: "logInViewController") as! logInViewController
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
 }
 

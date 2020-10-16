@@ -13,3 +13,5 @@ struct Constants {
         static let welcomeViewController = "HomeVC"
     }
 }
+
+let storyBoard = UIStoryboard.init(name: "Main", bundle: nil)

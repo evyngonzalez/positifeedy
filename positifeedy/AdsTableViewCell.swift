@@ -9,10 +9,6 @@
 import UIKit
 import GoogleMobileAds
 
-
-
-
-
 class AdsTableViewCell: UITableViewCell, GADUnifiedNativeAdLoaderDelegate, GADUnifiedNativeAdDelegate {
     
     var adLoader: GADAdLoader!
@@ -24,7 +20,7 @@ class AdsTableViewCell: UITableViewCell, GADUnifiedNativeAdLoaderDelegate, GADUn
         return view
     }()
     
-    var controller  : UIViewController? {
+    var controller : UIViewController? {
         didSet{
             if let _ = controller{
                 fetchAds()
