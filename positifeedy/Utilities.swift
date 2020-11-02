@@ -39,8 +39,8 @@ extension String
 {
     func toDate() -> Date
     {
-         let f = DateFormatter()
-         f.dateFormat = "E, d MMM yyyy HH:mm:ss Z"
+        let f = DateFormatter()
+        f.dateFormat = "E, d MMM yyyy HH:mm:ss Z"
         return f.date(from: self)!
     }
     
@@ -347,6 +347,12 @@ extension UIView {
         clipsToBounds = true
     }
     
+    func setDesignedBorder(radius: CGFloat, width: CGFloat) {
+        self.backgroundColor = #colorLiteral(red: 0.4823529412, green: 0.9647058824, blue: 0.6705882353, alpha: 1)
+        self.layer.cornerRadius = radius
+        self.layer.borderWidth = width
+        self.layer.borderColor = UIColor.clear.cgColor
+    }
 }
 
 
@@ -391,12 +397,13 @@ extension UIViewController {
         self.navigationController?.navigationBar.isTranslucent = false
         
         navigationItem.title = ""
-        
-        let titleLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 320, height: 40))
+                
+        let titleLabel = UILabel(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 40))
         titleLabel.text = title
-        titleLabel.textAlignment = .left
-        titleLabel.textColor = .black
+        titleLabel.textAlignment = .center
+        titleLabel.textColor = .white
         titleLabel.font = UIFont(name: "Avenir-Heavy", size: 17)
+        titleLabel.sizeToFit()
         
         self.navigationItem.titleView = titleLabel
     }
@@ -461,4 +468,5 @@ extension UIImage {
         return nil
     }
 }
+
 

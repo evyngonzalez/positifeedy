@@ -49,20 +49,15 @@ class FeedInfo : NSObject, Decodable {
 
 class Feed : NSObject, Decodable {
     
-    
     enum CodingKeys: String, CodingKey {
-          
-       case  title
-       case  link
-       case  desc = "description"
-       case  guid
-       case  time
-       case  timestamp
         
-        
-        
-       }
-    
+        case  title
+        case  link
+        case  desc = "description"
+        case  guid
+        case  time
+        case  timestamp
+    }
     
     var title : String?
     var link : String?
@@ -70,9 +65,6 @@ class Feed : NSObject, Decodable {
     var guid : String?
     var time : String?
     var timestamp : Int?
-    
- 
-  
     
     required init(from decoder: Decoder) throws {
         
@@ -83,9 +75,7 @@ class Feed : NSObject, Decodable {
         guid = try container.decode(String?.self, forKey: .guid)
         time = try container.decode(String.self, forKey: .time)
         timestamp = try container.decode(Int?.self, forKey: .timestamp)
-        
     }
-    
 }
 
 
@@ -109,4 +99,26 @@ class FeedDetails: NSObject, Decodable {
            homepage = try container.decode(String?.self, forKey: .homepage)
        }
        
+}
+
+struct Positifeedy: Codable {
+    var title : String?
+    var desc : String?
+    var feed_type : String?
+    var feed_url : String?
+    var feed_image : String?
+    var feed_video : String?
+    var timestamp : String?
+    var documentID: String?
+
+    init(title: String?, desc: String?, feed_type: String?, feed_url: String?, feed_image: String?, feed_video: String?, timestamp: String?, documentID: String?) {
+        self.title = title
+        self.desc = desc
+        self.feed_type = feed_type
+        self.feed_url = feed_url
+        self.feed_image = feed_image
+        self.feed_video = feed_video
+        self.timestamp = timestamp
+        self.documentID = documentID
+    }
 }

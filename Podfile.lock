@@ -389,6 +389,7 @@ DEPENDENCIES:
   - GoogleAnalytics
   - GoogleSignIn
   - IQKeyboardManagerSwift
+  - SDWebImage
   - SVProgressHUD
   - Toast-Swift (~> 5.0.1)
 
@@ -479,6 +480,6 @@ SPEC CHECKSUMS:
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
   Toast-Swift: 9b6a70f28b3bf0b96c40d46c0c4b9d6639846711
 
-PODFILE CHECKSUM: 9d5690dcfa00cd4fb290e63c42e932dcc4f19fa1
+PODFILE CHECKSUM: 1aa5437e18c01c4dfe33731334f36e30be0d7ae8
 
 COCOAPODS: 1.8.4

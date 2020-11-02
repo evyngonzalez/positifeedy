@@ -18,6 +18,7 @@
 		40CF1B6C250C8F57003B3B82 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40CF1B6B250C8F57003B3B82 /* Utilities.swift */; };
 		40CF1B6E250C9039003B3B82 /* welcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40CF1B6D250C9039003B3B82 /* welcomeViewController.swift */; };
 		6E71A5EA7E4B9FBA62F9ED50 /* Pods_positifeedy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8BFCBF95D55B294A5A4F2C1 /* Pods_positifeedy.framework */; };
+		880B12ED2543EE9900C08169 /* PostDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 880B12EC2543EE9900C08169 /* PostDetailViewController.swift */; };
 		881D22AF251DC476006AE1D8 /* AdsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 881D22AD251DC476006AE1D8 /* AdsTableViewCell.swift */; };
 		881D22B0251DC476006AE1D8 /* AdsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 881D22AE251DC476006AE1D8 /* AdsTableViewCell.xib */; };
 		8838C123251DFA62005FDF45 /* GoogleAdBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8838C122251DFA62005FDF45 /* GoogleAdBannerView.swift */; };
@@ -33,6 +34,14 @@
 		887C29AC251F751E009AFA9E /* UIScrollView+TPKeyboardAvoidingAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 887C29A6251F7513009AFA9E /* UIScrollView+TPKeyboardAvoidingAdditions.m */; };
 		887C29AD251F751E009AFA9E /* TPKeyboardAvoidingScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 887C29A8251F7519009AFA9E /* TPKeyboardAvoidingScrollView.m */; };
 		887C29AE251F751E009AFA9E /* TPKeyboardAvoidingCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 887C29AA251F751E009AFA9E /* TPKeyboardAvoidingCollectionView.m */; };
+		8885D47025493D9E004340CE /* MetadataCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8885D46F25493D9E004340CE /* MetadataCache.swift */; };
+		8885D472254967D4004340CE /* WebViewFeedy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8885D471254967D4004340CE /* WebViewFeedy.swift */; };
+		8885D47E25498882004340CE /* SYPhotoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8885D47825498882004340CE /* SYPhotoViewController.m */; };
+		8885D47F25498882004340CE /* SYPhotoBrowserCaptionLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8885D47A25498882004340CE /* SYPhotoBrowserCaptionLabel.m */; };
+		8885D48025498882004340CE /* SYPhotoBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = 8885D47C25498882004340CE /* SYPhotoBrowser.m */; };
+		8885D48525498F80004340CE /* DALabeledCircularProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8885D48125498F77004340CE /* DALabeledCircularProgressView.m */; };
+		8885D48625498F80004340CE /* DACircularProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8885D48325498F7D004340CE /* DACircularProgressView.m */; };
+		88886A7F253D61DE00998E07 /* TTSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88886A7E253D61DE00998E07 /* TTSegmentedControl.swift */; };
 		88D279FD2535AC3000B1DE72 /* FAPaginationLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88D279FC2535AC3000B1DE72 /* FAPaginationLayout.swift */; };
 		88D27A002535ADBA00B1DE72 /* PositifeedyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88D279FE2535ADBA00B1DE72 /* PositifeedyCell.swift */; };
 		88D27A012535ADBA00B1DE72 /* PositifeedyCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 88D279FF2535ADBA00B1DE72 /* PositifeedyCell.xib */; };
@@ -55,6 +64,8 @@
 		88E1F3F1251CB1350086E650 /* positifeedy.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 88E1F3EF251CB1350086E650 /* positifeedy.xcdatamodeld */; };
 		88E1F418251CBD260086E650 /* FeedCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 88E1F416251CBD260086E650 /* FeedCell.xib */; };
 		88E1F41A251CBFAC0086E650 /* BookMarkVc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88E1F419251CBFAC0086E650 /* BookMarkVc.swift */; };
+		88EE3EC0254848C300E87380 /* FeedyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88EE3EBE254848C300E87380 /* FeedyCell.swift */; };
+		88EE3EC1254848C300E87380 /* FeedyCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 88EE3EBF254848C300E87380 /* FeedyCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -72,6 +83,7 @@
 		40CF1B6B250C8F57003B3B82 /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		40CF1B6D250C9039003B3B82 /* welcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = welcomeViewController.swift; sourceTree = "<group>"; };
 		479E5DE322C08E14E6DD41FD /* Pods-positifeedy.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-positifeedy.release.xcconfig"; path = "Target Support Files/Pods-positifeedy/Pods-positifeedy.release.xcconfig"; sourceTree = "<group>"; };
+		880B12EC2543EE9900C08169 /* PostDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailViewController.swift; sourceTree = "<group>"; };
 		881D22AD251DC476006AE1D8 /* AdsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdsTableViewCell.swift; sourceTree = "<group>"; };
 		881D22AE251DC476006AE1D8 /* AdsTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AdsTableViewCell.xib; sourceTree = "<group>"; };
 		881D22B1251DCD61006AE1D8 /* positifeedy.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = positifeedy.entitlements; sourceTree = "<group>"; };
@@ -93,6 +105,19 @@
 		887C29A8251F7519009AFA9E /* TPKeyboardAvoidingScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPKeyboardAvoidingScrollView.m; sourceTree = "<group>"; };
 		887C29A9251F751B009AFA9E /* TPKeyboardAvoidingScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPKeyboardAvoidingScrollView.h; sourceTree = "<group>"; };
 		887C29AA251F751E009AFA9E /* TPKeyboardAvoidingCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPKeyboardAvoidingCollectionView.m; sourceTree = "<group>"; };
+		8885D46F25493D9E004340CE /* MetadataCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MetadataCache.swift; sourceTree = "<group>"; };
+		8885D471254967D4004340CE /* WebViewFeedy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewFeedy.swift; sourceTree = "<group>"; };
+		8885D47825498882004340CE /* SYPhotoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYPhotoViewController.m; sourceTree = "<group>"; };
+		8885D47925498882004340CE /* SYPhotoBrowser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYPhotoBrowser.h; sourceTree = "<group>"; };
+		8885D47A25498882004340CE /* SYPhotoBrowserCaptionLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYPhotoBrowserCaptionLabel.m; sourceTree = "<group>"; };
+		8885D47B25498882004340CE /* SYPhotoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYPhotoViewController.h; sourceTree = "<group>"; };
+		8885D47C25498882004340CE /* SYPhotoBrowser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYPhotoBrowser.m; sourceTree = "<group>"; };
+		8885D47D25498882004340CE /* SYPhotoBrowserCaptionLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYPhotoBrowserCaptionLabel.h; sourceTree = "<group>"; };
+		8885D48125498F77004340CE /* DALabeledCircularProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DALabeledCircularProgressView.m; sourceTree = "<group>"; };
+		8885D48225498F79004340CE /* DALabeledCircularProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DALabeledCircularProgressView.h; sourceTree = "<group>"; };
+		8885D48325498F7D004340CE /* DACircularProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DACircularProgressView.m; sourceTree = "<group>"; };
+		8885D48425498F80004340CE /* DACircularProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DACircularProgressView.h; sourceTree = "<group>"; };
+		88886A7E253D61DE00998E07 /* TTSegmentedControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TTSegmentedControl.swift; sourceTree = "<group>"; };
 		88D279FC2535AC3000B1DE72 /* FAPaginationLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FAPaginationLayout.swift; sourceTree = "<group>"; };
 		88D279FE2535ADBA00B1DE72 /* PositifeedyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PositifeedyCell.swift; sourceTree = "<group>"; };
 		88D279FF2535ADBA00B1DE72 /* PositifeedyCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PositifeedyCell.xib; sourceTree = "<group>"; };
@@ -115,6 +140,8 @@
 		88E1F3F0251CB1350086E650 /* positifeedy.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = positifeedy.xcdatamodel; sourceTree = "<group>"; };
 		88E1F416251CBD260086E650 /* FeedCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FeedCell.xib; sourceTree = "<group>"; };
 		88E1F419251CBFAC0086E650 /* BookMarkVc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookMarkVc.swift; sourceTree = "<group>"; };
+		88EE3EBE254848C300E87380 /* FeedyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedyCell.swift; sourceTree = "<group>"; };
+		88EE3EBF254848C300E87380 /* FeedyCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FeedyCell.xib; sourceTree = "<group>"; };
 		D8BFCBF95D55B294A5A4F2C1 /* Pods_positifeedy.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_positifeedy.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -184,11 +211,15 @@
 				40CF1B67250C8F24003B3B82 /* logInViewController.swift */,
 				40CF1B65250C8F15003B3B82 /* signUpViewController.swift */,
 				40CF1B6D250C9039003B3B82 /* welcomeViewController.swift */,
+				880B12EC2543EE9900C08169 /* PostDetailViewController.swift */,
 				88D279FE2535ADBA00B1DE72 /* PositifeedyCell.swift */,
 				88D279FF2535ADBA00B1DE72 /* PositifeedyCell.xib */,
 				88E1F3D0251C91A60086E650 /* FeedCell.swift */,
 				88E1F416251CBD260086E650 /* FeedCell.xib */,
+				88EE3EBE254848C300E87380 /* FeedyCell.swift */,
+				88EE3EBF254848C300E87380 /* FeedyCell.xib */,
 				88E1F3ED251CA5A40086E650 /* WebViewVC.swift */,
+				8885D471254967D4004340CE /* WebViewFeedy.swift */,
 				88E1F419251CBFAC0086E650 /* BookMarkVc.swift */,
 				884D5A12253710F900259DBE /* JournalViewController.swift */,
 				881D22AD251DC476006AE1D8 /* AdsTableViewCell.swift */,
@@ -240,9 +271,29 @@
 			path = "Keyboard ";
 			sourceTree = "<group>";
 		};
+		8885D47725498882004340CE /* SYPhotoBrowser */ = {
+			isa = PBXGroup;
+			children = (
+				8885D48425498F80004340CE /* DACircularProgressView.h */,
+				8885D48325498F7D004340CE /* DACircularProgressView.m */,
+				8885D48225498F79004340CE /* DALabeledCircularProgressView.h */,
+				8885D48125498F77004340CE /* DALabeledCircularProgressView.m */,
+				8885D47825498882004340CE /* SYPhotoViewController.m */,
+				8885D47925498882004340CE /* SYPhotoBrowser.h */,
+				8885D47A25498882004340CE /* SYPhotoBrowserCaptionLabel.m */,
+				8885D47B25498882004340CE /* SYPhotoViewController.h */,
+				8885D47C25498882004340CE /* SYPhotoBrowser.m */,
+				8885D47D25498882004340CE /* SYPhotoBrowserCaptionLabel.h */,
+			);
+			path = SYPhotoBrowser;
+			sourceTree = "<group>";
+		};
 		88D279FB2535AC1B00B1DE72 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				8885D47725498882004340CE /* SYPhotoBrowser */,
+				8885D46F25493D9E004340CE /* MetadataCache.swift */,
+				88886A7E253D61DE00998E07 /* TTSegmentedControl.swift */,
 				88D279FC2535AC3000B1DE72 /* FAPaginationLayout.swift */,
 			);
 			path = Libraries;
@@ -348,6 +399,7 @@
 				40CF1B5C250BC434003B3B82 /* LaunchScreen.storyboard in Resources */,
 				88E1F3E6251C960E0086E650 /* defyingmentalillness.jpg in Resources */,
 				88E1F418251CBD260086E650 /* FeedCell.xib in Resources */,
+				88EE3EC1254848C300E87380 /* FeedyCell.xib in Resources */,
 				88E1F3E1251C960E0086E650 /* mindfulnessminutes.jpg in Resources */,
 				88E1F3E3251C960E0086E650 /* mybrainsnotbroken.jpg in Resources */,
 				88E1F3E0251C960E0086E650 /* mindworks.png in Resources */,
@@ -429,6 +481,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				88886A7F253D61DE00998E07 /* TTSegmentedControl.swift in Sources */,
 				881D22AF251DC476006AE1D8 /* AdsTableViewCell.swift in Sources */,
 				40CF1B54250BC432003B3B82 /* ViewController.swift in Sources */,
 				887C29AB251F751E009AFA9E /* TPKeyboardAvoidingTableView.m in Sources */,
@@ -437,12 +490,15 @@
 				88E1F3D1251C91A60086E650 /* FeedCell.swift in Sources */,
 				88E1F3CF251C7E610086E650 /* Feed.swift in Sources */,
 				40CF1B6E250C9039003B3B82 /* welcomeViewController.swift in Sources */,
+				88EE3EC0254848C300E87380 /* FeedyCell.swift in Sources */,
 				887C2999251F1D8D009AFA9E /* MyTabbarVC.swift in Sources */,
 				88E1F3EE251CA5A40086E650 /* WebViewVC.swift in Sources */,
 				40CF1B50250BC432003B3B82 /* AppDelegate.swift in Sources */,
+				8885D48525498F80004340CE /* DALabeledCircularProgressView.m in Sources */,
 				887C29AE251F751E009AFA9E /* TPKeyboardAvoidingCollectionView.m in Sources */,
 				40CF1B6C250C8F57003B3B82 /* Utilities.swift in Sources */,
 				884D5A13253710F900259DBE /* JournalViewController.swift in Sources */,
+				8885D48025498882004340CE /* SYPhotoBrowser.m in Sources */,
 				40CF1B66250C8F15003B3B82 /* signUpViewController.swift in Sources */,
 				8838C123251DFA62005FDF45 /* GoogleAdBannerView.swift in Sources */,
 				887C29AC251F751E009AFA9E /* UIScrollView+TPKeyboardAvoidingAdditions.m in Sources */,
@@ -450,8 +506,14 @@
 				887C29AD251F751E009AFA9E /* TPKeyboardAvoidingScrollView.m in Sources */,
 				40CF1B68250C8F24003B3B82 /* logInViewController.swift in Sources */,
 				88D279FD2535AC3000B1DE72 /* FAPaginationLayout.swift in Sources */,
+				8885D472254967D4004340CE /* WebViewFeedy.swift in Sources */,
+				880B12ED2543EE9900C08169 /* PostDetailViewController.swift in Sources */,
+				8885D47E25498882004340CE /* SYPhotoViewController.m in Sources */,
+				8885D48625498F80004340CE /* DACircularProgressView.m in Sources */,
 				40CF1B6A250C8F39003B3B82 /* Constants.swift in Sources */,
+				8885D47025493D9E004340CE /* MetadataCache.swift in Sources */,
 				88D27A002535ADBA00B1DE72 /* PositifeedyCell.swift in Sources */,
+				8885D47F25498882004340CE /* SYPhotoBrowserCaptionLabel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

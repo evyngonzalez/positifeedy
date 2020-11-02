@@ -36,7 +36,8 @@ class MyTabbarVC: UITabBarController,  UITabBarControllerDelegate {
             
             let nav1 =  viewController as! UINavigationController
             let bokVc = nav1.viewControllers.first as! BookMarkVc
-            bokVc.arrBook =  wel.arrFeeds
+            bokVc.arrFeeds =  wel.arrFeeds
+            bokVc.arrPositifeedy = wel.arrPositifeedy
             
             print("hi")
         }

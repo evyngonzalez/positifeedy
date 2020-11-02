@@ -15,6 +15,7 @@ import FBSDKCoreKit
 import FBSDKLoginKit
 import IQKeyboardManagerSwift
 import FirebaseDynamicLinks
+import LinkPresentation
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -22,6 +23,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   var window: UIWindow?
 
     var arrBookMarkLink : [String] = []
+    var arrBookMarkLinkFeedy : [String] = []
+
     var myDocID : String?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
@@ -62,7 +65,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         UIApplication.shared.applicationIconBadgeNumber = 0
         
+//        for obj in arrFeedy {
+//            self.addFeedyPost(data: obj)
+//        }
+
         return true
+    }
+    
+    func addFeedyPost(data: [String: String]) {
+        
+        let db = Firestore.firestore()
+        
+        db.collection("Positifeedy").addDocument(data: data) { (error) in
+            
+            if error != nil {
+                // Show error message
+                print("Error saving user data")
+                return
+            }
+        }
     }
     
     func setRoot() {
@@ -98,6 +119,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didUpdate userActivity: NSUserActivity) {
         print(userActivity)
     }
+    
     func application(_ application: UIApplication, continue userActivity: NSUserActivity,
                      restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
         let handled = DynamicLinks.dynamicLinks().handleUniversalLink(userActivity.webpageURL!) { [weak self] (dynamiclink, error) in
@@ -129,13 +151,47 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         if component.path == "/share" {
             
+            setRoot()
+            
             if (UserDefaults.standard.value(forKey: "isLogin") as? Bool ?? false) {
+                
+                var dict = [String: Any]()
                 
                 var feedURL: String = ""
                 for queryItem in queryItems {
                     if queryItem.name == "feedURL" {
                         feedURL = queryItem.value ?? ""
-                        break
+                        dict["feedURL"] = feedURL
+                    }
+                    if queryItem.name == "feedTitle" {
+                        let val = queryItem.value ?? ""
+                        if let base64Decoded = Data(base64Encoded: val, options: Data.Base64DecodingOptions(rawValue: 0))
+                        .map({ String(data: $0, encoding: .utf8) }) {
+                            dict["feedTitle"] = base64Decoded ?? ""
+                        }
+                    }
+                    if queryItem.name == "feedDesc" {
+                        let val = queryItem.value ?? ""
+                        if let base64Decoded = Data(base64Encoded: val, options: Data.Base64DecodingOptions(rawValue: 0))
+                        .map({ String(data: $0, encoding: .utf8) }) {
+                            dict["feedDesc"] = base64Decoded ?? ""
+                        }
+                    }
+                    
+                    if queryItem.name == "feedVideo" {
+                        dict["feedVideo"] = queryItem.value ?? ""
+                    }
+                    if queryItem.name == "feedImage" {
+                        dict["feedImage"] = queryItem.value ?? ""
+                    }
+                    if queryItem.name == "feedType" {
+                        dict["feedType"] = queryItem.value ?? ""
+                    }
+                    if queryItem.name == "feedTime" {
+                        dict["feedTime"] = queryItem.value ?? ""
+                    }
+                    if queryItem.name == "feedLink" {
+                        dict["feedLink"] = queryItem.value ?? ""
                     }
                 }
                 
@@ -143,23 +199,84 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     if self.window!.rootViewController != nil {
                         
                         var isWebOpened: Bool = false
+                        var isDetailOpened: Bool = false
+                        var isWebFeedyOpened: Bool = false
+
                         for vc in ((self.window!.rootViewController as! MyTabbarVC).selectedViewController as! UINavigationController).viewControllers {
                             if vc is WebViewVC {
                                 isWebOpened = true
                                 break
                             }
+                            if vc is PostDetailViewController {
+                                isDetailOpened = true
+                                break
+                            }
+                            if vc is WebViewFeedy {
+                                isWebFeedyOpened = true
+                                break
+                            }
                         }
-                        if isWebOpened {
-                            let dict = ["isBookmark": self.isBookMark(link: feedURL), "url": feedURL] as [String : Any]
-                            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "RELOAD_WEB"), object: dict)
+                        
+                        dict["isBookmark"] = self.isBookMark(link: feedURL)
 
-                        } else {
-                            let webVC = storyBoard.instantiateViewController(withIdentifier: "WebViewVC") as! WebViewVC
-                            webVC.url = feedURL
-                            webVC.myDocID = self.myDocID
-                            webVC.isBookmark = isBookMark(link: feedURL)
-                            ((self.window!.rootViewController as! MyTabbarVC).selectedViewController as! UINavigationController).pushViewController(webVC, animated: true)
+                        if feedURL.contains("http") { // web case
+                            
+                                
+                                if isWebOpened {
+                                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "RELOAD_WEB"), object: dict)
+
+                                } else {
+                                    let webVC = storyBoard.instantiateViewController(withIdentifier: "WebViewVC") as! WebViewVC
+                                    webVC.url = feedURL
+                                    webVC.myDocID = self.myDocID
+                                    webVC.isBookmark = isBookMark(link: feedURL)
+                                    ((self.window!.rootViewController as! MyTabbarVC).selectedViewController as! UINavigationController).pushViewController(webVC, animated: true)
+                                }
+                            
+                            
+                        } else { // positifeedy case
+                            
+                            let obj = Positifeedy.init(
+                                title: dict["feedTitle"] as? String,
+                                desc: dict["feedDesc"] as? String,
+                                feed_type: dict["feedType"] as? String,
+                                feed_url: dict["feedLink"] as? String,
+                                feed_image: dict["feedImage"] as? String,
+                                feed_video: dict["feedVideo"] as? String,
+                                timestamp: dict["feedTime"] as? String,
+                                documentID: dict["feedURL"] as? String
+                            )
+                            
+                            if (dict["feedType"] as? String ?? "") == "link" {
+                                
+                                if isWebFeedyOpened {
+                                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "RELOAD_WEB_FEED"), object: dict)
+
+                                } else {
+                                    let webVC = storyBoard.instantiateViewController(withIdentifier: "WebViewFeedy") as! WebViewFeedy
+                                    webVC.positifeedy = obj
+                                    webVC.myDocID = self.myDocID
+                                    webVC.isBookmark = isBookMark(link: feedURL)
+                                    ((self.window!.rootViewController as! MyTabbarVC).selectedViewController as! UINavigationController).pushViewController(webVC, animated: true)
+                                }
+                                
+                            } else {
+                                if isDetailOpened {
+                                    
+                                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "RELOAD_DETAIL"), object: dict)
+                                    
+                                } else {
+                                    
+                                    let webVC = storyBoard.instantiateViewController(withIdentifier: "PostDetailViewController") as! PostDetailViewController
+                                    webVC.positifeedy = obj
+                                    webVC.myDocID = self.myDocID
+                                    webVC.isBookmark = isBookMark(link: feedURL)
+                                    ((self.window!.rootViewController as! MyTabbarVC).selectedViewController as! UINavigationController).pushViewController(webVC, animated: true)
+                                }
+                            }
+                            
                         }
+                        
                     } else {
                         
                     }
@@ -212,9 +329,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 //            }
             }
         }
-        
-        
-
     }
     
     func createUserCloudData(firstName: String, lastName: String, uid: String) {
@@ -247,10 +361,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         {
             return true
         }
+        else
+        {
+            let indSecond = self.arrBookMarkLinkFeedy.firstIndex(of: link) ?? -1
+            if indSecond > -1
+            {
+                return true
+            }
+        }
         
         return false
     }
-    
+        
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any]) {
        // If you are receiving a notification message while your app is in the background,
        // this callback will not be fired till the user taps on the notification launching the application.

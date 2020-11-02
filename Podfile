@@ -17,6 +17,7 @@ pod 'Google-Mobile-Ads-SDK'
 pod 'Toast-Swift', '~> 5.0.1'
 pod 'GoogleSignIn'
 pod 'IQKeyboardManagerSwift'
+pod 'SDWebImage'
 
 pod 'FirebaseUI'
 pod 'FirebaseUI/Auth'

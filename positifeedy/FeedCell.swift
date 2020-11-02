@@ -20,6 +20,7 @@ class FeedCell: UITableViewCell {
     @IBOutlet weak var btnBookMark : UIButton!
     
     
+    @IBOutlet weak var btnPlay: UIButton!
     
     override func prepareForReuse() {
         imgView.image = nil

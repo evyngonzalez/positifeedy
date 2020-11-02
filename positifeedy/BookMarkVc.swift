@@ -13,6 +13,9 @@ import FirebaseDatabase
 import FirebaseFirestore
 import FirebaseStorage
 import Toast_Swift
+import AVKit
+import AVFoundation
+import SDWebImage
 
 class BookMarkVc: UIViewController {
     
@@ -25,11 +28,12 @@ class BookMarkVc: UIViewController {
     @IBOutlet weak  var activity : UIActivityIndicatorView!
     @IBOutlet weak var imageView: UIImageView!
     
-    var arrFeeds : [Feed] = []
+    var arrData : [Any] = []
     var lblError : UILabel?
     
-    var arrBook  : [Feed]?
-    
+    var arrFeeds  : [Feed]?
+    var arrPositifeedy = [Positifeedy]()
+
     var myDocId : String?
     
     var isProfileImgLoad = true
@@ -46,13 +50,14 @@ class BookMarkVc: UIViewController {
         tableView.rowHeight = UITableView.automaticDimension
         
         tableView.register(UINib(nibName: "FeedCell", bundle: nil), forCellReuseIdentifier: "cell")
-        
+        tableView.register(UINib(nibName: "FeedyCell", bundle: nil), forCellReuseIdentifier: "FeedyCell")
+
         tableView.tableFooterView = UIView()
         tableView.dataSource = self
         tableView.delegate = self
         
         setNavBackground()
-        setNavTitle(title : "postifieedy")
+        setNavTitle(title : "positifeedy")
         cofigErroLable()
         
         imageView.contentMode = .scaleAspectFill
@@ -264,8 +269,6 @@ class BookMarkVc: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         
-        self.tabBarController?.tabBar.isHidden = false
-
         if isProfileImgLoad == true
         {
             getProfileData()
@@ -277,7 +280,9 @@ class BookMarkVc: UIViewController {
     
     func getFeeds() {
         
-        if arrBook != nil
+        arrData.removeAll()
+        
+        if arrFeeds != nil
         {
             let appDel =  UIApplication.shared.delegate as! AppDelegate
             
@@ -285,13 +290,30 @@ class BookMarkVc: UIViewController {
             
             for link in appDel.arrBookMarkLink
             {
-                tempBookMark.append(contentsOf:  (arrBook?.filter { $0.link == link})! )
+                tempBookMark.append(contentsOf:  (arrFeeds?.filter { $0.link == link})! )
             }
             
-            arrFeeds =  tempBookMark
-            self.tableView.reloadData()
+            arrData.append(contentsOf: tempBookMark)
             
         }
+        
+        if arrPositifeedy.count > 0
+        {
+            let appDel =  UIApplication.shared.delegate as! AppDelegate
+            
+            var tempBookMark = [Positifeedy]()
+            
+            for link in appDel.arrBookMarkLinkFeedy
+            {
+                tempBookMark.append(contentsOf: (arrPositifeedy.filter { $0.documentID == link}) )
+            }
+            
+            arrData.append(contentsOf: tempBookMark)
+            
+        }
+        
+        self.tableView.reloadData()
+
         
     }
     
@@ -299,29 +321,51 @@ class BookMarkVc: UIViewController {
         
         let appDel = UIApplication.shared.delegate as! AppDelegate
         
-        let feed = arrFeeds[sender.tag].link
-        
-        if let index =  arrFeeds.firstIndex(of: arrFeeds[sender.tag])
-        {
-            arrFeeds.remove(at: index)
-        }
-        
-        if let index = appDel.arrBookMarkLink.firstIndex(of: feed!)
-        {
-            appDel.arrBookMarkLink.remove(at:index)
-            let d = ["links" : appDel.arrBookMarkLink]
+        if let obj = arrData[sender.tag] as? Feed {
+            let feed = obj.link
             
-            var db: Firestore!
-            db = Firestore.firestore()
+            arrData.remove(at: sender.tag)
             
-            db.collection("users").document(myDocId!).updateData(d) { (error) in
-                if error != nil
-                {
-                    print(error!.localizedDescription)
+            if let index = appDel.arrBookMarkLink.firstIndex(of: feed!)
+            {
+                appDel.arrBookMarkLink.remove(at:index)
+                let d = ["links" : appDel.arrBookMarkLink]
+                
+                var db: Firestore!
+                db = Firestore.firestore()
+                
+                db.collection("users").document(myDocId!).updateData(d) { (error) in
+                    if error != nil
+                    {
+                        print(error!.localizedDescription)
+                    }
                 }
             }
-            tableView.reloadData()
+        } else {
+            let feed = (arrData[sender.tag] as! Positifeedy).documentID
+            
+            arrData.remove(at: sender.tag)
+            
+            if let index = appDel.arrBookMarkLinkFeedy.firstIndex(of: feed!)
+            {
+                appDel.arrBookMarkLinkFeedy.remove(at:index)
+                let d = ["linksFeedy" : appDel.arrBookMarkLinkFeedy]
+                
+                var db: Firestore!
+                db = Firestore.firestore()
+                
+                db.collection("users").document(myDocId!).updateData(d) { (error) in
+                    if error != nil
+                    {
+                        print(error!.localizedDescription)
+                    }
+                }
+            }
         }
+        
+        tableView.reloadData()
+
+        
     }
 }
 
@@ -336,37 +380,79 @@ extension BookMarkVc : UITableViewDataSource
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        lblError?.isHidden =  arrFeeds.count == 0  ? false : true
+        lblError?.isHidden = arrData.count == 0  ? false : true
         
-            return arrFeeds.count
+            return arrData.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! FeedCell
-        
-        let feed = arrFeeds[indexPath.row]
-        
-        let date = feed.time?.toDate()
-        
-        cell.lblTitle.text = feed.title
-        cell.lblDesc.text = feed.desc
-        cell.lblTime.text  = date!.getElapsedInterval((feed.time?.getTimeZone())!)
-        
-        cell.btnBookMark.setImage(UIImage(named: "cancel"), for: .normal)
-                
-        cell.btnBookMark.tag = indexPath.row
-        cell.btnBookMark.addTarget(self, action: #selector(btnBookMarkRemoveClick), for: .touchUpInside)
-        cell.imgView.cornerRadius(10)
-        
-        if   let link = URL(string: feed.link!)
-        {
-            if let img = Images(rawValue: (link.domain)!)?.image
+        if let feed = arrData[indexPath.row] as? Feed {
+            
+            let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! FeedCell
+
+            let date = feed.time?.toDate()
+            
+            cell.btnPlay.isHidden = true
+
+            cell.lblTitle.text = feed.title
+            cell.lblDesc.text = feed.desc
+            cell.lblTime.text  = date!.getElapsedInterval((feed.time?.getTimeZone())!)
+            
+            cell.btnBookMark.setImage(UIImage(named: "cancel"), for: .normal)
+                    
+            cell.btnBookMark.tag = indexPath.row
+            cell.btnBookMark.addTarget(self, action: #selector(btnBookMarkRemoveClick), for: .touchUpInside)
+            cell.imgView.cornerRadius(10)
+            
+            if let link = URL(string: feed.link!)
             {
-                cell.imgView.image = UIImage(named: img )
+                if let img = Images(rawValue: (link.domain)!)?.image
+                {
+                    cell.imgView.image = UIImage(named: img )
+                }
+            }
+            
+            return cell
+            
+        } else {
+            
+            let cell = tableView.dequeueReusableCell(withIdentifier: "FeedyCell", for: indexPath) as! FeedyCell
+            
+            let feed = arrData[indexPath.row] as! Positifeedy
+            
+            cell.bindData(feed: feed)
+
+            cell.btnShare.isHidden = true
+
+            cell.btnBookMark.setImage(UIImage(named: "cancel"), for: .normal)
+                    
+            cell.btnBookMark.tag = indexPath.row
+            cell.btnBookMark.addTarget(self, action: #selector(btnBookMarkRemoveClick), for: .touchUpInside)
+            
+            cell.btnPlay.tag = indexPath.row
+            cell.btnPlay.addTarget(self, action: #selector(btnPlayTapped(_:)), for: .touchUpInside)
+            
+            return cell
+        }
+    }
+    
+    @objc func btnPlayTapped(_ sender: UIButton) {
+        
+        if let feed = arrData[sender.tag] as? Positifeedy {
+            if let strUrl = feed.feed_video, let url = URL(string: strUrl) {
+                self.playVideo(url: url)
             }
         }
-        return cell
+    }
+    
+    func playVideo(url: URL) {
+        let player = AVPlayer(url: url)
+
+        let vc = AVPlayerViewController()
+        vc.player = player
+
+        self.present(vc, animated: true) { vc.player?.play() }
     }
 }
 
@@ -377,12 +463,31 @@ extension BookMarkVc : UITableViewDelegate
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        let webVC = self.storyboard?.instantiateViewController(withIdentifier: "WebViewVC") as! WebViewVC
-        webVC.url = arrFeeds[indexPath.row].link
-        webVC.myDocID = self.myDocId
-        webVC.isBookmark = true
-        navigationController?.pushViewController(webVC, animated: true)
-        
+        if let feed = arrData[indexPath.row] as? Feed {
+            let webVC = self.storyboard?.instantiateViewController(withIdentifier: "WebViewVC") as! WebViewVC
+            webVC.url = feed.link
+            webVC.myDocID = self.myDocId
+            webVC.isBookmark = true
+            navigationController?.pushViewController(webVC, animated: true)
+            
+        } else if let feed = arrData[indexPath.row] as? Positifeedy {
+            
+            let feed_type = feed.feed_type ?? ""
+
+            if feed_type == "link" {
+                let detailVC = self.storyboard?.instantiateViewController(withIdentifier: "WebViewFeedy") as! WebViewFeedy
+                detailVC.myDocID = self.myDocId
+                detailVC.isBookmark = true
+                detailVC.positifeedy = feed
+                navigationController?.pushViewController(detailVC, animated: true)
+            } else {
+                let detailVC = self.storyboard?.instantiateViewController(withIdentifier: "PostDetailViewController") as! PostDetailViewController
+                detailVC.myDocID = self.myDocId
+                detailVC.isBookmark = true
+                detailVC.positifeedy = feed
+                navigationController?.pushViewController(detailVC, animated: true)
+            }
+        }
     }
 }
 

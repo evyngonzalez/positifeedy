@@ -17,7 +17,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="378" height="148"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="2Wl-QQ-wXF">
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="text_image" translatesAutoresizingMaskIntoConstraints="NO" id="2Wl-QQ-wXF">
                         <rect key="frame" x="10" y="12" width="100" height="100"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="100" id="RLH-4D-hEo"/>
@@ -60,18 +60,26 @@
                         <color key="textColor" white="0.5" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5Ze-tK-3Qu">
+                        <rect key="frame" x="10" y="12" width="100" height="100"/>
+                        <state key="normal" image="play-button"/>
+                    </button>
                 </subviews>
                 <color key="backgroundColor" red="0.9999160171" green="1" blue="0.99987202880000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                 <constraints>
                     <constraint firstItem="2Wl-QQ-wXF" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="12" id="Bhg-dk-ggQ"/>
                     <constraint firstItem="HuH-bK-WP7" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="CNP-3f-E1j"/>
                     <constraint firstAttribute="trailing" secondItem="E2N-2I-VjP" secondAttribute="trailing" constant="10" id="CXj-Xg-Fcp"/>
+                    <constraint firstItem="5Ze-tK-3Qu" firstAttribute="trailing" secondItem="2Wl-QQ-wXF" secondAttribute="trailing" id="Q3x-IG-uPC"/>
+                    <constraint firstItem="5Ze-tK-3Qu" firstAttribute="bottom" secondItem="2Wl-QQ-wXF" secondAttribute="bottom" id="Qsc-Se-YxY"/>
                     <constraint firstItem="2Wl-QQ-wXF" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="ST4-oH-xiz"/>
                     <constraint firstAttribute="trailing" secondItem="uKr-kR-62s" secondAttribute="trailing" constant="10" id="aOZ-0f-mgt"/>
                     <constraint firstAttribute="bottom" secondItem="TYJ-mP-n0O" secondAttribute="bottom" constant="10" id="auR-sc-oLn"/>
                     <constraint firstItem="TYJ-mP-n0O" firstAttribute="top" secondItem="E2N-2I-VjP" secondAttribute="bottom" id="hQ7-xT-wgK"/>
+                    <constraint firstItem="5Ze-tK-3Qu" firstAttribute="top" secondItem="2Wl-QQ-wXF" secondAttribute="top" id="pZW-ao-8DW"/>
                     <constraint firstItem="E2N-2I-VjP" firstAttribute="leading" secondItem="2Wl-QQ-wXF" secondAttribute="trailing" constant="10" id="rJG-xT-87f"/>
                     <constraint firstItem="E2N-2I-VjP" firstAttribute="top" secondItem="HuH-bK-WP7" secondAttribute="bottom" id="tYg-sg-yUe"/>
+                    <constraint firstItem="5Ze-tK-3Qu" firstAttribute="leading" secondItem="2Wl-QQ-wXF" secondAttribute="leading" id="tl3-lH-Jmk"/>
                     <constraint firstItem="uKr-kR-62s" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="uRw-1g-R31"/>
                     <constraint firstItem="TYJ-mP-n0O" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="120" id="vrW-AP-Zta"/>
                     <constraint firstItem="HuH-bK-WP7" firstAttribute="leading" secondItem="2Wl-QQ-wXF" secondAttribute="trailing" constant="10" id="vtM-ZJ-50G"/>
@@ -82,6 +90,7 @@
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
                 <outlet property="btnBookMark" destination="uKr-kR-62s" id="Nf2-mm-Ry6"/>
+                <outlet property="btnPlay" destination="5Ze-tK-3Qu" id="GO4-ye-Ea6"/>
                 <outlet property="imgView" destination="2Wl-QQ-wXF" id="wGZ-Xw-Nu6"/>
                 <outlet property="lblDesc" destination="E2N-2I-VjP" id="dNV-jo-neT"/>
                 <outlet property="lblTime" destination="TYJ-mP-n0O" id="A5l-T6-DRD"/>
@@ -92,5 +101,7 @@
     </objects>
     <resources>
         <image name="bookmark" catalog="system" width="56" height="64"/>
+        <image name="play-button" width="40" height="40"/>
+        <image name="text_image" width="100" height="100"/>
     </resources>
 </document>
