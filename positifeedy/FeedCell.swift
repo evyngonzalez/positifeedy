@@ -19,6 +19,7 @@ class FeedCell: UITableViewCell {
     @IBOutlet weak var lblTime : UILabel!
     @IBOutlet weak var btnBookMark : UIButton!
     
+    @IBOutlet weak var btnShare: UIButton!
     
     @IBOutlet weak var btnPlay: UIButton!
     

@@ -6,6 +6,9 @@
 //  Copyright © 2020 Evyn Gonzalez . All rights reserved.
 //
 
+//com.weapp.recipeapp
+//com.staypos.StayPositive
+
 import UIKit
 import Firebase
 import CoreData
@@ -16,6 +19,18 @@ import FBSDKLoginKit
 import IQKeyboardManagerSwift
 import FirebaseDynamicLinks
 import LinkPresentation
+import StoreKit
+import SwiftyStoreKit
+
+struct IN_APP_PURCHASE {
+
+    //static let BUY_ANNUAL_PLAN = "annual.subs"
+    //static let BUY_MONTHLY_PLAN = "monthly.subs"
+    
+    static let BUY_ANNUAL_PLAN = "journal.yearly"
+    static let BUY_MONTHLY_PLAN = "journal.monthly"
+    
+}
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -24,6 +39,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var arrBookMarkLink : [String] = []
     var arrBookMarkLinkFeedy : [String] = []
+    var arrBookMarkLinkBookMark : [timeStampandData] = []
 
     var myDocID : String?
 
@@ -68,9 +84,334 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        for obj in arrFeedy {
 //            self.addFeedyPost(data: obj)
 //        }
+  
+        // set current date first time :
+        if KeychainItem.store_start_date != nil
+        {
+            
+           if KeychainItem.store_start_date !=  ""
+           {
+                //KeychainItem.store_start_date = ""
+                let dateString = KeychainItem.store_start_date
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateFormat = "yyyy-MM-dd"
+                let start_date = dateFormatter.date(from: dateString!)
+                let final_date = Date()
+                let diff = final_date.interval(ofComponent: .day, fromDate: start_date!)
+                print("diffrent day :\(diff)")
+                
+                // here in future set 100
+                if diff > 100
+                {
+                    UserDefaults.standard.setValue(0, forKey: PREF_DAILY_QUESTION_COUNT)
+                }
+                else
+                {
+                    UserDefaults.standard.setValue(diff, forKey: PREF_DAILY_QUESTION_COUNT)
+                }
+            }
+            else
+            {
+                    let date = Date()
+                    let dateFormatter = DateFormatter()
+                    dateFormatter.dateFormat = "yyyy-MM-dd"
+                    let dateString = dateFormatter.string(from: date)
+                    KeychainItem.store_start_date = dateString
+                    
+                    let dateString1 = dateString
+                    let dateFormatter1 = DateFormatter()
+                    dateFormatter1.dateFormat = "yyyy-MM-dd"
+                    let start_date = dateFormatter1.date(from: dateString1)
+                    let final_date = Date()
+                    let diff = final_date.interval(ofComponent: .day, fromDate: start_date!)
+                    print("diffrent day :\(diff)")
+                    UserDefaults.standard.setValue(0, forKey: PREF_DAILY_QUESTION_COUNT)
+            }
+        }
+        else
+        {
+            let date = Date()
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd"
+            let dateString = dateFormatter.string(from: date)
+            KeychainItem.store_start_date = dateString
+            
+            let dateString1 = dateString
+            let dateFormatter1 = DateFormatter()
+            dateFormatter1.dateFormat = "yyyy-MM-dd"
+            let start_date = dateFormatter1.date(from: dateString1)
+            let final_date = Date()
+            let diff = final_date.interval(ofComponent: .day, fromDate: start_date!)
+            print("diffrent day :\(diff)")
+            UserDefaults.standard.setValue(0, forKey: PREF_DAILY_QUESTION_COUNT)
+        }
+        
+        
+       /* let prefdate = UserDefaults.standard.object(forKey: PREF_CURRENT_DATE) as? String
+        if prefdate != nil
+        {
+            let dateString = prefdate
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd"
+            let start_date = dateFormatter.date(from: dateString!)
+            let final_date = Date()
+            let diff = final_date.interval(ofComponent: .day, fromDate: start_date!)
+            print("diffrent day :\(diff)")
+            
+            // here in future set 100
+            if diff > 10
+            {
+                UserDefaults.standard.setValue(1, forKey: PREF_DAILY_QUESTION_COUNT)
+            }
+            else
+            {
+                UserDefaults.standard.setValue(diff, forKey: PREF_DAILY_QUESTION_COUNT)
+            }
+            
+            
+//            let dateFormatter1 = DateFormatter()
+//            dateFormatter1.dateFormat = "yyyy-MM-dd"
+//            let final_date = dateFormatter1.date(from: "2020-12-20")
+            
+            
 
+            
+        }
+        else
+        {
+            
+            let date = Date()
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd"
+            let dateString = dateFormatter.string(from: date)
+            UserDefaults.standard.setValue(dateString, forKey: PREF_CURRENT_DATE)
+            
+            let dateString1 = dateString
+            let dateFormatter1 = DateFormatter()
+            dateFormatter1.dateFormat = "yyyy-MM-dd"
+            let start_date = dateFormatter1.date(from: dateString1)
+            let final_date = Date()
+            let diff = final_date.interval(ofComponent: .day, fromDate: start_date!)
+            print("diffrent day :\(diff)")
+            UserDefaults.standard.setValue(diff, forKey: PREF_DAILY_QUESTION_COUNT)
+        }
+        */
+        
+        completeIAPTransactions()
+        checkIfPurchaed()
+        
         return true
     }
+    
+    
+     func checkIfPurchaed () {
+            
+            // monthly plan :
+            let appleValidator = AppleReceiptValidator(service: .production, sharedSecret: "eb8e064a837a42c5b7f9e7910f517911")
+            SwiftyStoreKit.verifyReceipt(using: appleValidator) { result in
+                switch result {
+                case .success(let receipt):
+                    let productId = IN_APP_PURCHASE.BUY_MONTHLY_PLAN
+                    // Verify the purchase of a Subscription
+                    let purchaseResult = SwiftyStoreKit.verifySubscription(
+                        ofType: .autoRenewable, //or .nonRenewing
+                        productId: productId,
+                        inReceipt: receipt)
+                    
+                    switch purchaseResult {
+                    case .purchased(let expiryDate, let items):
+                        
+                        let currentdate = Date()
+                        if currentdate.isGreaterThan(expiryDate)
+                        {
+                            //alerady expired !
+                            UserDefaults.standard.removeObject(forKey: PREF_SUBSCRIBE_MONTH)
+                        }
+                        else
+                        {
+                            UserDefaults.standard.setValue("1", forKey: PREF_SUBSCRIBE_MONTH)
+                        }
+                        print("\(productId) is valid until \(expiryDate)\n\(items)\n")
+                        
+                        //UserDefaults.standard.setValue("1", forKey: PREF_SUBSCRIBE)
+                    case .expired(let expiryDate, let items):
+                        print("\(productId) is expired since \(expiryDate)\n\(items)\n")
+                        let currentdate = Date()
+                        if currentdate.isGreaterThan(expiryDate)
+                        {
+                            //alerady expired !
+                            UserDefaults.standard.removeObject(forKey: PREF_SUBSCRIBE_MONTH)
+                        }
+                        else
+                        {
+                            UserDefaults.standard.setValue("1", forKey: PREF_SUBSCRIBE_MONTH)
+                        }
+                       //  UserDefaults.standard.removeObject(forKey: PREF_SUBSCRIBE)
+                    case .notPurchased:
+                        print("The user has never purchased \(productId)")
+                    }
+
+                case .error(let error):
+                    print("Receipt verification failed: \(error)")
+                }
+            }
+            
+            // Annual Plan :
+            
+            let appleValidator1 = AppleReceiptValidator(service: .production, sharedSecret: "eb8e064a837a42c5b7f9e7910f517911")
+            SwiftyStoreKit.verifyReceipt(using: appleValidator1) { result in
+                switch result {
+                case .success(let receipt):
+                    let productId = IN_APP_PURCHASE.BUY_ANNUAL_PLAN
+                    // Verify the purchase of a Subscription
+                    let purchaseResult = SwiftyStoreKit.verifySubscription(
+                        ofType: .autoRenewable, //or .nonRenewing
+                        productId: productId,
+                        inReceipt: receipt)
+
+                    switch purchaseResult {
+                    case .purchased(let expiryDate, let items):
+
+                        let currentdate = Date()
+                        if currentdate.isGreaterThan(expiryDate)
+                        {
+                            //alerady expired !
+                            UserDefaults.standard.removeObject(forKey: PREF_SUBSCRIBE_ANNUAL)
+                        }
+                        else
+                        {
+                            UserDefaults.standard.setValue("1", forKey: PREF_SUBSCRIBE_ANNUAL)
+                        }
+                        
+                        print("\(productId) is valid until \(expiryDate)\n\(items)\n")
+                        //UserDefaults.standard.setValue("1", forKey: PREF_SUBSCRIBE_ANNUAL)
+                        
+                        //UserDefaults.standard.setValue("1", forKey: PREF_SUBSCRIBE)
+                    case .expired(let expiryDate, let items):
+                        print("\(productId) is expired since \(expiryDate)\n\(items)\n")
+                        
+                        
+                        let currentdate = Date()
+                        if currentdate.isGreaterThan(expiryDate)
+                        {
+                            //alerady expired !
+                            UserDefaults.standard.removeObject(forKey: PREF_SUBSCRIBE_ANNUAL)
+                        }
+                        else
+                        {
+                            UserDefaults.standard.setValue("1", forKey: PREF_SUBSCRIBE_ANNUAL)
+                        }
+                        
+                        //UserDefaults.standard.setValue("1", forKey: PREF_SUBSCRIBE)
+                        //UserDefaults.standard.removeObject(forKey: PREF_SUBSCRIBE)
+                    case .notPurchased:
+                        print("The user has never purchased \(productId)")
+                    }
+
+                case .error(let error):
+                    print("Receipt verification failed: \(error)")
+                }
+            }
+            
+            
+            let annual = UserDefaults.standard.object(forKey: PREF_SUBSCRIBE_ANNUAL) as? String
+            let monthly = UserDefaults.standard.object(forKey: PREF_SUBSCRIBE_MONTH) as? String
+            
+            if annual != nil || monthly != nil
+            {
+                UserDefaults.standard.setValue("1", forKey: PREF_SUBSCRIBE)
+            }
+            else
+            {
+                //No any item subscribe!
+                UserDefaults.standard.removeObject(forKey: PREF_SUBSCRIBE)
+            }
+       
+
+        }
+        
+        //MARK:- In App Purchase Code :
+
+        func completeIAPTransactions()
+        {
+            
+           
+            SwiftyStoreKit.completeTransactions(atomically: true) { purchases in
+
+                print("purchases:\(purchases)")
+
+                for purchase in purchases {
+                    switch purchase.transaction.transactionState {
+                    case .purchased, .restored:
+                        if purchase.needsFinishTransaction {
+                            // Deliver content from server, then:
+                            SwiftyStoreKit.finishTransaction(purchase.transaction)
+                        }
+                        print("\(purchase.transaction.transactionState.debugDescription): \(purchase.productId)")
+                        print("Last :\(purchase.productId)")
+                    case .failed, .purchasing, .deferred:
+                        break // do nothing
+                    }
+                }
+            }
+        }
+
+        func retrieveInAppPurchase(){
+               SwiftyStoreKit.retrieveProductsInfo([IN_APP_PURCHASE.BUY_ANNUAL_PLAN]) { result in
+                   
+                   if let product : SKProduct = result.retrievedProducts.first {
+                       print(product)
+                   }
+                   else if let invalidProductId = result.invalidProductIDs.first {
+                       print(invalidProductId)
+                   }
+                   else {
+                       
+                   }
+               }
+           }
+
+        func restoreInAppPurchase(_ isInitially:Bool = false){
+               
+               if(isInitially == false){
+                   //showLoader()
+               }
+               //NetworkActivityIndicatorManager.networkOperationStarted()
+               SwiftyStoreKit.restorePurchases(atomically: true) { results in
+                 //  NetworkActivityIndicatorManager.networkOperationFinished()
+                   if(isInitially == false){
+                   //    self.removeLoader()
+                   }
+                   if results.restoreFailedPurchases.count > 0 {
+                       if(isInitially == false){
+                        
+                        print("Restore Failed")
+    //                       showAlert("", message: "Restore Failed", completion: {
+    //
+    //                       })
+                       }
+                   }
+                   else if results.restoredPurchases.count > 0 {
+                       for i in 0..<results.restoredPurchases.count{
+                           print("Purchase : ", results.restoredPurchases[i].productId)
+                       }
+                       if(isInitially == false){
+                          // displayToast("Restored successfully.")
+                        print("Restore successfully")
+                       }
+                   }
+                   else {
+                       if(isInitially == false){
+                        print("Nothing to Restore")
+    //                       showAlert("", message: "Nothing to Restore", completion: {
+    //
+    //                       })
+                       }
+                   }
+               }
+           }
+    
+    
     
     func addFeedyPost(data: [String: String]) {
         
@@ -349,8 +690,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
             UserDefaults.standard.set(true, forKey: "isLogin")
             
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                let vcSubscri = storyboard.instantiateViewController(withIdentifier: "SubscriptionViewController") as! SubscriptionViewController
+                vcSubscri.modalPresentationStyle = .fullScreen
+                vcSubscri.modalTransitionStyle = .crossDissolve
+                self.window?.rootViewController = vcSubscri
+                //self.present(vcSubscri, animated: true, completion: nil)
+            
             // Transition to the home screen
-            self.setRoot()
+            //self.setRoot()
         }
     }
     
@@ -516,3 +864,60 @@ extension UIApplication {
     }
 
 }
+
+extension Date {
+    func daysSinceDate(_ fromDate: Date = Date()) -> Int {
+        let earliest = self < fromDate ? self  : fromDate
+        let latest = (earliest == self) ? fromDate : self
+
+        let earlierComponents:DateComponents = Calendar.current.dateComponents([.day], from: earliest)
+        let laterComponents:DateComponents = Calendar.current.dateComponents([.day], from: latest)
+        guard
+            let earlierDay = earlierComponents.day,
+            let laterDay = laterComponents.day,
+            laterDay >= earlierDay
+            else {
+            return 0
+        }
+        return laterDay - earlierDay
+    }
+
+    func dateForDaysFromNow(_ days: Int) -> Date? {
+        var dayComponent = DateComponents()
+        dayComponent.day = days
+        return Calendar.current.date(byAdding: dayComponent, to: self)
+    }
+}
+
+
+
+
+extension Date {
+
+    func interval(ofComponent comp: Calendar.Component, fromDate date: Date) -> Int {
+
+        let currentCalendar = Calendar.current
+
+        guard let start = currentCalendar.ordinality(of: comp, in: .era, for: date) else { return 0 }
+        guard let end = currentCalendar.ordinality(of: comp, in: .era, for: self) else { return 0 }
+
+        return end - start
+    }
+
+}
+
+extension Date {
+
+  func isEqualTo(_ date: Date) -> Bool {
+    return self == date
+  }
+  
+  func isGreaterThan(_ date: Date) -> Bool {
+     return self > date
+  }
+  
+  func isSmallerThan(_ date: Date) -> Bool {
+     return self < date
+  }
+}
+

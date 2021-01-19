@@ -170,6 +170,7 @@ PODS:
   - BoringSSL-GRPC/Implementation (0.0.3):
     - BoringSSL-GRPC/Interface (= 0.0.3)
   - BoringSSL-GRPC/Interface (0.0.3)
+  - EMPageViewController (4.0.0)
   - FBSDKCoreKit (5.15.1):
     - FBSDKCoreKit/Basics (= 5.15.1)
     - FBSDKCoreKit/Core (= 5.15.1)
@@ -298,6 +299,7 @@ PODS:
   - FirebaseUI/Storage (8.5.1):
     - Firebase/Storage (~> 6.0)
     - SDWebImage (~> 5.6)
+  - FTPopOverMenu_Swift (0.3.3)
   - Google-Mobile-Ads-SDK (7.65.0):
     - GoogleAppMeasurement (~> 6.0)
     - GoogleUserMessagingPlatform (~> 1.1)
@@ -373,10 +375,13 @@ PODS:
     - SDWebImage/Core (= 5.9.2)
   - SDWebImage/Core (5.9.2)
   - SVProgressHUD (2.2.5)
+  - SwiftyStoreKit (0.16.1)
   - Toast-Swift (5.0.1)
+  - VideoBackground (0.2.0)
 
 DEPENDENCIES:
   - Alamofire (~> 5.2)
+  - EMPageViewController
   - Firebase/Database
   - Firebase/DynamicLinks
   - Firebase/Firestore
@@ -385,13 +390,16 @@ DEPENDENCIES:
   - FirebaseUI
   - FirebaseUI/Auth
   - FirebaseUI/OAuth
+  - FTPopOverMenu_Swift
   - Google-Mobile-Ads-SDK
   - GoogleAnalytics
   - GoogleSignIn
   - IQKeyboardManagerSwift
   - SDWebImage
   - SVProgressHUD
+  - SwiftyStoreKit
   - Toast-Swift (~> 5.0.1)
+  - VideoBackground
 
 SPEC REPOS:
   trunk:
@@ -399,6 +407,7 @@ SPEC REPOS:
     - Alamofire
     - AppAuth
     - BoringSSL-GRPC
+    - EMPageViewController
     - FBSDKCoreKit
     - FBSDKLoginKit
     - Firebase
@@ -416,6 +425,7 @@ SPEC REPOS:
     - FirebaseMessaging
     - FirebaseStorage
     - FirebaseUI
+    - FTPopOverMenu_Swift
     - Google-Mobile-Ads-SDK
     - GoogleAnalytics
     - GoogleAppMeasurement
@@ -435,13 +445,16 @@ SPEC REPOS:
     - Protobuf
     - SDWebImage
     - SVProgressHUD
+    - SwiftyStoreKit
     - Toast-Swift
+    - VideoBackground
 
 SPEC CHECKSUMS:
   abseil: 18063d773f5366ff8736a050fe035a28f635fd27
   Alamofire: e911732990610fe89af59ac0077f923d72dc3dfd
   AppAuth: 31bcec809a638d7bd2f86ea8a52bd45f6e81e7c7
   BoringSSL-GRPC: db8764df3204ccea016e1c8dd15d9a9ad63ff318
+  EMPageViewController: de8c8d6ea44c77bc2463f2cb9b4128390d2391f2
   FBSDKCoreKit: 1d5acf7c9d7a2f92bb1a242dc60cae5b7adb91df
   FBSDKLoginKit: f1ea8026a58b52d30c9f2e6a58ca7d813619fb83
   Firebase: 585ae467b3edda6a5444e788fda6888f024d8d6f
@@ -459,6 +472,7 @@ SPEC CHECKSUMS:
   FirebaseMessaging: 828e66eb357a893e3cebd9ee0f6bc1941447cc94
   FirebaseStorage: f4f39ae834a7145963b913f54e2f24a9db1d8fac
   FirebaseUI: 9df84336a56f1d755ae4c37d5885c237d3084b6b
+  FTPopOverMenu_Swift: 1effa730d18851c604b2937e9f956ea4b9782e4e
   Google-Mobile-Ads-SDK: af735e001ee534d9dd2ce0a87cd8c355b19844b5
   GoogleAnalytics: f42cc53a87a51fe94334821868d9c8481ff47a7b
   GoogleAppMeasurement: db118eb61a97dd8c4f7014e368d3c335cbbcf80a
@@ -478,8 +492,10 @@ SPEC CHECKSUMS:
   Protobuf: 3dac39b34a08151c6d949560efe3f86134a3f748
   SDWebImage: 0b42b8719ab0c5257177d5894306e8a336b21cbb
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
+  SwiftyStoreKit: 6b9c08810269f030586dac1fae8e75871a82e84a
   Toast-Swift: 9b6a70f28b3bf0b96c40d46c0c4b9d6639846711
+  VideoBackground: b4a2f39d3b16254b2bec9488cb2968a06dff69c5
 
-PODFILE CHECKSUM: 1aa5437e18c01c4dfe33731334f36e30be0d7ae8
+PODFILE CHECKSUM: 433010a45f954e906a0e41e09c2222cd65c7ae48
 
-COCOAPODS: 1.8.4
+COCOAPODS: 1.10.1

@@ -28,6 +28,9 @@ pod 'Firebase/Firestore'
 pod 'GoogleAnalytics'
 pod 'Firebase/Messaging'
 pod 'Firebase/DynamicLinks'
-
+pod 'FTPopOverMenu_Swift'
+pod 'SwiftyStoreKit'
+pod 'EMPageViewController'
+pod 'VideoBackground'
 
 end

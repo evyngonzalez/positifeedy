@@ -6,6 +6,9 @@
 //  Copyright © 2020 Evyn Gonzalez . All rights reserved.
 //
 
+//shidhdharthjoshi.weapplinse@gmail.com
+//123456
+
 import UIKit
 import Firebase
 import FirebaseAuth
@@ -14,6 +17,7 @@ import SVProgressHUD
 import GoogleSignIn
 import FBSDKLoginKit
 import FBSDKCoreKit
+import VideoBackground
 
 class logInViewController: UIViewController, GIDSignInDelegate {
     
@@ -22,19 +26,117 @@ class logInViewController: UIViewController, GIDSignInDelegate {
     
     @IBOutlet weak var loginButton: UIButton!
     
+    @IBOutlet weak var googleview: UIView!
     @IBOutlet weak var errorLabel: UILabel!
+    @IBOutlet weak var fbview: UIView!
     
+    @IBOutlet weak var scrollview: UIScrollView!
     var dictSocial = [String: String]()
 
-    override func viewDidLoad() {
+    @IBOutlet weak var btnsignup: UIButton!
+    override func viewDidLoad()
+    {
         super.viewDidLoad()
-        
+        self.design()
+        self.setupVideoView()
         setUpElements()
         //
         let tap = UITapGestureRecognizer(target: self, action: #selector(tapHandler))
         view.addGestureRecognizer(tap)
     }
     
+    private func setupVideoView() {
+        
+        guard let videoPath = Bundle.main.path(forResource: "splash", ofType: "mov") else {
+                return
+        }
+        
+        let options = VideoOptions(pathToVideo: videoPath, pathToImage: "",
+                                   isMuted: true,
+                                   shouldLoop: true)
+        let videoView = VideoBackground(frame: view.frame, options: options)
+        view.insertSubview(videoView, at: 0)
+    }
+    
+    func design() -> Void
+    {
+        self.scrollview.contentSize = CGSize.init(width: self.view.frame.size.width, height: self.btnsignup.frame.origin.y + self.btnsignup.frame.size.height + 50)
+        
+        self.loginButton.layer.cornerRadius = 5
+        self.loginButton.clipsToBounds = true
+        
+        self.fbview.layer.cornerRadius = 5
+        self.fbview.clipsToBounds = true
+        
+        self.googleview.layer.cornerRadius = 5
+        self.googleview.clipsToBounds = true
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool)
+    {
+//                let prefdate = UserDefaults.standard.object(forKey: PREF_CURRENT_DATE) as? String
+//                if prefdate != nil
+//                {
+//                    let dateString = prefdate
+//                    let dateFormatter = DateFormatter()
+//                    dateFormatter.dateFormat = "yyyy-MM-dd"
+//                    let start_date = dateFormatter.date(from: dateString!)
+//                    let final_date = Date()
+//                    let diff = final_date.interval(ofComponent: .day, fromDate: start_date!)
+//                    print("diffrent day :\(diff)")
+//                    
+//                    // here in future set 100
+//                    if diff > 5
+//                    {
+//                        UserDefaults.standard.setValue(1, forKey: PREF_DAILY_QUESTION_COUNT)
+//                    }
+//                    else
+//                    {
+//                        UserDefaults.standard.setValue(diff, forKey: PREF_DAILY_QUESTION_COUNT)
+//                    }
+//                    
+//                    
+//        //            let dateFormatter1 = DateFormatter()
+//        //            dateFormatter1.dateFormat = "yyyy-MM-dd"
+//        //            let final_date = dateFormatter1.date(from: "2020-12-20")
+//                    
+//                    
+//
+//                    
+//                }
+//                else
+//                {
+//                    
+//                    let date = Date()
+//                    let dateFormatter = DateFormatter()
+//                    dateFormatter.dateFormat = "yyyy-MM-dd"
+//                    let dateString = dateFormatter.string(from: date)
+//                    UserDefaults.standard.setValue(dateString, forKey: PREF_CURRENT_DATE)
+//                    
+//                    let dateString1 = dateString
+//                    let dateFormatter1 = DateFormatter()
+//                    dateFormatter1.dateFormat = "yyyy-MM-dd"
+//                    let start_date = dateFormatter1.date(from: dateString1)
+//                    let final_date = Date()
+//                    let diff = final_date.interval(ofComponent: .day, fromDate: start_date!)
+//                    print("diffrent day :\(diff)")
+//                    UserDefaults.standard.setValue(diff, forKey: PREF_DAILY_QUESTION_COUNT)
+//                    
+//                    
+//                    
+//        //           let dateString = "Thu, 22 Oct 2015 07:45:17 +0000"
+//        //           let dateFormatter = DateFormatter()
+//        //           dateFormatter.dateFormat = "EEE, dd MMM yyyy hh:mm:ss +zzzz"
+//        //           dateFormatter.locale = Locale.init(identifier: "en_GB")
+//        //
+//        //           let dateObj = dateFormatter.date(from: dateString)
+//        //
+//        //           dateFormatter.dateFormat = "MM-dd-yyyy"
+//        //           print("Dateobj: \(dateFormatter.string(from: dateObj!))")
+//                    
+//                }
+    }
     
     @objc func tapHandler( _ gesture : UITapGestureRecognizer)  {
         
@@ -105,9 +207,12 @@ class logInViewController: UIViewController, GIDSignInDelegate {
             } else {
                 
                 UserDefaults.standard.set(true, forKey: "isLogin")
-                                
+                  
+                let appDel = UIApplication.shared.delegate as! AppDelegate
+                appDel.setRoot()
+                
                 // Transition to the home screen
-                self.transitionToHome()
+                //self.transitionToHome()
             }
         }
     }
@@ -295,8 +400,16 @@ class logInViewController: UIViewController, GIDSignInDelegate {
     
     func transitionToHome() {
         
-        let appDel = UIApplication.shared.delegate as! AppDelegate
-        appDel.setRoot()
+        
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+       let vcSubscri = storyboard.instantiateViewController(withIdentifier: "SubscriptionViewController") as! SubscriptionViewController
+       vcSubscri.modalPresentationStyle = .fullScreen
+       vcSubscri.modalTransitionStyle = .crossDissolve
+        self.present(vcSubscri, animated: true, completion: nil)
+        
+        
+        //let appDel = UIApplication.shared.delegate as! AppDelegate
+        //appDel.setRoot()
     }
 }
     

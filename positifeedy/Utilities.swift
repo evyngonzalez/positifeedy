@@ -91,6 +91,8 @@ enum Images  : String
     case psychologytoday =  "psychologytoday"
     case thetreamentspecialist =   "thetreamentspecialist"
     case  tinybuddha =  "tinybuddha"
+    case  thetreatmentspecialist =  "thetreatmentspecialist"
+    
     
     var image : String? {
         
@@ -120,8 +122,11 @@ enum Images  : String
             return "thetreamentspecialist.png"
         case .tinybuddha:
             return "tinybuddha.png"
+        case .thetreatmentspecialist:
+            return "thetreamentspecialist.png"
         @unknown default:
-            return nil
+            //return nil
+            return "positifeedy_logo.png"
         }
     }
     
@@ -353,6 +358,13 @@ extension UIView {
         self.layer.borderWidth = width
         self.layer.borderColor = UIColor.clear.cgColor
     }
+    
+    func setDesignedBorderProfile(radius: CGFloat, width: CGFloat) {
+        self.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        self.layer.cornerRadius = radius
+        self.layer.borderWidth = width
+        self.layer.borderColor = UIColor.clear.cgColor
+    }
 }
 
 
@@ -367,6 +379,7 @@ extension UIViewController {
     
     func setNavBackground()  {
         
+        self.navigationController?.navigationBar.isHidden = false
          self.navigationController?.navigationBar.isTranslucent = false
         self.navigationController?.navigationBar.shadowImage = UIImage()
         

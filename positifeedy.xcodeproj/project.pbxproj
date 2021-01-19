@@ -17,6 +17,24 @@
 		40CF1B6A250C8F39003B3B82 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40CF1B69250C8F39003B3B82 /* Constants.swift */; };
 		40CF1B6C250C8F57003B3B82 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40CF1B6B250C8F57003B3B82 /* Utilities.swift */; };
 		40CF1B6E250C9039003B3B82 /* welcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40CF1B6D250C9039003B3B82 /* welcomeViewController.swift */; };
+		50066E3C258512720026FE90 /* SetttingScreenVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50066E3B258512720026FE90 /* SetttingScreenVC.swift */; };
+		50066E3F2585145B0026FE90 /* TblSettingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50066E3D2585145B0026FE90 /* TblSettingCell.swift */; };
+		50066E402585145B0026FE90 /* TblSettingCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50066E3E2585145B0026FE90 /* TblSettingCell.xib */; };
+		5021713F2588CCEC0050B0FE /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5021713E2588CCEC0050B0FE /* StoreKit.framework */; };
+		50235B3D25AC8CE600F02DD9 /* PrivacyPolicyScreenVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50235B3C25AC8CE600F02DD9 /* PrivacyPolicyScreenVC.swift */; };
+		502CDCD625824D7F0034AE5F /* SubscriptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502CDCD525824D7F0034AE5F /* SubscriptionViewController.swift */; };
+		502D478F25839F8B0051F512 /* AnswerOfQuestionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502D478E25839F8B0051F512 /* AnswerOfQuestionVC.swift */; };
+		502D47932583B7F90051F512 /* tblJournalCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502D47912583B7F90051F512 /* tblJournalCell.swift */; };
+		502D47942583B7F90051F512 /* tblJournalCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 502D47922583B7F90051F512 /* tblJournalCell.xib */; };
+		502D47962583BD1D0051F512 /* AnswerDetailsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502D47952583BD1D0051F512 /* AnswerDetailsVC.swift */; };
+		504D2DC7258CC87B0057ADB5 /* KeychainItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504D2DC6258CC87A0057ADB5 /* KeychainItem.swift */; };
+		5057A18825ADB838002255CB /* privacy_doc.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 5057A18625ADB834002255CB /* privacy_doc.pdf */; };
+		5057A18925ADB838002255CB /* terms_doc.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 5057A18725ADB838002255CB /* terms_doc.pdf */; };
+		5057A18B25ADCB12002255CB /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5057A18A25ADCB12002255CB /* AVFoundation.framework */; };
+		5057A18D25ADF63D002255CB /* splash.mov in Resources */ = {isa = PBXBuildFile; fileRef = 5057A18C25ADF63D002255CB /* splash.mov */; };
+		505AE183258792A900DD7079 /* TermsNConditionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505AE182258792A900DD7079 /* TermsNConditionVC.swift */; };
+		50913DB9258A45F300878FD3 /* GreetingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50913DB8258A45F300878FD3 /* GreetingViewController.swift */; };
+		50955B3B258B83F900B84DD6 /* GreetingViewControllerProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50955B3A258B83F900B84DD6 /* GreetingViewControllerProfile.swift */; };
 		6E71A5EA7E4B9FBA62F9ED50 /* Pods_positifeedy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8BFCBF95D55B294A5A4F2C1 /* Pods_positifeedy.framework */; };
 		880B12ED2543EE9900C08169 /* PostDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 880B12EC2543EE9900C08169 /* PostDetailViewController.swift */; };
 		881D22AF251DC476006AE1D8 /* AdsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 881D22AD251DC476006AE1D8 /* AdsTableViewCell.swift */; };
@@ -83,6 +101,25 @@
 		40CF1B6B250C8F57003B3B82 /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		40CF1B6D250C9039003B3B82 /* welcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = welcomeViewController.swift; sourceTree = "<group>"; };
 		479E5DE322C08E14E6DD41FD /* Pods-positifeedy.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-positifeedy.release.xcconfig"; path = "Target Support Files/Pods-positifeedy/Pods-positifeedy.release.xcconfig"; sourceTree = "<group>"; };
+		50066E3A2584E91A0026FE90 /* ConstDec.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConstDec.h; sourceTree = "<group>"; };
+		50066E3B258512720026FE90 /* SetttingScreenVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetttingScreenVC.swift; sourceTree = "<group>"; };
+		50066E3D2585145B0026FE90 /* TblSettingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TblSettingCell.swift; sourceTree = "<group>"; };
+		50066E3E2585145B0026FE90 /* TblSettingCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TblSettingCell.xib; sourceTree = "<group>"; };
+		5021713E2588CCEC0050B0FE /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		50235B3C25AC8CE600F02DD9 /* PrivacyPolicyScreenVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyPolicyScreenVC.swift; sourceTree = "<group>"; };
+		502CDCD525824D7F0034AE5F /* SubscriptionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionViewController.swift; sourceTree = "<group>"; };
+		502D478E25839F8B0051F512 /* AnswerOfQuestionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswerOfQuestionVC.swift; sourceTree = "<group>"; };
+		502D47912583B7F90051F512 /* tblJournalCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = tblJournalCell.swift; sourceTree = "<group>"; };
+		502D47922583B7F90051F512 /* tblJournalCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = tblJournalCell.xib; sourceTree = "<group>"; };
+		502D47952583BD1D0051F512 /* AnswerDetailsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswerDetailsVC.swift; sourceTree = "<group>"; };
+		504D2DC6258CC87A0057ADB5 /* KeychainItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainItem.swift; sourceTree = "<group>"; };
+		5057A18625ADB834002255CB /* privacy_doc.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = privacy_doc.pdf; sourceTree = "<group>"; };
+		5057A18725ADB838002255CB /* terms_doc.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = terms_doc.pdf; sourceTree = "<group>"; };
+		5057A18A25ADCB12002255CB /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		5057A18C25ADF63D002255CB /* splash.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = splash.mov; sourceTree = "<group>"; };
+		505AE182258792A900DD7079 /* TermsNConditionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsNConditionVC.swift; sourceTree = "<group>"; };
+		50913DB8258A45F300878FD3 /* GreetingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GreetingViewController.swift; sourceTree = "<group>"; };
+		50955B3A258B83F900B84DD6 /* GreetingViewControllerProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GreetingViewControllerProfile.swift; sourceTree = "<group>"; };
 		880B12EC2543EE9900C08169 /* PostDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailViewController.swift; sourceTree = "<group>"; };
 		881D22AD251DC476006AE1D8 /* AdsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdsTableViewCell.swift; sourceTree = "<group>"; };
 		881D22AE251DC476006AE1D8 /* AdsTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AdsTableViewCell.xib; sourceTree = "<group>"; };
@@ -150,6 +187,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5057A18B25ADCB12002255CB /* AVFoundation.framework in Frameworks */,
+				5021713F2588CCEC0050B0FE /* StoreKit.framework in Frameworks */,
 				88E1F3EC251CA4D70086E650 /* WebKit.framework in Frameworks */,
 				6E71A5EA7E4B9FBA62F9ED50 /* Pods_positifeedy.framework in Frameworks */,
 			);
@@ -170,6 +209,8 @@
 		1F6195248221989B1EA618B3 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				5057A18A25ADCB12002255CB /* AVFoundation.framework */,
+				5021713E2588CCEC0050B0FE /* StoreKit.framework */,
 				88E1F3EB251CA4D70086E650 /* WebKit.framework */,
 				D8BFCBF95D55B294A5A4F2C1 /* Pods_positifeedy.framework */,
 			);
@@ -197,6 +238,9 @@
 		40CF1B4E250BC432003B3B82 /* positifeedy */ = {
 			isa = PBXGroup;
 			children = (
+				5057A18C25ADF63D002255CB /* splash.mov */,
+				5057A17F25ADB7EB002255CB /* TermsAndPrivacy */,
+				502D47902583B7DC0051F512 /* TableViewCell */,
 				887C29A1251F74F5009AFA9E /* Keyboard  */,
 				887C299A251F6FDA009AFA9E /* Font */,
 				887C2997251F1D28009AFA9E /* Tabbar */,
@@ -205,6 +249,9 @@
 				88E1F3CD251C7E490086E650 /* model */,
 				88D279FB2535AC1B00B1DE72 /* Libraries */,
 				40CF1B6B250C8F57003B3B82 /* Utilities.swift */,
+				504D2DC6258CC87A0057ADB5 /* KeychainItem.swift */,
+				50913DB8258A45F300878FD3 /* GreetingViewController.swift */,
+				50955B3A258B83F900B84DD6 /* GreetingViewControllerProfile.swift */,
 				40CF1B69250C8F39003B3B82 /* Constants.swift */,
 				40CF1B4F250BC432003B3B82 /* AppDelegate.swift */,
 				40CF1B53250BC432003B3B82 /* ViewController.swift */,
@@ -227,14 +274,41 @@
 				884D5A142537293200259DBE /* AdsCollectionViewCell.swift */,
 				884D5A152537293200259DBE /* AdsCollectionViewCell.xib */,
 				8838C122251DFA62005FDF45 /* GoogleAdBannerView.swift */,
+				502D478E25839F8B0051F512 /* AnswerOfQuestionVC.swift */,
+				502CDCD525824D7F0034AE5F /* SubscriptionViewController.swift */,
+				502D47952583BD1D0051F512 /* AnswerDetailsVC.swift */,
+				50066E3B258512720026FE90 /* SetttingScreenVC.swift */,
+				505AE182258792A900DD7079 /* TermsNConditionVC.swift */,
+				50235B3C25AC8CE600F02DD9 /* PrivacyPolicyScreenVC.swift */,
 				40CF1B55250BC432003B3B82 /* Main.storyboard */,
 				40CF1B58250BC434003B3B82 /* Assets.xcassets */,
 				40CF1B5A250BC434003B3B82 /* LaunchScreen.storyboard */,
 				40CF1B5D250BC434003B3B82 /* Info.plist */,
 				887C2995251F0F9E009AFA9E /* GoogleService-Info.plist */,
 				88E1F3EF251CB1350086E650 /* positifeedy.xcdatamodeld */,
+				50066E3A2584E91A0026FE90 /* ConstDec.h */,
 			);
 			path = positifeedy;
+			sourceTree = "<group>";
+		};
+		502D47902583B7DC0051F512 /* TableViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				502D47912583B7F90051F512 /* tblJournalCell.swift */,
+				502D47922583B7F90051F512 /* tblJournalCell.xib */,
+				50066E3D2585145B0026FE90 /* TblSettingCell.swift */,
+				50066E3E2585145B0026FE90 /* TblSettingCell.xib */,
+			);
+			path = TableViewCell;
+			sourceTree = "<group>";
+		};
+		5057A17F25ADB7EB002255CB /* TermsAndPrivacy */ = {
+			isa = PBXGroup;
+			children = (
+				5057A18625ADB834002255CB /* privacy_doc.pdf */,
+				5057A18725ADB838002255CB /* terms_doc.pdf */,
+			);
+			path = TermsAndPrivacy;
 			sourceTree = "<group>";
 		};
 		887C2997251F1D28009AFA9E /* Tabbar */ = {
@@ -393,10 +467,14 @@
 				88E1F3E4251C960E0086E650 /* thetreamentspecialist.png in Resources */,
 				887C299E251F6FEE009AFA9E /* SF-Pro-Display-Semibold.otf in Resources */,
 				887C299F251F6FEE009AFA9E /* SF-Pro-Display-Medium.otf in Resources */,
+				50066E402585145B0026FE90 /* TblSettingCell.xib in Resources */,
 				88E1F3E8251C960E0086E650 /* psychologytoday.png in Resources */,
+				5057A18D25ADF63D002255CB /* splash.mov in Resources */,
 				887C2996251F0F9E009AFA9E /* GoogleService-Info.plist in Resources */,
+				502D47942583B7F90051F512 /* tblJournalCell.xib in Resources */,
 				88E1F3E2251C960E0086E650 /* mindful.png in Resources */,
 				40CF1B5C250BC434003B3B82 /* LaunchScreen.storyboard in Resources */,
+				5057A18925ADB838002255CB /* terms_doc.pdf in Resources */,
 				88E1F3E6251C960E0086E650 /* defyingmentalillness.jpg in Resources */,
 				88E1F418251CBD260086E650 /* FeedCell.xib in Resources */,
 				88EE3EC1254848C300E87380 /* FeedyCell.xib in Resources */,
@@ -407,6 +485,7 @@
 				88E1F3DF251C960E0086E650 /* mindfulness-garden.jpg in Resources */,
 				88E1F3EA251C960E0086E650 /* tinybuddha.png in Resources */,
 				884D5A172537293200259DBE /* AdsCollectionViewCell.xib in Resources */,
+				5057A18825ADB838002255CB /* privacy_doc.pdf in Resources */,
 				40CF1B57250BC432003B3B82 /* Main.storyboard in Resources */,
 				881D22B0251DC476006AE1D8 /* AdsTableViewCell.xib in Resources */,
 				88D27A012535ADBA00B1DE72 /* PositifeedyCell.xib in Resources */,
@@ -487,31 +566,42 @@
 				887C29AB251F751E009AFA9E /* TPKeyboardAvoidingTableView.m in Sources */,
 				88E1F3F1251CB1350086E650 /* positifeedy.xcdatamodeld in Sources */,
 				884D5A162537293200259DBE /* AdsCollectionViewCell.swift in Sources */,
+				502CDCD625824D7F0034AE5F /* SubscriptionViewController.swift in Sources */,
+				50066E3F2585145B0026FE90 /* TblSettingCell.swift in Sources */,
 				88E1F3D1251C91A60086E650 /* FeedCell.swift in Sources */,
+				50913DB9258A45F300878FD3 /* GreetingViewController.swift in Sources */,
 				88E1F3CF251C7E610086E650 /* Feed.swift in Sources */,
 				40CF1B6E250C9039003B3B82 /* welcomeViewController.swift in Sources */,
 				88EE3EC0254848C300E87380 /* FeedyCell.swift in Sources */,
+				502D47962583BD1D0051F512 /* AnswerDetailsVC.swift in Sources */,
 				887C2999251F1D8D009AFA9E /* MyTabbarVC.swift in Sources */,
 				88E1F3EE251CA5A40086E650 /* WebViewVC.swift in Sources */,
 				40CF1B50250BC432003B3B82 /* AppDelegate.swift in Sources */,
 				8885D48525498F80004340CE /* DALabeledCircularProgressView.m in Sources */,
 				887C29AE251F751E009AFA9E /* TPKeyboardAvoidingCollectionView.m in Sources */,
+				504D2DC7258CC87B0057ADB5 /* KeychainItem.swift in Sources */,
+				502D47932583B7F90051F512 /* tblJournalCell.swift in Sources */,
 				40CF1B6C250C8F57003B3B82 /* Utilities.swift in Sources */,
 				884D5A13253710F900259DBE /* JournalViewController.swift in Sources */,
+				50066E3C258512720026FE90 /* SetttingScreenVC.swift in Sources */,
 				8885D48025498882004340CE /* SYPhotoBrowser.m in Sources */,
 				40CF1B66250C8F15003B3B82 /* signUpViewController.swift in Sources */,
 				8838C123251DFA62005FDF45 /* GoogleAdBannerView.swift in Sources */,
 				887C29AC251F751E009AFA9E /* UIScrollView+TPKeyboardAvoidingAdditions.m in Sources */,
 				88E1F41A251CBFAC0086E650 /* BookMarkVc.swift in Sources */,
 				887C29AD251F751E009AFA9E /* TPKeyboardAvoidingScrollView.m in Sources */,
+				502D478F25839F8B0051F512 /* AnswerOfQuestionVC.swift in Sources */,
 				40CF1B68250C8F24003B3B82 /* logInViewController.swift in Sources */,
 				88D279FD2535AC3000B1DE72 /* FAPaginationLayout.swift in Sources */,
 				8885D472254967D4004340CE /* WebViewFeedy.swift in Sources */,
 				880B12ED2543EE9900C08169 /* PostDetailViewController.swift in Sources */,
 				8885D47E25498882004340CE /* SYPhotoViewController.m in Sources */,
 				8885D48625498F80004340CE /* DACircularProgressView.m in Sources */,
+				505AE183258792A900DD7079 /* TermsNConditionVC.swift in Sources */,
 				40CF1B6A250C8F39003B3B82 /* Constants.swift in Sources */,
 				8885D47025493D9E004340CE /* MetadataCache.swift in Sources */,
+				50955B3B258B83F900B84DD6 /* GreetingViewControllerProfile.swift in Sources */,
+				50235B3D25AC8CE600F02DD9 /* PrivacyPolicyScreenVC.swift in Sources */,
 				88D27A002535ADBA00B1DE72 /* PositifeedyCell.swift in Sources */,
 				8885D47F25498882004340CE /* SYPhotoBrowserCaptionLabel.m in Sources */,
 			);
@@ -571,6 +661,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "Apple Distribution";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -631,6 +722,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "Apple Distribution";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
@@ -660,9 +752,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = positifeedy/positifeedy.entitlements;
-				CODE_SIGN_IDENTITY = "Apple Development: Irving Lopez (FTK4X5NFT6)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = DTRPW5TVH6;
+				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = positifeedy/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -671,11 +764,11 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.staypos.StayPositive;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = staypos_dev;
+				PROVISIONING_PROFILE_SPECIFIER = staypos_adhoc;
 				SWIFT_OBJC_BRIDGING_HEADER = "positifeedy/Keyboard /positifeedy-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -686,9 +779,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = positifeedy/positifeedy.entitlements;
-				CODE_SIGN_IDENTITY = "Apple Development: Irving Lopez (FTK4X5NFT6)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = DTRPW5TVH6;
+				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = positifeedy/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -697,10 +791,10 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.staypos.StayPositive;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = staypos_dev;
+				PROVISIONING_PROFILE_SPECIFIER = staypos_adhoc;
 				SWIFT_OBJC_BRIDGING_HEADER = "positifeedy/Keyboard /positifeedy-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

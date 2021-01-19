@@ -14,6 +14,8 @@ import SVProgressHUD
 
 class PostDetailViewController: UIViewController {
 
+    var arrBookMarkArrray : NSMutableArray!
+    
     @IBOutlet weak var imgView: UIImageView!
     @IBOutlet weak var btnPlay: UIButton!
     
@@ -21,40 +23,52 @@ class PostDetailViewController: UIViewController {
     @IBOutlet weak var lblDesc: UILabel!
     @IBOutlet weak var lblTime: UILabel!
     
+    @IBOutlet weak var naviview: UIView!
+    
+    @IBOutlet weak var btnbookmark: UIButton!
+    @IBOutlet weak var btnshare: UIButton!
     @IBOutlet weak var heightViewImg: NSLayoutConstraint!
+    
     
     var myDocID : String?
     var isBookmark: Bool = false
     var positifeedy : Positifeedy?
     
-    let bookmark = UIButton(type: .custom)
-    let share = UIButton(type: .custom)
+    //let bookmark = UIButton(type: .custom)
+    //let share = UIButton(type: .custom)
     
-    let imgBookmark = UIImage.init(named: "book_mark_ic")!
-    let imgBookmarkSelected = UIImage.init(named: "selected_bookmark_ic")!
-    let imgShare = UIImage.init(named: "share_ic")!
+    let imgBookmark = UIImage.init(named: "book_mark_ic1")!
+    let imgBookmarkSelected = UIImage.init(named: "selected_bookmark_ic1")!
+    let imgShare = UIImage.init(named: "share_ic1")!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        bookmark.setImage(isBookmark ? imgBookmarkSelected : imgBookmark, for: .normal)
-        bookmark.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
-        bookmark.contentEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: -10)
-        bookmark.addTarget(self, action: #selector(bookmarkTapped), for: .touchUpInside)
-        let bookmarkButton = UIBarButtonItem(customView: bookmark)
+        self.arrBookMarkArrray = NSMutableArray.init()
+        self.getBookmarsDataOther()
         
-        share.setImage(imgShare, for: .normal)
-        share.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
-        share.addTarget(self, action: #selector(shareTapped), for: .touchUpInside)
-        let shareButton = UIBarButtonItem(customView: share)
+        self.navigationController?.navigationBar.isHidden = true
+//        bookmark.setImage(isBookmark ? imgBookmarkSelected : imgBookmark, for: .normal)
+//        bookmark.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
+//        bookmark.contentEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: -10)
+//        bookmark.addTarget(self, action: #selector(bookmarkTapped), for: .touchUpInside)
+//        let bookmarkButton = UIBarButtonItem(customView: bookmark)
         
-        self.navigationItem.rightBarButtonItems = [shareButton, bookmarkButton]
+//        share.setImage(imgShare, for: .normal)
+//        share.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
+//        share.addTarget(self, action: #selector(shareTapped), for: .touchUpInside)
+//        let shareButton = UIBarButtonItem(customView: share)
         
+        //self.navigationItem.rightBarButtonItems = [shareButton, bookmarkButton]
+         //self.navigationController?.navigationBar.barTintColor = UIColor.init(red: 123/255, green: 246/255, blue: 171/255, alpha: 1)
         NotificationCenter.default.addObserver(self, selector: #selector(reloadDetail(_:)), name: NSNotification.Name(rawValue: "RELOAD_DETAIL"), object: nil)
         
         imgView.isUserInteractionEnabled = true
         let tap = UITapGestureRecognizer.init(target: self, action: #selector(self.imageTapped(_:)))
         imgView.addGestureRecognizer(tap)
+        
+        self.btnbookmark.setImage(isBookmark ? imgBookmarkSelected : imgBookmark, for: .normal)
+        self.btnshare.setImage(imgShare, for: .normal)
         
         reloadView()
     }
@@ -65,6 +79,180 @@ class PostDetailViewController: UIViewController {
             photoVC?.pageControlStyle = .system
             photoVC?.modalPresentationStyle = .fullScreen
             self.present(photoVC!, animated: true, completion: nil)
+        }
+    }
+    
+    @IBAction func onclickforBack(_ sender: Any)
+    {
+        self.navigationController?.popViewController(animated: true)
+    }
+    
+    @IBAction func onclickforBookmark(_ sender: Any)
+    {
+        isBookmark = !isBookmark
+        self.btnbookmark.setImage(isBookmark ? imgBookmarkSelected : imgBookmark, for: .normal)
+               
+               var db: Firestore!
+               db = Firestore.firestore()
+               
+               guard let appDel = UIApplication.shared.delegate as? AppDelegate else {
+                   return
+               }
+               
+               if isBookmark
+               {
+                   appDel.arrBookMarkLinkFeedy.append(positifeedy!.documentID!)
+                   let d = ["linksFeedy" : appDel.arrBookMarkLinkFeedy]
+                   db.collection("users").document(myDocID!).updateData(d) { (error) in
+                       if error != nil
+                       {
+                           print(error!.localizedDescription)
+                       }
+                   }
+                   
+                   let timestamp = Date().currentTimeMillis()
+                   let searchPredicate = NSPredicate(format: "feed beginswith[C] %@",positifeedy!.documentID!)
+                   let  arrrDict = self.arrBookMarkArrray.filter { searchPredicate.evaluate(with: $0) };
+                   let filterArray = NSMutableArray.init(array: arrrDict)
+                   if(filterArray.count > 0)
+                   {
+                           // alerady exitst
+                   }
+                   else
+                   {
+                       // not exist
+                       let mutabledict = NSMutableDictionary.init()
+                       mutabledict.setValue(positifeedy!.documentID!, forKey: "feed")
+                       mutabledict.setValue("\(timestamp)", forKey: "timestamp")
+                       self.arrBookMarkArrray.add(mutabledict)
+                      
+                       let d2 = ["bookmarkarray" : self.arrBookMarkArrray]
+                        db.collection("users").document(myDocID!).updateData(d2) { (error) in
+                            if error != nil
+                            {
+                                print(error!.localizedDescription)
+                            }
+                        }
+                   }
+                   
+                   
+               }
+               else
+               {
+                   if let index = appDel.arrBookMarkLinkFeedy.firstIndex(of: positifeedy!.documentID!) {
+                       appDel.arrBookMarkLinkFeedy.remove(at: index)
+                   }
+                   
+                   let d = ["linksFeedy" : appDel.arrBookMarkLinkFeedy]
+                   db.collection("users").document(myDocID!).updateData(d) { (error) in
+                       if error != nil
+                       {
+                           print(error!.localizedDescription)
+                       }
+                   }
+                   
+                   
+                   let timestamp = Date().currentTimeMillis()
+                   let searchPredicate = NSPredicate(format: "feed beginswith[C] %@",positifeedy!.documentID!)
+                   let  arrrDict = self.arrBookMarkArrray.filter { searchPredicate.evaluate(with: $0) };
+                   let filterArray = NSMutableArray.init(array: arrrDict)
+                   if(filterArray.count > 0)
+                   {
+                       let dict = filterArray.object(at: 0) as? NSDictionary
+                       // alerady exitst
+                       self.arrBookMarkArrray.remove(dict)
+                       
+                       let d2 = ["bookmarkarray" : self.arrBookMarkArrray]
+                       db.collection("users").document(myDocID!).updateData(d2) { (error) in
+                           if error != nil
+                           {
+                               print(error!.localizedDescription)
+                           }
+                       }
+                   }
+                   else
+                   {}
+                   
+               }
+    }
+    
+    
+    @IBAction func onclickforshare(_ sender: Any)
+    {
+        SVProgressHUD.show()
+
+        var components = URLComponents()
+        components.scheme = "https"
+        components.host = "positifeedy.page.link"
+        components.path = "/share"
+        
+        var arrCompo = [URLQueryItem]()
+        
+        let feedURL = URLQueryItem(name: "feedURL", value: positifeedy!.documentID!)
+        arrCompo.append(feedURL)
+        
+        if let utf8str = (positifeedy!.title ?? "").data(using: .utf8) {
+            let base64Encoded = utf8str.base64EncodedString(options: Data.Base64EncodingOptions(rawValue: 0))
+            
+            let feedTitle = URLQueryItem(name: "feedTitle", value: base64Encoded)
+            arrCompo.append(feedTitle)
+        }
+
+        if let utf8str = (positifeedy!.desc ?? "").data(using: .utf8) {
+            let base64Encoded = utf8str.base64EncodedString(options: Data.Base64EncodingOptions(rawValue: 0))
+            
+            let feedDesc = URLQueryItem(name: "feedDesc", value: base64Encoded)
+            arrCompo.append(feedDesc)
+        }
+
+        let feedVideo = URLQueryItem(name: "feedVideo", value: positifeedy!.feed_video ?? "")
+        let feedImage = URLQueryItem(name: "feedImage", value: positifeedy!.feed_image ?? "")
+        let feedType = URLQueryItem(name: "feedType", value: positifeedy!.feed_type ?? "")
+        let feedTime = URLQueryItem(name: "feedTime", value: positifeedy!.timestamp ?? "")
+        let feedLink = URLQueryItem(name: "feedLink", value: positifeedy!.feed_url ?? "")
+
+        arrCompo.append(feedVideo)
+        arrCompo.append(feedImage)
+        arrCompo.append(feedType)
+        arrCompo.append(feedTime)
+        arrCompo.append(feedLink)
+
+        components.queryItems = arrCompo
+        
+        guard let linkParameter = components.url else {
+            SVProgressHUD.dismiss()
+            return
+        }
+        
+        guard let shareLink = DynamicLinkComponents.init(link: linkParameter, domainURIPrefix: "https://positifeedy.page.link") else {
+            SVProgressHUD.dismiss()
+            return
+        }
+        
+        if let myBundleId = Bundle.main.bundleIdentifier {
+            shareLink.iOSParameters = DynamicLinkIOSParameters(bundleID: myBundleId)
+        }
+        
+        shareLink.iOSParameters?.appStoreID = "1484015088"
+        
+        guard let longURL = shareLink.url else {
+            SVProgressHUD.dismiss()
+            return
+        }
+        
+        shareLink.shorten { [weak self] (url, warnings, error) in
+            
+            SVProgressHUD.dismiss()
+
+            if let error = error {
+                self?.view.makeToast(error.localizedDescription)
+                return
+            }
+            
+            guard let url = url else { return }
+            
+            self?.showShareSheet(url: url)
+            
         }
     }
     
@@ -84,7 +272,7 @@ class PostDetailViewController: UIViewController {
             
             self.isBookmark = isBookmark
             
-            bookmark.setImage(isBookmark ? imgBookmarkSelected : imgBookmark, for: .normal)
+            self.btnbookmark.setImage(isBookmark ? imgBookmarkSelected : imgBookmark, for: .normal)
 
             reloadView()
         }
@@ -149,7 +337,7 @@ class PostDetailViewController: UIViewController {
         
         
         isBookmark = !isBookmark
-        bookmark.setImage(isBookmark ? imgBookmarkSelected : imgBookmark, for: .normal)
+        self.btnbookmark.setImage(isBookmark ? imgBookmarkSelected : imgBookmark, for: .normal)
         
         var db: Firestore!
         db = Firestore.firestore()
@@ -168,6 +356,33 @@ class PostDetailViewController: UIViewController {
                     print(error!.localizedDescription)
                 }
             }
+            
+            let timestamp = Date().currentTimeMillis()
+            let searchPredicate = NSPredicate(format: "feed beginswith[C] %@",positifeedy!.documentID!)
+            let  arrrDict = self.arrBookMarkArrray.filter { searchPredicate.evaluate(with: $0) };
+            let filterArray = NSMutableArray.init(array: arrrDict)
+            if(filterArray.count > 0)
+            {
+                    // alerady exitst
+            }
+            else
+            {
+                // not exist
+                let mutabledict = NSMutableDictionary.init()
+                mutabledict.setValue(positifeedy!.documentID!, forKey: "feed")
+                mutabledict.setValue("\(timestamp)", forKey: "timestamp")
+                self.arrBookMarkArrray.add(mutabledict)
+               
+                let d2 = ["bookmarkarray" : self.arrBookMarkArrray]
+                 db.collection("users").document(myDocID!).updateData(d2) { (error) in
+                     if error != nil
+                     {
+                         print(error!.localizedDescription)
+                     }
+                 }
+            }
+            
+            
         }
         else
         {
@@ -182,6 +397,28 @@ class PostDetailViewController: UIViewController {
                     print(error!.localizedDescription)
                 }
             }
+            
+            
+            let timestamp = Date().currentTimeMillis()
+            let searchPredicate = NSPredicate(format: "feed beginswith[C] %@",positifeedy!.documentID!)
+            let  arrrDict = self.arrBookMarkArrray.filter { searchPredicate.evaluate(with: $0) };
+            let filterArray = NSMutableArray.init(array: arrrDict)
+            if(filterArray.count > 0)
+            {
+                let dict = filterArray.object(at: 0) as? NSDictionary
+                // alerady exitst
+                self.arrBookMarkArrray.remove(dict)
+                
+                let d2 = ["bookmarkarray" : self.arrBookMarkArrray]
+                db.collection("users").document(myDocID!).updateData(d2) { (error) in
+                    if error != nil
+                    {
+                        print(error!.localizedDescription)
+                    }
+                }
+            }
+            else
+            {}
             
         }
     }
@@ -262,6 +499,44 @@ class PostDetailViewController: UIViewController {
             
             self?.showShareSheet(url: url)
             
+        }
+    }
+    
+    func getBookmarsDataOther()
+    {
+        var db: Firestore!
+        
+        db = Firestore.firestore()
+        
+        db.collection("users").getDocuments { (snap, error) in
+            if error != nil
+            {
+                print("error ", error!.localizedDescription)
+                return
+            }
+            
+            for doc in snap?.documents ?? []
+            {
+                let  d = doc.data()
+                
+                if d.count > 0
+                {
+                    if (d["uid"] as! String) == Auth.auth().currentUser?.uid
+                    {
+                       
+                      let arr = d["bookmarkarray"] as? NSArray
+                      if arr != nil
+                      {
+                          self.arrBookMarkArrray = NSMutableArray.init(array: arr!)
+                      }
+                      else
+                      {
+                          self.arrBookMarkArrray = NSMutableArray.init()
+                      }
+                      
+                    }
+                }
+            }
         }
     }
     

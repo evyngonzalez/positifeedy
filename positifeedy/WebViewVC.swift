@@ -11,41 +11,62 @@ import WebKit
 import Firebase
 import SVProgressHUD
 
-class WebViewVC: UIViewController {
+class WebViewVC: UIViewController,WKNavigationDelegate {
     
     @IBOutlet weak var webView : WKWebView!
+    var arrBookMarkArrray : NSMutableArray!
     
     var myDocID : String?
     var isBookmark: Bool = false
     var url : String?
     
-    let bookmark = UIButton(type: .custom)
-    let share = UIButton(type: .custom)
+    //let bookmark = UIButton(type: .custom)
+    //let share = UIButton(type: .custom)
     
-    let imgBookmark = UIImage.init(named: "book_mark_ic")!
-    let imgBookmarkSelected = UIImage.init(named: "selected_bookmark_ic")!
-    let imgShare = UIImage.init(named: "share_ic")!
+    let imgBookmark = UIImage.init(named: "book_mark_ic1")!
+    let imgBookmarkSelected = UIImage.init(named: "selected_bookmark_ic1")!
+    let imgShare = UIImage.init(named: "share_ic1")!
+    
+    @IBOutlet weak var btnbookmark: UIButton!
+    @IBOutlet weak var btnshare: UIButton!
+
+    @IBOutlet weak var loader: UIActivityIndicatorView!
+    @IBOutlet weak var navviewd: UIView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        bookmark.setImage(isBookmark ? imgBookmarkSelected : imgBookmark, for: .normal)
-        bookmark.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
-        bookmark.contentEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: -10)
-        bookmark.addTarget(self, action: #selector(bookmarkTapped), for: .touchUpInside)
-        let bookmarkButton = UIBarButtonItem(customView: bookmark)
+        self.arrBookMarkArrray = NSMutableArray.init()
+       
+        self.getBookmarsDataOther()
         
-        share.setImage(imgShare, for: .normal)
-        share.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
-        share.addTarget(self, action: #selector(shareTapped), for: .touchUpInside)
-        let shareButton = UIBarButtonItem(customView: share)
+        self.navigationController?.navigationBar.isHidden = true
+//        bookmark.setImage(isBookmark ? imgBookmarkSelected : imgBookmark, for: .normal)
+//        bookmark.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
+//        bookmark.contentEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: -10)
+//        bookmark.addTarget(self, action: #selector(bookmarkTapped), for: .touchUpInside)
+//        let bookmarkButton = UIBarButtonItem(customView: bookmark)
         
-        self.navigationItem.rightBarButtonItems = [shareButton, bookmarkButton]
+//        share.setImage(imgShare, for: .normal)
+//        share.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
+//        share.addTarget(self, action: #selector(shareTapped), for: .touchUpInside)
+//        let shareButton = UIBarButtonItem(customView: share)
+//        self.navigationController?.navigationBar.barTintColor = UIColor.init(red: 123/255, green: 246/255, blue: 171/255, alpha: 1)
+//        self.navigationItem.rightBarButtonItems = [shareButton, bookmarkButton]
         
+        
+        self.loader.isHidden = false
+        self.loader.startAnimating()
         if let url = url, let u = URL(string: url)
         {
+            webView.navigationDelegate = self
             webView.load(URLRequest(url: u))
         }
+        
+        
+        self.btnbookmark.setImage(isBookmark ? imgBookmarkSelected : imgBookmark, for: .normal)
+        self.btnshare.setImage(imgShare, for: .normal)
+        
         
         NotificationCenter.default.addObserver(self, selector: #selector(reloadWeb(_:)), name: NSNotification.Name(rawValue: "RELOAD_WEB"), object: nil)
     }
@@ -60,19 +81,29 @@ class WebViewVC: UIViewController {
             self.isBookmark = isBookmark
             self.url = url
             
-            bookmark.setImage(isBookmark ? imgBookmarkSelected : imgBookmark, for: .normal)
+            self.btnbookmark.setImage(isBookmark ? imgBookmarkSelected : imgBookmark, for: .normal)
 
             if let u = URL(string: url)
             {
+                webView.navigationDelegate = self
                 webView.load(URLRequest(url: u))
+                
             }
         }
     }
     
+    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!)
+    {
+        print("calll finish")
+        self.loader.stopAnimating()
+        self.loader.isHidden = true
+    }
+    
+    
     @objc func bookmarkTapped() {
         
         isBookmark = !isBookmark
-        bookmark.setImage(isBookmark ? imgBookmarkSelected : imgBookmark, for: .normal)
+        self.btnbookmark.setImage(isBookmark ? imgBookmarkSelected : imgBookmark, for: .normal)
         
         var db: Firestore!
         db = Firestore.firestore()
@@ -92,6 +123,32 @@ class WebViewVC: UIViewController {
                 }
             }
             
+            let timestamp = Date().currentTimeMillis()
+            let searchPredicate = NSPredicate(format: "link beginswith[C] %@",url!)
+            let  arrrDict = self.arrBookMarkArrray.filter { searchPredicate.evaluate(with: $0) };
+            let filterArray = NSMutableArray.init(array: arrrDict)
+            if(filterArray.count > 0)
+            {
+                    // alerady exitst
+            }
+            else
+            {
+                // not exist
+                let mutabledict = NSMutableDictionary.init()
+                mutabledict.setValue(url!, forKey: "link")
+                mutabledict.setValue("\(timestamp)", forKey: "timestamp")
+                self.arrBookMarkArrray.add(mutabledict)
+               
+                let d2 = ["bookmarkarray" : self.arrBookMarkArrray]
+                 db.collection("users").document(myDocID!).updateData(d2) { (error) in
+                     if error != nil
+                     {
+                         print(error!.localizedDescription)
+                     }
+                 }
+            }
+            
+            
         }
         else
         {
@@ -107,9 +164,171 @@ class WebViewVC: UIViewController {
                 }
             }
             
+               let timestamp = Date().currentTimeMillis()
+               let searchPredicate = NSPredicate(format: "link beginswith[C] %@",url!)
+               let  arrrDict = self.arrBookMarkArrray.filter { searchPredicate.evaluate(with: $0) };
+               let filterArray = NSMutableArray.init(array: arrrDict)
+               if(filterArray.count > 0)
+               {
+                       // alerady exitst
+                   let dict = filterArray.object(at: 0) as? NSDictionary
+                   // alerady exitst
+                   self.arrBookMarkArrray.remove(dict)
+                   
+                   let d2 = ["bookmarkarray" : self.arrBookMarkArrray]
+                   db.collection("users").document(myDocID!).updateData(d2) { (error) in
+                       if error != nil
+                       {
+                           print(error!.localizedDescription)
+                       }
+                   }
+                   
+               }
+            
+            
         }
     }
     
+    @IBAction func onclickforBack(_ sender: Any)
+    {
+        self.navigationController?.popViewController(animated: true)
+    }
+    
+    @IBAction func onclickforBookmark(_ sender: Any)
+    {
+        isBookmark = !isBookmark
+        self.btnbookmark.setImage(isBookmark ? imgBookmarkSelected : imgBookmark, for: .normal)
+        
+        var db: Firestore!
+        db = Firestore.firestore()
+        
+        guard let appDel = UIApplication.shared.delegate as? AppDelegate else {
+            return
+        }
+        
+        if isBookmark
+        {
+            appDel.arrBookMarkLink.append(url!)
+            let d = ["links" : appDel.arrBookMarkLink]
+            db.collection("users").document(myDocID!).updateData(d) { (error) in
+                if error != nil
+                {
+                    print(error!.localizedDescription)
+                }
+            }
+            
+            let timestamp = Date().currentTimeMillis()
+            let searchPredicate = NSPredicate(format: "link beginswith[C] %@",url!)
+            let  arrrDict = self.arrBookMarkArrray.filter { searchPredicate.evaluate(with: $0) };
+            let filterArray = NSMutableArray.init(array: arrrDict)
+            if(filterArray.count > 0)
+            {
+                    // alerady exitst
+            }
+            else
+            {
+                // not exist
+                let mutabledict = NSMutableDictionary.init()
+                mutabledict.setValue(url!, forKey: "link")
+                mutabledict.setValue("\(timestamp)", forKey: "timestamp")
+                self.arrBookMarkArrray.add(mutabledict)
+               
+                let d2 = ["bookmarkarray" : self.arrBookMarkArrray]
+                 db.collection("users").document(myDocID!).updateData(d2) { (error) in
+                     if error != nil
+                     {
+                         print(error!.localizedDescription)
+                     }
+                 }
+            }
+            
+            
+        }
+        else
+        {
+            if let index = appDel.arrBookMarkLink.firstIndex(of: url!) {
+                appDel.arrBookMarkLink.remove(at: index)
+            }
+            
+            let d = ["links" : appDel.arrBookMarkLink]
+            db.collection("users").document(myDocID!).updateData(d) { (error) in
+                if error != nil
+                {
+                    print(error!.localizedDescription)
+                }
+            }
+            
+               let timestamp = Date().currentTimeMillis()
+               let searchPredicate = NSPredicate(format: "link beginswith[C] %@",url!)
+               let  arrrDict = self.arrBookMarkArrray.filter { searchPredicate.evaluate(with: $0) };
+               let filterArray = NSMutableArray.init(array: arrrDict)
+               if(filterArray.count > 0)
+               {
+                       // alerady exitst
+                   let dict = filterArray.object(at: 0) as? NSDictionary
+                   // alerady exitst
+                   self.arrBookMarkArrray.remove(dict)
+                   
+                   let d2 = ["bookmarkarray" : self.arrBookMarkArrray]
+                   db.collection("users").document(myDocID!).updateData(d2) { (error) in
+                       if error != nil
+                       {
+                           print(error!.localizedDescription)
+                       }
+                   }
+                   
+               }
+            
+            
+        }
+    }
+    
+    @IBAction func onclickforshare(_ sender: Any)
+    {
+        SVProgressHUD.show()
+
+        var components = URLComponents()
+        components.scheme = "https"
+        components.host = "positifeedy.page.link"
+        components.path = "/share"
+        
+        let feedURL = URLQueryItem(name: "feedURL", value: url ?? "")
+        components.queryItems = [feedURL]
+        
+        guard let linkParameter = components.url else {
+            SVProgressHUD.dismiss()
+            return
+        }
+        
+        guard let shareLink = DynamicLinkComponents.init(link: linkParameter, domainURIPrefix: "https://positifeedy.page.link") else {
+            SVProgressHUD.dismiss()
+            return
+        }
+        
+        if let myBundleId = Bundle.main.bundleIdentifier {
+            shareLink.iOSParameters = DynamicLinkIOSParameters(bundleID: myBundleId)
+        }
+        
+        shareLink.iOSParameters?.appStoreID = "1484015088"
+        
+        guard let longURL = shareLink.url else {
+            SVProgressHUD.dismiss()
+            return
+        }
+        
+        shareLink.shorten { [weak self] (url, warnings, error) in
+            SVProgressHUD.dismiss()
+            if let error = error {
+                self?.view.makeToast(error.localizedDescription)
+                return
+            }
+            
+            guard let url = url else { return }
+            
+            self?.showShareSheet(url: url)
+            
+        }
+    }
     @objc func shareTapped() {
         
         SVProgressHUD.show()
@@ -156,6 +375,45 @@ class WebViewVC: UIViewController {
             
         }
     }
+    
+    func getBookmarsDataOther()
+    {
+        var db: Firestore!
+        
+        db = Firestore.firestore()
+        
+        db.collection("users").getDocuments { (snap, error) in
+            if error != nil
+            {
+                print("error ", error!.localizedDescription)
+                return
+            }
+            
+            for doc in snap?.documents ?? []
+            {
+                let  d = doc.data()
+                
+                if d.count > 0
+                {
+                    if (d["uid"] as! String) == Auth.auth().currentUser?.uid
+                    {
+                       
+                      let arr = d["bookmarkarray"] as? NSArray
+                      if arr != nil
+                      {
+                          self.arrBookMarkArrray = NSMutableArray.init(array: arr!)
+                      }
+                      else
+                      {
+                          self.arrBookMarkArrray = NSMutableArray.init()
+                      }
+                      
+                    }
+                }
+            }
+        }
+    }
+    
     
     func showShareSheet(url: URL) {
         

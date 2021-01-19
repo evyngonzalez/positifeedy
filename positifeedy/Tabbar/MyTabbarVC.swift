@@ -31,13 +31,19 @@ class MyTabbarVC: UITabBarController,  UITabBarControllerDelegate {
         
         if selectedIndex == 2
         {
-            let nav =  self.viewControllers![0] as! UINavigationController
-            let wel =  nav.viewControllers.first as! welcomeViewController
             
-            let nav1 =  viewController as! UINavigationController
-            let bokVc = nav1.viewControllers.first as! BookMarkVc
-            bokVc.arrFeeds =  wel.arrFeeds
-            bokVc.arrPositifeedy = wel.arrPositifeedy
+//            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+//            let viewController1 = storyboard.instantiateViewController(withIdentifier: "GreetingViewControllerProfile") as! GreetingViewControllerProfile
+//            
+//            let nav =  self.viewControllers![1] as! UINavigationController
+//            let wel =  nav.viewControllers.first as! JournalViewController
+//            
+//            let nav1 =  viewController as! UINavigationController
+//            //let bokVc = nav1.viewControllers.first as! BookMarkVc
+//            //bokVc.arrFeeds =  wel.arrFeeds
+//            //bokVc.arrPositifeedy = wel.arrPositifeedy
+//            viewController1.arrFeeds = wel.arrFeeds
+//            viewController1.arrPositifeedy = wel.arrPositifeedy
             
             print("hi")
         }

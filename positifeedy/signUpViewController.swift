@@ -14,8 +14,12 @@ import GoogleSignIn
 import FBSDKLoginKit
 import FBSDKCoreKit
 import SVProgressHUD
+import VideoBackground
 
-class signUpViewController: UIViewController, GIDSignInDelegate {
+class signUpViewController: UIViewController, GIDSignInDelegate
+{
+    var flag : Int = 0
+   
     @IBOutlet weak var firstNameTextField: UITextField!
     
     @IBOutlet weak var lastNameTextField: UITextField!
@@ -25,14 +29,25 @@ class signUpViewController: UIViewController, GIDSignInDelegate {
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var confirmPassTextField: UITextField!
     
+    @IBOutlet weak var lblbottomLine: UILabel!
     @IBOutlet weak var signUpButton: UIButton!
     
+    @IBOutlet weak var btngoogle: UIView!
     @IBOutlet weak var errorLabel: UILabel!
+    @IBOutlet weak var btnfacebook: UIView!
+    @IBOutlet weak var btnemail: UIView!
+    @IBOutlet weak var scrollview: UIScrollView!
     
+    @IBOutlet weak var lblaleardy: UILabel!
     var dictSocial = [String: String]()
     
+    @IBOutlet weak var alltextfieldsview: UIView!
+    @IBOutlet weak var bottomviw: UIView!
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.design()
+        self.setupVideoView()
         
         // for test
 //        firstNameTextField.text = "vipul"
@@ -46,6 +61,73 @@ class signUpViewController: UIViewController, GIDSignInDelegate {
         let tap = UITapGestureRecognizer(target: self, action: #selector(tapHandler))
         view.addGestureRecognizer(tap)
         
+    }
+    
+    
+    func design() -> Void {
+        
+        self.btngoogle.layer.cornerRadius = 5
+        self.btngoogle.clipsToBounds = true
+        self.btngoogle.layer.borderColor = UIColor.init(red: 37/255, green: 250/255, blue: 168/255, alpha: 1).cgColor
+        self.btngoogle.layer.borderWidth = 2
+        
+        
+        self.btnfacebook.layer.cornerRadius = 5
+        self.btnfacebook.clipsToBounds = true
+        self.btnfacebook.layer.borderColor = UIColor.init(red: 37/255, green: 250/255, blue: 168/255, alpha: 1).cgColor
+        self.btnfacebook.layer.borderWidth = 2
+        
+        self.btnemail.layer.cornerRadius = 5
+        self.btnemail.clipsToBounds = true
+        self.btnemail.layer.borderColor = UIColor.init(red: 37/255, green: 250/255, blue: 168/255, alpha: 1).cgColor
+        self.btnemail.layer.borderWidth = 2
+        
+        
+        self.signUpButton.layer.cornerRadius = 5
+        self.signUpButton.clipsToBounds = true
+        self.signUpButton.layer.borderColor = UIColor.init(red: 37/255, green: 250/255, blue: 168/255, alpha: 1).cgColor
+        self.signUpButton.layer.borderWidth = 2
+        
+        self.lblbottomLine.colorString(text:"By signing up you are agreeing to our Privacy Policy & Terms and Conditions", coloredText1:"Privacy Policy", coloredText2: "Terms and Conditions")
+        
+        
+        
+        self.lblaleardy.colorString(text:"Already have an account? Log In", coloredText1:"Log In", coloredText2: "")
+        
+        //self.scrollview.contentSize = CGSize.init(width: self.view.frame.size.width, height: self.lblaleardy.frame.origin.y + self.lblaleardy.frame.size.height + 50)
+        
+        self.setUpDesign()
+        
+    }
+    
+    func setUpDesign() -> Void {
+        
+        self.alltextfieldsview.isHidden = true
+        self.bottomviw.frame = CGRect.init(x: 0, y: self.btnemail.frame.origin.y + self.btnemail.frame.size.height +  10, width: self.bottomviw.frame.size.width, height: self.bottomviw.frame.size.height)
+        
+        self.scrollview.contentSize = CGSize.init(width: self.view.frame.size.width, height: self.bottomviw.frame.size.height + self.bottomviw.frame.origin.y)
+    }
+    
+    func setDownDesign() -> Void
+    {
+        self.alltextfieldsview.isHidden = false
+           self.bottomviw.frame = CGRect.init(x: 0, y: self.alltextfieldsview.frame.origin.y + self.alltextfieldsview.frame.size.height +  10, width: self.bottomviw.frame.size.width, height: self.bottomviw.frame.size.height)
+           
+           self.scrollview.contentSize = CGSize.init(width: self.view.frame.size.width, height: self.bottomviw.frame.size.height + self.bottomviw.frame.origin.y)
+       }
+    
+    
+    private func setupVideoView() {
+        
+        guard let videoPath = Bundle.main.path(forResource: "splash", ofType: "mov") else {
+                return
+        }
+        
+        let options = VideoOptions(pathToVideo: videoPath, pathToImage: "",
+                                   isMuted: true,
+                                   shouldLoop: true)
+        let videoView = VideoBackground(frame: view.frame, options: options)
+        view.insertSubview(videoView, at: 0)
     }
     
     @objc func tapHandler( _ gesture : UITapGestureRecognizer)  {
@@ -139,6 +221,13 @@ class signUpViewController: UIViewController, GIDSignInDelegate {
                         UserDefaults.standard.set(lastName, forKey: "lastNameRegister")
                         
                         self.showAlert(title: "Verification", message: "Check your email for link", linkHandler: nil)
+                        
+//                        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+//                        let vcSubscri = storyboard.instantiateViewController(withIdentifier: "SubscriptionViewController") as! SubscriptionViewController
+//                        vcSubscri.modalPresentationStyle = .fullScreen
+//                        vcSubscri.modalTransitionStyle = .crossDissolve
+//                        self.present(vcSubscri, animated: true, completion: nil)
+                        
                     }
                     
                     // Create the user
@@ -194,6 +283,24 @@ class signUpViewController: UIViewController, GIDSignInDelegate {
         appDel.setRoot()
     }
     
+    
+    
+    @IBAction func onclickforEmail(_ sender: Any)
+    {
+        if self.flag == 0
+        {
+            self.flag = 1
+            self.setDownDesign()
+            
+        }else
+        {
+            self.flag = 0
+            self.setUpDesign()
+        }
+        
+    }
+    
+    
     @IBAction func btnFacebook(_ sender: Any) {
         
         SVProgressHUD.show()
@@ -247,6 +354,27 @@ class signUpViewController: UIViewController, GIDSignInDelegate {
         GIDSignIn.sharedInstance()?.presentingViewController = self
         GIDSignIn.sharedInstance().signIn()
     }
+    
+    @IBAction func onclickforPrvacyPolicy(_ sender: Any) {
+        
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let answ = storyboard.instantiateViewController(withIdentifier: "PrivacyPolicyScreenVC") as! PrivacyPolicyScreenVC
+        answ.modalPresentationStyle = .fullScreen
+        answ.modalTransitionStyle = .crossDissolve
+        self.present(answ, animated: true, completion: nil)
+    }
+    
+    
+    @IBAction func onclickfortermsAndconditons(_ sender: Any) {
+        
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let answ = storyboard.instantiateViewController(withIdentifier: "TermsNConditionVC") as! TermsNConditionVC
+        answ.modalPresentationStyle = .fullScreen
+        answ.modalTransitionStyle = .crossDissolve
+        self.present(answ, animated: true, completion: nil)
+        
+    }
+    
     
     func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!)
     {
@@ -375,3 +503,19 @@ class signUpViewController: UIViewController, GIDSignInDelegate {
     }
 }
 
+extension UILabel
+{
+
+    func colorString(text: String?, coloredText1: String?,coloredText2: String?, color: UIColor? = UIColor.init(red: 37/255, green: 250/255, blue: 168/255, alpha: 1)) {
+
+    let attributedString = NSMutableAttributedString(string: text!)
+    let range = (text! as NSString).range(of: coloredText1!)
+        attributedString.setAttributes([NSAttributedString.Key.foregroundColor: color!],
+                             range: range)
+    let range2 = (text! as NSString).range(of: coloredText2!)
+        attributedString.setAttributes([NSAttributedString.Key.foregroundColor: color!],
+                             range: range2)
+        
+    self.attributedText = attributedString
+    }
+}

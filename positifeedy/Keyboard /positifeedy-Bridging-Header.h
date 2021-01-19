@@ -7,3 +7,4 @@
 #import "TPKeyboardAvoidingTableView.h"
 #import "UIScrollView+TPKeyboardAvoidingAdditions.h"
 #import "SYPhotoBrowser.h"
+#import "ConstDec.h"
