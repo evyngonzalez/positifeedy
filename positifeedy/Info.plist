@@ -7,7 +7,7 @@
 	<key>CFBundleExecutable</key>
 	<string>positifeedy</string>
 	<key>CFBundleIdentifier</key>
-	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+	<string>com.staypos.StayPositive</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -52,7 +52,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>FacebookAppID</key>
 	<string>334249224316145</string>
 	<key>FacebookDisplayName</key>
@@ -85,9 +85,13 @@
 		<true/>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string></string>
+	<string>To select profile picture from camera</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>To record voice for journal entries</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>To select profile picture from photo library</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string></string>
+	<string>To select profile picture from photo library</string>
 	<key>SKAdNetworkItems</key>
 	<array>
 		<dict>
@@ -127,7 +131,5 @@
 	</array>
 	<key>UIUserInterfaceStyle</key>
 	<string>Light</string>
-	<key>NSMicrophoneUsageDescription</key>
-	<string>For using microphone</string>
 </dict>
 </plist>

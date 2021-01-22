@@ -22,7 +22,7 @@ import SVProgressHUD
 
 class GreetingViewControllerProfile: UIViewController
 {
-
+    
     var arrBookMarkAll : NSMutableArray!
     var arrListOfJourny = [AnswerFeed]()
     var flagType : Int!

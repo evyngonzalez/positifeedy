@@ -1257,7 +1257,7 @@ class AnswerOfQuestionVC: UIViewController,UITextViewDelegate,AVAudioRecorderDel
                                                 self.strtype = "0"
                                             }
                                         }
-
+                                            
                                         if dict?.object(forKey: "audio_url") != nil
                                         {
                                             if dict?.value(forKey: "audio_url") as? String  != ""

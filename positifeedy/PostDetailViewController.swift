@@ -25,8 +25,10 @@ class PostDetailViewController: UIViewController {
     
     @IBOutlet weak var naviview: UIView!
     
-    @IBOutlet weak var btnbookmark: UIButton!
-    @IBOutlet weak var btnshare: UIButton!
+    @IBOutlet weak var imgbookmark1: UIImageView!
+    @IBOutlet weak var imgshare1: UIImageView!
+    
+    
     @IBOutlet weak var heightViewImg: NSLayoutConstraint!
     
     
@@ -67,8 +69,10 @@ class PostDetailViewController: UIViewController {
         let tap = UITapGestureRecognizer.init(target: self, action: #selector(self.imageTapped(_:)))
         imgView.addGestureRecognizer(tap)
         
-        self.btnbookmark.setImage(isBookmark ? imgBookmarkSelected : imgBookmark, for: .normal)
-        self.btnshare.setImage(imgShare, for: .normal)
+        self.imgbookmark1.image = isBookmark ? imgBookmarkSelected : imgBookmark
+        
+        //self.btnbookmark.setImage(isBookmark ? imgBookmarkSelected : imgBookmark, for: .normal)
+        //self.btnshare.setImage(imgShare, for: .normal)
         
         reloadView()
     }
@@ -90,7 +94,9 @@ class PostDetailViewController: UIViewController {
     @IBAction func onclickforBookmark(_ sender: Any)
     {
         isBookmark = !isBookmark
-        self.btnbookmark.setImage(isBookmark ? imgBookmarkSelected : imgBookmark, for: .normal)
+        self.imgbookmark1.image = isBookmark ? imgBookmarkSelected : imgBookmark
+        
+        //self.btnbookmark.setImage(isBookmark ? imgBookmarkSelected : imgBookmark, for: .normal)
                
                var db: Firestore!
                db = Firestore.firestore()
@@ -271,8 +277,8 @@ class PostDetailViewController: UIViewController {
             positifeedy!.timestamp = dict["feedTime"] as? String
             
             self.isBookmark = isBookmark
-            
-            self.btnbookmark.setImage(isBookmark ? imgBookmarkSelected : imgBookmark, for: .normal)
+            self.imgbookmark1.image = isBookmark ? imgBookmarkSelected : imgBookmark
+            //self.btnbookmark.setImage(isBookmark ? imgBookmarkSelected : imgBookmark, for: .normal)
 
             reloadView()
         }
@@ -337,7 +343,8 @@ class PostDetailViewController: UIViewController {
         
         
         isBookmark = !isBookmark
-        self.btnbookmark.setImage(isBookmark ? imgBookmarkSelected : imgBookmark, for: .normal)
+        self.imgbookmark1.image = isBookmark ? imgBookmarkSelected : imgBookmark
+        //self.btnbookmark.setImage(isBookmark ? imgBookmarkSelected : imgBookmark, for: .normal)
         
         var db: Firestore!
         db = Firestore.firestore()

@@ -23,11 +23,11 @@ class PrivacyPolicyScreenVC: UIViewController {
     //MARK:- load url :
     func loadurl() -> Void {
         
-        if let pdf = Bundle.main.url(forResource: "privacy_doc", withExtension: "pdf", subdirectory: nil, localization: nil)  {
-            let web_request = NSURLRequest(url: pdf)
-            
+        //if let pdf = Bundle.main.url(forResource: "privacy_doc", withExtension: "pdf", subdirectory: nil, localization: nil)  {
+            let pdf = URL.init(string: PRIVACY_POLICY)
+            let web_request = NSURLRequest(url: pdf!)
             self.webview.load(web_request as URLRequest)
-        }
+        //}
     }
 
     @IBAction func onclickforBack(_ sender: Any)

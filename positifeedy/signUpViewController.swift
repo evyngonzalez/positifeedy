@@ -15,9 +15,13 @@ import FBSDKLoginKit
 import FBSDKCoreKit
 import SVProgressHUD
 import VideoBackground
+import AuthenticationServices
+import CryptoKit
 
-class signUpViewController: UIViewController, GIDSignInDelegate
+class signUpViewController: UIViewController, GIDSignInDelegate,ASAuthorizationControllerDelegate,ASAuthorizationControllerPresentationContextProviding
 {
+    
+    fileprivate var currentNonce: String?
     var flag : Int = 0
    
     @IBOutlet weak var firstNameTextField: UITextField!
@@ -33,6 +37,7 @@ class signUpViewController: UIViewController, GIDSignInDelegate
     @IBOutlet weak var signUpButton: UIButton!
     
     @IBOutlet weak var btngoogle: UIView!
+    @IBOutlet weak var appleview: UIView!
     @IBOutlet weak var errorLabel: UILabel!
     @IBOutlet weak var btnfacebook: UIView!
     @IBOutlet weak var btnemail: UIView!
@@ -66,11 +71,15 @@ class signUpViewController: UIViewController, GIDSignInDelegate
     
     func design() -> Void {
         
-        self.btngoogle.layer.cornerRadius = 5
-        self.btngoogle.clipsToBounds = true
-        self.btngoogle.layer.borderColor = UIColor.init(red: 37/255, green: 250/255, blue: 168/255, alpha: 1).cgColor
-        self.btngoogle.layer.borderWidth = 2
+        self.appleview.layer.cornerRadius = 5
+        self.appleview.clipsToBounds = true
+        self.appleview.layer.borderColor = UIColor.init(red: 37/255, green: 250/255, blue: 168/255, alpha: 1).cgColor
+        self.appleview.layer.borderWidth = 2
         
+        self.btngoogle.layer.cornerRadius = 5
+       self.btngoogle.clipsToBounds = true
+       self.btngoogle.layer.borderColor = UIColor.init(red: 37/255, green: 250/255, blue: 168/255, alpha: 1).cgColor
+       self.btngoogle.layer.borderWidth = 2
         
         self.btnfacebook.layer.cornerRadius = 5
         self.btnfacebook.clipsToBounds = true
@@ -88,11 +97,10 @@ class signUpViewController: UIViewController, GIDSignInDelegate
         self.signUpButton.layer.borderColor = UIColor.init(red: 37/255, green: 250/255, blue: 168/255, alpha: 1).cgColor
         self.signUpButton.layer.borderWidth = 2
         
-        self.lblbottomLine.colorString(text:"By signing up you are agreeing to our Privacy Policy & Terms and Conditions", coloredText1:"Privacy Policy", coloredText2: "Terms and Conditions")
+        self.lblbottomLine.colorString2(text:"By signing up you are agreeing to our Privacy Policy & Terms and Conditions", coloredText1:"Privacy Policy", coloredText2: "Terms and Conditions")
         
         
-        
-        self.lblaleardy.colorString(text:"Already have an account? Log In", coloredText1:"Log In", coloredText2: "")
+        self.lblaleardy.colorString2(text:"Already have an account? Log In", coloredText1:"Log In", coloredText2: "")
         
         //self.scrollview.contentSize = CGSize.init(width: self.view.frame.size.width, height: self.lblaleardy.frame.origin.y + self.lblaleardy.frame.size.height + 50)
         
@@ -115,6 +123,132 @@ class signUpViewController: UIViewController, GIDSignInDelegate
            
            self.scrollview.contentSize = CGSize.init(width: self.view.frame.size.width, height: self.bottomviw.frame.size.height + self.bottomviw.frame.origin.y)
        }
+    
+     @available(iOS 13, *)
+          func startSignInWithAppleFlow() {
+              let nonce = randomNonceString()
+              currentNonce = nonce
+              let appleIDProvider = ASAuthorizationAppleIDProvider()
+              let request = appleIDProvider.createRequest()
+              request.requestedScopes = [.fullName, .email]
+              request.nonce = sha256(nonce)
+              
+              let authorizationController = ASAuthorizationController(authorizationRequests: [request])
+              authorizationController.delegate = self
+              authorizationController.presentationContextProvider = self
+              authorizationController.performRequests()
+          }
+          
+          @available(iOS 13, *)
+          private func sha256(_ input: String) -> String {
+              let inputData = Data(input.utf8)
+              let hashedData = SHA256.hash(data: inputData)
+              let hashString = hashedData.compactMap {
+                  return String(format: "%02x", $0)
+              }.joined()
+              
+              return hashString
+          }
+          
+          private func randomNonceString(length: Int = 32) -> String {
+              precondition(length > 0)
+              let charset: Array<Character> =
+                  Array("0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._")
+              var result = ""
+              var remainingLength = length
+              
+              while remainingLength > 0 {
+                  let randoms: [UInt8] = (0 ..< 16).map { _ in
+                      var random: UInt8 = 0
+                      let errorCode = SecRandomCopyBytes(kSecRandomDefault, 1, &random)
+                      if errorCode != errSecSuccess {
+                          fatalError("Unable to generate nonce. SecRandomCopyBytes failed with OSStatus \(errorCode)")
+                      }
+                      return random
+                  }
+                  randoms.forEach { random in
+                      if length == 0 {
+                          return
+                      }
+                      
+                      if random < charset.count {
+                          result.append(charset[Int(random)])
+                          remainingLength -= 1
+                      }
+                  }
+              }
+              return result
+          }
+        
+        
+        //MARK:- apple sign in :
+        func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
+            if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
+                guard let nonce = currentNonce else {
+                    fatalError("Invalid state: A login callback was received, but no login request was sent.")
+                }
+                guard let appleIDToken = appleIDCredential.identityToken else {
+                    print("Unable to fetch identity token")
+                    return
+                }
+                guard let idTokenString = String(data: appleIDToken, encoding: .utf8) else {
+                    print("Unable to serialize token string from data: \(appleIDToken.debugDescription)")
+                    return
+                }
+                let credential = OAuthProvider.credential(withProviderID: "apple.com",
+                                                          idToken: idTokenString,
+                                                          rawNonce: nonce)
+                Auth.auth().signIn(with: credential) { (authResult, error) in
+                    if (error != nil) {
+                        // Error. If error.code == .MissingOrInvalidNonce, make sure
+                        // you're sending the SHA256-hashed nonce as a hex string with
+                        // your request to Apple.
+                        print(error?.localizedDescription ?? "")
+                        return
+                    }
+                    guard let user = authResult?.user else { return }
+                    let email = user.email ?? ""
+                    if email != ""
+                    {
+                        let namear = email.components(separatedBy: "@")
+                        let fname = namear[0]
+                        let displayName = user.displayName ?? fname
+                        guard let uid = Auth.auth().currentUser?.uid else { return }
+                       
+                        print("Apple :")
+                        print("email :\(email)")
+                        print("displayname :\(displayName)")
+                        print("email :\(uid)")
+                        // success
+                        self.checkUserIfAlready(firstName: displayName, lastName: "", uid: uid)
+                        
+                    }
+                    
+    //                let db = Firestore.firestore()
+    //                db.collection("User").document(uid).setData([
+    //                    "email": email,
+    //                    "displayName": displayName,
+    //                    "uid": uid
+    //                ]) { err in
+    //                    if let err = err {
+    //                        print("Error writing document: \(err)")
+    //                    } else {
+    //                        print("the user has sign up or is logged in")
+    //                    }
+    //                }
+                }
+            }
+        }
+        
+        func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
+            // Handle error.
+            print("Sign in with Apple errored: \(error)")
+        }
+        
+        func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
+            return self.view.window!
+        }
+        
     
     
     private func setupVideoView() {
@@ -349,6 +483,11 @@ class signUpViewController: UIViewController, GIDSignInDelegate
         }
     }
     
+    @IBAction func onclickforapple(_ sender: Any) {
+        
+        self.startSignInWithAppleFlow()
+    }
+    
     @IBAction func btnGoogle(_ sender: Any) {
         GIDSignIn.sharedInstance()?.delegate = self
         GIDSignIn.sharedInstance()?.presentingViewController = self
@@ -506,7 +645,7 @@ class signUpViewController: UIViewController, GIDSignInDelegate
 extension UILabel
 {
 
-    func colorString(text: String?, coloredText1: String?,coloredText2: String?, color: UIColor? = UIColor.init(red: 37/255, green: 250/255, blue: 168/255, alpha: 1)) {
+    func colorString(text: String?, coloredText1: String?,coloredText2: String?, color: UIColor? = UIColor.init(red: 0/255, green: 0/255, blue: 0/255, alpha: 1)) {
 
     let attributedString = NSMutableAttributedString(string: text!)
     let range = (text! as NSString).range(of: coloredText1!)
@@ -518,4 +657,18 @@ extension UILabel
         
     self.attributedText = attributedString
     }
+    
+    
+    func colorString2(text: String?, coloredText1: String?,coloredText2: String?, color: UIColor? = UIColor.init(red: 37/255, green: 250/255, blue: 168/255, alpha: 1)) {
+
+       let attributedString = NSMutableAttributedString(string: text!)
+       let range = (text! as NSString).range(of: coloredText1!)
+           attributedString.setAttributes([NSAttributedString.Key.foregroundColor: color!],
+                                range: range)
+       let range2 = (text! as NSString).range(of: coloredText2!)
+           attributedString.setAttributes([NSAttributedString.Key.foregroundColor: color!],
+                                range: range2)
+           
+       self.attributedText = attributedString
+       }
 }

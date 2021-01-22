@@ -21,6 +21,7 @@ import FirebaseDynamicLinks
 import LinkPresentation
 import StoreKit
 import SwiftyStoreKit
+import AuthenticationServices
 
 struct IN_APP_PURCHASE {
 
@@ -48,6 +49,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         window = UIWindow(frame: UIScreen.main.bounds)
         
+        
+        
         FirebaseApp.configure()
         GIDSignIn.sharedInstance().clientID = FirebaseApp.app()?.options.clientID
         ApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
@@ -58,6 +61,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         IQKeyboardManager.shared.enable = true
         IQKeyboardManager.shared.shouldResignOnTouchOutside = true
+        
+        
+        let appleIDProvider = ASAuthorizationAppleIDProvider()
+        appleIDProvider.getCredentialState(forUserID: KeychainItem.currentUserIdentifier ?? "") { (credentialState, error) in
+            switch credentialState {
+            case .authorized:
+                // The Apple ID credential is valid. Show Home UI Here
+                DispatchQueue.main.async {
+                    //HomeViewController.Push()
+                }
+                break
+            case .revoked:
+                // The Apple ID credential is revoked. Show SignIn UI Here.
+                break
+            case .notFound:
+                // No credential was found. Show SignIn UI Here.
+                break
+            default:
+                break
+            }
+        }
+        
         
         if #available(iOS 10.0, *) {
             // For iOS 10 display notification (sent via APNS)
@@ -199,6 +224,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         completeIAPTransactions()
         checkIfPurchaed()
+        
+        
+        
         
         return true
     }

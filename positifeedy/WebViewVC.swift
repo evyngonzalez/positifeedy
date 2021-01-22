@@ -27,9 +27,11 @@ class WebViewVC: UIViewController,WKNavigationDelegate {
     let imgBookmarkSelected = UIImage.init(named: "selected_bookmark_ic1")!
     let imgShare = UIImage.init(named: "share_ic1")!
     
+    @IBOutlet weak var imgBookmark1: UIImageView!
     @IBOutlet weak var btnbookmark: UIButton!
     @IBOutlet weak var btnshare: UIButton!
 
+    @IBOutlet weak var imgshare1: UIImageView!
     @IBOutlet weak var loader: UIActivityIndicatorView!
     @IBOutlet weak var navviewd: UIView!
     
@@ -63,9 +65,9 @@ class WebViewVC: UIViewController,WKNavigationDelegate {
             webView.load(URLRequest(url: u))
         }
         
-        
-        self.btnbookmark.setImage(isBookmark ? imgBookmarkSelected : imgBookmark, for: .normal)
-        self.btnshare.setImage(imgShare, for: .normal)
+        self.imgBookmark1.image = isBookmark ? imgBookmarkSelected : imgBookmark
+        //self.btnbookmark.setImage(isBookmark ? imgBookmarkSelected : imgBookmark, for: .normal)
+        //self.btnshare.setImage(imgShare, for: .normal)
         
         
         NotificationCenter.default.addObserver(self, selector: #selector(reloadWeb(_:)), name: NSNotification.Name(rawValue: "RELOAD_WEB"), object: nil)
@@ -81,7 +83,9 @@ class WebViewVC: UIViewController,WKNavigationDelegate {
             self.isBookmark = isBookmark
             self.url = url
             
-            self.btnbookmark.setImage(isBookmark ? imgBookmarkSelected : imgBookmark, for: .normal)
+            self.imgBookmark1.image = isBookmark ? imgBookmarkSelected : imgBookmark
+            
+            //self.btnbookmark.setImage(isBookmark ? imgBookmarkSelected : imgBookmark, for: .normal)
 
             if let u = URL(string: url)
             {
@@ -103,8 +107,8 @@ class WebViewVC: UIViewController,WKNavigationDelegate {
     @objc func bookmarkTapped() {
         
         isBookmark = !isBookmark
-        self.btnbookmark.setImage(isBookmark ? imgBookmarkSelected : imgBookmark, for: .normal)
-        
+        //self.btnbookmark.setImage(isBookmark ? imgBookmarkSelected : imgBookmark, for: .normal)
+        self.imgBookmark1.image = isBookmark ? imgBookmarkSelected : imgBookmark
         var db: Firestore!
         db = Firestore.firestore()
         
@@ -197,8 +201,8 @@ class WebViewVC: UIViewController,WKNavigationDelegate {
     @IBAction func onclickforBookmark(_ sender: Any)
     {
         isBookmark = !isBookmark
-        self.btnbookmark.setImage(isBookmark ? imgBookmarkSelected : imgBookmark, for: .normal)
-        
+        //self.btnbookmark.setImage(isBookmark ? imgBookmarkSelected : imgBookmark, for: .normal)
+        self.imgBookmark1.image = isBookmark ? imgBookmarkSelected : imgBookmark
         var db: Firestore!
         db = Firestore.firestore()
         

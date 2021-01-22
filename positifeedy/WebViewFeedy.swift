@@ -24,13 +24,13 @@ class WebViewFeedy: UIViewController,WKNavigationDelegate
     //let bookmark = UIButton(type: .custom)
     //let share = UIButton(type: .custom)
     
+    @IBOutlet weak var imgBookmark1: UIImageView!
+    @IBOutlet weak var imgshare1: UIImageView!
     let imgBookmark = UIImage.init(named: "book_mark_ic1")!
     let imgBookmarkSelected = UIImage.init(named: "selected_bookmark_ic1")!
     let imgShare = UIImage.init(named: "share_ic1")!
     
     @IBOutlet weak var navview: UIView!
-    @IBOutlet weak var btnbookmark: UIButton!
-    @IBOutlet weak var btnshare: UIButton!
     
     @IBOutlet weak var loader: UIActivityIndicatorView!
     @IBOutlet weak var btnback: UIButton!
@@ -66,8 +66,10 @@ class WebViewFeedy: UIViewController,WKNavigationDelegate
             webView.load(URLRequest(url: u))
         }
         
-        self.btnbookmark.setImage(isBookmark ? imgBookmarkSelected : imgBookmark, for: .normal)
-        self.btnshare.setImage(imgShare, for: .normal)
+        self.imgBookmark1.image = isBookmark ? imgBookmarkSelected : imgBookmark
+        
+        //self.btnbookmark.setImage(isBookmark ? imgBookmarkSelected : imgBookmark, for: .normal)
+        //self.btnshare.setImage(imgShare, for: .normal)
         
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.reloadWeb(_:)), name: NSNotification.Name(rawValue: "RELOAD_WEB_FEED"), object: nil)
@@ -97,8 +99,8 @@ class WebViewFeedy: UIViewController,WKNavigationDelegate
             positifeedy!.timestamp = dict["feedTime"] as? String
             
             self.isBookmark = isBookmark
-            
-            self.btnbookmark.setImage(isBookmark ? imgBookmarkSelected : imgBookmark, for: .normal)
+            self.imgBookmark1.image = isBookmark ? imgBookmarkSelected : imgBookmark
+            //self.btnbookmark.setImage(isBookmark ? imgBookmarkSelected : imgBookmark, for: .normal)
 
             if let url = positifeedy?.feed_url, let u = URL(string: url)
             {
@@ -116,7 +118,8 @@ class WebViewFeedy: UIViewController,WKNavigationDelegate
     @IBAction func onclickforBookmark(_ sender: Any)
     {
         isBookmark = !isBookmark
-        self.btnbookmark.setImage(isBookmark ? imgBookmarkSelected : imgBookmark, for: .normal)
+        self.imgBookmark1.image = isBookmark ? imgBookmarkSelected : imgBookmark
+        //self.btnbookmark.setImage(isBookmark ? imgBookmarkSelected : imgBookmark, for: .normal)
         
         var db: Firestore!
         db = Firestore.firestore()
@@ -286,7 +289,9 @@ class WebViewFeedy: UIViewController,WKNavigationDelegate
     @objc func bookmarkTapped() {
         
         isBookmark = !isBookmark
-        self.btnbookmark.setImage(isBookmark ? imgBookmarkSelected : imgBookmark, for: .normal)
+        self.imgBookmark1.image = isBookmark ? imgBookmarkSelected : imgBookmark
+        
+        //self.btnbookmark.setImage(isBookmark ? imgBookmarkSelected : imgBookmark, for: .normal)
         
         var db: Firestore!
         db = Firestore.firestore()

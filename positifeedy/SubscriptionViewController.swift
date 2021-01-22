@@ -29,6 +29,7 @@ class SubscriptionViewController: UIViewController
     @IBOutlet weak var btnyear: UIButton!
     @IBOutlet weak var scrollview: UIScrollView!
     
+    @IBOutlet weak var note: UILabel!
     
     override func viewDidLoad()
     {
@@ -43,7 +44,12 @@ class SubscriptionViewController: UIViewController
         self.btnyear.cornerRadidusbtn()
         self.btnmonth.cornerRadidusbtn()
         
-      //  self.scrollview.contentSize = CGSize.init(width: self.view.frame.size.width, height: self.btnskup.frame.origin.y + self.btnskup.frame.size.height + 20)
+        self.scrollview.contentSize = CGSize.init(width: self.view.frame.size.width, height: self.note.frame.origin.y + self.note.frame.size.height + 5)
+        
+        
+        //self.note.text = "The price of Mindful status and Journal subscription is just $19.99 a year or $1.99 a month applied to your iTunes account on confirmation. The price may vary from time-to-time and may change without notice, but you can always see the exact price in the app. Subscriptions will automatically renew unless canceled within 24-hours before the end of the current period. You can cancel anytime with your iTunes account settings. Our Terms of use and Privacy-policy"
+        
+        self.note.colorString(text: "The price of Mindful status and Journal subscription is just $19.99 a year or $1.99 a month applied to your iTunes account on confirmation. The price may vary from time-to-time and may change without notice, but you can always see the exact price in the app. Subscriptions will automatically renew unless canceled within 24-hours before the end of the current period. You can cancel anytime with your iTunes account settings. Our Terms of use and Privacy-policy", coloredText1: "Our Terms of use", coloredText2: "Privacy-policy")
         
     }
     
@@ -65,6 +71,26 @@ class SubscriptionViewController: UIViewController
        //self.serviceCallToBuySubscription()
         
     }
+    
+    @IBAction func onclickforPrivacy(_ sender: Any)
+    {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let answ = storyboard.instantiateViewController(withIdentifier: "PrivacyPolicyScreenVC") as! PrivacyPolicyScreenVC
+        answ.modalPresentationStyle = .fullScreen
+        answ.modalTransitionStyle = .crossDissolve
+        self.present(answ, animated: true, completion: nil)
+    }
+    
+    
+    @IBAction func onclickforTerms(_ sender: Any)
+    {
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let answ = storyboard.instantiateViewController(withIdentifier: "TermsNConditionVC") as! TermsNConditionVC
+            answ.modalPresentationStyle = .fullScreen
+            answ.modalTransitionStyle = .crossDissolve
+            self.present(answ, animated: true, completion: nil)
+    }
+    
     
     @IBAction func onclickforYear(_ sender: Any)
     {
@@ -300,3 +326,6 @@ extension UIButton
     }
     
 }
+
+
+

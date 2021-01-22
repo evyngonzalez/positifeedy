@@ -10,7 +10,8 @@
 #define ConstDec_h
 
 #define TERMS_AND_CONDITION @"http://wrapdate.com/terms-of-use/"
-#define PRIVACY_POLICY @"http://wrapdate.com/terms-of-use/"
+#define PRIVACY_POLICY @"https://www.positifeedy.com/privacy-policy"
+
 
 #define PREF_DAILY_QUESTION_COUNT @"dailycountquestion"
 #define PREF_CURRENT_DATE @"currentdate"
