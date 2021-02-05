@@ -20,6 +20,8 @@
 		50066E3C258512720026FE90 /* SetttingScreenVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50066E3B258512720026FE90 /* SetttingScreenVC.swift */; };
 		50066E3F2585145B0026FE90 /* TblSettingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50066E3D2585145B0026FE90 /* TblSettingCell.swift */; };
 		50066E402585145B0026FE90 /* TblSettingCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50066E3E2585145B0026FE90 /* TblSettingCell.xib */; };
+		50126D1525C589EF00E0CCF5 /* TblFeedTextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50126D1325C589EF00E0CCF5 /* TblFeedTextCell.swift */; };
+		50126D1625C589EF00E0CCF5 /* TblFeedTextCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50126D1425C589EF00E0CCF5 /* TblFeedTextCell.xib */; };
 		5021713F2588CCEC0050B0FE /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5021713E2588CCEC0050B0FE /* StoreKit.framework */; };
 		50235B3D25AC8CE600F02DD9 /* PrivacyPolicyScreenVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50235B3C25AC8CE600F02DD9 /* PrivacyPolicyScreenVC.swift */; };
 		502CDCD625824D7F0034AE5F /* SubscriptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502CDCD525824D7F0034AE5F /* SubscriptionViewController.swift */; };
@@ -107,6 +109,8 @@
 		50066E3B258512720026FE90 /* SetttingScreenVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetttingScreenVC.swift; sourceTree = "<group>"; };
 		50066E3D2585145B0026FE90 /* TblSettingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TblSettingCell.swift; sourceTree = "<group>"; };
 		50066E3E2585145B0026FE90 /* TblSettingCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TblSettingCell.xib; sourceTree = "<group>"; };
+		50126D1325C589EF00E0CCF5 /* TblFeedTextCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TblFeedTextCell.swift; sourceTree = "<group>"; };
+		50126D1425C589EF00E0CCF5 /* TblFeedTextCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TblFeedTextCell.xib; sourceTree = "<group>"; };
 		5021713E2588CCEC0050B0FE /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		50235B3C25AC8CE600F02DD9 /* PrivacyPolicyScreenVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyPolicyScreenVC.swift; sourceTree = "<group>"; };
 		502CDCD525824D7F0034AE5F /* SubscriptionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionViewController.swift; sourceTree = "<group>"; };
@@ -246,6 +250,7 @@
 		40CF1B4E250BC432003B3B82 /* positifeedy */ = {
 			isa = PBXGroup;
 			children = (
+				50126D1225C589D000E0CCF5 /* New Group */,
 				5057A18C25ADF63D002255CB /* splash.mov */,
 				5057A17F25ADB7EB002255CB /* TermsAndPrivacy */,
 				502D47902583B7DC0051F512 /* TableViewCell */,
@@ -269,6 +274,8 @@
 				880B12EC2543EE9900C08169 /* PostDetailViewController.swift */,
 				88D279FE2535ADBA00B1DE72 /* PositifeedyCell.swift */,
 				88D279FF2535ADBA00B1DE72 /* PositifeedyCell.xib */,
+				50126D1325C589EF00E0CCF5 /* TblFeedTextCell.swift */,
+				50126D1425C589EF00E0CCF5 /* TblFeedTextCell.xib */,
 				88E1F3D0251C91A60086E650 /* FeedCell.swift */,
 				88E1F416251CBD260086E650 /* FeedCell.xib */,
 				88EE3EBE254848C300E87380 /* FeedyCell.swift */,
@@ -297,6 +304,13 @@
 				50066E3A2584E91A0026FE90 /* ConstDec.h */,
 			);
 			path = positifeedy;
+			sourceTree = "<group>";
+		};
+		50126D1225C589D000E0CCF5 /* New Group */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "New Group";
 			sourceTree = "<group>";
 		};
 		502D47902583B7DC0051F512 /* TableViewCell */ = {
@@ -497,6 +511,7 @@
 				40CF1B57250BC432003B3B82 /* Main.storyboard in Resources */,
 				881D22B0251DC476006AE1D8 /* AdsTableViewCell.xib in Resources */,
 				88D27A012535ADBA00B1DE72 /* PositifeedyCell.xib in Resources */,
+				50126D1625C589EF00E0CCF5 /* TblFeedTextCell.xib in Resources */,
 				887C29A0251F6FEE009AFA9E /* SF-Pro-Display-Regular.otf in Resources */,
 				88E1F3E7251C960E0086E650 /* natashatracy.jpg in Resources */,
 			);
@@ -608,6 +623,7 @@
 				505AE183258792A900DD7079 /* TermsNConditionVC.swift in Sources */,
 				40CF1B6A250C8F39003B3B82 /* Constants.swift in Sources */,
 				8885D47025493D9E004340CE /* MetadataCache.swift in Sources */,
+				50126D1525C589EF00E0CCF5 /* TblFeedTextCell.swift in Sources */,
 				50955B3B258B83F900B84DD6 /* GreetingViewControllerProfile.swift in Sources */,
 				50235B3D25AC8CE600F02DD9 /* PrivacyPolicyScreenVC.swift in Sources */,
 				88D27A002535ADBA00B1DE72 /* PositifeedyCell.swift in Sources */,
@@ -766,11 +782,12 @@
 				DEVELOPMENT_TEAM = DTRPW5TVH6;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = positifeedy/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.staypos.StayPositive;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = staypos_appstore;
@@ -794,11 +811,12 @@
 				DEVELOPMENT_TEAM = DTRPW5TVH6;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = positifeedy/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.staypos.StayPositive;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = staypos_appstore;

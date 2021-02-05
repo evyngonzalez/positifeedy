@@ -21,4 +21,6 @@
 #define PREF_SUBSCRIBE_ANNUAL @"annual_sub"
 #define PREF_SUBSCRIBE_MONTH @"month_sub"
 
+#define PREF_AD_HEIGHT  @"ad_height"
+
 #endif /* ConstDec_h */

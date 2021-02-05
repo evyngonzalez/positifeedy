@@ -34,7 +34,7 @@ class GreetingViewControllerProfile: UIViewController
     var lblError : UILabel?
        
     var arrFeeds  : [Feed]?
-    var arrPositifeedy = [Positifeedy]()
+    var arrPositifeedy = [PositifeedAllSet]()
 
     var myDocId : String?
        
@@ -110,7 +110,7 @@ class GreetingViewControllerProfile: UIViewController
                         
                            let jsonData = try JSONSerialization.data(withJSONObject: arrData, options: .prettyPrinted)
                            let jsonDecoder = JSONDecoder()
-                           let obj = try jsonDecoder.decode([Positifeedy].self, from: jsonData)
+                           let obj = try jsonDecoder.decode([PositifeedAllSet].self, from: jsonData)
                            self.arrPositifeedy = obj.sorted(by: { (feed1, feed2) -> Bool in
                                let date1 = Date(timeIntervalSince1970: Double(feed1.timestamp ?? "\(Date().timeIntervalSince1970)")!)
                                let date2 = Date(timeIntervalSince1970: Double(feed2.timestamp ?? "\(Date().timeIntervalSince1970)")!)
@@ -156,7 +156,7 @@ class GreetingViewControllerProfile: UIViewController
            {
                let appDel =  UIApplication.shared.delegate as! AppDelegate
                
-               var tempBookMark = [Positifeedy]()
+               var tempBookMark = [PositifeedAllSet]()
                 
                 print("Arr bookmark :\(appDel.arrBookMarkLinkFeedy)")
                for link in appDel.arrBookMarkLinkFeedy
@@ -684,7 +684,7 @@ extension GreetingViewControllerProfile : UITableViewDataSource
                 
                 let cell = tableView.dequeueReusableCell(withIdentifier: "FeedyCell", for: indexPath) as! FeedyCell
                 
-                let feed = arrData[indexPath.row] as! Positifeedy
+                let feed = arrData[indexPath.row] as! PositifeedAllSet
                 
                 cell.bindData(feed: feed)
 
@@ -781,7 +781,7 @@ extension GreetingViewControllerProfile : UITableViewDataSource
     @objc func btnShareClick(_ sender : UIButton) {
         
         SVProgressHUD.show()
-        let positifeedy = arrData[sender.tag] as! Positifeedy
+        let positifeedy = arrData[sender.tag] as! PositifeedAllSet
         
         var components = URLComponents()
         components.scheme = "https"
@@ -914,7 +914,7 @@ extension GreetingViewControllerProfile : UITableViewDataSource
             
             
          } else {
-             let feed = (arrData[sender.tag] as! Positifeedy).documentID
+             let feed = (arrData[sender.tag] as! PositifeedAllSet).documentID
              
              arrData.remove(at: sender.tag)
              
@@ -978,11 +978,22 @@ extension GreetingViewControllerProfile : UITableViewDataSource
     
     @objc func btnPlayTapped(_ sender: UIButton) {
         
-        if let feed = arrData[sender.tag] as? Positifeedy {
-            if let strUrl = feed.feed_video, let url = URL(string: strUrl) {
-                self.playVideo(url: url)
+        if arrData != nil
+        {
+            if arrData.count > 0
+            {
+                let feed = arrData[sender.tag] as? PositifeedAllSet
+                let strurl = feed?.feed_video
+                let url = URL.init(string: strurl!)
+                self.playVideo(url: url!)
             }
         }
+        
+//        if let feed = arrData[sender.tag] as? Positifeedy {
+//            if let strUrl = feed.feed_video, let url = URL(string: strUrl) {
+//                self.playVideo(url: url)
+//            }
+//        }
     }
     
     func playVideo(url: URL) {
@@ -1040,7 +1051,7 @@ extension GreetingViewControllerProfile : UITableViewDelegate
                 webVC.isBookmark = true
                 navigationController?.pushViewController(webVC, animated: true)
                 
-            } else if let feed = arrData[indexPath.row] as? Positifeedy {
+            } else if let feed = arrData[indexPath.row] as? PositifeedAllSet {
                 
                 let feed_type = feed.feed_type ?? ""
 

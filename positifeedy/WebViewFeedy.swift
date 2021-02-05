@@ -19,16 +19,16 @@ class WebViewFeedy: UIViewController,WKNavigationDelegate
     
     var myDocID : String?
     var isBookmark: Bool = false
-    var positifeedy : Positifeedy?
+    var positifeedy : PositifeedAllSet?
 
     //let bookmark = UIButton(type: .custom)
     //let share = UIButton(type: .custom)
     
     @IBOutlet weak var imgBookmark1: UIImageView!
     @IBOutlet weak var imgshare1: UIImageView!
-    let imgBookmark = UIImage.init(named: "book_mark_ic1")!
-    let imgBookmarkSelected = UIImage.init(named: "selected_bookmark_ic1")!
-    let imgShare = UIImage.init(named: "share_ic1")!
+    let imgBookmark = UIImage.init(named: "book_mark_ic")!
+    let imgBookmarkSelected = UIImage.init(named: "selected_bookmark_ic")!
+    let imgShare = UIImage.init(named: "share_ic")!
     
     @IBOutlet weak var navview: UIView!
     

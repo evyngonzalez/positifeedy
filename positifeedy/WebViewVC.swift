@@ -23,9 +23,9 @@ class WebViewVC: UIViewController,WKNavigationDelegate {
     //let bookmark = UIButton(type: .custom)
     //let share = UIButton(type: .custom)
     
-    let imgBookmark = UIImage.init(named: "book_mark_ic1")!
-    let imgBookmarkSelected = UIImage.init(named: "selected_bookmark_ic1")!
-    let imgShare = UIImage.init(named: "share_ic1")!
+    let imgBookmark = UIImage.init(named: "book_mark_ic")!
+    let imgBookmarkSelected = UIImage.init(named: "selected_bookmark_ic")!
+    let imgShare = UIImage.init(named: "share_ic")!
     
     @IBOutlet weak var imgBookmark1: UIImageView!
     @IBOutlet weak var btnbookmark: UIButton!

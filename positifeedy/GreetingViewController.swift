@@ -6,6 +6,11 @@
 //  Copyright (c) 2015 Erik Malyak. All rights reserved.
 //
 
+// when you...
+// calming
+// Life itself
+
+
 import UIKit
 import Alamofire
 import Firebase
@@ -19,10 +24,12 @@ import SDWebImage
 class GreetingViewController: UIViewController
 {
     
+    var arrTempararyArray: NSMutableArray!
     var arrBookMarkArrray : NSMutableArray!
     var greeting:String!
     var arrFeeds : [Feed] = []
-    var arrPositifeedy = [Positifeedy]()
+    var arrPositifeedy = [PositifeedAllSet]()
+    var arrPositifeedyArticle = [PositifeedAllSet]()
     var adsCount : Int = 0
     var refreshControl = UIRefreshControl()
     var isRefresh = false
@@ -38,30 +45,30 @@ class GreetingViewController: UIViewController
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 200.0
         
+        self.arrTempararyArray = NSMutableArray.init()
         self.arrBookMarkArrray = NSMutableArray.init()
         
         tableView.register(UINib(nibName: "FeedCell", bundle: nil), forCellReuseIdentifier: "cell")
         tableView.register(UINib(nibName: "FeedyCell", bundle: nil), forCellReuseIdentifier: "FeedyCell")
 
-        
         tableView.register(UINib(nibName: "AdsTableViewCell", bundle: nil), forCellReuseIdentifier: "adsCell")
         
         tableView.tableFooterView = UIView()
         tableView.dataSource = self
         tableView.delegate = self
-        
+      
         //         UIApplication.shared.statusBarView?.backgroundColor = UIColor.green
         
         getBookmarsData()
         getBookmarsDataFeedy()
         
-        getFeeds()
+        //getFeeds()
         getPositifeedy()
         
         //        refreshControl.attributedTitle = NSAttributedString(string: )
         //  refreshControl.tintColor = .clear
-        refreshControl.addTarget(self, action: #selector(self.refresh(_:)), for: .valueChanged)
-        tableView.addSubview(refreshControl) // not required when using UITableViewController
+        //refreshControl.addTarget(self, action: #selector(self.refresh(_:)), for: .valueChanged)
+        //tableView.addSubview(refreshControl) // not required when using UITableViewController
         
         if self.greeting == "From us"
         {
@@ -96,16 +103,17 @@ class GreetingViewController: UIViewController
     }
     
     @objc func refresh(_ sender: AnyObject) {
-        self.isRefresh = true
-        getFeeds()
+        
+        self.isRefresh = false
+        
+        //getFeeds()
     }
     
     
       func getPositifeedy() {
+        
           var db: Firestore!
-          
           db = Firestore.firestore()
-          
           db.collection("Positifeedy").getDocuments { (snap, error) in
               if error != nil
               {
@@ -122,20 +130,27 @@ class GreetingViewController: UIViewController
                   
                   do {
                       
-                      let jsonData = try JSONSerialization.data(withJSONObject: arrData, options: .prettyPrinted)
-                      let jsonDecoder = JSONDecoder()
-                      let obj = try jsonDecoder.decode([Positifeedy].self, from: jsonData)
-                      self.arrPositifeedy = obj.sorted(by: { (feed1, feed2) -> Bool in
-                          let date1 = Date(timeIntervalSince1970: Double(feed1.timestamp ?? "\(Date().timeIntervalSince1970)")!)
-                          let date2 = Date(timeIntervalSince1970: Double(feed2.timestamp ?? "\(Date().timeIntervalSince1970)")!)
-                          return date1 > date2
-                      })
+                    
+                    self.arrTempararyArray = NSMutableArray.init(array: arrData)
+                    print("array :\(self.arrTempararyArray)")
+                    
+                    
+                    self.getFeeds()
+                    
+//                      let jsonData = try JSONSerialization.data(withJSONObject: arrData, options: .prettyPrinted)
+//                      let jsonDecoder = JSONDecoder()
+//                      let obj = try jsonDecoder.decode([PositifeedAllSet].self, from: jsonData)
+//                      self.arrPositifeedy = obj.sorted(by: { (feed1, feed2) -> Bool in
+//                          let date1 = Date(timeIntervalSince1970: Double(feed1.timestamp ?? "\(Date().timeIntervalSince1970)")!)
+//                          let date2 = Date(timeIntervalSince1970: Double(feed2.timestamp ?? "\(Date().timeIntervalSince1970)")!)
+//                          return date1 > date2
+//                      })
                       
                   }
                   catch {
                       
                   }
-                  self.tableView.reloadData()
+                  //self.tableView.reloadData()
               }
           }
       }
@@ -274,6 +289,8 @@ class GreetingViewController: UIViewController
           }
       }
       
+    //MARK:- get article method :
+    
       func getFeeds()  {
           
           if !NetworkState.isConnected()
@@ -288,16 +305,91 @@ class GreetingViewController: UIViewController
               SVProgressHUD.show()
           }
           
-          AF.request(Global.feedURL).responseDecodable(of: FeedResponse.self)  { (response) in
+        AF.request(Global.feedURL, method: .get,  parameters: nil, encoding: JSONEncoding.default)
+            .responseJSON { response in
+                switch response.result {
+                case .success(let value):
+                    if let json = value as? [String: Any] {
+                       
+                        SVProgressHUD.dismiss()
+                        
+                        let result = json["result"] as? NSDictionary
+                        if result!.count > 0
+                        {
+                            let entries = result?.value(forKey: "entries") as? NSArray
+                            if entries!.count > 0
+                            {
+                                 
+                                let finalAr1 = NSMutableArray.init()
+                                
+                                let temp =  NSMutableArray.init(array: entries!)
+                                for i in (0..<temp.count)
+                                {
+                                    let dict = temp.object(at: i) as? NSDictionary
+                                    let mutable = NSMutableDictionary.init()
+                                    mutable.setValue(String.init(format: "%@",(dict?.value(forKey: "description") as? CVarArg)!), forKey: "description_d")
+                                    mutable.setValue(String.init(format: "%@",(dict?.value(forKey: "guid") as? CVarArg)!), forKey: "guid")
+                                    mutable.setValue(String.init(format: "%@",(dict?.value(forKey: "link") as? CVarArg)!), forKey: "link")
+                                    mutable.setValue(String.init(format: "%@",(dict?.value(forKey: "time") as? CVarArg)!), forKey: "time")
+                                    mutable.setValue(String.init(format: "%@",(dict?.value(forKey: "timestamp") as? CVarArg)!), forKey: "timestamp")
+                                    mutable.setValue(String.init(format: "%@",(dict?.value(forKey: "title") as? CVarArg)!), forKey: "title")
+                                    self.arrTempararyArray.add(mutable)
+                                    
+                                        //                                    finalAr1.add(mutable)
+                                }
+                                
+                                if self.arrTempararyArray.count > 0
+                                {
+                                   // self.arrTempararyArray = NSMutableArray.init(array: finalAr1)
+                                    
+                                    print("entries \(self.arrTempararyArray)")
+                                      //  let finalArray = NSMutableArray.init(array: entries!)
+                                           do {
+                                                              
+                                            let jsonData = try JSONSerialization.data(withJSONObject: self.arrTempararyArray, options: .prettyPrinted)
+                                                              let jsonDecoder = JSONDecoder()
+                                                              let obj = try jsonDecoder.decode([PositifeedAllSet].self, from: jsonData)
+                                                              //self.arrPositifeedyArticle = obj
+                                            
+                                                              self.arrPositifeedy = obj.sorted(by: { (feed1, feed2) -> Bool in
+                                                                  let date1 = Date(timeIntervalSince1970: Double(feed1.timestamp ?? "\(Date().timeIntervalSince1970)")!)
+                                                                  let date2 = Date(timeIntervalSince1970: Double(feed2.timestamp ?? "\(Date().timeIntervalSince1970)")!)
+                                                                  return date1 > date2
+                                                              })
+                                              }
+                                              catch {
+                                                  
+                                              }
+                                              print("Article  and  from -> both  :\(self.arrPositifeedy)")
+                                               if self.arrPositifeedy.count > 0
+                                               {
+                                                   self.tableView.reloadData()
+                                               }
+                                }
+                            }
+                        }
+                        
+                    }
+                case .failure(let error):
+                    print(error)
+                }
+        }
+        
+        
+       
+        /*AF.request(Global.feedURL).responseDecodable(of: FeedResponse.self)  { (response) in
               
               SVProgressHUD.dismiss()
-              
+               
+            print("arr response :\(response)")
               switch response.result
               {
               case .success(let feedResponse) :
                   if (feedResponse.ok ?? false)
                   {
                       self.arrFeeds = feedResponse.info.arrFeedData ?? []
+                      print("arr feed :\(self.arrFeeds)")
+                    
                       self.tableView.reloadData()
                       if self.isRefresh
                       {
@@ -310,12 +402,13 @@ class GreetingViewController: UIViewController
                   print(error)
               }
               
-          }
+          } */
+        
       }
           
       @objc func btnShareClickFeed(_ sender : UIButton) {
           
-          let feed = arrFeeds[sender.tag]
+         let feed = self.arrPositifeedy[sender.tag]
           var url : String = feed.link!
           
           var components = URLComponents()
@@ -466,76 +559,88 @@ class GreetingViewController: UIViewController
               sender.isSelected = true
               
               if selectedTab == 0 {
-                  appDel.arrBookMarkLinkFeedy.append(arrPositifeedy[sender.tag].documentID!)
-                  let d = ["linksFeedy" : appDel.arrBookMarkLinkFeedy]
-                  db.collection("users").document(myDocID!).updateData(d) { (error) in
-                      if error != nil
-                      {
-                          print(error!.localizedDescription)
-                      }
-                  }
-               
                 
-                let timestamp = Date().currentTimeMillis()
-                let searchPredicate = NSPredicate(format: "feed beginswith[C] %@",arrPositifeedy[sender.tag].documentID!)
-                let  arrrDict = self.arrBookMarkArrray.filter { searchPredicate.evaluate(with: $0) };
-                let filterArray = NSMutableArray.init(array: arrrDict)
-                if(filterArray.count > 0)
+                let feed = arrPositifeedy[sender.tag]
+                if feed.description_d != nil
                 {
-                        // alerady exitst
-                }
-                else
+                    appDel.arrBookMarkLink.append(feed.link!)
+                      let d = ["links" : appDel.arrBookMarkLink]
+                      db.collection("users").document(myDocID!).updateData(d) { (error) in
+                          if error != nil
+                          {
+                              print(error!.localizedDescription)
+                          }
+                      }
+                    
+                        let timestamp = Date().currentTimeMillis()
+                        let searchPredicate = NSPredicate(format: "link beginswith[C] %@",feed.link!)
+                        let  arrrDict = self.arrBookMarkArrray.filter { searchPredicate.evaluate(with: $0) };
+                        let filterArray = NSMutableArray.init(array: arrrDict)
+                        if(filterArray.count > 0)
+                        {
+                                // alerady exitst
+                        }
+                        else
+                        {
+                            // not exist
+                            let mutabledict = NSMutableDictionary.init()
+                            mutabledict.setValue(feed.link, forKey: "link")
+                            mutabledict.setValue("\(timestamp)", forKey: "timestamp")
+                            self.arrBookMarkArrray.add(mutabledict)
+                           
+                            let d2 = ["bookmarkarray" : self.arrBookMarkArrray]
+                             db.collection("users").document(myDocID!).updateData(d2) { (error) in
+                                 if error != nil
+                                 {
+                                     print(error!.localizedDescription)
+                                 }
+                             }
+                        }
+                    
+                }else
                 {
-                    // not exist
-                    let mutabledict = NSMutableDictionary.init()
-                    mutabledict.setValue(arrPositifeedy[sender.tag].documentID!, forKey: "feed")
-                    mutabledict.setValue("\(timestamp)", forKey: "timestamp")
-                    self.arrBookMarkArrray.add(mutabledict)
-                   
-                    let d2 = ["bookmarkarray" : self.arrBookMarkArrray]
-                     db.collection("users").document(myDocID!).updateData(d2) { (error) in
-                         if error != nil
-                         {
-                             print(error!.localizedDescription)
-                         }
-                     }
+                    appDel.arrBookMarkLinkFeedy.append(arrPositifeedy[sender.tag].documentID!)
+                                    let d = ["linksFeedy" : appDel.arrBookMarkLinkFeedy]
+                                    db.collection("users").document(myDocID!).updateData(d) { (error) in
+                                        if error != nil
+                                        {
+                                            print(error!.localizedDescription)
+                                        }
+                                    }
+                                 
+                                  
+                                  let timestamp = Date().currentTimeMillis()
+                                  let searchPredicate = NSPredicate(format: "feed beginswith[C] %@",arrPositifeedy[sender.tag].documentID!)
+                                  let  arrrDict = self.arrBookMarkArrray.filter { searchPredicate.evaluate(with: $0) };
+                                  let filterArray = NSMutableArray.init(array: arrrDict)
+                                  if(filterArray.count > 0)
+                                  {
+                                          // alerady exitst
+                                  }
+                                  else
+                                  {
+                                      // not exist
+                                      let mutabledict = NSMutableDictionary.init()
+                                      mutabledict.setValue(arrPositifeedy[sender.tag].documentID!, forKey: "feed")
+                                      mutabledict.setValue("\(timestamp)", forKey: "timestamp")
+                                      self.arrBookMarkArrray.add(mutabledict)
+                                     
+                                      let d2 = ["bookmarkarray" : self.arrBookMarkArrray]
+                                       db.collection("users").document(myDocID!).updateData(d2) { (error) in
+                                           if error != nil
+                                           {
+                                               print(error!.localizedDescription)
+                                           }
+                                       }
+                                  }
+                    
                 }
+                
+                
                 
                 
               } else {
-                  appDel.arrBookMarkLink.append(arrFeeds[sender.tag].link!)
-                  let d = ["links" : appDel.arrBookMarkLink]
-                  db.collection("users").document(myDocID!).updateData(d) { (error) in
-                      if error != nil
-                      {
-                          print(error!.localizedDescription)
-                      }
-                  }
-                
-                    let timestamp = Date().currentTimeMillis()
-                    let searchPredicate = NSPredicate(format: "link beginswith[C] %@",arrFeeds[sender.tag].link!)
-                    let  arrrDict = self.arrBookMarkArrray.filter { searchPredicate.evaluate(with: $0) };
-                    let filterArray = NSMutableArray.init(array: arrrDict)
-                    if(filterArray.count > 0)
-                    {
-                            // alerady exitst
-                    }
-                    else
-                    {
-                        // not exist
-                        let mutabledict = NSMutableDictionary.init()
-                        mutabledict.setValue(arrFeeds[sender.tag].link!, forKey: "link")
-                        mutabledict.setValue("\(timestamp)", forKey: "timestamp")
-                        self.arrBookMarkArrray.add(mutabledict)
-                       
-                        let d2 = ["bookmarkarray" : self.arrBookMarkArrray]
-                         db.collection("users").document(myDocID!).updateData(d2) { (error) in
-                             if error != nil
-                             {
-                                 print(error!.localizedDescription)
-                             }
-                         }
-                    }
+                  
                                
               }
               
@@ -545,109 +650,121 @@ class GreetingViewController: UIViewController
               sender.isSelected = false
               
               if selectedTab == 0 {
-                  let link = arrPositifeedy[sender.tag].documentID
-                  
-                  if let index = appDel.arrBookMarkLinkFeedy.firstIndex(of: link!) {
-                      appDel.arrBookMarkLinkFeedy.remove(at: index)
-                  }
-                  
-                  let d = ["linksFeedy" : appDel.arrBookMarkLinkFeedy]
-                  db.collection("users").document(myDocID!).updateData(d) { (error) in
-                      if error != nil
-                      {
-                          print(error!.localizedDescription)
-                      }
-                  }
                 
+                let feed = self.arrPositifeedy[sender.tag]
                 
-                        let timestamp = Date().currentTimeMillis()
-                        let searchPredicate = NSPredicate(format: "feed beginswith[C] %@",arrPositifeedy[sender.tag].documentID!)
-                        let  arrrDict = self.arrBookMarkArrray.filter { searchPredicate.evaluate(with: $0) };
-                        let filterArray = NSMutableArray.init(array: arrrDict)
-                        if(filterArray.count > 0)
-                        {
-                            let dict = filterArray.object(at: 0) as? NSDictionary
-                            // alerady exitst
-                            self.arrBookMarkArrray.remove(dict)
-                            
-                            let d2 = ["bookmarkarray" : self.arrBookMarkArrray]
-                            db.collection("users").document(myDocID!).updateData(d2) { (error) in
-                                if error != nil
-                                {
-                                    print(error!.localizedDescription)
-                                }
-                            }
-                        }
-                        else
-                        {
-//                            // not exist
-//                            let mutabledict = NSMutableDictionary.init()
-//                            mutabledict.setValue(arrPositifeedy[sender.tag].documentID!, forKey: "feed")
-//                            mutabledict.setValue("\(timestamp)", forKey: "timestamp")
-//                            self.arrBookMarkArrray.add(mutabledict)
-//
-//                            let d2 = ["bookmarkarray" : "\(self.arrBookMarkArrray)"]
-//                             db.collection("users").document(myDocID!).updateData(d2) { (error) in
-//                                 if error != nil
-//                                 {
-//                                     print(error!.localizedDescription)
-//                                 }
-//                             }
-                        }
-                
-                
+                if feed.description_d != nil {
+                    
+
+                                            let link = feed.link
+                                      
+                                      if let index = appDel.arrBookMarkLink.firstIndex(of: link!) {
+                                          appDel.arrBookMarkLink.remove(at: index)
+                                      }
+                                      
+                                      let d = ["links" : appDel.arrBookMarkLink]
+                                      db.collection("users").document(myDocID!).updateData(d) { (error) in
+                                          if error != nil
+                                          {
+                                              print(error!.localizedDescription)
+                                          }
+                                      }
+                                    
+                                    let timestamp = Date().currentTimeMillis()
+                                   let searchPredicate = NSPredicate(format: "link beginswith[C] %@",feed.link!)
+                                    let  arrrDict = self.arrBookMarkArrray.filter { searchPredicate.evaluate(with: $0) };
+                                    let filterArray = NSMutableArray.init(array: arrrDict)
+                                    if(filterArray.count > 0)
+                                    {
+                                            // alerady exitst
+                                        let dict = filterArray.object(at: 0) as? NSDictionary
+                                        // alerady exitst
+                                        self.arrBookMarkArrray.remove(dict)
+                                        
+                                        let d2 = ["bookmarkarray" : self.arrBookMarkArrray]
+                                        db.collection("users").document(myDocID!).updateData(d2) { (error) in
+                                            if error != nil
+                                            {
+                                                print(error!.localizedDescription)
+                                            }
+                                        }
+                                        
+                                    }
+                                    else
+                                    {
+                                        // not exist
+                    //                    let mutabledict = NSMutableDictionary.init()
+                    //                    mutabledict.setValue(arrPositifeedy[sender.tag].documentID!, forKey: "link")
+                    //                    mutabledict.setValue("\(timestamp)", forKey: "timestamp")
+                    //                    self.arrBookMarkArrray.add(mutabledict)
+                    //
+                    //                    let d2 = ["bookmarkarray" : "\(self.arrBookMarkArrray)"]
+                    //                     db.collection("users").document(myDocID!).updateData(d2) { (error) in
+                    //                         if error != nil
+                    //                         {
+                    //                             print(error!.localizedDescription)
+                    //                         }
+                    //                     }
+                                    }
+                                    
+                    
+                }else
+                {
+                      let link = arrPositifeedy[sender.tag].documentID
+                                      
+                                      if let index = appDel.arrBookMarkLinkFeedy.firstIndex(of: link!) {
+                                          appDel.arrBookMarkLinkFeedy.remove(at: index)
+                                      }
+                                      
+                                      let d = ["linksFeedy" : appDel.arrBookMarkLinkFeedy]
+                                      db.collection("users").document(myDocID!).updateData(d) { (error) in
+                                          if error != nil
+                                          {
+                                              print(error!.localizedDescription)
+                                          }
+                                      }
+                                    
+                                    
+                                            let timestamp = Date().currentTimeMillis()
+                                            let searchPredicate = NSPredicate(format: "feed beginswith[C] %@",arrPositifeedy[sender.tag].documentID!)
+                                            let  arrrDict = self.arrBookMarkArrray.filter { searchPredicate.evaluate(with: $0) };
+                                            let filterArray = NSMutableArray.init(array: arrrDict)
+                                            if(filterArray.count > 0)
+                                            {
+                                                let dict = filterArray.object(at: 0) as? NSDictionary
+                                                // alerady exitst
+                                                self.arrBookMarkArrray.remove(dict)
+                                                
+                                                let d2 = ["bookmarkarray" : self.arrBookMarkArrray]
+                                                db.collection("users").document(myDocID!).updateData(d2) { (error) in
+                                                    if error != nil
+                                                    {
+                                                        print(error!.localizedDescription)
+                                                    }
+                                                }
+                                            }
+                                            else
+                                            {
+                    //                            // not exist
+                    //                            let mutabledict = NSMutableDictionary.init()
+                    //                            mutabledict.setValue(arrPositifeedy[sender.tag].documentID!, forKey: "feed")
+                    //                            mutabledict.setValue("\(timestamp)", forKey: "timestamp")
+                    //                            self.arrBookMarkArrray.add(mutabledict)
+                    //
+                    //                            let d2 = ["bookmarkarray" : "\(self.arrBookMarkArrray)"]
+                    //                             db.collection("users").document(myDocID!).updateData(d2) { (error) in
+                    //                                 if error != nil
+                    //                                 {
+                    //                                     print(error!.localizedDescription)
+                    //                                 }
+                    //                             }
+                                            }
+                    
+                }
+               
                 
               } else {
-                  let link = arrFeeds[sender.tag].link
-                  
-                  if let index = appDel.arrBookMarkLink.firstIndex(of: link!) {
-                      appDel.arrBookMarkLink.remove(at: index)
-                  }
-                  
-                  let d = ["links" : appDel.arrBookMarkLink]
-                  db.collection("users").document(myDocID!).updateData(d) { (error) in
-                      if error != nil
-                      {
-                          print(error!.localizedDescription)
-                      }
-                  }
                 
-                let timestamp = Date().currentTimeMillis()
-                let searchPredicate = NSPredicate(format: "link beginswith[C] %@",arrFeeds[sender.tag].link!)
-                let  arrrDict = self.arrBookMarkArrray.filter { searchPredicate.evaluate(with: $0) };
-                let filterArray = NSMutableArray.init(array: arrrDict)
-                if(filterArray.count > 0)
-                {
-                        // alerady exitst
-                    let dict = filterArray.object(at: 0) as? NSDictionary
-                    // alerady exitst
-                    self.arrBookMarkArrray.remove(dict)
-                    
-                    let d2 = ["bookmarkarray" : self.arrBookMarkArrray]
-                    db.collection("users").document(myDocID!).updateData(d2) { (error) in
-                        if error != nil
-                        {
-                            print(error!.localizedDescription)
-                        }
-                    }
-                    
-                }
-                else
-                {
-                    // not exist
-//                    let mutabledict = NSMutableDictionary.init()
-//                    mutabledict.setValue(arrPositifeedy[sender.tag].documentID!, forKey: "link")
-//                    mutabledict.setValue("\(timestamp)", forKey: "timestamp")
-//                    self.arrBookMarkArrray.add(mutabledict)
-//
-//                    let d2 = ["bookmarkarray" : "\(self.arrBookMarkArrray)"]
-//                     db.collection("users").document(myDocID!).updateData(d2) { (error) in
-//                         if error != nil
-//                         {
-//                             print(error!.localizedDescription)
-//                         }
-//                     }
-                }
                 
                 
               }
@@ -656,9 +773,22 @@ class GreetingViewController: UIViewController
           tableView.reloadData()
       }
       
-      func isBookMark(link : String) -> Bool
+    func isBookMark(link : String,desc: String) -> Bool
       {
           if selectedTab == 0 {
+            
+            if desc != ""
+            {
+                let appDel = UIApplication.shared.delegate as! AppDelegate
+                 let ind = appDel.arrBookMarkLink.firstIndex(of: link) ?? -1
+                 if ind > -1
+                 {
+                     return true
+                 }
+                
+            }
+            else
+            {
               let appDel = UIApplication.shared.delegate as! AppDelegate
               
               let ind = appDel.arrBookMarkLinkFeedy.firstIndex(of: link) ?? -1
@@ -666,6 +796,7 @@ class GreetingViewController: UIViewController
               {
                   return true
               }
+            }
           } else {
               let appDel = UIApplication.shared.delegate as! AppDelegate
               
@@ -723,18 +854,66 @@ extension GreetingViewController : UITableViewDataSource
             let cell = tableView.dequeueReusableCell(withIdentifier: "FeedyCell", for: indexPath) as! FeedyCell
 
             let feed = arrPositifeedy[indexPath.row]
+
+            if feed.description_d != nil
+            {
+
+                cell.viewLink.isHidden = true
+                let date =  feed.time?.toDate()
+                //cell.btnShare.tag = indexPath.row
+                //cell.btnShare.addTarget(self, action: #selector(btnShareClickFeed), for: .touchUpInside)
+                
+                cell.btnPlay.isHidden = true
+                cell.lblTitle.text = feed.title
+                cell.lblDesc.text = feed.description_d
+                cell.lblTime.text  = date!.getElapsedInterval((feed.time?.getTimeZone())!)
+                
+                cell.btnShare.tag = indexPath.row
+               cell.btnShare.addTarget(self, action: #selector(btnShareClickFeed), for: .touchUpInside)
+              
+               cell.btnBookMark.setImage(UIImage(named: "book_mark_ic"), for: .normal)
+               cell.btnBookMark.setImage(UIImage(named: "bookmarkSelected"), for: .selected)
+               cell.btnBookMark.tag = indexPath.row
+               cell.btnBookMark.isSelected = isBookMark(link: feed.link!,desc: feed.description_d!)
+               cell.btnBookMark.addTarget(self, action: #selector(btnBookMarkClick), for: .touchUpInside)
+               cell.imgView.cornerRadius(10)
+              
+                
+                
+                if feed.link != nil
+                {
+                    if let link = URL(string: feed.link!)
+                    {
+                        if Images(rawValue: (link.domain)!)!.image != nil
+                        {
+                             if let img = Images(rawValue: (link.domain)!)!.image
+                            {
+                                print("img :\(img)")
+                                cell.imgView.image = UIImage(named: img)
+                            }
+                            else
+                             {
+                                cell.imgView.image = UIImage(named: "vlogo")
+                            }
+                        }
+                    }
+                }
+                
+            }else
+            {
+                cell.bindData(feed: feed)
+
+                cell.btnBookMark.tag = indexPath.row
+                cell.btnBookMark.isSelected = isBookMark(link: feed.documentID!,desc: "")
+                cell.btnBookMark.addTarget(self, action: #selector(btnBookMarkClick), for: .touchUpInside)
+                
+                cell.btnShare.tag = indexPath.row
+                cell.btnShare.addTarget(self, action: #selector(btnShareClick), for: .touchUpInside)
+                
+                cell.btnPlay.tag = indexPath.row
+                cell.btnPlay.addTarget(self, action: #selector(btnPlayTapped(_:)), for: .touchUpInside)
+            }
             
-            cell.bindData(feed: feed)
-                        
-            cell.btnBookMark.tag = indexPath.row
-            cell.btnBookMark.isSelected = isBookMark(link: feed.documentID!)
-            cell.btnBookMark.addTarget(self, action: #selector(btnBookMarkClick), for: .touchUpInside)
-            
-            cell.btnShare.tag = indexPath.row
-            cell.btnShare.addTarget(self, action: #selector(btnShareClick), for: .touchUpInside)
-            
-            cell.btnPlay.tag = indexPath.row
-            cell.btnPlay.addTarget(self, action: #selector(btnPlayTapped(_:)), for: .touchUpInside)
             
             return cell
 
@@ -759,7 +938,7 @@ extension GreetingViewController : UITableViewDataSource
             cell.btnBookMark.setImage(UIImage(named: "book_mark_ic"), for: .normal)
             cell.btnBookMark.setImage(UIImage(named: "bookmarkSelected"), for: .selected)
             cell.btnBookMark.tag = indexPath.row
-            cell.btnBookMark.isSelected = isBookMark(link: feed.link!)
+            cell.btnBookMark.isSelected = isBookMark(link: feed.link!,desc: feed.desc!)
             cell.btnBookMark.addTarget(self, action: #selector(btnBookMarkClick), for: .touchUpInside)
             cell.imgView.cornerRadius(10)
             
@@ -780,11 +959,8 @@ extension GreetingViewController : UITableViewDataSource
                         }
                     }
                 }
-                    
             }
-            
             return cell
-
         }
         
     }
@@ -807,7 +983,22 @@ extension GreetingViewController : UITableViewDelegate
         
         if indexPath.row % 5 == 0 && indexPath.row != 0
         {
-            return 155
+            let pref_ad = UserDefaults.standard.object(forKey: PREF_AD_HEIGHT) as? String
+            if pref_ad  != nil
+            {
+                if pref_ad == "1"
+                {
+                    return 155
+                    
+                }else
+                {
+                    return 0
+                }
+            }
+            else
+            {
+                return 0
+            }
         }
         return UITableView.automaticDimension
     }
@@ -818,9 +1009,20 @@ extension GreetingViewController : UITableViewDelegate
         var feed_type: String = ""
 
         if selectedTab == 0 {
+            
             let feed = arrPositifeedy[indexPath.row]
-            link = feed.documentID ?? ""
-            feed_type = feed.feed_type ?? ""
+            
+            if feed.description_d != nil
+            {
+                link = feed.link ?? ""
+                
+            }
+            else
+            {
+                link = feed.documentID ?? ""
+                feed_type = feed.feed_type ?? ""
+            }
+            
             
         } else {
             let feed = arrFeeds[indexPath.row]
@@ -830,26 +1032,36 @@ extension GreetingViewController : UITableViewDelegate
         
         if selectedTab == 0 {
             
-            if feed_type == "link" {
-                let detailVC = self.storyboard?.instantiateViewController(withIdentifier: "WebViewFeedy") as! WebViewFeedy
-                detailVC.myDocID = self.myDocID
-                detailVC.isBookmark = isBookMark(link: link)
-                detailVC.positifeedy = arrPositifeedy[indexPath.row]
-                navigationController?.pushViewController(detailVC, animated: true)
-            } else {
-                let detailVC = self.storyboard?.instantiateViewController(withIdentifier: "PostDetailViewController") as! PostDetailViewController
-                detailVC.myDocID = self.myDocID
-                detailVC.isBookmark = isBookMark(link: link)
-                detailVC.positifeedy = arrPositifeedy[indexPath.row]
-                navigationController?.pushViewController(detailVC, animated: true)
+            let feed = arrPositifeedy[indexPath.row]
+            
+            if feed.description_d != nil
+            {
+                let webVC = self.storyboard?.instantiateViewController(withIdentifier: "WebViewVC") as! WebViewVC
+                webVC.url = link
+                webVC.myDocID = self.myDocID
+                webVC.isBookmark = isBookMark(link: link,desc: feed.description_d!)
+                navigationController?.pushViewController(webVC, animated: true)
+                
+            }else
+            {
+                if feed_type == "link" {
+                    let detailVC = self.storyboard?.instantiateViewController(withIdentifier: "WebViewFeedy") as! WebViewFeedy
+                    detailVC.myDocID = self.myDocID
+                    detailVC.isBookmark = isBookMark(link: link,desc: feed.description_d!)
+                    detailVC.positifeedy = arrPositifeedy[indexPath.row]
+                    navigationController?.pushViewController(detailVC, animated: true)
+                } else {
+                    let detailVC = self.storyboard?.instantiateViewController(withIdentifier: "PostDetailViewController") as! PostDetailViewController
+                    detailVC.myDocID = self.myDocID
+                    detailVC.isBookmark = isBookMark(link: link,desc: feed.description_d!)
+                    detailVC.positifeedy = arrPositifeedy[indexPath.row]
+                    navigationController?.pushViewController(detailVC, animated: true)
+                }
+                
             }
             
         } else {
-            let webVC = self.storyboard?.instantiateViewController(withIdentifier: "WebViewVC") as! WebViewVC
-            webVC.url = link
-            webVC.myDocID = self.myDocID
-            webVC.isBookmark = isBookMark(link: link)
-            navigationController?.pushViewController(webVC, animated: true)
+            
         }
         
         

@@ -27,10 +27,11 @@ class JournalViewController: UIViewController
     var arrNotification = [NotificationQuote]()
     var arrQuestionList = [QuestionListItem]()
     var arrFeeds : [Feed] = []
-    var arrPositifeedy = [Positifeedy]()
+    var arrPositifeedy = [PositifeedAllSet]()
     
     @IBOutlet weak var lblday: UILabel!
     
+    @IBOutlet weak var llbNamed: UILabel!
     @IBOutlet weak var suscriptionView: UIView!
     @IBOutlet weak var lblSpecker: UILabel!
     @IBOutlet weak var lblStatus: UILabel!
@@ -88,10 +89,12 @@ class JournalViewController: UIViewController
                 let dateFormatter = DateFormatter()
                 dateFormatter.dateFormat = "yyyy-MM-dd"
                 let start_date = dateFormatter.date(from: dateString!)
-                let final_date = Date()
+                
+                let final_date = Date().localDate()
+            //let final_date = Date()
                 let diff = final_date.interval(ofComponent: .day, fromDate: start_date!)
                 print("diffrent day :\(diff)")
-                
+                //self.view.makeToast("diffrent day 1 :\(diff) :  store date: \(dateString) and final date :\(final_date)")
                 // here in future set 100
                 if diff > 100
                 {
@@ -114,9 +117,10 @@ class JournalViewController: UIViewController
                     let dateFormatter1 = DateFormatter()
                     dateFormatter1.dateFormat = "yyyy-MM-dd"
                     let start_date = dateFormatter1.date(from: dateString1)
-                    let final_date = Date()
+                    let final_date = Date().localDate()
                     let diff = final_date.interval(ofComponent: .day, fromDate: start_date!)
                     print("diffrent day :\(diff)")
+                    //self.view.makeToast("diffrent day 1- :\(diff) :  store date: \(dateString) and final date :\(final_date)")
                     UserDefaults.standard.setValue(0, forKey: PREF_DAILY_QUESTION_COUNT)
             }
         }
@@ -157,10 +161,10 @@ class JournalViewController: UIViewController
         self.stausview.layer.cornerRadius = 10
         self.stausview.clipsToBounds = true
         
-        self.questionview.layer.cornerRadius = 5
-        self.questionview.clipsToBounds = true
+//        self.questionview.layer.cornerRadius = 5
+//        self.questionview.clipsToBounds = true
         
-        self.stagesview.layer.cornerRadius = 10
+        self.stagesview.layer.cornerRadius = 20
         self.stagesview.clipsToBounds = true
         
         self.scrollview.contentSize = CGSize.init(width: self.view.frame.size.width, height: self.questionview.frame.origin.y + self.questionview.frame.size.height + 10)
@@ -225,7 +229,7 @@ class JournalViewController: UIViewController
                     
                     let jsonData = try JSONSerialization.data(withJSONObject: arrData, options: .prettyPrinted)
                     let jsonDecoder = JSONDecoder()
-                    let obj = try jsonDecoder.decode([Positifeedy].self, from: jsonData)
+                    let obj = try jsonDecoder.decode([PositifeedAllSet].self, from: jsonData)
                     self.arrPositifeedy = obj.sorted(by: { (feed1, feed2) -> Bool in
                         let date1 = Date(timeIntervalSince1970: Double(feed1.timestamp ?? "\(Date().timeIntervalSince1970)")!)
                         let date2 = Date(timeIntervalSince1970: Double(feed2.timestamp ?? "\(Date().timeIntervalSince1970)")!)
@@ -408,9 +412,10 @@ class JournalViewController: UIViewController
                                        let dateFormatter = DateFormatter()
                                        dateFormatter.dateFormat = "yyyy-MM-dd"
                                        let start_date = dateFormatter.date(from: dateString!)
-                                       let final_date = Date()
+                                       let final_date = Date().localDate()
                                        let diff = final_date.interval(ofComponent: .day, fromDate: start_date!)
                                        print("diffrent day :\(diff)")
+                                      //  self.view.makeToast("diffrent day 2:\(diff) :  store date: \(dateString) and final date :\(final_date)")
                                        
                                        // here in future set 100
                                        if diff > 10
@@ -458,9 +463,10 @@ class JournalViewController: UIViewController
                                        let dateFormatter1 = DateFormatter()
                                        dateFormatter1.dateFormat = "yyyy-MM-dd"
                                        let start_date = dateFormatter1.date(from: dateString1)
-                                       let final_date = Date()
+                                        let final_date = Date().localDate()
                                        let diff = final_date.interval(ofComponent: .day, fromDate: start_date!)
                                        print("diffrent day :\(diff)")
+                                      // self.view.makeToast("diffrent day 3:\(diff) :  store date: \(dateString) and final date :\(final_date)")
                                        UserDefaults.standard.setValue(0, forKey: PREF_DAILY_QUESTION_COUNT)
                                     
                                         let questionItem = self.arrQuestionList[0]
@@ -518,6 +524,7 @@ class JournalViewController: UIViewController
                       switch purchaseResult {
                       case .purchased(let expiryDate, let items):
                           
+                          //self.view.makeToast("purchased 1 month :\(expiryDate)")
                           let currentdate = Date()
                           if currentdate.isGreaterThan(expiryDate)
                           {
@@ -535,7 +542,7 @@ class JournalViewController: UIViewController
                       case .expired(let expiryDate, let items):
                           print("\(productId) is expired since \(expiryDate)\n\(items)\n")
                           
-                          
+                         // self.view.makeToast("expired 1 month :\(expiryDate)")
                           
                           let currentdate = Date()
                           if currentdate.isGreaterThan(expiryDate)
@@ -549,6 +556,8 @@ class JournalViewController: UIViewController
                           }
                          //  UserDefaults.standard.removeObject(forKey: PREF_SUBSCRIBE)
                       case .notPurchased:
+                        
+                       // self.view.makeToast("not purchase  month :")
                           print("The user has never purchased \(productId)")
                       }
 
@@ -573,6 +582,7 @@ class JournalViewController: UIViewController
                       switch purchaseResult {
                       case .purchased(let expiryDate, let items):
 
+                        //self.view.makeToast("purchased 1 year :\(expiryDate)")
                           let currentdate = Date()
                           if currentdate.isGreaterThan(expiryDate)
                           {
@@ -590,7 +600,7 @@ class JournalViewController: UIViewController
                           //UserDefaults.standard.setValue("1", forKey: PREF_SUBSCRIBE)
                       case .expired(let expiryDate, let items):
                           print("\(productId) is expired since \(expiryDate)\n\(items)\n")
-                          
+                          //self.view.makeToast("expired 1 year :\(expiryDate)")
                           
                           let currentdate = Date()
                           if currentdate.isGreaterThan(expiryDate)
@@ -607,6 +617,8 @@ class JournalViewController: UIViewController
                           //UserDefaults.standard.removeObject(forKey: PREF_SUBSCRIBE)
                       case .notPurchased:
                           print("The user has never purchased \(productId)")
+                        
+                        //self.view.makeToast("not purchase  year :")
                       }
 
                   case .error(let error):
@@ -620,10 +632,14 @@ class JournalViewController: UIViewController
               
               if annual != nil || monthly != nil
               {
+                 //self.view.makeToast("Purchased somthing !")
                   UserDefaults.standard.setValue("1", forKey: PREF_SUBSCRIBE)
+                  //self.suscriptionView.isHidden = false
+                 self.suscriptionView.isHidden = true
               }
               else
               {
+                //self.view.makeToast("No any Purchase!")
                   //No any item subscribe!
                   UserDefaults.standard.removeObject(forKey: PREF_SUBSCRIBE)
                 
@@ -755,23 +771,25 @@ class JournalViewController: UIViewController
                          self.myDocId = doc.documentID
                          let fname = (d["firstname"] as! String)
                         
+                        self.llbNamed.text = fname
+                        
                         // let hour = NSCalendar.currentCalendar().component(.Hour, fromDate: NSDate()) Swift 2 legacy
                         let hour = Calendar.current.component(.hour, from: Date())
                         switch hour {
                         case 6..<12 :
-                            self.lblday.text = String.init(format: "good morning %@",fname)
+                            self.lblday.text = String.init(format: "Good Morning %@","")
                             self.lblsun.image =  UIImage.init(named: "sun")
                         case 12 :
-                            self.lblday.text = String.init(format: "good noon %@",fname)
+                            self.lblday.text = String.init(format: "Good Noon %@","")
                             self.lblsun.image =  UIImage.init(named: "sun")
                         case 13..<17 :
-                            self.lblday.text = String.init(format: "good afternoon %@",fname)
+                            self.lblday.text = String.init(format: "Good Afternoon %@","")
                             self.lblsun.image =  UIImage.init(named: "sun")
                         case 17..<22 :
-                            self.lblday.text = String.init(format: "good evening %@",fname)
+                            self.lblday.text = String.init(format: "Good Evening %@","")
                             self.lblsun.image =  UIImage.init(named: "moon")
                         default:
-                            self.lblday.text = String.init(format: "good night %@",fname)
+                            self.lblday.text = String.init(format: "Good Night %@","")
                             self.lblsun.image =  UIImage.init(named: "moon")
                         }
                         
@@ -868,9 +886,10 @@ class JournalViewController: UIViewController
                                                let dateFormatter = DateFormatter()
                                                dateFormatter.dateFormat = "yyyy-MM-dd"
                                                let start_date = dateFormatter.date(from: booked_date!)
-                                               let final_date = Date()
+                                               let final_date = Date().localDate()
                                                let diff = final_date.interval(ofComponent: .day, fromDate: start_date!)
                                                print("diffrent day :\(diff)")
+                                              //self.view.makeToast("diffrent day 4:\(diff) :  store date: \(start_date) and final date :\(final_date)")
                                                if diff >= 3
                                                {
                                                    let set_new_point = point! - 5
@@ -1218,4 +1237,13 @@ class JournalViewController: UIViewController
          }
      }
     
+}
+extension Date {
+    func localDate() -> Date {
+        let nowUTC = Date()
+        let timeZoneOffset = Double(TimeZone.current.secondsFromGMT(for: nowUTC))
+        guard let localDate = Calendar.current.date(byAdding: .second, value: Int(timeZoneOffset), to: nowUTC) else {return Date()}
+
+        return localDate
+    }
 }

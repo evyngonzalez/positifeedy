@@ -8,12 +8,13 @@
 
 import UIKit
 import LinkPresentation
+import AVFoundation
 
 class FeedyCell: UITableViewCell {
     
     @IBOutlet weak var img : UIImageView!
     
-    @IBOutlet weak var topLblTitle: NSLayoutConstraint!
+    //@IBOutlet weak var topLblTitle: NSLayoutConstraint!
     @IBOutlet weak var lblTitle : UILabel!
     @IBOutlet weak var lblDesc : UILabel!
     @IBOutlet weak var imgView : UIImageView!
@@ -24,7 +25,7 @@ class FeedyCell: UITableViewCell {
     
     @IBOutlet weak var btnPlay: UIButton!
     
-    @IBOutlet weak var heightImg: NSLayoutConstraint!
+    //@IBOutlet weak var heightImg: NSLayoutConstraint!
     
     @IBOutlet weak var viewLink: UIView!
         
@@ -52,7 +53,18 @@ class FeedyCell: UITableViewCell {
         
     }
     
-    func bindData(feed: Positifeedy) {
+    
+    func bindDataArticle(feed: PositifeedAllSet){
+        
+        self.viewLink.isHidden = true
+        self.btnPlay.isHidden = true
+        
+    }
+    
+    func bindData(feed: PositifeedAllSet) {
+        
+        
+        
         
         if feed.timestamp != nil {
             let f = DateFormatter()
@@ -71,11 +83,11 @@ class FeedyCell: UITableViewCell {
         lblTitle.text = feed.title ?? ""
         lblDesc.text = feed.desc ?? ""
         
-        topLblTitle.constant = 10.0
+//        topLblTitle.constant = 10.0
         
         if feed_type == "image" {
             
-            heightImg.constant = (UIScreen.main.bounds.width - 30.0) / 1.6
+            //heightImg.constant = (UIScreen.main.bounds.width - 30.0) / 1.6
             
             if feed.feed_image != nil {
                 if let link = URL(string: feed.feed_image!)
@@ -94,19 +106,24 @@ class FeedyCell: UITableViewCell {
             
         } else if feed_type == "text" {
             
-            heightImg.constant = 0.0
+          //  heightImg.constant = 0.0
             imgView.isHidden = true
             btnPlay.isHidden = true
             viewLink.isHidden = true
             
         } else if feed_type == "video" {
             
-            heightImg.constant = (UIScreen.main.bounds.width - 30.0) / 1.6
+          //  heightImg.constant = (UIScreen.main.bounds.width - 30.0) / 1.6
             
-            if feed.feed_image != nil {
-                if let link = URL(string: feed.feed_image!)
+            if feed.feed_video != nil {
+                if let link = URL(string: feed.feed_video!)
                 {
-                    imgView.sd_setImage(with: link, placeholderImage: UIImage.init(named: "album_placeholder"), options: .highPriority, completed: nil)
+                    if let thumbnailImage = getThumbnailImage(forUrl: link) {
+                        imgView.image = thumbnailImage
+                        
+                    }
+                    
+                    //imgView.sd_setImage(with: link, placeholderImage: UIImage.init(named: "album_placeholder"), options: .highPriority, completed: nil)
                 } else {
                     imgView.image = nil
                 }
@@ -120,10 +137,22 @@ class FeedyCell: UITableViewCell {
             
         } else if feed_type == "link" {
             
-            topLblTitle.constant = 20.0
+            //topLblTitle.constant = 20.0
+            //lblTitle.text = "Loading.."
+//            if feed.title == ""
+//            {
+//                lblTitle.text =  "Loading.."
+//               // lblTitle.textColor = UIColor.white
+//
+//            }else
+//            {
+//                lblTitle.text = feed.title ?? "Loading.."
+//               // lblTitle.textColor = UIColor.black
+//            }
             lblDesc.text = ""
+            lblTitle.text = "Loading.."
             
-            heightImg.constant = (UIScreen.main.bounds.width - 30.0) / 1.6
+           // heightImg.constant = (UIScreen.main.bounds.width - 30.0) / 1.6
             imgView.isHidden = true
             btnPlay.isHidden = true
             viewLink.isHidden = false
@@ -132,10 +161,11 @@ class FeedyCell: UITableViewCell {
             if #available(iOS 13.0, *) {
                 
                 let frameLink = CGRect.init(x: 0.0, y: 0.0, width: UIScreen.main.bounds.width - 30.0, height: (UIScreen.main.bounds.width - 30.0) / 1.6)
+                //let frameLink = CGRect.init(x: 0.0, y: 0.0, width:UIScreen.main.bounds.width - 30.0, height: self.viewLink.frame.size.height)
                 
                 var provider = LPMetadataProvider()
                 provider = LPMetadataProvider()
-                provider.timeout = 50
+                provider.timeout =  100
                 
                 if viewLink.viewWithTag(999) != nil {
                     
@@ -146,8 +176,14 @@ class FeedyCell: UITableViewCell {
                         // 1. Check if the metadata exists
                         if let existingMetadata = MetadataCache.retrieve(urlString: url.absoluteString) {
                             
-                            self.lblTitle.text = existingMetadata.title ?? ""
-                            (self.viewLink.viewWithTag(999)! as! LPLinkView).metadata = existingMetadata
+                            
+                            if feed_url.contains("youtube.com")
+                            {
+                                self.lblTitle.text = existingMetadata.title ?? ""
+                                (self.viewLink.viewWithTag(999)! as! LPLinkView).metadata = existingMetadata
+                            }
+                            else
+                            {
 
 //                            viewLink.viewWithTag(999)?.removeFromSuperview()
 //
@@ -155,6 +191,42 @@ class FeedyCell: UITableViewCell {
 //                            linkView.tag = 999
 //                            linkView.frame = viewLink.bounds
 //                            viewLink.addSubview(linkView)
+                            
+                                DispatchQueue.main.async { [weak self] in
+                                                                   guard let self = self else { return }
+                                                                   
+                                        self.lblTitle.text = existingMetadata.title ?? ""
+                                                                   
+                                                               }
+                                
+                                if let imageProvider = existingMetadata.imageProvider {
+                                    
+                                imageProvider.loadObject(ofClass: UIImage.self) { (image, error) in
+                                    guard error == nil else {
+                                        // handle error
+                                        return
+                                    }
+
+                                    if let image = image as? UIImage {
+                                        // do something with image
+                                        DispatchQueue.main.async {
+                                            self.viewLink.isHidden = true
+                                            self.btnPlay.isHidden = true
+                                            self.imgView.image = image
+                                            self.imgView.isHidden = false
+                                        }
+                                    } else {
+                                        print("no image available")
+                                        self.imgView.isHidden = true
+                                        self.viewLink.isHidden = true
+                                        self.btnPlay.isHidden = true
+                                        
+                                        //cell.imgView.image = UIImage.init(named: "vlogo")
+                                    }
+                                }
+                                }
+                            }
+                            
 
                         } else {
 
@@ -165,20 +237,61 @@ class FeedyCell: UITableViewCell {
                                 guard let metadata = metadata, error == nil else {
                                     return
                                 }
-
-                                // 3. And cache the new metadata once you have it
-                                if let imageProvider = metadata.imageProvider {
-                                    metadata.iconProvider = imageProvider
-                                }
+                                
                                 MetadataCache.cache(metadata: metadata)
                                 
+                                if feed_url.contains("youtube.com")
+                                {
                                 // 4. Use the metadata
                                 DispatchQueue.main.async { [weak self] in
                                     guard let self = self else { return }
                                     
                                     (self.viewLink.viewWithTag(999)! as! LPLinkView).metadata = metadata
                                     self.lblTitle.text = metadata.title ?? ""
+                                    
                                 }
+                                }
+                                else
+                                {
+                               
+                                    DispatchQueue.main.async { [weak self] in
+                                        guard let self = self else { return }
+                                        
+                                        self.lblTitle.text = metadata.title ?? ""
+                                        
+                                    }
+                                    
+                                // 3. And cache the new metadata once you have it
+                                if let imageProvider = metadata.imageProvider {
+                                    metadata.iconProvider = imageProvider
+                                    
+                                    imageProvider.loadObject(ofClass: UIImage.self) { (image, error) in
+                                        guard error == nil else {
+                                            // handle error
+                                            return
+                                        }
+
+                                        if let image = image as? UIImage {
+                                            // do something with image
+                                            DispatchQueue.main.async {
+                                                self.viewLink.isHidden = true
+                                                self.btnPlay.isHidden = true
+                                                self.imgView.image = image
+                                                self.imgView.isHidden = false
+                                            }
+                                        } else {
+                                            print("no image available")
+                                            self.imgView.isHidden = true
+                                            self.viewLink.isHidden = true
+                                            self.btnPlay.isHidden = true
+                                            
+                                            //cell.imgView.image = UIImage.init(named: "vlogo")
+                                        }
+                                    }
+                                }
+
+                                }
+                                
                             }
                         }
                     }
@@ -198,6 +311,9 @@ class FeedyCell: UITableViewCell {
 
 
                         } else {
+                            
+                            
+
                             // 2. If it doesn't start the fetch
                             provider.startFetchingMetadata(for: url) { [weak self] metadata, error in
                                 guard let self = self else { return }
@@ -206,10 +322,45 @@ class FeedyCell: UITableViewCell {
                                     return
                                 }
                                 
+                                // 4. Use the metadata
+                                DispatchQueue.main.async { [weak self] in
+                                    guard let self = self else { return }
+                                
+                                    self.lblTitle.text = metadata.title ?? ""
+                                    
+                                }
+                                
                                 // 3. And cache the new metadata once you have it
                                 if let imageProvider = metadata.imageProvider {
                                     metadata.iconProvider = imageProvider
+                                    imageProvider.loadObject(ofClass: UIImage.self) { (image, error) in
+                                        guard error == nil else {
+                                            // handle error
+                                            return
+                                        }
+
+                                        if let image = image as? UIImage {
+                                            // do something with image
+                                            DispatchQueue.main.async {
+                                                self.viewLink.isHidden = true
+                                                self.btnPlay.isHidden = true
+                                                self.imgView.image = image
+                                                self.imgView.isHidden = false
+                                            }
+                                        } else {
+                                            print("no image available")
+                                            self.imgView.isHidden = true
+                                            self.viewLink.isHidden = true
+                                            self.btnPlay.isHidden = true
+                                            
+                                            //cell.imgView.image = UIImage.init(named: "vlogo")
+                                        }
+                                    }
+                                    
+                                    
+                                    
                                 }
+                                
                                 MetadataCache.cache(metadata: metadata)
                                 
                                 // 4. Use the metadata
@@ -237,4 +388,20 @@ class FeedyCell: UITableViewCell {
 //        viewLink.isHidden = false
 
     }
+    
+    
+    func getThumbnailImage(forUrl url: URL) -> UIImage? {
+        let asset: AVAsset = AVAsset(url: url)
+        let imageGenerator = AVAssetImageGenerator(asset: asset)
+
+        do {
+            let thumbnailImage = try imageGenerator.copyCGImage(at: CMTimeMake(value: 1, timescale: 60) , actualTime: nil)
+            return UIImage(cgImage: thumbnailImage)
+        } catch let error {
+            print(error)
+        }
+
+        return nil
+    }
+    
 }

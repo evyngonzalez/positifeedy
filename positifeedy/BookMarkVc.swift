@@ -579,13 +579,14 @@ class BookMarkVc: UIViewController,EMPageViewControllerDataSource, EMPageViewCon
              AF.request(Global.feedURL).responseDecodable(of: FeedResponse.self)  { (response) in
                  
                  //SVProgressHUD.dismiss()
-                 
+                 print("response :\(response)")
+                
                  switch response.result
                  {
                  case .success(let feedResponse) :
                      if (feedResponse.ok ?? false)
                      {
-                         self.arrFeeds = feedResponse.info.arrFeedData ?? []
+                        // self.arrFeeds = feedResponse.info.arrFeedData ?? []
                         
                             self.getFeeds()
                         
@@ -1066,7 +1067,7 @@ extension BookMarkVc : UITableViewDataSource
                 
                 let cell = tableView.dequeueReusableCell(withIdentifier: "FeedyCell", for: indexPath) as! FeedyCell
                 
-                let feed = arrData[indexPath.row] as! Positifeedy
+                let feed = arrData[indexPath.row] as! PositifeedAllSet
                 
                 cell.bindData(feed: feed)
 
@@ -1167,7 +1168,7 @@ extension BookMarkVc : UITableViewDelegate
                 webVC.isBookmark = true
                 navigationController?.pushViewController(webVC, animated: true)
                 
-            } else if let feed = arrData[indexPath.row] as? Positifeedy {
+            } else if let feed = arrData[indexPath.row] as? PositifeedAllSet {
                 
                 let feed_type = feed.feed_type ?? ""
 

@@ -30,7 +30,11 @@ class AdsCollectionViewCell: UICollectionViewCell, GADUnifiedNativeAdLoaderDeleg
     }
     
     func fetchAds ()  {
-        adLoader = GADAdLoader(adUnitID: "ca-app-pub-3940256099942544/3986624511", rootViewController: controller, adTypes: [GADAdLoaderAdType.unifiedNative], options: nil)
+        
+        
+        // local : ca-app-pub-3940256099942544/3986624511
+        // live : ca-app-pub-5392374810652881/4568120220
+        adLoader = GADAdLoader(adUnitID: "ca-app-pub-5392374810652881/4568120220", rootViewController: controller, adTypes: [GADAdLoaderAdType.unifiedNative], options: nil)
         adLoader.delegate = self
         
         let adRequest = GADRequest()
@@ -76,10 +80,14 @@ class AdsCollectionViewCell: UICollectionViewCell, GADUnifiedNativeAdLoaderDeleg
         
         (mainView.headlineView as? UILabel)?.text = nativeAd.headline
         
+        UserDefaults.standard.setValue("1", forKey:PREF_AD_HEIGHT)
+        
     }
     
     func adLoader(_ adLoader: GADAdLoader, didFailToReceiveAdWithError error: GADRequestError) {
         print("Failed Ad Request: ", error)
+        
+        UserDefaults.standard.setValue("0", forKey:PREF_AD_HEIGHT)
     }
     
     func nativeAdDidRecordClick(_ nativeAd: GADUnifiedNativeAd)

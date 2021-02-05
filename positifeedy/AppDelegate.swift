@@ -9,6 +9,13 @@
 //com.weapp.recipeapp
 //com.staypos.StayPositive
 
+// local : ca-app-pub-3940256099942544~1458002511
+// live : ca-app-pub-5392374810652881~7194283561
+
+// live : Native Ad Unit ID: ca-app-pub-5392374810652881/4568120220
+
+
+
 import UIKit
 import Firebase
 import CoreData
@@ -49,37 +56,39 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         window = UIWindow(frame: UIScreen.main.bounds)
         
-        
+       // UserDefaults.standard.register(defaults: ["UserAgent" : "iOS-CompanyName/versionNumber"])
         
         FirebaseApp.configure()
         GIDSignIn.sharedInstance().clientID = FirebaseApp.app()?.options.clientID
         ApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
         
         GADMobileAds.sharedInstance().start(completionHandler: nil)
-        GADMobileAds.sharedInstance().requestConfiguration.testDeviceIdentifiers = ["891430e50eb0d8ffb21a4a28013d829b"]
+        //GADMobileAds.sharedInstance().requestConfiguration.testDeviceIdentifiers = ["891430e50eb0d8ffb21a4a28013d829b"]
+        //GADMobileAds.sharedInstance().requestConfiguration.testDeviceIdentifiers = ["970c6883a45372bb5e1343fd1d951c22"]
         Messaging.messaging().delegate = self
         
         IQKeyboardManager.shared.enable = true
         IQKeyboardManager.shared.shouldResignOnTouchOutside = true
         
-        
-        let appleIDProvider = ASAuthorizationAppleIDProvider()
-        appleIDProvider.getCredentialState(forUserID: KeychainItem.currentUserIdentifier ?? "") { (credentialState, error) in
-            switch credentialState {
-            case .authorized:
-                // The Apple ID credential is valid. Show Home UI Here
-                DispatchQueue.main.async {
-                    //HomeViewController.Push()
+        if #available(iOS 13, *) {
+            let appleIDProvider = ASAuthorizationAppleIDProvider()
+            appleIDProvider.getCredentialState(forUserID: KeychainItem.currentUserIdentifier ?? "") { (credentialState, error) in
+                switch credentialState {
+                case .authorized:
+                    // The Apple ID credential is valid. Show Home UI Here
+                    DispatchQueue.main.async {
+                        //HomeViewController.Push()
+                    }
+                    break
+                case .revoked:
+                    // The Apple ID credential is revoked. Show SignIn UI Here.
+                    break
+                case .notFound:
+                    // No credential was found. Show SignIn UI Here.
+                    break
+                default:
+                    break
                 }
-                break
-            case .revoked:
-                // The Apple ID credential is revoked. Show SignIn UI Here.
-                break
-            case .notFound:
-                // No credential was found. Show SignIn UI Here.
-                break
-            default:
-                break
             }
         }
         
@@ -348,6 +357,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             if annual != nil || monthly != nil
             {
                 UserDefaults.standard.setValue("1", forKey: PREF_SUBSCRIBE)
+                
+                
             }
             else
             {
@@ -362,7 +373,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         func completeIAPTransactions()
         {
-            
            
             SwiftyStoreKit.completeTransactions(atomically: true) { purchases in
 
@@ -475,13 +485,48 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
     
+    
+    
+    
+    func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
+        
+       let strUrl = String.init(format: "%@", url as CVarArg)
+        print("str url :\(strUrl)")
+        if strUrl.contains("fb")
+        {
+            if #available(iOS 9.0 , *){
+                return ApplicationDelegate.shared.application(application, open: url, sourceApplication: "UIApplicationOpenURLOptionsKey", annotation: nil)
+            }
+            return true
+        }
+        else
+        {
+            return true
+        }
+        
+    }
+     
     func application(_ application: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any]) -> Bool {
         
-        if let dynamicLink = DynamicLinks.dynamicLinks().dynamicLink(fromCustomSchemeURL: url) {
-            self.handleIncomingDynamicLink(dynamicLink)
+        let strUrl = String.init(format: "%@", url as CVarArg)
+        print("str url :\(strUrl)")
+        if strUrl.contains("fb")
+        {
+            if #available(iOS 9.0 , *){
+                return ApplicationDelegate.shared.application(application, open: url, sourceApplication: "UIApplicationOpenURLOptionsKey", annotation: nil)
+            }
+            
             return true
-        } else {
-            return GIDSignIn.sharedInstance().handle(url) || ApplicationDelegate.shared.application(application, open: url, sourceApplication: (options[UIApplication.OpenURLOptionsKey.sourceApplication] as! String), annotation: options[UIApplication.OpenURLOptionsKey.annotation])
+
+            
+        }else
+        {
+            if let dynamicLink = DynamicLinks.dynamicLinks().dynamicLink(fromCustomSchemeURL: url) {
+                self.handleIncomingDynamicLink(dynamicLink)
+                return true
+            } else {
+                return GIDSignIn.sharedInstance().handle(url) || ApplicationDelegate.shared.application(application, open: url, sourceApplication: (options[UIApplication.OpenURLOptionsKey.sourceApplication] as! String), annotation: options[UIApplication.OpenURLOptionsKey.annotation])
+            }
         }
     }
     
@@ -491,17 +536,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, continue userActivity: NSUserActivity,
                      restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
-        let handled = DynamicLinks.dynamicLinks().handleUniversalLink(userActivity.webpageURL!) { [weak self] (dynamiclink, error) in
-            guard error == nil else {
-                print(error!.localizedDescription)
-                return
-            }
-            if let dynamiclink = dynamiclink {
-                self?.handleIncomingDynamicLink(dynamiclink)
-            }
-        }
         
-        return handled
+        
+            let handled = DynamicLinks.dynamicLinks().handleUniversalLink(userActivity.webpageURL!) { [weak self] (dynamiclink, error) in
+                guard error == nil else {
+                    print(error!.localizedDescription)
+                    return
+                }
+                if let dynamiclink = dynamiclink {
+                    self?.handleIncomingDynamicLink(dynamiclink)
+                }
+            }
+            
+            return handled
+        
     }
     
     func handleIncomingDynamicLink(_ dynamicLink: DynamicLink) {
@@ -605,7 +653,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                             
                         } else { // positifeedy case
                             
-                            let obj = Positifeedy.init(
+                            let obj = PositifeedAllSet.init(
                                 title: dict["feedTitle"] as? String,
                                 desc: dict["feedDesc"] as? String,
                                 feed_type: dict["feedType"] as? String,
@@ -613,7 +661,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                                 feed_image: dict["feedImage"] as? String,
                                 feed_video: dict["feedVideo"] as? String,
                                 timestamp: dict["feedTime"] as? String,
-                                documentID: dict["feedURL"] as? String
+                                documentID: dict["feedURL"] as? String,
+                                
+                                link: (dict["link"] as? String)!, guid: (dict["guid"] as? String)!,
+                                time: (dict["time"] as? String)!, description_d: (dict["description_d"] as? String)!
+                                
                             )
                             
                             if (dict["feedType"] as? String ?? "") == "link" {

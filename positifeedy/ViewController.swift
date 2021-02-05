@@ -26,7 +26,7 @@ class ViewController: UIViewController {
         self.btnsignup.layer.cornerRadius = 5
         self.btnsignup.clipsToBounds = true
         
-        self.lblAlerady.colorString1(text: "Alerady a user? Login", coloredText1: "Login", coloredText2: "",color: UIColor.init(red: 37/255, green: 250/255, blue: 168/255, alpha: 1))
+        self.lblAlerady.colorString1(text: "Already a user? Login", coloredText1: "Login", coloredText2: "",color: UIColor.init(red: 37/255, green: 250/255, blue: 168/255, alpha: 1))
     }
     
     private func setupVideoView() {

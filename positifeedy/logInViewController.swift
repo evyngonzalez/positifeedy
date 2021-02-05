@@ -204,7 +204,7 @@ class logInViewController: UIViewController, GIDSignInDelegate,ASAuthorizationCo
           return result
       }
     
-    
+    @available(iOS 13, *)
     //MARK:- apple sign in :
     func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
         if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
@@ -263,12 +263,12 @@ class logInViewController: UIViewController, GIDSignInDelegate,ASAuthorizationCo
             }
         }
     }
-    
+          @available(iOS 13, *)
     func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
         // Handle error.
         print("Sign in with Apple errored: \(error)")
     }
-    
+          @available(iOS 13, *)
     func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
         return self.view.window!
     }
@@ -282,7 +282,12 @@ class logInViewController: UIViewController, GIDSignInDelegate,ASAuthorizationCo
     
     @IBAction func onclickforLoginwithApple(_ sender: Any)
     {
-        self.startSignInWithAppleFlow()
+        if #available(iOS 13, *) {
+                  self.startSignInWithAppleFlow()
+               } else {
+                   // show sad face emoji
+               }
+        
     }
     
     @IBAction func btnSignUp(_ sender: Any) {

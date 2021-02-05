@@ -228,6 +228,40 @@ struct Positifeedy: Codable {
     }
 }
 
+struct PositifeedAllSet: Codable {
+    
+    var title : String?
+    var desc : String?
+    var feed_type : String?
+    var feed_url : String?
+    var feed_image : String?
+    var feed_video : String?
+    var timestamp : String?
+    var documentID: String?
+    var link : String?
+    var guid : String?
+    var time : String?
+    var description_d : String?
+
+    init(title: String?, desc: String?, feed_type: String?, feed_url: String?, feed_image: String?, feed_video: String?, timestamp: String?, documentID: String?,link: String,guid: String,time: String,description_d: String) {
+        
+        self.title = title
+        self.desc = desc
+        self.feed_type = feed_type
+        self.feed_url = feed_url
+        self.feed_image = feed_image
+        self.feed_video = feed_video
+        self.timestamp = timestamp
+        self.documentID = documentID
+        
+        self.link = link
+        self.guid = guid
+        self.time = time
+        self.description_d = description_d
+    }
+      
+    
+}
 
 struct AnswerFeed: Codable {
     

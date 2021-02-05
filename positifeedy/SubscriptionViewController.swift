@@ -18,6 +18,7 @@ import Toast_Swift
 import AVKit
 import AVFoundation
 import SDWebImage
+import SVProgressHUD
 
 class SubscriptionViewController: UIViewController
 {
@@ -111,6 +112,9 @@ class SubscriptionViewController: UIViewController
        //            return
        //        }
                //NetworkActivityIndicatorManager.networkOperationStarted()
+        
+              SVProgressHUD.show()
+            self.view.isUserInteractionEnabled = false
                SwiftyStoreKit.purchaseProduct(strType, quantity: 1, atomically: true) { result in
                    
                    //SwiftLoader.hide()
@@ -122,8 +126,11 @@ class SubscriptionViewController: UIViewController
                        self.serviceCallToBuySubscription()
                        //self.serviceCallToBuySubscription(transaction: purchase.transaction)
                    case .error(let error):
+                     SVProgressHUD.dismiss()
+                     self.view.isUserInteractionEnabled = true
                        switch error.code {
                        case .unknown:
+                         
                            self.showErrorAlert(title: "Purchase failed", message: error.localizedDescription)
                            break
                        case .clientInvalid: // client is not allowed to issue the request, etc.
@@ -207,7 +214,8 @@ class SubscriptionViewController: UIViewController
              {
                  print(error!.localizedDescription)
              }
-            
+            self.view.isUserInteractionEnabled = true
+            //SVProgressHUD.dismiss()
             self.view.makeToast("Subscription Successfully done!")
             
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
