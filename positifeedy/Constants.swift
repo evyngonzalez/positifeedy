@@ -7,6 +7,8 @@
 //
 
 import Foundation
+import AVKit
+
 struct Constants {
     struct Storyboard {
     
@@ -109,3 +111,66 @@ let arrFeedy: [[String: String]] = [
       "timestamp" : "1518057679"
     ]
 ]
+
+let arrTheme:[[String: Any]] = [
+    
+    [
+        "themeId":1,
+        "themeUrl":"https://firebasestorage.googleapis.com/v0/b/positifeedy-2020a.appspot.com/o/themes%2Fv1.mp4?alt=media&token=e029c842-fd89-4ff3-ae6c-96d5c8c4b784",
+        "isFree":true,
+        "isVideo":true
+    ],
+    [
+        "themeId":2,
+        "themeUrl":"https://firebasestorage.googleapis.com/v0/b/positifeedy-2020a.appspot.com/o/themes%2F1.jpeg?alt=media&token=7e0b647d-0d4b-487e-8ba2-6e994311fef4",
+        "isFree":true,
+        "isVideo":false
+    ],
+    [
+        "themeId":3,
+        "themeUrl":"https://firebasestorage.googleapis.com/v0/b/positifeedy-2020a.appspot.com/o/themes%2F2.jpeg?alt=media&token=42b3e8d8-c51a-4e64-bef9-b0f46ff8da48",
+        "isFree":false,
+        "isVideo":false
+    ],
+    [
+        "themeId":4,
+        "themeUrl":"https://firebasestorage.googleapis.com/v0/b/positifeedy-2020a.appspot.com/o/themes%2Fv2.mp4?alt=media&token=429bba87-8ce5-4a4a-85a0-6425ff4cb71c",
+        "isFree":false,
+        "isVideo":true
+    ],
+    [
+        "themeId":5,
+        "themeUrl":"https://firebasestorage.googleapis.com/v0/b/positifeedy-2020a.appspot.com/o/themes%2F3.jpeg?alt=media&token=56b0c788-8a71-4d30-be2f-b703daca0405",
+        "isFree":false,
+        "isVideo":false
+    ],
+    [
+        "themeId":6,
+        "themeUrl":"https://firebasestorage.googleapis.com/v0/b/positifeedy-2020a.appspot.com/o/themes%2F4.jpeg?alt=media&token=566a8615-5add-49f2-9a98-d62cfb93e010",
+        "isFree":false,
+        "isVideo":false
+    ],
+    [
+        "themeId":7,
+        "themeUrl":"https://firebasestorage.googleapis.com/v0/b/positifeedy-2020a.appspot.com/o/themes%2Fv3.mp4?alt=media&token=1e7bf25c-aeee-470f-94f8-0153086df232",
+        "isFree":false,
+        "isVideo":true
+    ],
+    [
+        "themeId":8,
+        "themeUrl":"https://firebasestorage.googleapis.com/v0/b/positifeedy-2020a.appspot.com/o/themes%2F5.jpeg?alt=media&token=b08fd103-7c15-43b6-8812-04918e7e7675",
+        "isFree":false,
+        "isVideo":false
+    ],
+    [
+        "themeId":9,
+        "themeUrl":"https://firebasestorage.googleapis.com/v0/b/positifeedy-2020a.appspot.com/o/themes%2F6.jpeg?alt=media&token=8987917b-3cc2-4f24-a578-11962e607cf4",
+        "isFree":false,
+        "isVideo":false
+    ],
+]
+
+var videoPlayer = AVPlayer()
+var playerLayer:AVPlayerLayer?
+//var videoCacheManager : VideoCache?
+

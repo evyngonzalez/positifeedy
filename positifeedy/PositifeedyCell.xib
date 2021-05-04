@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17505"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -43,7 +44,7 @@
                                     <constraint firstAttribute="width" constant="38" id="XRr-Je-hID"/>
                                     <constraint firstAttribute="height" constant="38" id="vnu-vF-jie"/>
                                 </constraints>
-                                <color key="tintColor" systemColor="systemGrayColor" red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="tintColor" systemColor="systemGrayColor"/>
                                 <state key="normal" image="bookmark" catalog="system"/>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Z90-1p-32u">
@@ -65,7 +66,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
-                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <color key="backgroundColor" systemColor="groupTableViewBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="6aB-jP-72S" firstAttribute="top" secondItem="Z90-1p-32u" secondAttribute="bottom" id="DuD-Va-9rI"/>
                             <constraint firstItem="N7w-Zk-YA3" firstAttribute="leading" secondItem="PP9-LK-Vv3" secondAttribute="trailing" constant="16" id="EzG-8Z-Gji"/>
@@ -85,13 +86,13 @@
                     </view>
                 </subviews>
             </view>
+            <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="AeX-qg-KKv" secondAttribute="trailing" constant="5" id="FPa-9y-4gR"/>
                 <constraint firstItem="AeX-qg-KKv" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="5" id="b2T-Lb-yPI"/>
                 <constraint firstItem="AeX-qg-KKv" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="10" id="gTi-IV-cSG"/>
                 <constraint firstAttribute="bottom" secondItem="AeX-qg-KKv" secondAttribute="bottom" constant="10" id="lOF-pS-Fwb"/>
             </constraints>
-            <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <connections>
                 <outlet property="btnBookmark" destination="Fj1-iK-Nun" id="ZxM-ga-ZUn"/>
                 <outlet property="img" destination="PP9-LK-Vv3" id="8TB-ee-4DH"/>
@@ -106,5 +107,11 @@
     <resources>
         <image name="bookmark" catalog="system" width="112" height="128"/>
         <image name="vlogo" width="412" height="412"/>
+        <systemColor name="groupTableViewBackgroundColor">
+            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemGrayColor">
+            <color red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
     </resources>
 </document>

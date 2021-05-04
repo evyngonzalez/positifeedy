@@ -53,6 +53,7 @@ class FeedyCell: UITableViewCell {
         
     }
     
+<<<<<<< Updated upstream
     
     func bindDataArticle(feed: PositifeedAllSet){
         
@@ -65,6 +66,9 @@ class FeedyCell: UITableViewCell {
         
         
         
+=======
+    func bindData(feed: PositifeedAllSet) {
+>>>>>>> Stashed changes
         
         if feed.timestamp != nil {
             let f = DateFormatter()

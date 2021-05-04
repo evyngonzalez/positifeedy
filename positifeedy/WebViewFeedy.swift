@@ -38,7 +38,7 @@ class WebViewFeedy: UIViewController,WKNavigationDelegate
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
+        tabBarController?.tabBar.isHidden = true
         
         self.arrBookMarkArrray = NSMutableArray.init()
         self.getBookmarsDataOther()

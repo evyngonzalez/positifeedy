@@ -170,6 +170,7 @@ PODS:
   - BoringSSL-GRPC/Implementation (0.0.3):
     - BoringSSL-GRPC/Interface (= 0.0.3)
   - BoringSSL-GRPC/Interface (0.0.3)
+  - CryptoKit (0.4.0)
   - EMPageViewController (4.0.0)
   - FBSDKCoreKit (5.15.1):
     - FBSDKCoreKit/Basics (= 5.15.1)
@@ -381,6 +382,7 @@ PODS:
 
 DEPENDENCIES:
   - Alamofire (~> 5.2)
+  - CryptoKit (~> 0.4)
   - EMPageViewController
   - Firebase/Database
   - Firebase/DynamicLinks
@@ -407,6 +409,7 @@ SPEC REPOS:
     - Alamofire
     - AppAuth
     - BoringSSL-GRPC
+    - CryptoKit
     - EMPageViewController
     - FBSDKCoreKit
     - FBSDKLoginKit
@@ -454,6 +457,7 @@ SPEC CHECKSUMS:
   Alamofire: e911732990610fe89af59ac0077f923d72dc3dfd
   AppAuth: 31bcec809a638d7bd2f86ea8a52bd45f6e81e7c7
   BoringSSL-GRPC: db8764df3204ccea016e1c8dd15d9a9ad63ff318
+  CryptoKit: 778b0eb14434535f70fd1037b297841dd83e3c37
   EMPageViewController: de8c8d6ea44c77bc2463f2cb9b4128390d2391f2
   FBSDKCoreKit: 1d5acf7c9d7a2f92bb1a242dc60cae5b7adb91df
   FBSDKLoginKit: f1ea8026a58b52d30c9f2e6a58ca7d813619fb83
@@ -496,6 +500,6 @@ SPEC CHECKSUMS:
   Toast-Swift: 9b6a70f28b3bf0b96c40d46c0c4b9d6639846711
   VideoBackground: b4a2f39d3b16254b2bec9488cb2968a06dff69c5
 
-PODFILE CHECKSUM: 433010a45f954e906a0e41e09c2222cd65c7ae48
+PODFILE CHECKSUM: 55dfd1989adf68e5d944bed8c32707ec698db3dd
 
 COCOAPODS: 1.10.1

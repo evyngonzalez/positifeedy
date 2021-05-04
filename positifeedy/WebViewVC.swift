@@ -37,6 +37,7 @@ class WebViewVC: UIViewController,WKNavigationDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        tabBarController?.tabBar.isHidden = true
         
         self.arrBookMarkArrray = NSMutableArray.init()
        

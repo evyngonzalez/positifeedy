@@ -32,5 +32,7 @@ pod 'FTPopOverMenu_Swift'
 pod 'SwiftyStoreKit'
 pod 'EMPageViewController'
 pod 'VideoBackground'
+pod 'CryptoKit', '~> 0.4'
+
 
 end

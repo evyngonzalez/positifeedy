@@ -36,7 +36,6 @@
 		5057A18D25ADF63D002255CB /* splash.mov in Resources */ = {isa = PBXBuildFile; fileRef = 5057A18C25ADF63D002255CB /* splash.mov */; };
 		505AE183258792A900DD7079 /* TermsNConditionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505AE182258792A900DD7079 /* TermsNConditionVC.swift */; };
 		505C737A25BAD0C5009BB98B /* AuthenticationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 505C737925BAD0C5009BB98B /* AuthenticationServices.framework */; };
-		505C737C25BAD47A009BB98B /* CryptoKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 505C737B25BAD47A009BB98B /* CryptoKit.framework */; };
 		50913DB9258A45F300878FD3 /* GreetingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50913DB8258A45F300878FD3 /* GreetingViewController.swift */; };
 		50955B3B258B83F900B84DD6 /* GreetingViewControllerProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50955B3A258B83F900B84DD6 /* GreetingViewControllerProfile.swift */; };
 		6E71A5EA7E4B9FBA62F9ED50 /* Pods_positifeedy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8BFCBF95D55B294A5A4F2C1 /* Pods_positifeedy.framework */; };
@@ -47,6 +46,11 @@
 		884D5A13253710F900259DBE /* JournalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 884D5A12253710F900259DBE /* JournalViewController.swift */; };
 		884D5A162537293200259DBE /* AdsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 884D5A142537293200259DBE /* AdsCollectionViewCell.swift */; };
 		884D5A172537293200259DBE /* AdsCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 884D5A152537293200259DBE /* AdsCollectionViewCell.xib */; };
+		88592646263C2B9A001A3231 /* AdsTableViewNew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88592644263C2B9A001A3231 /* AdsTableViewNew.swift */; };
+		88592647263C2B9A001A3231 /* AdsTableViewNew.xib in Resources */ = {isa = PBXBuildFile; fileRef = 88592645263C2B9A001A3231 /* AdsTableViewNew.xib */; };
+		8864EB303CD9FFED00E4ED32 /* PresetThemeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8864EB2F3CD9FFED00E4ED32 /* PresetThemeCell.swift */; };
+		8864EB343CD9FFED00E4ED32 /* OwnThemeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8864EB333CD9FFED00E4ED32 /* OwnThemeCell.swift */; };
+		8866384C263A99000088EE13 /* VideoBackgroundURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8866384B263A99000088EE13 /* VideoBackgroundURL.swift */; };
 		887C2996251F0F9E009AFA9E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 887C2995251F0F9E009AFA9E /* GoogleService-Info.plist */; };
 		887C2999251F1D8D009AFA9E /* MyTabbarVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 887C2998251F1D8D009AFA9E /* MyTabbarVC.swift */; };
 		887C299E251F6FEE009AFA9E /* SF-Pro-Display-Semibold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 887C299B251F6FEA009AFA9E /* SF-Pro-Display-Semibold.otf */; };
@@ -64,6 +68,12 @@
 		8885D48525498F80004340CE /* DALabeledCircularProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8885D48125498F77004340CE /* DALabeledCircularProgressView.m */; };
 		8885D48625498F80004340CE /* DACircularProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8885D48325498F7D004340CE /* DACircularProgressView.m */; };
 		88886A7F253D61DE00998E07 /* TTSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88886A7E253D61DE00998E07 /* TTSegmentedControl.swift */; };
+		889616BF263149CB00758ED5 /* FeedyCellUr.xib in Resources */ = {isa = PBXBuildFile; fileRef = 889616BD263149C600758ED5 /* FeedyCellUr.xib */; };
+		889616C0263149CB00758ED5 /* FeedyCellUr.swift in Sources */ = {isa = PBXBuildFile; fileRef = 889616BE263149CA00758ED5 /* FeedyCellUr.swift */; };
+		889616C526314A5600758ED5 /* viewAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 889616C226314A5500758ED5 /* viewAnimation.swift */; };
+		889616C626314A5600758ED5 /* Gradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 889616C326314A5500758ED5 /* Gradient.swift */; };
+		889616C726314A5600758ED5 /* ImageAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 889616C426314A5500758ED5 /* ImageAnimation.swift */; };
+		889616C926316F2B00758ED5 /* VideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 889616C826316F2B00758ED5 /* VideoViewController.swift */; };
 		88D279FD2535AC3000B1DE72 /* FAPaginationLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88D279FC2535AC3000B1DE72 /* FAPaginationLayout.swift */; };
 		88D27A002535ADBA00B1DE72 /* PositifeedyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88D279FE2535ADBA00B1DE72 /* PositifeedyCell.swift */; };
 		88D27A012535ADBA00B1DE72 /* PositifeedyCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 88D279FF2535ADBA00B1DE72 /* PositifeedyCell.xib */; };
@@ -88,6 +98,10 @@
 		88E1F41A251CBFAC0086E650 /* BookMarkVc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88E1F419251CBFAC0086E650 /* BookMarkVc.swift */; };
 		88EE3EC0254848C300E87380 /* FeedyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88EE3EBE254848C300E87380 /* FeedyCell.swift */; };
 		88EE3EC1254848C300E87380 /* FeedyCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 88EE3EBF254848C300E87380 /* FeedyCell.xib */; };
+		88F8206326313700005889A2 /* NewsArticalScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88F8206226313700005889A2 /* NewsArticalScreenViewController.swift */; };
+		88FB22CC2633FAA100DB697F /* chengethemeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88FB22CB2633FAA100DB697F /* chengethemeViewController.swift */; };
+		88FB22CE2633FAB300DB697F /* categoriesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88FB22CD2633FAB300DB697F /* categoriesViewController.swift */; };
+		88FBFD0D2630425E008E8DD5 /* Enhancement.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 88FBFD0C2630425E008E8DD5 /* Enhancement.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -136,6 +150,11 @@
 		884D5A12253710F900259DBE /* JournalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalViewController.swift; sourceTree = "<group>"; };
 		884D5A142537293200259DBE /* AdsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdsCollectionViewCell.swift; sourceTree = "<group>"; };
 		884D5A152537293200259DBE /* AdsCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AdsCollectionViewCell.xib; sourceTree = "<group>"; };
+		88592644263C2B9A001A3231 /* AdsTableViewNew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdsTableViewNew.swift; sourceTree = "<group>"; };
+		88592645263C2B9A001A3231 /* AdsTableViewNew.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AdsTableViewNew.xib; sourceTree = "<group>"; };
+		8864EB2F3CD9FFED00E4ED32 /* PresetThemeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresetThemeCell.swift; sourceTree = "<group>"; };
+		8864EB333CD9FFED00E4ED32 /* OwnThemeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnThemeCell.swift; sourceTree = "<group>"; };
+		8866384B263A99000088EE13 /* VideoBackgroundURL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoBackgroundURL.swift; sourceTree = "<group>"; };
 		887C2995251F0F9E009AFA9E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		887C2998251F1D8D009AFA9E /* MyTabbarVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyTabbarVC.swift; sourceTree = "<group>"; };
 		887C299B251F6FEA009AFA9E /* SF-Pro-Display-Semibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Display-Semibold.otf"; sourceTree = "<group>"; };
@@ -163,6 +182,12 @@
 		8885D48325498F7D004340CE /* DACircularProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DACircularProgressView.m; sourceTree = "<group>"; };
 		8885D48425498F80004340CE /* DACircularProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DACircularProgressView.h; sourceTree = "<group>"; };
 		88886A7E253D61DE00998E07 /* TTSegmentedControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TTSegmentedControl.swift; sourceTree = "<group>"; };
+		889616BD263149C600758ED5 /* FeedyCellUr.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FeedyCellUr.xib; sourceTree = "<group>"; };
+		889616BE263149CA00758ED5 /* FeedyCellUr.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedyCellUr.swift; sourceTree = "<group>"; };
+		889616C226314A5500758ED5 /* viewAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = viewAnimation.swift; sourceTree = "<group>"; };
+		889616C326314A5500758ED5 /* Gradient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Gradient.swift; sourceTree = "<group>"; };
+		889616C426314A5500758ED5 /* ImageAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageAnimation.swift; sourceTree = "<group>"; };
+		889616C826316F2B00758ED5 /* VideoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoViewController.swift; sourceTree = "<group>"; };
 		88D279FC2535AC3000B1DE72 /* FAPaginationLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FAPaginationLayout.swift; sourceTree = "<group>"; };
 		88D279FE2535ADBA00B1DE72 /* PositifeedyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PositifeedyCell.swift; sourceTree = "<group>"; };
 		88D279FF2535ADBA00B1DE72 /* PositifeedyCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PositifeedyCell.xib; sourceTree = "<group>"; };
@@ -187,6 +212,10 @@
 		88E1F419251CBFAC0086E650 /* BookMarkVc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookMarkVc.swift; sourceTree = "<group>"; };
 		88EE3EBE254848C300E87380 /* FeedyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedyCell.swift; sourceTree = "<group>"; };
 		88EE3EBF254848C300E87380 /* FeedyCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FeedyCell.xib; sourceTree = "<group>"; };
+		88F8206226313700005889A2 /* NewsArticalScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsArticalScreenViewController.swift; sourceTree = "<group>"; };
+		88FB22CB2633FAA100DB697F /* chengethemeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = chengethemeViewController.swift; sourceTree = "<group>"; };
+		88FB22CD2633FAB300DB697F /* categoriesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = categoriesViewController.swift; sourceTree = "<group>"; };
+		88FBFD0C2630425E008E8DD5 /* Enhancement.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Enhancement.storyboard; sourceTree = "<group>"; };
 		D8BFCBF95D55B294A5A4F2C1 /* Pods_positifeedy.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_positifeedy.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -195,7 +224,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				505C737C25BAD47A009BB98B /* CryptoKit.framework in Frameworks */,
 				505C737A25BAD0C5009BB98B /* AuthenticationServices.framework in Frameworks */,
 				5057A18B25ADCB12002255CB /* AVFoundation.framework in Frameworks */,
 				5021713F2588CCEC0050B0FE /* StoreKit.framework in Frameworks */,
@@ -250,7 +278,11 @@
 		40CF1B4E250BC432003B3B82 /* positifeedy */ = {
 			isa = PBXGroup;
 			children = (
+<<<<<<< Updated upstream
 				50126D1225C589D000E0CCF5 /* New Group */,
+=======
+				88FBFD0B26304240008E8DD5 /* Enhancement */,
+>>>>>>> Stashed changes
 				5057A18C25ADF63D002255CB /* splash.mov */,
 				5057A17F25ADB7EB002255CB /* TermsAndPrivacy */,
 				502D47902583B7DC0051F512 /* TableViewCell */,
@@ -296,12 +328,15 @@
 				505AE182258792A900DD7079 /* TermsNConditionVC.swift */,
 				50235B3C25AC8CE600F02DD9 /* PrivacyPolicyScreenVC.swift */,
 				40CF1B55250BC432003B3B82 /* Main.storyboard */,
+				88FBFD0C2630425E008E8DD5 /* Enhancement.storyboard */,
 				40CF1B58250BC434003B3B82 /* Assets.xcassets */,
 				40CF1B5A250BC434003B3B82 /* LaunchScreen.storyboard */,
 				40CF1B5D250BC434003B3B82 /* Info.plist */,
 				887C2995251F0F9E009AFA9E /* GoogleService-Info.plist */,
 				88E1F3EF251CB1350086E650 /* positifeedy.xcdatamodeld */,
 				50066E3A2584E91A0026FE90 /* ConstDec.h */,
+				88592644263C2B9A001A3231 /* AdsTableViewNew.swift */,
+				88592645263C2B9A001A3231 /* AdsTableViewNew.xib */,
 			);
 			path = positifeedy;
 			sourceTree = "<group>";
@@ -331,6 +366,15 @@
 				5057A18725ADB838002255CB /* terms_doc.pdf */,
 			);
 			path = TermsAndPrivacy;
+			sourceTree = "<group>";
+		};
+		8864EB2E3CD9FFED00E4ED32 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				8864EB2F3CD9FFED00E4ED32 /* PresetThemeCell.swift */,
+				8864EB333CD9FFED00E4ED32 /* OwnThemeCell.swift */,
+			);
+			path = Cell;
 			sourceTree = "<group>";
 		};
 		887C2997251F1D28009AFA9E /* Tabbar */ = {
@@ -384,6 +428,17 @@
 			path = SYPhotoBrowser;
 			sourceTree = "<group>";
 		};
+		889616C126314A5500758ED5 /* Animation  */ = {
+			isa = PBXGroup;
+			children = (
+				889616C226314A5500758ED5 /* viewAnimation.swift */,
+				889616C326314A5500758ED5 /* Gradient.swift */,
+				889616C426314A5500758ED5 /* ImageAnimation.swift */,
+				8866384B263A99000088EE13 /* VideoBackgroundURL.swift */,
+			);
+			path = "Animation ";
+			sourceTree = "<group>";
+		};
 		88D279FB2535AC1B00B1DE72 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
@@ -420,6 +475,29 @@
 				88E1F3DE251C960E0086E650 /* tinybuddha.png */,
 			);
 			path = Images;
+			sourceTree = "<group>";
+		};
+		88F820642631489C005889A2 /* ViewController  */ = {
+			isa = PBXGroup;
+			children = (
+				88F8206226313700005889A2 /* NewsArticalScreenViewController.swift */,
+				889616C826316F2B00758ED5 /* VideoViewController.swift */,
+				889616BE263149CA00758ED5 /* FeedyCellUr.swift */,
+				889616BD263149C600758ED5 /* FeedyCellUr.xib */,
+				88FB22CB2633FAA100DB697F /* chengethemeViewController.swift */,
+				88FB22CD2633FAB300DB697F /* categoriesViewController.swift */,
+			);
+			path = "ViewController ";
+			sourceTree = "<group>";
+		};
+		88FBFD0B26304240008E8DD5 /* Enhancement */ = {
+			isa = PBXGroup;
+			children = (
+				8864EB2E3CD9FFED00E4ED32 /* Cell */,
+				889616C126314A5500758ED5 /* Animation  */,
+				88F820642631489C005889A2 /* ViewController  */,
+			);
+			path = Enhancement;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -493,8 +571,10 @@
 				88E1F3E8251C960E0086E650 /* psychologytoday.png in Resources */,
 				5057A18D25ADF63D002255CB /* splash.mov in Resources */,
 				887C2996251F0F9E009AFA9E /* GoogleService-Info.plist in Resources */,
+				88592647263C2B9A001A3231 /* AdsTableViewNew.xib in Resources */,
 				502D47942583B7F90051F512 /* tblJournalCell.xib in Resources */,
 				88E1F3E2251C960E0086E650 /* mindful.png in Resources */,
+				88FBFD0D2630425E008E8DD5 /* Enhancement.storyboard in Resources */,
 				40CF1B5C250BC434003B3B82 /* LaunchScreen.storyboard in Resources */,
 				5057A18925ADB838002255CB /* terms_doc.pdf in Resources */,
 				88E1F3E6251C960E0086E650 /* defyingmentalillness.jpg in Resources */,
@@ -504,6 +584,7 @@
 				88E1F3E3251C960E0086E650 /* mybrainsnotbroken.jpg in Resources */,
 				88E1F3E0251C960E0086E650 /* mindworks.png in Resources */,
 				40CF1B59250BC434003B3B82 /* Assets.xcassets in Resources */,
+				889616BF263149CB00758ED5 /* FeedyCellUr.xib in Resources */,
 				88E1F3DF251C960E0086E650 /* mindfulness-garden.jpg in Resources */,
 				88E1F3EA251C960E0086E650 /* tinybuddha.png in Resources */,
 				884D5A172537293200259DBE /* AdsCollectionViewCell.xib in Resources */,
@@ -583,6 +664,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8864EB343CD9FFED00E4ED32 /* OwnThemeCell.swift in Sources */,
 				88886A7F253D61DE00998E07 /* TTSegmentedControl.swift in Sources */,
 				881D22AF251DC476006AE1D8 /* AdsTableViewCell.swift in Sources */,
 				40CF1B54250BC432003B3B82 /* ViewController.swift in Sources */,
@@ -591,10 +673,14 @@
 				884D5A162537293200259DBE /* AdsCollectionViewCell.swift in Sources */,
 				502CDCD625824D7F0034AE5F /* SubscriptionViewController.swift in Sources */,
 				50066E3F2585145B0026FE90 /* TblSettingCell.swift in Sources */,
+				889616C926316F2B00758ED5 /* VideoViewController.swift in Sources */,
 				88E1F3D1251C91A60086E650 /* FeedCell.swift in Sources */,
 				50913DB9258A45F300878FD3 /* GreetingViewController.swift in Sources */,
 				88E1F3CF251C7E610086E650 /* Feed.swift in Sources */,
+				889616C526314A5600758ED5 /* viewAnimation.swift in Sources */,
 				40CF1B6E250C9039003B3B82 /* welcomeViewController.swift in Sources */,
+				8864EB303CD9FFED00E4ED32 /* PresetThemeCell.swift in Sources */,
+				889616C0263149CB00758ED5 /* FeedyCellUr.swift in Sources */,
 				88EE3EC0254848C300E87380 /* FeedyCell.swift in Sources */,
 				502D47962583BD1D0051F512 /* AnswerDetailsVC.swift in Sources */,
 				887C2999251F1D8D009AFA9E /* MyTabbarVC.swift in Sources */,
@@ -603,16 +689,21 @@
 				8885D48525498F80004340CE /* DALabeledCircularProgressView.m in Sources */,
 				887C29AE251F751E009AFA9E /* TPKeyboardAvoidingCollectionView.m in Sources */,
 				504D2DC7258CC87B0057ADB5 /* KeychainItem.swift in Sources */,
+				889616C726314A5600758ED5 /* ImageAnimation.swift in Sources */,
+				88F8206326313700005889A2 /* NewsArticalScreenViewController.swift in Sources */,
+				889616C626314A5600758ED5 /* Gradient.swift in Sources */,
 				502D47932583B7F90051F512 /* tblJournalCell.swift in Sources */,
 				40CF1B6C250C8F57003B3B82 /* Utilities.swift in Sources */,
 				884D5A13253710F900259DBE /* JournalViewController.swift in Sources */,
 				50066E3C258512720026FE90 /* SetttingScreenVC.swift in Sources */,
+				88FB22CE2633FAB300DB697F /* categoriesViewController.swift in Sources */,
 				8885D48025498882004340CE /* SYPhotoBrowser.m in Sources */,
 				40CF1B66250C8F15003B3B82 /* signUpViewController.swift in Sources */,
 				8838C123251DFA62005FDF45 /* GoogleAdBannerView.swift in Sources */,
 				887C29AC251F751E009AFA9E /* UIScrollView+TPKeyboardAvoidingAdditions.m in Sources */,
 				88E1F41A251CBFAC0086E650 /* BookMarkVc.swift in Sources */,
 				887C29AD251F751E009AFA9E /* TPKeyboardAvoidingScrollView.m in Sources */,
+				88FB22CC2633FAA100DB697F /* chengethemeViewController.swift in Sources */,
 				502D478F25839F8B0051F512 /* AnswerOfQuestionVC.swift in Sources */,
 				40CF1B68250C8F24003B3B82 /* logInViewController.swift in Sources */,
 				88D279FD2535AC3000B1DE72 /* FAPaginationLayout.swift in Sources */,
@@ -623,9 +714,14 @@
 				505AE183258792A900DD7079 /* TermsNConditionVC.swift in Sources */,
 				40CF1B6A250C8F39003B3B82 /* Constants.swift in Sources */,
 				8885D47025493D9E004340CE /* MetadataCache.swift in Sources */,
+<<<<<<< Updated upstream
 				50126D1525C589EF00E0CCF5 /* TblFeedTextCell.swift in Sources */,
+=======
+				8866384C263A99000088EE13 /* VideoBackgroundURL.swift in Sources */,
+>>>>>>> Stashed changes
 				50955B3B258B83F900B84DD6 /* GreetingViewControllerProfile.swift in Sources */,
 				50235B3D25AC8CE600F02DD9 /* PrivacyPolicyScreenVC.swift in Sources */,
+				88592646263C2B9A001A3231 /* AdsTableViewNew.swift in Sources */,
 				88D27A002535ADBA00B1DE72 /* PositifeedyCell.swift in Sources */,
 				8885D47F25498882004340CE /* SYPhotoBrowserCaptionLabel.m in Sources */,
 			);
@@ -776,9 +872,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = positifeedy/positifeedy.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = DTRPW5TVH6;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = positifeedy/Info.plist;
@@ -788,9 +884,178 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0.1;
+<<<<<<< Updated upstream
+=======
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-l\"GoogleAnalytics\"",
+					"-l\"c++\"",
+					"-l\"icucore\"",
+					"-l\"sqlite3\"",
+					"-l\"stdc++\"",
+					"-l\"z\"",
+					"-framework",
+					"\"AVFoundation\"",
+					"-framework",
+					"\"Alamofire\"",
+					"-framework",
+					"\"AppAuth\"",
+					"-framework",
+					"\"AudioToolbox\"",
+					"-framework",
+					"\"CFNetwork\"",
+					"-framework",
+					"\"CoreData\"",
+					"-framework",
+					"\"CoreGraphics\"",
+					"-framework",
+					"\"CoreMedia\"",
+					"-framework",
+					"\"CoreTelephony\"",
+					"-framework",
+					"\"CoreText\"",
+					"-framework",
+					"\"CoreVideo\"",
+					"-framework",
+					"\"EMPageViewController\"",
+					"-framework",
+					"\"FBLPromises\"",
+					"-framework",
+					"\"FBSDKCoreKit\"",
+					"-framework",
+					"\"FBSDKLoginKit\"",
+					"-framework",
+					"\"FTPopOverMenu_Swift\"",
+					"-framework",
+					"\"FirebaseAuth\"",
+					"-framework",
+					"\"FirebaseCore\"",
+					"-framework",
+					"\"FirebaseCoreDiagnostics\"",
+					"-framework",
+					"\"FirebaseDatabase\"",
+					"-framework",
+					"\"FirebaseDynamicLinks\"",
+					"-framework",
+					"\"FirebaseFirestore\"",
+					"-framework",
+					"\"FirebaseInstallations\"",
+					"-framework",
+					"\"FirebaseInstanceID\"",
+					"-framework",
+					"\"FirebaseMessaging\"",
+					"-framework",
+					"\"FirebaseStorage\"",
+					"-framework",
+					"\"FirebaseUI\"",
+					"-framework",
+					"\"Foundation\"",
+					"-framework",
+					"\"GTMAppAuth\"",
+					"-framework",
+					"\"GTMSessionFetcher\"",
+					"-framework",
+					"\"GoogleAppMeasurement\"",
+					"-framework",
+					"\"GoogleDataTransport\"",
+					"-framework",
+					"\"GoogleDataTransportCCTSupport\"",
+					"-framework",
+					"\"GoogleMobileAds\"",
+					"-framework",
+					"\"GoogleSignIn\"",
+					"-framework",
+					"\"GoogleUtilities\"",
+					"-framework",
+					"\"IQKeyboardManagerSwift\"",
+					"-framework",
+					"\"ImageIO\"",
+					"-framework",
+					"\"LocalAuthentication\"",
+					"-framework",
+					"\"MediaPlayer\"",
+					"-framework",
+					"\"MessageUI\"",
+					"-framework",
+					"\"MobileCoreServices\"",
+					"-framework",
+					"\"Protobuf\"",
+					"-framework",
+					"\"QuartzCore\"",
+					"-framework",
+					"\"SDWebImage\"",
+					"-framework",
+					"\"SVProgressHUD\"",
+					"-framework",
+					"\"SafariServices\"",
+					"-framework",
+					"\"Security\"",
+					"-framework",
+					"\"StoreKit\"",
+					"-framework",
+					"\"SwiftyStoreKit\"",
+					"-framework",
+					"\"SystemConfiguration\"",
+					"-framework",
+					"\"Toast_Swift\"",
+					"-framework",
+					"\"UIKit\"",
+					"-framework",
+					"\"UserMessagingPlatform\"",
+					"-framework",
+					"\"VideoBackground\"",
+					"-framework",
+					"\"WebKit\"",
+					"-framework",
+					"\"absl\"",
+					"-framework",
+					"\"grpc\"",
+					"-framework",
+					"\"grpcpp\"",
+					"-framework",
+					"\"leveldb\"",
+					"-framework",
+					"\"nanopb\"",
+					"-framework",
+					"\"openssl_grpc\"",
+					"-weak_framework",
+					"\"Accelerate\"",
+					"-weak_framework",
+					"\"Accounts\"",
+					"-weak_framework",
+					"\"AdSupport\"",
+					"-weak_framework",
+					"\"AudioToolbox\"",
+					"-weak_framework",
+					"\"AuthenticationServices\"",
+					"-weak_framework",
+					"\"CoreGraphics\"",
+					"-weak_framework",
+					"\"CoreLocation\"",
+					"-weak_framework",
+					"\"Foundation\"",
+					"-weak_framework",
+					"\"JavaScriptCore\"",
+					"-weak_framework",
+					"\"QuartzCore\"",
+					"-weak_framework",
+					"\"SafariServices\"",
+					"-weak_framework",
+					"\"Security\"",
+					"-weak_framework",
+					"\"Social\"",
+					"-weak_framework",
+					"\"UIKit\"",
+					"-weak_framework",
+					"\"UserNotifications\"",
+					"-weak_framework",
+					"\"WebKit\"",
+				);
+>>>>>>> Stashed changes
 				PRODUCT_BUNDLE_IDENTIFIER = com.staypos.StayPositive;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = staypos_appstore;
+				PROVISIONING_PROFILE_SPECIFIER = staypos_dev;
 				SWIFT_OBJC_BRIDGING_HEADER = "positifeedy/Keyboard /positifeedy-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -805,9 +1070,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = positifeedy/positifeedy.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = DTRPW5TVH6;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = positifeedy/Info.plist;
@@ -817,9 +1082,178 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0.1;
+<<<<<<< Updated upstream
+=======
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-l\"GoogleAnalytics\"",
+					"-l\"c++\"",
+					"-l\"icucore\"",
+					"-l\"sqlite3\"",
+					"-l\"stdc++\"",
+					"-l\"z\"",
+					"-framework",
+					"\"AVFoundation\"",
+					"-framework",
+					"\"Alamofire\"",
+					"-framework",
+					"\"AppAuth\"",
+					"-framework",
+					"\"AudioToolbox\"",
+					"-framework",
+					"\"CFNetwork\"",
+					"-framework",
+					"\"CoreData\"",
+					"-framework",
+					"\"CoreGraphics\"",
+					"-framework",
+					"\"CoreMedia\"",
+					"-framework",
+					"\"CoreTelephony\"",
+					"-framework",
+					"\"CoreText\"",
+					"-framework",
+					"\"CoreVideo\"",
+					"-framework",
+					"\"EMPageViewController\"",
+					"-framework",
+					"\"FBLPromises\"",
+					"-framework",
+					"\"FBSDKCoreKit\"",
+					"-framework",
+					"\"FBSDKLoginKit\"",
+					"-framework",
+					"\"FTPopOverMenu_Swift\"",
+					"-framework",
+					"\"FirebaseAuth\"",
+					"-framework",
+					"\"FirebaseCore\"",
+					"-framework",
+					"\"FirebaseCoreDiagnostics\"",
+					"-framework",
+					"\"FirebaseDatabase\"",
+					"-framework",
+					"\"FirebaseDynamicLinks\"",
+					"-framework",
+					"\"FirebaseFirestore\"",
+					"-framework",
+					"\"FirebaseInstallations\"",
+					"-framework",
+					"\"FirebaseInstanceID\"",
+					"-framework",
+					"\"FirebaseMessaging\"",
+					"-framework",
+					"\"FirebaseStorage\"",
+					"-framework",
+					"\"FirebaseUI\"",
+					"-framework",
+					"\"Foundation\"",
+					"-framework",
+					"\"GTMAppAuth\"",
+					"-framework",
+					"\"GTMSessionFetcher\"",
+					"-framework",
+					"\"GoogleAppMeasurement\"",
+					"-framework",
+					"\"GoogleDataTransport\"",
+					"-framework",
+					"\"GoogleDataTransportCCTSupport\"",
+					"-framework",
+					"\"GoogleMobileAds\"",
+					"-framework",
+					"\"GoogleSignIn\"",
+					"-framework",
+					"\"GoogleUtilities\"",
+					"-framework",
+					"\"IQKeyboardManagerSwift\"",
+					"-framework",
+					"\"ImageIO\"",
+					"-framework",
+					"\"LocalAuthentication\"",
+					"-framework",
+					"\"MediaPlayer\"",
+					"-framework",
+					"\"MessageUI\"",
+					"-framework",
+					"\"MobileCoreServices\"",
+					"-framework",
+					"\"Protobuf\"",
+					"-framework",
+					"\"QuartzCore\"",
+					"-framework",
+					"\"SDWebImage\"",
+					"-framework",
+					"\"SVProgressHUD\"",
+					"-framework",
+					"\"SafariServices\"",
+					"-framework",
+					"\"Security\"",
+					"-framework",
+					"\"StoreKit\"",
+					"-framework",
+					"\"SwiftyStoreKit\"",
+					"-framework",
+					"\"SystemConfiguration\"",
+					"-framework",
+					"\"Toast_Swift\"",
+					"-framework",
+					"\"UIKit\"",
+					"-framework",
+					"\"UserMessagingPlatform\"",
+					"-framework",
+					"\"VideoBackground\"",
+					"-framework",
+					"\"WebKit\"",
+					"-framework",
+					"\"absl\"",
+					"-framework",
+					"\"grpc\"",
+					"-framework",
+					"\"grpcpp\"",
+					"-framework",
+					"\"leveldb\"",
+					"-framework",
+					"\"nanopb\"",
+					"-framework",
+					"\"openssl_grpc\"",
+					"-weak_framework",
+					"\"Accelerate\"",
+					"-weak_framework",
+					"\"Accounts\"",
+					"-weak_framework",
+					"\"AdSupport\"",
+					"-weak_framework",
+					"\"AudioToolbox\"",
+					"-weak_framework",
+					"\"AuthenticationServices\"",
+					"-weak_framework",
+					"\"CoreGraphics\"",
+					"-weak_framework",
+					"\"CoreLocation\"",
+					"-weak_framework",
+					"\"Foundation\"",
+					"-weak_framework",
+					"\"JavaScriptCore\"",
+					"-weak_framework",
+					"\"QuartzCore\"",
+					"-weak_framework",
+					"\"SafariServices\"",
+					"-weak_framework",
+					"\"Security\"",
+					"-weak_framework",
+					"\"Social\"",
+					"-weak_framework",
+					"\"UIKit\"",
+					"-weak_framework",
+					"\"UserNotifications\"",
+					"-weak_framework",
+					"\"WebKit\"",
+				);
+>>>>>>> Stashed changes
 				PRODUCT_BUNDLE_IDENTIFIER = com.staypos.StayPositive;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = staypos_appstore;
+				PROVISIONING_PROFILE_SPECIFIER = staypos_dev;
 				SWIFT_OBJC_BRIDGING_HEADER = "positifeedy/Keyboard /positifeedy-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;

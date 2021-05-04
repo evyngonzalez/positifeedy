@@ -31,7 +31,7 @@ class SubscriptionViewController: UIViewController
     @IBOutlet weak var scrollview: UIScrollView!
     
     @IBOutlet weak var note: UILabel!
-    
+    var fromEnhancement = false
     override func viewDidLoad()
     {
         super.viewDidLoad()
@@ -56,13 +56,17 @@ class SubscriptionViewController: UIViewController
     
     @IBAction func onclickforSkipForNow(_ sender: Any)
     {
-         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-         let vcHome = storyboard.instantiateViewController(withIdentifier: "MyTabbarVC") as! MyTabbarVC
-         vcHome.selectedIndex = 1
-         vcHome.modalPresentationStyle = .fullScreen
-         vcHome.modalTransitionStyle = .crossDissolve
-         self.present(vcHome, animated: true, completion: nil)
-        
+        if(fromEnhancement){
+            self.dismiss(animated: true, completion: nil)
+        }else{
+            let storyboard = UIStoryboard(name: "Enhancement", bundle: nil)
+            let vcHome = storyboard.instantiateViewController(withIdentifier: "MyTabbarVC") as! MyTabbarVC
+            vcHome.selectedIndex = 0
+            vcHome.modalPresentationStyle = .fullScreen
+            vcHome.modalTransitionStyle = .crossDissolve
+            self.present(vcHome, animated: true, completion: nil)
+        }
+
     }
     
     @IBAction func onclickforMonth(_ sender: Any)
@@ -167,6 +171,8 @@ class SubscriptionViewController: UIViewController
                        case .missingOfferParams:
                            break
                        case .invalidOfferPrice:
+                           break
+                       default:
                            break
                        }
                    }

@@ -108,7 +108,10 @@ class welcomeViewController: UIViewController
           
           tableView.register(UINib(nibName: "FeedCell", bundle: nil), forCellReuseIdentifier: "cell")
           tableView.register(UINib(nibName: "FeedyCell", bundle: nil), forCellReuseIdentifier: "FeedyCell")
+<<<<<<< Updated upstream
          tableView.register(UINib(nibName: "TblFeedTextCell", bundle: nil), forCellReuseIdentifier: "TblFeedTextCell")
+=======
+>>>>>>> Stashed changes
 
           tableView.register(UINib(nibName: "AdsTableViewCell", bundle: nil), forCellReuseIdentifier: "adsCell")
           
@@ -122,6 +125,7 @@ class welcomeViewController: UIViewController
           getBookmarsDataFeedy()
           
           //getFeeds()
+<<<<<<< Updated upstream
           //getPositifeedy()
         
         refreshControl.attributedTitle = NSAttributedString(string: "")
@@ -137,9 +141,55 @@ class welcomeViewController: UIViewController
         print("refresh")
         getPositifeedy()
       refreshControl.endRefreshing()
+=======
+          getPositifeedy()
+        
+>>>>>>> Stashed changes
     }
 //
     
+     override func viewWillDisappear(_ animated: Bool) {
+         super.viewWillDisappear(animated)
+         
+     }
+    
+//    //MARK:- init page :
+//    func initalizePageView() -> Void {
+//
+//    // Instantiate EMPageViewController and set the data source and delegate to 'self'
+//           let pageViewController = EMPageViewController()
+//
+//           // Or, for a vertical orientation
+//           // let pageViewController = EMPageViewController(navigationOrientation: .Vertical)
+//
+//           pageViewController.dataSource = self
+//           pageViewController.delegate = self
+//
+//
+//
+//           // Set the initially selected view controller
+//           // IMPORTANT: If you are using a dataSource, make sure you set it BEFORE calling selectViewController:direction:animated:completion
+//           let currentViewController = self.viewController(at: 0)!
+//           pageViewController.selectViewController(currentViewController, direction: .forward, animated: false, completion: nil)
+//           pageViewController.view.frame = CGRect.init(x: 0, y: 0, width: self.pageview.frame.size.width, height: self.pageview.frame.size.height)
+//
+//           // Add EMPageViewController to the root view controller
+//           self.addChild(pageViewController)
+//           self.pageview.addSubview(pageViewController.view)
+//
+//
+//           //self.pageview.insertSubview(pageViewController.view, at: 0) // Insert the page controller view below the navigation buttons
+//           pageViewController.didMove(toParent: self)
+//
+//           self.pageViewController = pageViewController
+//    }
+    
+     
+//    override func viewDidAppear(_ animated: Bool) {
+//         super.viewDidAppear(animated)
+//         tableView.reloadData()
+//     }
+//
      override func viewWillDisappear(_ animated: Bool) {
          super.viewWillDisappear(animated)
          
@@ -151,7 +201,10 @@ class welcomeViewController: UIViewController
         super.viewWillAppear(animated)
         setNavTitle(title : "positifeedy")
         self.getBookmarsDataOther()
+<<<<<<< Updated upstream
         getPositifeedy()
+=======
+>>>>>>> Stashed changes
         self.navigationController?.navigationBar.isHidden = true
         
 
@@ -372,9 +425,13 @@ class welcomeViewController: UIViewController
                                     let temp =  NSMutableArray.init(array: entries!)
                                     for i in (0..<temp.count)
                                     {
+<<<<<<< Updated upstream
                                         
                                         let dict = temp.object(at: i) as? NSDictionary
                                         
+=======
+                                        let dict = temp.object(at: i) as? NSDictionary
+>>>>>>> Stashed changes
                                         let mutable = NSMutableDictionary.init()
                                         mutable.setValue(String.init(format: "%@",(dict?.value(forKey: "description") as? CVarArg)!), forKey: "description_d")
                                         mutable.setValue(String.init(format: "%@",(dict?.value(forKey: "guid") as? CVarArg)!), forKey: "guid")
@@ -566,6 +623,7 @@ class welcomeViewController: UIViewController
                 guard let linkParameter = components.url else {
                     SVProgressHUD.dismiss()
                     return
+<<<<<<< Updated upstream
                 }
                 
                 guard let shareLink = DynamicLinkComponents.init(link: linkParameter, domainURIPrefix: "https://positifeedy.page.link") else {
@@ -577,6 +635,19 @@ class welcomeViewController: UIViewController
                     shareLink.iOSParameters = DynamicLinkIOSParameters(bundleID: myBundleId)
                 }
                 
+=======
+                }
+                
+                guard let shareLink = DynamicLinkComponents.init(link: linkParameter, domainURIPrefix: "https://positifeedy.page.link") else {
+                    SVProgressHUD.dismiss()
+                    return
+                }
+                
+                if let myBundleId = Bundle.main.bundleIdentifier {
+                    shareLink.iOSParameters = DynamicLinkIOSParameters(bundleID: myBundleId)
+                }
+                
+>>>>>>> Stashed changes
                 shareLink.iOSParameters?.appStoreID = "1484015088"
                 
                 guard shareLink.url != nil else {
@@ -887,10 +958,17 @@ class welcomeViewController: UIViewController
             super.viewDidDisappear(animated)
             
             
+<<<<<<< Updated upstream
         }
         deinit {
           //  print("deinit: \(self.greeting!)")
         }
+=======
+        }
+        deinit {
+          //  print("deinit: \(self.greeting!)")
+        }
+>>>>>>> Stashed changes
 
     
     // MARK: - EMPageViewController Data Source
@@ -1027,12 +1105,19 @@ extension welcomeViewController : UITableViewDataSource
         }
         
         if selectedTab == 0 {
+<<<<<<< Updated upstream
 
+=======
+            
+            let cell = tableView.dequeueReusableCell(withIdentifier: "FeedyCell", for: indexPath) as! FeedyCell
+            
+>>>>>>> Stashed changes
             let feed = arrPositifeedy[indexPath.row]
 
             if feed.description_d != nil
             {
 
+<<<<<<< Updated upstream
                 if #available(iOS 13.0, *) {
                     
                     var provider = LPMetadataProvider()
@@ -1335,10 +1420,52 @@ extension welcomeViewController : UITableViewDataSource
                       }
                     
                     return cell
+=======
+                cell.viewLink.isHidden = true
+                let date =  feed.time?.toDate()
+                //cell.btnShare.tag = indexPath.row
+                //cell.btnShare.addTarget(self, action: #selector(btnShareClickFeed), for: .touchUpInside)
+                
+                cell.btnPlay.isHidden = true
+                cell.lblTitle.text = feed.title
+                cell.lblDesc.text = feed.description_d
+                cell.lblTime.text  = date!.getElapsedInterval((feed.time?.getTimeZone())!)
+                
+                cell.btnShare.tag = indexPath.row
+               cell.btnShare.addTarget(self, action: #selector(btnShareClickFeed), for: .touchUpInside)
+              
+               cell.btnBookMark.setImage(UIImage(named: "book_mark_ic"), for: .normal)
+               cell.btnBookMark.setImage(UIImage(named: "bookmarkSelected"), for: .selected)
+               cell.btnBookMark.tag = indexPath.row
+               cell.btnBookMark.isSelected = isBookMark(link: feed.link!,desc: feed.description_d!)
+               cell.btnBookMark.addTarget(self, action: #selector(btnBookMarkClick), for: .touchUpInside)
+               cell.imgView.cornerRadius(10)
+              
+                
+                
+                if feed.link != nil
+                {
+                    if let link = URL(string: feed.link!)
+                    {
+                        if Images(rawValue: (link.domain)!)!.image != nil
+                        {
+                             if let img = Images(rawValue: (link.domain)!)!.image
+                            {
+                                print("img :\(img)")
+                                cell.imgView.image = UIImage(named: img)
+                            }
+                            else
+                             {
+                                cell.imgView.image = UIImage(named: "vlogo")
+                            }
+                        }
+                    }
+>>>>>>> Stashed changes
                 }
                 
             }else
             {
+<<<<<<< Updated upstream
                 
                 if feed.feed_type == "text"
                 {
@@ -1376,6 +1503,23 @@ extension welcomeViewController : UITableViewDataSource
             }
             
             
+=======
+                cell.bindData(feed: feed)
+
+                cell.btnBookMark.tag = indexPath.row
+                cell.btnBookMark.isSelected = isBookMark(link: feed.documentID!,desc: "")
+                cell.btnBookMark.addTarget(self, action: #selector(btnBookMarkClick), for: .touchUpInside)
+                
+                cell.btnShare.tag = indexPath.row
+                cell.btnShare.addTarget(self, action: #selector(btnShareClick), for: .touchUpInside)
+                
+                cell.btnPlay.tag = indexPath.row
+                cell.btnPlay.addTarget(self, action: #selector(btnPlayTapped(_:)), for: .touchUpInside)
+            }
+            
+            
+            return cell
+>>>>>>> Stashed changes
 
             
         } else {
@@ -1424,6 +1568,7 @@ extension welcomeViewController : UITableViewDataSource
         }
         
     }
+<<<<<<< Updated upstream
     
     func pickImageFromURL(url:URL) -> UIImage {
         
@@ -1460,6 +1605,8 @@ extension welcomeViewController : UITableViewDataSource
         
     }
     
+=======
+>>>>>>> Stashed changes
     
     @objc func btnPlayTapped(_ sender: UIButton) {
         
@@ -1496,9 +1643,13 @@ extension welcomeViewController : UITableViewDelegate
                 return 0
             }
         }
+<<<<<<< Updated upstream
              return UITableView.automaticDimension
         
         
+=======
+        return UITableView.automaticDimension
+>>>>>>> Stashed changes
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

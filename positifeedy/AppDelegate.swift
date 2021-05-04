@@ -467,19 +467,34 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func setRoot() {
         
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let storyboard = UIStoryboard(name: "Enhancement", bundle: nil)
         if (UserDefaults.standard.value(forKey: "isLogin") as? Bool ?? false)
-        {
-            let vcHome = storyboard.instantiateViewController(withIdentifier: "MyTabbarVC") as! MyTabbarVC
-            
-            self.window?.rootViewController = vcHome
-            self.window?.makeKeyAndVisible()
-            
-        }
+               {
+                   
+                   let vcHome = storyboard.instantiateViewController(withIdentifier: "MyTabbarVC") as! MyTabbarVC
+                   
+                   self.window?.rootViewController = vcHome
+                   self.window?.makeKeyAndVisible()
+                   
+               }
+//               let vc = storyboard.instantiateViewController(withIdentifier: "AdminLoginViewController") as! AdminLoginViewController
+//                      self.navigationController?.pushViewController(vc, animated: true)
+        
+      //  let storyboard = UIStoryboard(name: "Main", bundle: nil)
+//        if (UserDefaults.standard.value(forKey: "isLogin") as? Bool ?? false)
+//        {
+//
+//            let vcHome = storyboard.instantiateViewController(withIdentifier: "MyTabbarVC") as! MyTabbarVC
+//
+//            self.window?.rootViewController = vcHome
+//            self.window?.makeKeyAndVisible()
+//
+//        }
         else
         {
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let welcomeViewController = storyboard.instantiateViewController(withIdentifier: "navLogin") as! UINavigationController
-            
+
             self.window?.rootViewController = welcomeViewController
             self.window?.makeKeyAndVisible()
         }

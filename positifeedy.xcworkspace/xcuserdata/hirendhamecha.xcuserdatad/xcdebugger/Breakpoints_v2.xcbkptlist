@@ -458,8 +458,13 @@
             filePath = "positifeedy/welcomeViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
+<<<<<<< Updated upstream
             startingLineNumber = "925"
             endingLineNumber = "925"
+=======
+            startingLineNumber = "942"
+            endingLineNumber = "942"
+>>>>>>> Stashed changes
             landmarkName = "welcomeViewController"
             landmarkType = "3">
          </BreakpointContent>
@@ -490,8 +495,13 @@
             filePath = "positifeedy/welcomeViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
+<<<<<<< Updated upstream
             startingLineNumber = "97"
             endingLineNumber = "97"
+=======
+            startingLineNumber = "96"
+            endingLineNumber = "96"
+>>>>>>> Stashed changes
             landmarkName = "viewDidLoad()"
             landmarkType = "7">
          </BreakpointContent>
@@ -506,8 +516,13 @@
             filePath = "positifeedy/welcomeViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
+<<<<<<< Updated upstream
             startingLineNumber = "91"
             endingLineNumber = "91"
+=======
+            startingLineNumber = "90"
+            endingLineNumber = "90"
+>>>>>>> Stashed changes
             landmarkName = "viewDidLoad()"
             landmarkType = "7">
          </BreakpointContent>
@@ -522,8 +537,13 @@
             filePath = "positifeedy/welcomeViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
+<<<<<<< Updated upstream
             startingLineNumber = "1002"
             endingLineNumber = "1002"
+=======
+            startingLineNumber = "1019"
+            endingLineNumber = "1019"
+>>>>>>> Stashed changes
             landmarkName = "welcomeViewController"
             landmarkType = "3">
          </BreakpointContent>
@@ -2085,8 +2105,13 @@
             filePath = "positifeedy/welcomeViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
+<<<<<<< Updated upstream
             startingLineNumber = "415"
             endingLineNumber = "415"
+=======
+            startingLineNumber = "432"
+            endingLineNumber = "432"
+>>>>>>> Stashed changes
             landmarkName = "getFeeds()"
             landmarkType = "7">
          </BreakpointContent>
@@ -2101,8 +2126,13 @@
             filePath = "positifeedy/welcomeViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
+<<<<<<< Updated upstream
             startingLineNumber = "412"
             endingLineNumber = "412"
+=======
+            startingLineNumber = "429"
+            endingLineNumber = "429"
+>>>>>>> Stashed changes
             landmarkName = "getFeeds()"
             landmarkType = "7">
          </BreakpointContent>
@@ -2117,8 +2147,13 @@
             filePath = "positifeedy/welcomeViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
+<<<<<<< Updated upstream
             startingLineNumber = "364"
             endingLineNumber = "364"
+=======
+            startingLineNumber = "383"
+            endingLineNumber = "383"
+>>>>>>> Stashed changes
             landmarkName = "getFeeds()"
             landmarkType = "7">
          </BreakpointContent>
@@ -2133,8 +2168,13 @@
             filePath = "positifeedy/welcomeViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
+<<<<<<< Updated upstream
             startingLineNumber = "389"
             endingLineNumber = "389"
+=======
+            startingLineNumber = "406"
+            endingLineNumber = "406"
+>>>>>>> Stashed changes
             landmarkName = "getFeeds()"
             landmarkType = "7">
          </BreakpointContent>
@@ -2142,6 +2182,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+<<<<<<< Updated upstream
             uuid = "41B26FA7-82DC-44CC-81F9-F417E48CFF60"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
@@ -2191,12 +2232,16 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "3542C1F9-67C3-4BB6-A44B-2CCB44F4BBB8"
+=======
+            uuid = "F572BB46-DFE3-4B62-88F6-6A186B558E57"
+>>>>>>> Stashed changes
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "positifeedy/welcomeViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
+<<<<<<< Updated upstream
             startingLineNumber = "1480"
             endingLineNumber = "1480"
             landmarkName = "tableView(_:heightForRowAt:)"
@@ -2231,6 +2276,10 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "631"
             endingLineNumber = "631"
+=======
+            startingLineNumber = "1046"
+            endingLineNumber = "1046"
+>>>>>>> Stashed changes
             landmarkName = "tableView(_:cellForRowAt:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -2238,6 +2287,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+<<<<<<< Updated upstream
             uuid = "68E14F9C-7064-4E64-A146-8331F23F0713"
             shouldBeEnabled = "No"
             ignoreCount = "0"
@@ -2271,28 +2321,42 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "DF5B577A-C873-46A9-9555-AD0AC045F3EB"
+=======
+            uuid = "41B26FA7-82DC-44CC-81F9-F417E48CFF60"
+>>>>>>> Stashed changes
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "positifeedy/welcomeViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
+<<<<<<< Updated upstream
             startingLineNumber = "1556"
             endingLineNumber = "1556"
             landmarkName = "tableView(_:didSelectRowAt:)"
+=======
+            startingLineNumber = "539"
+            endingLineNumber = "539"
+            landmarkName = "btnShareClick(_:)"
+>>>>>>> Stashed changes
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+<<<<<<< Updated upstream
             uuid = "CF298190-DE34-47CE-97BC-5AC2FD49AED4"
+=======
+            uuid = "070E2F39-7E07-4497-9ABE-14735DF840B9"
+>>>>>>> Stashed changes
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "positifeedy/welcomeViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
+<<<<<<< Updated upstream
             startingLineNumber = "1344"
             endingLineNumber = "1344"
             landmarkName = "tableView(_:cellForRowAt:)"
@@ -2376,19 +2440,29 @@
             startingLineNumber = "990"
             endingLineNumber = "990"
             landmarkName = "btnPlayTapped(_:)"
+=======
+            startingLineNumber = "477"
+            endingLineNumber = "477"
+            landmarkName = "btnShareClickFeed(_:)"
+>>>>>>> Stashed changes
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+<<<<<<< Updated upstream
             uuid = "75563897-A98A-4CDC-BC80-45062D8A45BA"
+=======
+            uuid = "5C4C8F9B-FAF1-4F5C-90AE-0E3724D11F3A"
+>>>>>>> Stashed changes
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "positifeedy/GreetingViewControllerProfile.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
+<<<<<<< Updated upstream
             startingLineNumber = "687"
             endingLineNumber = "687"
             landmarkName = "tableView(_:cellForRowAt:)"
@@ -2792,6 +2866,11 @@
             startingLineNumber = "1117"
             endingLineNumber = "1117"
             landmarkName = "tableView(_:cellForRowAt:)"
+=======
+            startingLineNumber = "725"
+            endingLineNumber = "725"
+            landmarkName = "btnShareClickFeed(_:)"
+>>>>>>> Stashed changes
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

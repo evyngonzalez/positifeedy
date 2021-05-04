@@ -54,7 +54,7 @@ class GreetingViewControllerProfile: UIViewController
         tableView.rowHeight = UITableView.automaticDimension
               
         tableView.register(UINib(nibName: "FeedCell", bundle: nil), forCellReuseIdentifier: "cell")
-        tableView.register(UINib(nibName: "FeedyCell", bundle: nil), forCellReuseIdentifier: "FeedyCell")
+        tableView.register(UINib(nibName: "FeedyCellUr", bundle: nil), forCellReuseIdentifier: "FeedyCellUr")
               
               
         tableView.register(UINib(nibName: "tblJournalCell", bundle: nil), forCellReuseIdentifier: "tblJournalCell")
