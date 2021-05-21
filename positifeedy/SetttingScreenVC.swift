@@ -17,6 +17,7 @@ import AVKit
 import AVFoundation
 import SDWebImage
 import FTPopOverMenu_Swift
+import DLLocalNotifications
 
 class SetttingScreenVC: UIViewController,UITableViewDelegate,UITableViewDataSource
 {
@@ -140,6 +141,9 @@ class SetttingScreenVC: UIViewController,UITableViewDelegate,UITableViewDataSour
                                                     let appDel =  UIApplication.shared.delegate as! AppDelegate
                                                     appDel.arrBookMarkLink = []
                                                     
+                                                    let scheduler = DLNotificationScheduler()
+                                                    scheduler.cancelAlllNotifications()
+
                                                     UserDefaults.standard.set(false, forKey: "isLogin")
                                                     
                                                     UserDefaults.standard.removeObject(forKey: PREF_DAILY_QUESTION_COUNT)

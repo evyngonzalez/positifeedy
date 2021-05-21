@@ -719,7 +719,6 @@ class JournalViewController: UIViewController
                          
                         if self.arrNotification.count > 0
                         {
-                            
                             print("arrnotification :\n\(self.arrNotification)")
                             let notificationQuoteItem = self.arrNotification[self.arrNotification.count - 1]
                             if notificationQuoteItem.quote_title != nil

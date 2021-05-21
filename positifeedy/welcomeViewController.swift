@@ -20,7 +20,6 @@ import AVKit
 import AVFoundation
 import SDWebImage
 import EMPageViewController
-import LinkPresentation
 
 class welcomeViewController: UIViewController
 {
@@ -108,10 +107,6 @@ class welcomeViewController: UIViewController
           
           tableView.register(UINib(nibName: "FeedCell", bundle: nil), forCellReuseIdentifier: "cell")
           tableView.register(UINib(nibName: "FeedyCell", bundle: nil), forCellReuseIdentifier: "FeedyCell")
-<<<<<<< Updated upstream
-         tableView.register(UINib(nibName: "TblFeedTextCell", bundle: nil), forCellReuseIdentifier: "TblFeedTextCell")
-=======
->>>>>>> Stashed changes
 
           tableView.register(UINib(nibName: "AdsTableViewCell", bundle: nil), forCellReuseIdentifier: "adsCell")
           
@@ -125,33 +120,9 @@ class welcomeViewController: UIViewController
           getBookmarsDataFeedy()
           
           //getFeeds()
-<<<<<<< Updated upstream
-          //getPositifeedy()
-        
-        refreshControl.attributedTitle = NSAttributedString(string: "")
-        refreshControl.addTarget(self, action: #selector(self.refresh(_:)), for: .valueChanged)
-        tableView.addSubview(refreshControl) // not required when using UITableViewController
-    
-    }
-    
-    
-    //MARK:- refresh
-  @objc func refresh(_ sender: AnyObject) {
-       // Code to refresh table view
-        print("refresh")
-        getPositifeedy()
-      refreshControl.endRefreshing()
-=======
           getPositifeedy()
         
->>>>>>> Stashed changes
     }
-//
-    
-     override func viewWillDisappear(_ animated: Bool) {
-         super.viewWillDisappear(animated)
-         
-     }
     
 //    //MARK:- init page :
 //    func initalizePageView() -> Void {
@@ -201,12 +172,7 @@ class welcomeViewController: UIViewController
         super.viewWillAppear(animated)
         setNavTitle(title : "positifeedy")
         self.getBookmarsDataOther()
-<<<<<<< Updated upstream
-        getPositifeedy()
-=======
->>>>>>> Stashed changes
         self.navigationController?.navigationBar.isHidden = true
-        
 
     }
      
@@ -425,13 +391,7 @@ class welcomeViewController: UIViewController
                                     let temp =  NSMutableArray.init(array: entries!)
                                     for i in (0..<temp.count)
                                     {
-<<<<<<< Updated upstream
-                                        
                                         let dict = temp.object(at: i) as? NSDictionary
-                                        
-=======
-                                        let dict = temp.object(at: i) as? NSDictionary
->>>>>>> Stashed changes
                                         let mutable = NSMutableDictionary.init()
                                         mutable.setValue(String.init(format: "%@",(dict?.value(forKey: "description") as? CVarArg)!), forKey: "description_d")
                                         mutable.setValue(String.init(format: "%@",(dict?.value(forKey: "guid") as? CVarArg)!), forKey: "guid")
@@ -623,7 +583,6 @@ class welcomeViewController: UIViewController
                 guard let linkParameter = components.url else {
                     SVProgressHUD.dismiss()
                     return
-<<<<<<< Updated upstream
                 }
                 
                 guard let shareLink = DynamicLinkComponents.init(link: linkParameter, domainURIPrefix: "https://positifeedy.page.link") else {
@@ -635,19 +594,6 @@ class welcomeViewController: UIViewController
                     shareLink.iOSParameters = DynamicLinkIOSParameters(bundleID: myBundleId)
                 }
                 
-=======
-                }
-                
-                guard let shareLink = DynamicLinkComponents.init(link: linkParameter, domainURIPrefix: "https://positifeedy.page.link") else {
-                    SVProgressHUD.dismiss()
-                    return
-                }
-                
-                if let myBundleId = Bundle.main.bundleIdentifier {
-                    shareLink.iOSParameters = DynamicLinkIOSParameters(bundleID: myBundleId)
-                }
-                
->>>>>>> Stashed changes
                 shareLink.iOSParameters?.appStoreID = "1484015088"
                 
                 guard shareLink.url != nil else {
@@ -958,17 +904,10 @@ class welcomeViewController: UIViewController
             super.viewDidDisappear(animated)
             
             
-<<<<<<< Updated upstream
         }
         deinit {
           //  print("deinit: \(self.greeting!)")
         }
-=======
-        }
-        deinit {
-          //  print("deinit: \(self.greeting!)")
-        }
->>>>>>> Stashed changes
 
     
     // MARK: - EMPageViewController Data Source
@@ -1105,322 +1044,14 @@ extension welcomeViewController : UITableViewDataSource
         }
         
         if selectedTab == 0 {
-<<<<<<< Updated upstream
-
-=======
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "FeedyCell", for: indexPath) as! FeedyCell
             
->>>>>>> Stashed changes
             let feed = arrPositifeedy[indexPath.row]
 
             if feed.description_d != nil
             {
 
-<<<<<<< Updated upstream
-                if #available(iOS 13.0, *) {
-                    
-                    var provider = LPMetadataProvider()
-                    provider = LPMetadataProvider()
-                    provider.timeout = 50
-                    
-                    var linkView = LPLinkView()
-
-                    if let url = URL(string: feed.link!) {
-                               
-                               linkView = LPLinkView(url: url)
-
-                               // 1. Check if the metadata exists
-                               if let existingMetadata = MetadataCache.retrieve(urlString: url.absoluteString) {
-
-                                   linkView = LPLinkView(metadata: existingMetadata)
-                                   //self.lblTitle.text = existingMetadata.title ?? ""
-                               
-                                // images :
-                                let imageProvider1 = existingMetadata.imageProvider
-                                if imageProvider1 != nil
-                                {
-                                    
-                                    let cell = tableView.dequeueReusableCell(withIdentifier: "FeedyCell", for: indexPath) as! FeedyCell
-                                      cell.viewLink.isHidden = true
-                                      
-                                    
-                                      cell.lblTitle.text = existingMetadata.title
-                                    
-                                    
-                                      let date =  feed.time?.toDate()
-                                      //cell.btnShare.tag = indexPath.row
-                                      //cell.btnShare.addTarget(self, action: #selector(btnShareClickFeed), for: .touchUpInside)
-                                      
-                                      cell.btnPlay.isHidden = true
-                                      //cell.lblTitle.text = feed.title
-                                      cell.lblDesc.text = feed.description_d
-                                      cell.lblTime.text  = date!.getElapsedInterval((feed.time?.getTimeZone())!)
-                                      
-                                      cell.btnShare.tag = indexPath.row
-                                     cell.btnShare.addTarget(self, action: #selector(btnShareClickFeed), for: .touchUpInside)
-                                    
-                                     cell.btnBookMark.setImage(UIImage(named: "book_mark_ic"), for: .normal)
-                                     cell.btnBookMark.setImage(UIImage(named: "bookmarkSelected"), for: .selected)
-                                     cell.btnBookMark.tag = indexPath.row
-                                     cell.btnBookMark.isSelected = isBookMark(link: feed.link!,desc: feed.description_d!)
-                                     cell.btnBookMark.addTarget(self, action: #selector(btnBookMarkClick), for: .touchUpInside)
-                                      cell.imgView.cornerRadius(10)
-                                     cell.img.image = UIImage(named: "vlogo")
-                                    
-                                      if feed.link != nil
-                                      {
-                                          if let link = URL(string: feed.link!)
-                                          {
-                                              if Images(rawValue: (link.domain)!)!.image != nil
-                                              {
-                                                   if let img = Images(rawValue: (link.domain)!)!.image
-                                                  {
-                                                      print("img :\(img)")
-                                                      cell.img.image = UIImage(named: img)
-                                                  }
-                                                  else
-                                                   {
-                                                      cell.img.image = UIImage(named: "vlogo")
-                                                  }
-                                              }
-                                          }
-                                      }
-                                   
-                                    imageProvider1!.loadObject(ofClass: UIImage.self) { (image, error) in
-                                        guard error == nil else {
-                                            // handle error
-                                            return
-                                        }
-
-                                        if let image = image as? UIImage {
-                                            // do something with image
-                                            DispatchQueue.main.async {
-                                                cell.imgView.isHidden = false
-                                                cell.imgView.image = image
-                                                
-                                            }
-                                        } else {
-                                            print("no image available")
-                                            cell.imgView.image = UIImage.init(named: "vlogo")
-                                        }
-                                    }
-                                    
-                                    return cell
-                                    
-                                    
-                                }else
-                                {
-                                    print("data blank 2")
-                                    
-                                    let cell = tableView.dequeueReusableCell(withIdentifier: "TblFeedTextCell", for: indexPath) as! TblFeedTextCell
-
-                                      cell.lblTitle.text = existingMetadata.title
-                                    
-                                    cell.img.layer.cornerRadius = cell.img.frame.size.width / 2
-                                    cell.img.layer.cornerRadius = cell.img.frame.size.height / 2
-                                    cell.img.clipsToBounds = true
-                                    cell.img.image = UIImage(named: "vlogo")
-                                    
-                                      let date =  feed.time?.toDate()
-                                      //cell.btnShare.tag = indexPath.row
-                                      //cell.btnShare.addTarget(self, action: #selector(btnShareClickFeed), for: .touchUpInside)
-                                      
-                                      
-                                      //cell.lblTitle.text = feed.title
-                                      cell.lblDesc.text = feed.description_d
-                                      cell.lblTime.text  = date!.getElapsedInterval((feed.time?.getTimeZone())!)
-                                      
-                                      cell.btnShare.tag = indexPath.row
-                                     cell.btnShare.addTarget(self, action: #selector(btnShareClickFeed), for: .touchUpInside)
-                                    
-                                     cell.btnBookMark.setImage(UIImage(named: "book_mark_ic"), for: .normal)
-                                     cell.btnBookMark.setImage(UIImage(named: "bookmarkSelected"), for: .selected)
-                                     cell.btnBookMark.tag = indexPath.row
-                                     cell.btnBookMark.isSelected = isBookMark(link: feed.link!,desc: feed.description_d!)
-                                     cell.btnBookMark.addTarget(self, action: #selector(btnBookMarkClick), for: .touchUpInside)
-                                    
-                                      if feed.link != nil
-                                      {
-                                          if let link = URL(string: feed.link!)
-                                          {
-                                              if Images(rawValue: (link.domain)!)!.image != nil
-                                              {
-                                                   if let img = Images(rawValue: (link.domain)!)!.image
-                                                  {
-                                                      print("img :\(img)")
-                                                      cell.img.image = UIImage(named: img)
-                                                  }
-                                                  else
-                                                   {
-                                                      cell.img.image = UIImage(named: "vlogo")
-                                                  }
-                                              }
-                                          }
-                                      }
-                                    
-                                    return cell
-                                    
-                                }
-                                
-                           }
-                            else
-                            {
-                                let url = URL(string: feed.link!)
-                                
-                                provider.startFetchingMetadata(for: url!) { [weak self] metadata, error in
-                                                               guard let self = self else { return }
-                                   guard let metadata = metadata, error == nil else {
-                                       return
-                                   }
-                                        MetadataCache.cache(metadata: metadata)
-                                }
-                                
-                                let cell = tableView.dequeueReusableCell(withIdentifier: "TblFeedTextCell", for: indexPath) as! TblFeedTextCell
-
-                                
-                                cell.img.layer.cornerRadius = cell.img.frame.size.width / 2
-                                cell.img.layer.cornerRadius = cell.img.frame.size.height / 2
-                                cell.img.clipsToBounds = true
-                                
-                                cell.img.image = UIImage(named: "vlogo")
-                                
-                                  let date =  feed.time?.toDate()
-                                  //cell.btnShare.tag = indexPath.row
-                                  //cell.btnShare.addTarget(self, action: #selector(btnShareClickFeed), for: .touchUpInside)
-                                  
-                                  
-                                  cell.lblTitle.text = feed.title
-                                  cell.lblDesc.text = feed.description_d
-                                  cell.lblTime.text  = date!.getElapsedInterval((feed.time?.getTimeZone())!)
-                                  
-                                  cell.btnShare.tag = indexPath.row
-                                 cell.btnShare.addTarget(self, action: #selector(btnShareClickFeed), for: .touchUpInside)
-                                
-                                 cell.btnBookMark.setImage(UIImage(named: "book_mark_ic"), for: .normal)
-                                 cell.btnBookMark.setImage(UIImage(named: "bookmarkSelected"), for: .selected)
-                                 cell.btnBookMark.tag = indexPath.row
-                                 cell.btnBookMark.isSelected = isBookMark(link: feed.link!,desc: feed.description_d!)
-                                 cell.btnBookMark.addTarget(self, action: #selector(btnBookMarkClick), for: .touchUpInside)
-                                                                
-                                  if feed.link != nil
-                                  {
-                                      if let link = URL(string: feed.link!)
-                                      {
-                                          if Images(rawValue: (link.domain)!)!.image != nil
-                                          {
-                                               if let img = Images(rawValue: (link.domain)!)!.image
-                                              {
-                                                  print("img :\(img)")
-                                                  cell.img.image = UIImage(named: img)
-                                              }
-                                              else
-                                               {
-                                                  cell.img.image = UIImage(named: "vlogo")
-                                              }
-                                          }
-                                      }
-                                  }
-                                
-                                return cell
-
-                           }
-                    }else {
-                        
-                        let cell = tableView.dequeueReusableCell(withIdentifier: "FeedyCell", for: indexPath) as! FeedyCell
-                        cell.viewLink.isHidden = true
-                          
-                          let date =  feed.time?.toDate()
-                          //cell.btnShare.tag = indexPath.row
-                          //cell.btnShare.addTarget(self, action: #selector(btnShareClickFeed), for: .touchUpInside)
-                          
-                          cell.btnPlay.isHidden = true
-                          //cell.lblTitle.text = feed.title
-                          cell.lblDesc.text = feed.description_d
-                          cell.lblTime.text  = date!.getElapsedInterval((feed.time?.getTimeZone())!)
-                          
-                          cell.btnShare.tag = indexPath.row
-                         cell.btnShare.addTarget(self, action: #selector(btnShareClickFeed), for: .touchUpInside)
-                        
-                         cell.btnBookMark.setImage(UIImage(named: "book_mark_ic"), for: .normal)
-                         cell.btnBookMark.setImage(UIImage(named: "bookmarkSelected"), for: .selected)
-                         cell.btnBookMark.tag = indexPath.row
-                         cell.btnBookMark.isSelected = isBookMark(link: feed.link!,desc: feed.description_d!)
-                         cell.btnBookMark.addTarget(self, action: #selector(btnBookMarkClick), for: .touchUpInside)
-                          cell.imgView.cornerRadius(10)
-                         cell.img.image = UIImage(named: "vlogo")
-                        
-                          if feed.link != nil
-                          {
-                              if let link = URL(string: feed.link!)
-                              {
-                                  if Images(rawValue: (link.domain)!)!.image != nil
-                                  {
-                                       if let img = Images(rawValue: (link.domain)!)!.image
-                                      {
-                                          print("img :\(img)")
-                                          cell.img.image = UIImage(named: img)
-                                      }
-                                      else
-                                       {
-                                          cell.img.image = UIImage(named: "vlogo")
-                                      }
-                                  }
-                              }
-                          }
-                        
-                        return cell
-                        
-                    }
-                    
-                    
-                }
-                
-                else{
-                    
-                    let cell = tableView.dequeueReusableCell(withIdentifier: "FeedyCell", for: indexPath) as! FeedyCell
-                    cell.viewLink.isHidden = true
-                      
-                      let date =  feed.time?.toDate()
-                      //cell.btnShare.tag = indexPath.row
-                      //cell.btnShare.addTarget(self, action: #selector(btnShareClickFeed), for: .touchUpInside)
-                      
-                      cell.btnPlay.isHidden = true
-                      //cell.lblTitle.text = feed.title
-                      cell.lblDesc.text = feed.description_d
-                      cell.lblTime.text  = date!.getElapsedInterval((feed.time?.getTimeZone())!)
-                      
-                      cell.btnShare.tag = indexPath.row
-                     cell.btnShare.addTarget(self, action: #selector(btnShareClickFeed), for: .touchUpInside)
-                    
-                     cell.btnBookMark.setImage(UIImage(named: "book_mark_ic"), for: .normal)
-                     cell.btnBookMark.setImage(UIImage(named: "bookmarkSelected"), for: .selected)
-                     cell.btnBookMark.tag = indexPath.row
-                     cell.btnBookMark.isSelected = isBookMark(link: feed.link!,desc: feed.description_d!)
-                     cell.btnBookMark.addTarget(self, action: #selector(btnBookMarkClick), for: .touchUpInside)
-                      cell.imgView.cornerRadius(10)
-                    cell.img.image = UIImage(named: "vlogo")
-                      if feed.link != nil
-                      {
-                          if let link = URL(string: feed.link!)
-                          {
-                              if Images(rawValue: (link.domain)!)!.image != nil
-                              {
-                                   if let img = Images(rawValue: (link.domain)!)!.image
-                                  {
-                                      print("img :\(img)")
-                                      cell.img.image = UIImage(named: img)
-                                  }
-                                  else
-                                   {
-                                      cell.img.image = UIImage(named: "vlogo")
-                                  }
-                              }
-                          }
-                      }
-                    
-                    return cell
-=======
                 cell.viewLink.isHidden = true
                 let date =  feed.time?.toDate()
                 //cell.btnShare.tag = indexPath.row
@@ -1460,50 +1091,10 @@ extension welcomeViewController : UITableViewDataSource
                             }
                         }
                     }
->>>>>>> Stashed changes
                 }
                 
             }else
             {
-<<<<<<< Updated upstream
-                
-                if feed.feed_type == "text"
-                {
-                       let cell = tableView.dequeueReusableCell(withIdentifier: "TblFeedTextCell", for: indexPath) as! TblFeedTextCell
-                        cell.lblTitle.text = feed.title
-                        cell.lblDesc.text = feed.desc
-
-                       cell.btnBookMark.tag = indexPath.row
-                       cell.btnBookMark.isSelected = isBookMark(link: feed.documentID!,desc: "")
-                       cell.btnBookMark.addTarget(self, action: #selector(btnBookMarkClick), for: .touchUpInside)
-                       
-                       cell.btnShare.tag = indexPath.row
-                       cell.btnShare.addTarget(self, action: #selector(btnShareClick), for: .touchUpInside)
-                       cell.img.image = UIImage(named: "vlogo")
-                    
-                       return cell
-                    
-                }else
-                {
-                    let cell = tableView.dequeueReusableCell(withIdentifier: "FeedyCell", for: indexPath) as! FeedyCell
-                    cell.bindData(feed: feed)
-                    cell.imgView.cornerRadius(10)
-                    cell.btnBookMark.tag = indexPath.row
-                    cell.btnBookMark.isSelected = isBookMark(link: feed.documentID!,desc: "")
-                    cell.btnBookMark.addTarget(self, action: #selector(btnBookMarkClick), for: .touchUpInside)
-                    
-                    cell.btnShare.tag = indexPath.row
-                    cell.btnShare.addTarget(self, action: #selector(btnShareClick), for: .touchUpInside)
-                    
-                    cell.btnPlay.tag = indexPath.row
-                    cell.btnPlay.addTarget(self, action: #selector(btnPlayTapped(_:)), for: .touchUpInside)
-                    cell.img.image = UIImage(named: "vlogo")
-                    return cell
-                }
-            }
-            
-            
-=======
                 cell.bindData(feed: feed)
 
                 cell.btnBookMark.tag = indexPath.row
@@ -1519,7 +1110,6 @@ extension welcomeViewController : UITableViewDataSource
             
             
             return cell
->>>>>>> Stashed changes
 
             
         } else {
@@ -1568,45 +1158,6 @@ extension welcomeViewController : UITableViewDataSource
         }
         
     }
-<<<<<<< Updated upstream
-    
-    func pickImageFromURL(url:URL) -> UIImage {
-        
-        var image1 : UIImage! = UIImage.init(named: "vlogo")
-        if #available(iOS 13.0, *) {
-            LPMetadataProvider().startFetchingMetadata(for: url) { (linkMetadata, error) in
-                guard let linkMetadata = linkMetadata, let imageProvider = linkMetadata.iconProvider else { return }
-                
-                print(linkMetadata.title ?? "Untitled")
-                
-                imageProvider.loadObject(ofClass: UIImage.self) { (image, error) in
-                    guard error == nil else {
-                        // handle error
-                        return
-                    }
-                    
-                    if let image = image as? UIImage {
-                        // do something with image
-                        DispatchQueue.main.async {
-                            
-                            image1 = image
-
-                        }
-                    } else {
-                        print("no image available")
-                       // return
-                    }
-                }
-            }
-        } else {
-            // Fallback on earlier versions
-        }
-        return image1
-        
-    }
-    
-=======
->>>>>>> Stashed changes
     
     @objc func btnPlayTapped(_ sender: UIButton) {
         
@@ -1643,13 +1194,7 @@ extension welcomeViewController : UITableViewDelegate
                 return 0
             }
         }
-<<<<<<< Updated upstream
-             return UITableView.automaticDimension
-        
-        
-=======
         return UITableView.automaticDimension
->>>>>>> Stashed changes
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

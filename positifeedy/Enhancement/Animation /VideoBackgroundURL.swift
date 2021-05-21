@@ -119,7 +119,15 @@ final private class VideoBackgroundViewURL : UIView {
 //            videoPlayer = manager.setPlayer(with : url)
 //        }
         
-        videoPlayer = AVPlayer(url: videoURL!)    //working
+        
+        let path = downloadTheme(theme: videoURL!.absoluteString)
+        if(path == ""){
+            videoPlayer = AVPlayer(url: videoURL!)    //working
+        }else{
+            let playerItem = AVPlayerItem(url: URL(fileURLWithPath: path.replacingOccurrences(of: "file://", with: "")))
+            videoPlayer = AVPlayer(playerItem: playerItem)
+        }
+        
         videoPlayer.actionAtItemEnd = .none
         videoPlayer.volume = options.volume
 
@@ -159,12 +167,20 @@ final private class VideoBackgroundViewURL : UIView {
     @objc func startFromBeginning(notification:Notification) {
         guard let player = playerLayer?.player else { return }
         player.seek(to: CMTime.zero)
-        player.play()
+        let isVideo = UserDefaults.standard.bool(forKey: "IsVideo")
+        if(isVideo){
+            player.play()
+        }
     }
     
     @objc func resumePlaying(notification:Notification) {
         guard let player = playerLayer?.player else { return }
-        player.play()
+        
+        let isVideo = UserDefaults.standard.bool(forKey: "IsVideo")
+        if(isVideo){
+            player.play()
+        }
+        
     }
     
     @objc func pausePlaying(notification:Notification) {
@@ -192,8 +208,64 @@ final private class VideoBackgroundViewURL : UIView {
         timer?.invalidate()
         timer = nil
     }
+
 }
 
+
+func downloadTheme(theme: String, savingStatus : ((_ status:Bool) -> Void)? = nil) -> String{
+    let videoUrl = URL(string: theme)!
+    let session = URLSession(configuration: URLSessionConfiguration.default)
+
+    let docsUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+    let destinationUrl = docsUrl.appendingPathComponent("Themes").appendingPathComponent(videoUrl.lastPathComponent)
+    if(FileManager().fileExists(atPath: destinationUrl.path)){
+            print("\n\nfile already exists\n\n \(destinationUrl.absoluteString)")
+            if let function = savingStatus{
+                function(true)
+               }
+            return destinationUrl.absoluteString
+        }
+        else{
+            DispatchQueue.global(qos: .background).async {
+                do {
+                    try FileManager.default.createDirectory(atPath: docsUrl.appendingPathComponent("Themes").path, withIntermediateDirectories: true, attributes: nil)
+                } catch {
+                    print(error.localizedDescription)
+                }
+            
+                    var request = URLRequest(url: videoUrl)
+                    request.httpMethod = "GET"
+                    _ = session.dataTask(with: request, completionHandler: { (data, response, error) in
+                        
+                        if(error != nil){
+                            print("\n\nsome error occured\n\n")
+                            return
+                        }
+                        if let response = response as? HTTPURLResponse{
+                        if response.statusCode == 200{
+                            DispatchQueue.main.async {
+                                if let data = data{
+                                    if let _ = try? data.write(to: destinationUrl, options: Data.WritingOptions.atomic){
+                                        print("\n\nurl data written\n\n \(destinationUrl)")
+                                        if let function = savingStatus{
+                                            function(true)
+                                           }
+                                    }
+                                    else{
+                                        print("\n\nerror again\n\n")
+                                        if let function = savingStatus{
+                                            function(false)
+                                           }
+                                    }
+                                }//end if let data
+                            }//end dispatch main
+                        }//end if let response.status
+                    }
+                }).resume()
+            }
+            return ""
+        }
+}
 
 func getThumbnailImage(forUrl url: URL) -> UIImage? {
     let asset: AVAsset = AVAsset(url: url)
@@ -217,4 +289,46 @@ func getThumbnailImage(forUrl url: URL) -> UIImage? {
     }
 
     return nil
+}
+
+func hexStringFromColor(color: UIColor) -> String {
+    let components = color.cgColor.components
+    let r: CGFloat = components?[0] ?? 0.0
+    let g: CGFloat = components?[1] ?? 0.0
+    let b: CGFloat = components?[2] ?? 0.0
+
+    let hexString = String.init(format: "#%02lX%02lX%02lX", lroundf(Float(r * 255)), lroundf(Float(g * 255)), lroundf(Float(b * 255)))
+    print(hexString)
+    return hexString
+ }
+
+func colorWithHexString(hexString: String) -> UIColor {
+    var colorString = hexString.trimmingCharacters(in: .whitespacesAndNewlines)
+    colorString = colorString.replacingOccurrences(of: "#", with: "").uppercased()
+
+    print(colorString)
+    let alpha: CGFloat = 1.0
+    let red: CGFloat = colorComponentFrom(colorString: colorString, start: 0, length: 2)
+    let green: CGFloat = colorComponentFrom(colorString: colorString, start: 2, length: 2)
+    let blue: CGFloat = colorComponentFrom(colorString: colorString, start: 4, length: 2)
+
+    let color = UIColor(red: red, green: green, blue: blue, alpha: alpha)
+    return color
+}
+
+func colorComponentFrom(colorString: String, start: Int, length: Int) -> CGFloat {
+
+    let startIndex = colorString.index(colorString.startIndex, offsetBy: start)
+    let endIndex = colorString.index(startIndex, offsetBy: length)
+    let subString = colorString[startIndex..<endIndex]
+    let fullHexString = length == 2 ? subString : "\(subString)\(subString)"
+    var hexComponent: UInt32 = 0
+
+    guard Scanner(string: String(fullHexString)).scanHexInt32(&hexComponent) else {
+        return 0
+    }
+    let hexFloat: CGFloat = CGFloat(hexComponent)
+    let floatValue: CGFloat = CGFloat(hexFloat / 255.0)
+    print(floatValue)
+    return floatValue
 }

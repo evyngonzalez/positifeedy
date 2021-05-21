@@ -18,6 +18,7 @@ class FeedyCellUr: UITableViewCell {
     
     @IBOutlet weak var btnplay: UIButton!
     @IBOutlet weak var btnBookmark: UIButton!
+    @IBOutlet weak var imgBookmark: UIImageView!
     @IBOutlet weak var img: RoundableImageView!
     
     @IBOutlet weak var lblreadtime: UILabel!
@@ -44,25 +45,30 @@ class FeedyCellUr: UITableViewCell {
             
             btnplay.cornerRadius(10)
             
-            btnBookmark.setImage(UIImage(named: "book_mark_ic"), for: .normal)
-            btnBookmark.setImage(UIImage(named: "bookmarkSelected"), for: .selected)
+//            btnBookmark.setImage(UIImage(named: "book_mark_ic"), for: .normal)
+//            btnBookmark.setImage(UIImage(named: "bookmarkSelected"), for: .selected)
             
             let feed_type = feed.feed_type ?? "image"
             let feed_url = feed.feed_url ?? ""
             
-            lblTitle.text = feed.title ?? ""
-            lblminidiscription.text = feed.desc ?? ""
+            lblTitle.text = feed.title ?? "Positifeedy"
+            lblminidiscription.text = feed.desc ?? "Positifeedy"
             
             //lblTitle.constant = 10.0
             
             if feed_type == "image" {
-                
+                lblminidiscription.text = "Positifeedy"
                // heightImg.constant = (UIScreen.main.bounds.width - 30.0) / 1.6
                 
                 if feed.feed_image != nil {
                     if let link = URL(string: feed.feed_image!)
                     {
-                        imgminilogo.sd_setImage(with: link, placeholderImage: UIImage.init(named: "album_placeholder"), options: .highPriority, completed: nil)
+                        if(lblminidiscription.text == "Positifeedy"){
+                            imgminilogo.image = UIImage(named: "vlogo")
+                            img.sd_setImage(with: link, placeholderImage: UIImage.init(named: "album_placeholder"), options: .highPriority, completed: nil)
+                        }else{
+                            imgminilogo.sd_setImage(with: link, placeholderImage: UIImage.init(named: "album_placeholder"), options: .highPriority, completed: nil)
+                        }
                     } else {
                         imgminilogo.image = nil
                     }
@@ -75,9 +81,12 @@ class FeedyCellUr: UITableViewCell {
                 viewlink.isHidden = true
                 
             } else if feed_type == "text" {
-                
+                lblminidiscription.text = "Positifeedy"
              //   heightImg.constant = 0.0
-                imgminilogo.isHidden = true
+//                imgminilogo.isHidden = true
+                imgminilogo.isHidden = false
+                imgminilogo.image = UIImage(named: "vlogo")
+                img.image = UIImage(named: "vlogo")
                 btnplay.isHidden = true
                 viewlink.isHidden = true
                 
@@ -103,11 +112,17 @@ class FeedyCellUr: UITableViewCell {
             } else if feed_type == "link" {
                 
                 //topLblTitle.constant = 20.0
-                lblminidiscription.text = ""
+                lblminidiscription.text = "positifeedy"
                 
                // heightImg.constant = (UIScreen.main.bounds.width - 30.0) / 1.6
-                imgminilogo.isHidden = true
-                btnplay.isHidden = true
+//                imgminilogo.isHidden = true
+                imgminilogo.isHidden = false
+                imgminilogo.image = UIImage(named: "vlogo")
+                if(feed.feed_url?.contains("youtube") ?? false){
+                    btnplay.isHidden = false
+                }else{
+                    btnplay.isHidden = true
+                }
                 viewlink.isHidden = false
                 viewlink.isUserInteractionEnabled = false
                 
@@ -151,6 +166,23 @@ class FeedyCellUr: UITableViewCell {
                                     // 3. And cache the new metadata once you have it
                                     if let imageProvider = metadata.imageProvider {
                                         metadata.iconProvider = imageProvider
+                                        
+                                        imageProvider.loadObject(ofClass: UIImage.self) { (image, error) in
+                                            guard error == nil else {
+                                                // handle error
+                                                return
+                                            }
+                                            
+                                            DispatchQueue.main.async {
+                                                if let image = image as? UIImage {
+                                                    self.img.image = image
+                                                } else {
+                                                    self.img.image = nil
+                                                }
+                                                self.img.sd_imageIndicator = nil
+                                                //                                                    cell.img.sd_imageIndicator?.startAnimatingIndicator()
+                                            }
+                                        }
                                     }
                                     MetadataCache.cache(metadata: metadata)
                                     
@@ -179,13 +211,25 @@ class FeedyCellUr: UITableViewCell {
                                 self.lblTitle.text = existingMetadata.title ??  ""
                                 
                                 if let imageProvider = existingMetadata.imageProvider {
-                                                                       existingMetadata.iconProvider = imageProvider
+                                    existingMetadata.iconProvider = imageProvider
                                     
-                                                                   }
-                                
-                                
-                                
-
+                                    imageProvider.loadObject(ofClass: UIImage.self) { (image, error) in
+                                        guard error == nil else {
+                                            // handle error
+                                            return
+                                        }
+                                        
+                                        DispatchQueue.main.async {
+                                            if let image = image as? UIImage {
+                                                self.img.image = image
+                                            } else {
+                                                self.img.image = nil
+                                            }
+                                            self.img.sd_imageIndicator = nil
+                                            //                                                    cell.img.sd_imageIndicator?.startAnimatingIndicator()
+                                        }
+                                    }
+                               }
 
                             } else {
                                 // 2. If it doesn't start the fetch
@@ -199,6 +243,22 @@ class FeedyCellUr: UITableViewCell {
                                     // 3. And cache the new metadata once you have it
                                     if let imageProvider = metadata.imageProvider {
                                         metadata.iconProvider = imageProvider
+                                        imageProvider.loadObject(ofClass: UIImage.self) { (image, error) in
+                                            guard error == nil else {
+                                                // handle error
+                                                return
+                                            }
+                                            
+                                            DispatchQueue.main.async {
+                                                if let image = image as? UIImage {
+                                                    self.img.image = image
+                                                } else {
+                                                    self.img.image = nil
+                                                }
+                                                self.img.sd_imageIndicator = nil
+                                                //                                                    cell.img.sd_imageIndicator?.startAnimatingIndicator()
+                                            }
+                                        }
                                     }
                                     MetadataCache.cache(metadata: metadata)
                                     
@@ -211,15 +271,17 @@ class FeedyCellUr: UITableViewCell {
                             }
                         }
                         
-                        linkView.tag = 999
-                        linkView.frame = frameLink
-                        self.viewlink.addSubview(linkView)
+//                        linkView.tag = 999
+//                        linkView.frame = frameLink
+//                        self.viewlink.addSubview(linkView)
+                        
 
                     }
 
                 } else {
                     self.img.sd_imageIndicator = nil
                     self.img.image = UIImage(named: "vlogo")
+                    lblTitle.text = "Positifeedy"
                 }
                 
             }

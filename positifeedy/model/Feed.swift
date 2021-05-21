@@ -260,6 +260,19 @@ struct PositifeedAllSet: Codable {
         self.description_d = description_d
     }
       
+    func toDictionary() -> [String : Any] {
+        return [
+            "title": title as Any,
+            "desc": desc as Any,
+            "feed_type": feed_type as Any,
+            "feed_url": feed_url as Any,
+            "feed_image": feed_image as Any,
+            "feed_video": feed_video as Any,
+            "link": link as Any,
+            "description_d": description_d as Any
+        ]
+    }
+    
     
 }
 

@@ -28,7 +28,8 @@ class PostDetailViewController: UIViewController {
     @IBOutlet weak var imgbookmark1: UIImageView!
     @IBOutlet weak var imgshare1: UIImageView!
     
-    
+    var arrRecentlyView = NSMutableArray()
+
     @IBOutlet weak var heightViewImg: NSLayoutConstraint!
     
     
@@ -39,14 +40,15 @@ class PostDetailViewController: UIViewController {
     //let bookmark = UIButton(type: .custom)
     //let share = UIButton(type: .custom)
     
-    let imgBookmark = UIImage.init(named: "book_mark_ic")!
-    let imgBookmarkSelected = UIImage.init(named: "selected_bookmark_ic")!
+    let imgBookmark = UIImage.init(named: "bm-0")!
+    let imgBookmarkSelected = UIImage.init(named: "bm-1")!
     let imgShare = UIImage.init(named: "share_ic")!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.arrBookMarkArrray = NSMutableArray.init()
+        getRecentlyViews()
         self.getBookmarsDataOther()
         
         self.navigationController?.navigationBar.isHidden = true
@@ -76,6 +78,107 @@ class PostDetailViewController: UIViewController {
         
         reloadView()
     }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        
+        if(positifeedy == nil){
+            return
+        }
+       // let mutablearray = NSMutableArray.init()
+        print("Call recent !")
+       var db: Firestore!
+       db = Firestore.firestore()
+       
+       guard let appDel = UIApplication.shared.delegate as? AppDelegate else {
+           return
+       }
+//        let timestamp = Date().currentTimeMillis()
+//        let mutabledict = NSMutableDictionary.init()
+//        mutabledict.setValue(myDocID!, forKey: "feed")
+//        mutabledict.setValue("\(timestamp)", forKey: "timestamp")
+//        mutabledict.addEntries(from: positifeedy!.toDictionary())
+//        self.arrRecentlyView.add(mutabledict)
+//
+//        //self.arrBookMarkArrray.add(mutabledict)
+//        print("My Array :\(arrRecentlyView)")
+//
+//          let d2 = ["recentlyArray" : arrRecentlyView]
+//           db.collection("users").document(myDocID!).updateData(d2) { (error) in
+//               if error != nil
+//               {
+//                   print(error!.localizedDescription)
+//               }else {print("ok")}
+//           }
+
+        var searchPredicate = NSPredicate()
+        if(positifeedy!.documentID != nil){
+            searchPredicate = NSPredicate(format: "documentID beginswith[C] %@",positifeedy!.documentID ?? "")
+        }else{
+            searchPredicate = NSPredicate(format: "link beginswith[C] %@",positifeedy!.link ?? "")
+        }
+        
+        let  arrrResult = self.arrRecentlyView.filter{ searchPredicate.evaluate(with: $0) };
+        if(arrrResult.count > 0){
+            return
+        }else{
+            
+            let timestamp = Date().currentTimeMillis()
+            let mutabledict = NSMutableDictionary.init()
+            mutabledict.setValue(myDocID!, forKey: "feed")
+            mutabledict.setValue(positifeedy!.documentID, forKey: "documentID")
+            mutabledict.setValue("\(timestamp)", forKey: "timestamp")
+            mutabledict.addEntries(from: positifeedy!.toDictionary())
+            self.arrRecentlyView.add(mutabledict)
+
+            let d2 = ["recentlyArray" : arrRecentlyView]
+             db.collection("users").document(myDocID!).updateData(d2) { (error) in
+                 if error != nil
+                 {
+                     print(error!.localizedDescription)
+                 }else {print("ok")}
+             }
+        }
+        
+    }
+    
+    //MARK:- recently view :
+    func getRecentlyViews()
+       {
+           var db: Firestore!
+           
+           db = Firestore.firestore()
+           
+           db.collection("users").getDocuments { (snap, error) in
+               if error != nil
+               {
+                   print("error ", error!.localizedDescription)
+                   return
+               }
+               
+               for doc in snap?.documents ?? []
+               {
+                   let  d = doc.data()
+                   
+                   if d.count > 0
+                   {
+                       if (d["uid"] as! String) == Auth.auth().currentUser?.uid
+                       {
+                          
+                         let arr = d["recentlyArray"] as? NSArray
+                         if arr != nil
+                         {
+                             self.arrRecentlyView = NSMutableArray.init(array: arr!)
+                         }
+                         else
+                         {
+                             self.arrRecentlyView = NSMutableArray.init()
+                         }
+                         
+                       }
+                   }
+               }
+           }
+       }
     
     @objc func imageTapped(_ gesture: UIGestureRecognizer) {
         if let strUrl = positifeedy!.feed_image, let url = URL.init(string: strUrl) {
@@ -107,8 +210,20 @@ class PostDetailViewController: UIViewController {
                
                if isBookmark
                {
-                   appDel.arrBookMarkLinkFeedy.append(positifeedy!.documentID!)
-                   let d = ["linksFeedy" : appDel.arrBookMarkLinkFeedy]
+                    if positifeedy.description_d != nil
+                    {
+                        appDel.arrBookMarkLinkFeedy.append(positifeedy!.link!)
+                    }else{
+                        appDel.arrBookMarkLinkFeedy.append(positifeedy!.documentID!)
+                    }
+                                
+                    var d = ["" : appDel.arrBookMarkLinkFeedy]
+                    if positifeedy.description_d != nil
+                    {
+                        d = ["links" : appDel.arrBookMarkLinkFeedy]
+                    }else{
+                        d = ["linksFeedy" : appDel.arrBookMarkLinkFeedy]
+                    }
                    db.collection("users").document(myDocID!).updateData(d) { (error) in
                        if error != nil
                        {
@@ -117,7 +232,15 @@ class PostDetailViewController: UIViewController {
                    }
                    
                    let timestamp = Date().currentTimeMillis()
-                   let searchPredicate = NSPredicate(format: "feed beginswith[C] %@",positifeedy!.documentID!)
+                
+//                   let searchPredicate = NSPredicate(format: "feed beginswith[C] %@",positifeedy!.documentID!)
+                    var searchPredicate = NSPredicate()
+                    if(positifeedy!.documentID != nil){
+                        searchPredicate = NSPredicate(format: "feed beginswith[C] %@",positifeedy!.documentID ?? "")
+                    }else{
+                        searchPredicate = NSPredicate(format: "link beginswith[C] %@",positifeedy!.link ?? "")
+                    }
+                
                    let  arrrDict = self.arrBookMarkArrray.filter { searchPredicate.evaluate(with: $0) };
                    let filterArray = NSMutableArray.init(array: arrrDict)
                    if(filterArray.count > 0)
@@ -128,7 +251,8 @@ class PostDetailViewController: UIViewController {
                    {
                        // not exist
                        let mutabledict = NSMutableDictionary.init()
-                       mutabledict.setValue(positifeedy!.documentID!, forKey: "feed")
+                       mutabledict.setValue(positifeedy!.documentID ?? "", forKey: "feed")
+                       mutabledict.setValue(positifeedy!.link ?? "", forKey: "link")
                        mutabledict.setValue("\(timestamp)", forKey: "timestamp")
                        self.arrBookMarkArrray.add(mutabledict)
                       
@@ -145,11 +269,27 @@ class PostDetailViewController: UIViewController {
                }
                else
                {
-                   if let index = appDel.arrBookMarkLinkFeedy.firstIndex(of: positifeedy!.documentID!) {
-                       appDel.arrBookMarkLinkFeedy.remove(at: index)
-                   }
+                    
                    
-                   let d = ["linksFeedy" : appDel.arrBookMarkLinkFeedy]
+                    if positifeedy.description_d != nil
+                    {
+                        if let index = appDel.arrBookMarkLinkFeedy.firstIndex(of: positifeedy!.link!) {
+                            appDel.arrBookMarkLinkFeedy.remove(at: index)
+                        }
+                    }else{
+                        if let index = appDel.arrBookMarkLinkFeedy.firstIndex(of: positifeedy!.documentID!) {
+                            appDel.arrBookMarkLinkFeedy.remove(at: index)
+                        }
+                    }
+                   
+                    var d = ["" : appDel.arrBookMarkLinkFeedy]
+                    if positifeedy.description_d != nil
+                    {
+                        d = ["links" : appDel.arrBookMarkLinkFeedy]
+                    }else{
+                        d = ["linksFeedy" : appDel.arrBookMarkLinkFeedy]
+                    }
+                
                    db.collection("users").document(myDocID!).updateData(d) { (error) in
                        if error != nil
                        {
@@ -159,7 +299,17 @@ class PostDetailViewController: UIViewController {
                    
                    
                    let timestamp = Date().currentTimeMillis()
-                   let searchPredicate = NSPredicate(format: "feed beginswith[C] %@",positifeedy!.documentID!)
+                   
+                //let searchPredicate = NSPredicate(format: "feed beginswith[C] %@",positifeedy!.documentID!)
+                
+                    var searchPredicate = NSPredicate()
+                    if(positifeedy!.documentID != nil){
+                        searchPredicate = NSPredicate(format: "feed beginswith[C] %@",positifeedy!.documentID ?? "")
+                    }else{
+                        searchPredicate = NSPredicate(format: "link beginswith[C] %@",positifeedy!.link ?? "")
+                    }
+                
+                
                    let  arrrDict = self.arrBookMarkArrray.filter { searchPredicate.evaluate(with: $0) };
                    let filterArray = NSMutableArray.init(array: arrrDict)
                    if(filterArray.count > 0)

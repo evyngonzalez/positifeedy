@@ -978,22 +978,11 @@ extension GreetingViewControllerProfile : UITableViewDataSource
     
     @objc func btnPlayTapped(_ sender: UIButton) {
         
-        if arrData != nil
-        {
-            if arrData.count > 0
-            {
-                let feed = arrData[sender.tag] as? PositifeedAllSet
-                let strurl = feed?.feed_video
-                let url = URL.init(string: strurl!)
-                self.playVideo(url: url!)
+        if let feed = arrData[sender.tag] as? Positifeedy {
+            if let strUrl = feed.feed_video, let url = URL(string: strUrl) {
+                self.playVideo(url: url)
             }
         }
-        
-//        if let feed = arrData[sender.tag] as? Positifeedy {
-//            if let strUrl = feed.feed_video, let url = URL(string: strUrl) {
-//                self.playVideo(url: url)
-//            }
-//        }
     }
     
     func playVideo(url: URL) {

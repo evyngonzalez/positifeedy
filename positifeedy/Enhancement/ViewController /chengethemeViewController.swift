@@ -10,6 +10,8 @@ import UIKit
 import Firebase
 import AVKit
 import SVProgressHUD
+import SDWebImage
+import UIImageColors
 
 class chengethemeViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
@@ -60,8 +62,53 @@ class chengethemeViewController: UIViewController, UICollectionViewDelegate, UIC
         initialVolume = videoPlayer.volume
         
         updateLightDarkButtons()
+//        startDownload(index: downloadIndex)
+        
     }
-    
+//    var downloadIndex = 0
+//    func startDownload(index : Int){
+//        DispatchQueue.global(qos: .background).async {
+//            let themeUrl = arrTheme[self.downloadIndex]["themeUrl"] as! String
+//            _ = downloadTheme(theme: themeUrl, savingStatus: { (status) in
+//                DispatchQueue.main.async {
+//
+//                    let docsUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+//                    let session = URLSession(configuration: URLSessionConfiguration.default)
+//                    let destinationUrl = docsUrl.appendingPathComponent("Themes").appendingPathComponent(URL(string: themeUrl)!.lastPathComponent)
+//
+//                    if(FileManager().fileExists(atPath: destinationUrl.path)){
+//                        DispatchQueue.global().async { //1
+//
+//                            let asset = AVAsset(url: destinationUrl) //2
+//                            let avAssetImageGenerator = AVAssetImageGenerator(asset: asset) //3
+//                            avAssetImageGenerator.appliesPreferredTrackTransform = true //4
+//                            let thumnailTime = CMTimeMake(value: 2, timescale: 1) //5
+//                            do {
+//                                let cgThumbImage = try avAssetImageGenerator.copyCGImage(at: thumnailTime, actualTime: nil)
+//                                let thumbImage = UIImage(cgImage: cgThumbImage) //7
+//                                self.arrThumbs.insert(thumbImage, at: self.downloadIndex)
+//                                if(self.downloadIndex != arrTheme.count-1){
+//                                    self.downloadIndex+=1
+//                                    self.startDownload(index: self.downloadIndex)
+//                                }
+//                            } catch {
+//                                print(error.localizedDescription) //10
+//                                self.arrThumbs.insert(UIImage.init(named: "album_placeholder"), at: self.downloadIndex)
+//                                if(self.downloadIndex != arrTheme.count-1){
+//                                    self.downloadIndex+=1
+//                                    self.startDownload(index: self.downloadIndex)
+//                                }
+//                            }
+//                        }
+//                    }
+//
+//                    self.clvPresetTheme.reloadData()
+//
+//                }
+//            })
+//        }
+//    }
+
     var myUserId = ""
     var IsSubscription = false
     var userData = NSMutableDictionary()
@@ -72,7 +119,7 @@ class chengethemeViewController: UIViewController, UICollectionViewDelegate, UIC
 
         var db: Firestore!
         db = Firestore.firestore()
-        db.collection("userNew").getDocuments { [self] (snap, error) in
+        db.collection("users").getDocuments { [self] (snap, error) in
             
             SVProgressHUD.dismiss()
 
@@ -156,7 +203,6 @@ class chengethemeViewController: UIViewController, UICollectionViewDelegate, UIC
         viewDark.layer.shadowRadius = 0.0
         viewDark.layer.shadowOpacity = 0.0
 
-        
         if(IsLightSelected){
             viewLight.layer.shadowColor = UIColor.black.cgColor
             viewLight.layer.shadowRadius = 4.0
@@ -182,10 +228,7 @@ class chengethemeViewController: UIViewController, UICollectionViewDelegate, UIC
             lblDark.textColor = darkColor
 
             viewDark.layer.borderColor = UIColor.green.cgColor
-
         }
-        
-        
     }
 
 //    videoPlayer
@@ -217,16 +260,17 @@ class chengethemeViewController: UIViewController, UICollectionViewDelegate, UIC
         
         videoPlayer.volume = sliderVolume.value
         
-//        update theme data
         self.themeData.setValue(IsLightSelected, forKey: "TextColorIsLight")
         self.themeData.setValue(sliderVolume.value, forKey: "volume")
-
+        
         if(!dictSelection.isEmpty){
             let IsVideoTheme = dictSelection["isVideo"] as? Bool ?? false
             let themeUrl = dictSelection["themeUrl"] as! String
+            let maxColor = dictSelection["maxColor"] as! String
 
             self.themeData.setValue(IsVideoTheme, forKey: "isVideo")
             self.themeData.setValue(themeUrl, forKey: "themeUrl")
+            self.themeData.setValue(maxColor, forKey: "maxColor")
         }
 
         let theme = [
@@ -238,7 +282,7 @@ class chengethemeViewController: UIViewController, UICollectionViewDelegate, UIC
         SVProgressHUD.show()
         
         if(isPhoto == nil){
-            db.collection("userNew").document(self.myUserId).updateData(theme) { (error) in
+            db.collection("users").document(self.myUserId).updateData(theme) { (error) in
                 SVProgressHUD.dismiss()
                 UserDefaults.standard.set(true, forKey: "IsThemeChange")
                 UserDefaults.standard.synchronize()
@@ -256,6 +300,7 @@ class chengethemeViewController: UIViewController, UICollectionViewDelegate, UIC
         if(!dictSelection.isEmpty){
             let IsVideoTheme = dictSelection["isVideo"] as? Bool ?? false
             let themeUrl = dictSelection["themeUrl"] as! String
+            let maxColor = dictSelection["maxColor"] as! String
 
             let selectedTheme = themeData.value(forKey: "themeUrl")as? String ?? ""
             if(themeUrl != selectedTheme){
@@ -263,17 +308,16 @@ class chengethemeViewController: UIViewController, UICollectionViewDelegate, UIC
                 let themeData = [
                     "themeUrl" : themeUrl,
                     "volume" : sliderVolume.value,
-                    "isVideo" : IsVideoTheme
+                    "isVideo" : IsVideoTheme,
+                    "maxColor" : maxColor
                 ] as [String : Any]
-                
-                
-                
+                                
                 let theme = [
                     "CurrentTheme" : themeData
                 ]
                 var db: Firestore!
                 db = Firestore.firestore()
-                db.collection("userNew").document(self.myUserId).updateData(theme) { (error) in
+                db.collection("users").document(self.myUserId).updateData(theme) { (error) in
                     SVProgressHUD.dismiss()
                     if error != nil
                     {
@@ -301,7 +345,9 @@ class chengethemeViewController: UIViewController, UICollectionViewDelegate, UIC
         }
         return 0
     }
-    
+
+    var arrThumbs = Array<UIImage?>(repeating: nil, count:arrTheme.count)
+
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if(collectionView == clvPresetTheme){
             let cell = clvPresetTheme.dequeueReusableCell(withReuseIdentifier: "PresetThemeCell", for: indexPath) as! PresetThemeCell
@@ -310,6 +356,9 @@ class chengethemeViewController: UIViewController, UICollectionViewDelegate, UIC
             let IsFreeTheme = dict["isFree"] as? Bool ?? false
             let IsVideoTheme = dict["isVideo"] as? Bool ?? false
             
+            let thumbUrl = dict["thumbUrl"] as! String
+            
+            cell.imgTheme.backgroundColor = .lightGray
             if(!IsSubscription){
                 if(IsFreeTheme == true){
                     cell.lockView.isHidden = true
@@ -322,13 +371,66 @@ class chengethemeViewController: UIViewController, UICollectionViewDelegate, UIC
             
             let themeUrl = URL(string: dict["themeUrl"] as! String)!
             if(IsVideoTheme == true){
-                let image = getThumbnailImage(forUrl: themeUrl)
-//                let image = UIImage.init(named: "album_placeholder")
-                if(image != nil){
-                    cell.imgTheme.image = image
-                }else{
-                    cell.imgTheme.image = UIImage.init(named: "album_placeholder")
-                }
+                
+//                let docsUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+//                let session = URLSession(configuration: URLSessionConfiguration.default)
+//                let destinationUrl = docsUrl.appendingPathComponent(themeUrl.lastPathComponent)
+
+                cell.imgTheme.sd_imageIndicator = nil
+                cell.imgTheme.sd_setImage(with: URL(string: thumbUrl)!, placeholderImage: UIImage.init(named: "album_placeholder"), options: .highPriority, completed: nil)
+                
+                
+                //startdownload method
+//                if(arrThumbs[indexPath.row] != nil){
+//                    cell.imgTheme.image = arrThumbs[indexPath.row]
+//                    cell.imgTheme.sd_imageIndicator = nil
+//                }else{
+//                    cell.imgTheme.image = nil
+//                    cell.imgTheme.sd_imageIndicator = SDWebImageActivityIndicator.gray
+//                    cell.imgTheme.sd_imageIndicator?.startAnimatingIndicator()
+//                }
+                
+//                if(FileManager().fileExists(atPath: destinationUrl.path)){
+//                    DispatchQueue.global().async { //1
+//
+//                        let asset = AVAsset(url: destinationUrl) //2
+//                        let avAssetImageGenerator = AVAssetImageGenerator(asset: asset) //3
+//                        avAssetImageGenerator.appliesPreferredTrackTransform = true //4
+//                        let thumnailTime = CMTimeMake(value: 2, timescale: 1) //5
+//                        do {
+//                            let cgThumbImage = try avAssetImageGenerator.copyCGImage(at: thumnailTime, actualTime: nil)
+//                            let thumbImage = UIImage(cgImage: cgThumbImage) //7
+//                            DispatchQueue.main.async {
+//                                cell.imgTheme.image = thumbImage
+//                                cell.imgTheme.sd_imageIndicator = nil
+//                            }
+//                        } catch {
+//                            print(error.localizedDescription) //10
+//                            DispatchQueue.main.async {
+//                                cell.imgTheme.image = UIImage.init(named: "album_placeholder")
+//                                cell.imgTheme.sd_imageIndicator = nil
+//                            }
+//                        }
+//                    }
+//                }
+                
+                
+                
+                
+//                DispatchQueue.main.async{
+////                    let image = getThumbnailImage(forUrl: themeUrl)
+//                    let image = UIImage.init(named: "album_placeholder")
+//
+////                    let image = themeUrl.videoThumbNail
+//
+//                    cell.imgTheme.sd_imageIndicator = nil
+//                    if(image != nil){
+//                        cell.imgTheme.image = image
+//                    }else{
+//                        cell.imgTheme.image = UIImage.init(named: "album_placeholder")
+//                    }
+//                }
+                
             }else{
                 cell.imgTheme.sd_setImage(with: themeUrl, placeholderImage: UIImage.init(named: "album_placeholder"), options: .highPriority, completed: nil)
             }
@@ -438,7 +540,15 @@ class chengethemeViewController: UIViewController, UICollectionViewDelegate, UIC
             }else{
                 dictSelection = arrTheme[indexPath.row]
             }
+            
+            let offset = clvPresetTheme.contentOffset
             clvPresetTheme.reloadData()
+            clvPresetTheme.layoutIfNeeded()
+
+            DispatchQueue.main.async {
+                self.clvPresetTheme.setContentOffset(offset, animated: false)
+            }
+            
         }else if(collectionView == clvOwnTheme){
             
             if(IsSubscription){
@@ -451,6 +561,7 @@ class chengethemeViewController: UIViewController, UICollectionViewDelegate, UIC
                     imagePickerController.sourceType = .camera
                     imagePickerController.delegate = self
                     imagePickerController.mediaTypes = ["public.image", "public.movie"]
+                    imagePickerController.videoMaximumDuration = 15.0
                     isLibrary = false
                     present(imagePickerController, animated: true, completion: nil)
 
@@ -458,9 +569,10 @@ class chengethemeViewController: UIViewController, UICollectionViewDelegate, UIC
                     imagePickerController.sourceType = .photoLibrary
                     imagePickerController.delegate = self
                     imagePickerController.mediaTypes = ["public.image", "public.movie"]
+                    imagePickerController.videoMaximumDuration = 15.0
+                    imagePickerController.allowsEditing = true
                     isLibrary = true
                     present(imagePickerController, animated: true, completion: nil)
-
                 }
             }else{
                 showSubscription()
@@ -476,14 +588,16 @@ class chengethemeViewController: UIViewController, UICollectionViewDelegate, UIC
     var selectedVideoUrl : String? = nil
     var isPhoto : Bool? = nil
     var isLibrary : Bool? = nil
-    
-    
+        
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
         if let mediaType = info[UIImagePickerController.InfoKey.mediaType] as? String {
             if mediaType  == "public.image" {
                 isPhoto = true
                 selectedImage = (info[UIImagePickerController.InfoKey.originalImage] as! UIImage)
+                selectedImage?.getColors({ (colors) in
+                    self.themeData.setValue(hexStringFromColor(color: (colors?.primary)!), forKey: "maxColor")
+                })
 //                uploadImage(selectedImage: selectedImage!)
             }else if mediaType == "public.movie" {
                 isPhoto = false
@@ -495,6 +609,10 @@ class chengethemeViewController: UIViewController, UICollectionViewDelegate, UIC
                     let cgImage = try imgGenerator.copyCGImage(at: CMTimeMake(value: 0, timescale: 1), actualTime: nil)
                     let thumbnail = UIImage(cgImage: cgImage)
                     selectedImage = thumbnail
+                     selectedImage?.getColors({ (colors) in
+                        self.themeData.setValue(hexStringFromColor(color: (colors?.primary)!), forKey: "maxColor")
+                    })
+
                 } catch let error {
                     print("*** Error generating thumbnail: \(error.localizedDescription)")
                 }
@@ -529,75 +647,24 @@ class chengethemeViewController: UIViewController, UICollectionViewDelegate, UIC
         let userId = Auth.auth().currentUser!.uid
         let id = "\(userId).jpg"
         
-        // Create a reference to 'images/mountains.jpg'
-        let imgRef = storageRef.child("themes").child("OwnTheme").child(id)
+        SVProgressHUD.dismiss()
         
-        imgRef.putData(data!, metadata: nil) { (dt, error) in
-            SVProgressHUD.dismiss()
-            if error != nil
-            {
-                self.view.makeToast(error!.localizedDescription)
-                return
-            }
-            
-            SVProgressHUD.show()
-            imgRef.downloadURL { (url, err) in
-                SVProgressHUD.dismiss()
-
-                if err != nil
+        DispatchQueue.global(qos: .background).async {
+            let imgRef = storageRef.child("themes").child("OwnTheme").child(id)
+            imgRef.putData(data!, metadata: nil) { (dt, error) in
+//                SVProgressHUD.dismiss()
+                if error != nil
                 {
-                    self.view.makeToast(err!.localizedDescription)
+                    self.view.makeToast(error!.localizedDescription)
                     return
                 }
                 
-                guard let url = url else {
-                    self.view.makeToast("Something went to wrong")
-                    return
-                }
-                
-                self.themeData.setValue(url.absoluteString, forKey: "themeUrl")
-                                        
-                let theme = [
-                    "CurrentTheme" : self.themeData
-                ]
-                
-                var db: Firestore!
-                db = Firestore.firestore()
-                
-                SVProgressHUD.show()
-                db.collection("userNew").document(self.myUserId).updateData(theme) { (error) in
-                    SVProgressHUD.dismiss()
-                    UserDefaults.standard.set(true, forKey: "IsThemeChange")
-                    UserDefaults.standard.synchronize()
-                    self.navigationController?.popViewController(animated: true)
-                }
-                
-            }
-        }
-    }
-    
-    func uploadVideo() {
-        let videoURL = selectedVideoUrl
-        if(videoURL == ""){
-            return
-        }
+    //            SVProgressHUD.show()
+                imgRef.downloadURL { (url, err) in
+    //                SVProgressHUD.dismiss()
 
-        let storage = Storage.storage()
-        let userId = Auth.auth().currentUser!.uid
-        let storageReference = storage.reference().child("themes").child("OwnTheme").child("\(userId).mov")
-
-
-        storageReference.putFile(from: URL(string: videoURL!)!, metadata: nil, completion: { (metadata, error) in
-            
-            SVProgressHUD.dismiss()
-            if error == nil {
-                print("Successful video upload")
-                
-                SVProgressHUD.show()
-                storageReference.downloadURL { [self] (url, err) in
-                    
-                    SVProgressHUD.dismiss()
-                    if err != nil{
+                    if err != nil
+                    {
                         self.view.makeToast(err!.localizedDescription)
                         return
                     }
@@ -606,37 +673,138 @@ class chengethemeViewController: UIViewController, UICollectionViewDelegate, UIC
                         self.view.makeToast("Something went to wrong")
                         return
                     }
-                    print("url => ", url)
                     
-                                            
                     self.themeData.setValue(url.absoluteString, forKey: "themeUrl")
-
+                                            
                     let theme = [
                         "CurrentTheme" : self.themeData
                     ]
+                    
                     var db: Firestore!
                     db = Firestore.firestore()
                     
-                    SVProgressHUD.show()
-                    db.collection("userNew").document(self.myUserId).updateData(theme) { (error) in
-                        SVProgressHUD.dismiss()
-                        UserDefaults.standard.set(true, forKey: "IsThemeChange")
-                        UserDefaults.standard.synchronize()
-                        self.navigationController?.popViewController(animated: true)
+    //                SVProgressHUD.show()
+                    db.collection("users").document(self.myUserId).updateData(theme) { (error) in
+    //                    SVProgressHUD.dismiss()
+//                        UserDefaults.standard.set(true, forKey: "IsThemeChange")
+//                        UserDefaults.standard.synchronize()
+//                        self.navigationController?.popViewController(animated: true)
                     }
+                    
                 }
-                
-            } else {
-                print(error?.localizedDescription)
             }
-        })
+        }
+        
+        do{
+            let path = try FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
+            let newPath = path.appendingPathComponent("Themes").appendingPathComponent(id)
+            let imageData = selectedImage.jpegData(compressionQuality: 1.0)
+            let result = try imageData!.write(to: newPath)
+            print(result)
 
+            let color = themeData.value(forKey: "maxColor") as! String
+            
+            UserDefaults.standard.set(true, forKey: "IsThemeChange")
+            UserDefaults.standard.set(true, forKey: "OwnTheme")
+            UserDefaults.standard.set(id, forKey: "SelectedTheme")
+            UserDefaults.standard.set(color, forKey: "maxColor")
+            UserDefaults.standard.set("Image", forKey: "SelectedThemeType")
+            UserDefaults.standard.synchronize()
+            
+            self.navigationController?.popViewController(animated: true)
+            
+        }catch{
+            print("Save Video Error")
+        }
+    
+        
+    }
+    
+
+    func uploadVideo() {
+        let videoURL = selectedVideoUrl
+        if(videoURL == ""){
+            return
+        }
+
+        let storage = Storage.storage()
+        let userId = Auth.auth().currentUser!.uid
+        let storageReference = storage.reference().child("themes").child("OwnTheme").child("\(userId).mp4")
+        let id = "\(userId).mp4"
+        SVProgressHUD.dismiss()
+        
+        DispatchQueue.global(qos: .background).async {
+            storageReference.putFile(from: URL(string: videoURL!)!, metadata: nil, completion: { (metadata, error) in
+                
+//                SVProgressHUD.dismiss()
+                if error == nil {
+                    print("Successful video upload")
+                    
+//                    SVProgressHUD.show()
+                    storageReference.downloadURL { [self] (url, err) in
+                        
+//                        SVProgressHUD.dismiss()
+                        if err != nil{
+                            self.view.makeToast(err!.localizedDescription)
+                            return
+                        }
+                        
+                        guard let url = url else {
+                            self.view.makeToast("Something went to wrong")
+                            return
+                        }
+                        print("url => ", url)
+                        
+                        self.themeData.setValue(url.absoluteString, forKey: "themeUrl")
+
+                        let theme = [
+                            "CurrentTheme" : self.themeData
+                        ]
+                        var db: Firestore!
+                        db = Firestore.firestore()
+                        
+                        SVProgressHUD.show()
+                        db.collection("users").document(self.myUserId).updateData(theme) { (error) in
+                            SVProgressHUD.dismiss()
+                            UserDefaults.standard.set(true, forKey: "IsThemeChange")
+                            UserDefaults.standard.synchronize()
+                            self.navigationController?.popViewController(animated: true)
+                        }
+                    }
+                    
+                } else {
+                    print(error?.localizedDescription)
+                }
+            })
+        }
+
+        do{
+            let path = try FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
+            let newPath = path.appendingPathComponent("Themes").appendingPathComponent(id)
+            let videoData = NSData(contentsOf: URL(string: videoURL!)!)
+            let result = try videoData!.write(to: newPath)
+            print(result)
+            
+            let color = themeData.value(forKey: "maxColor") as! String
+
+            UserDefaults.standard.set(true, forKey: "IsThemeChange")
+            UserDefaults.standard.set(true, forKey: "OwnTheme")
+            UserDefaults.standard.set(id, forKey: "SelectedTheme")
+            UserDefaults.standard.set("Video", forKey: "SelectedThemeType")
+            UserDefaults.standard.setValue(color, forKey: "maxColor")
+            UserDefaults.standard.synchronize()
+            
+            self.navigationController?.popViewController(animated: true)
+            
+        }catch{
+            print("Save Video Error")
+        }
 
     }
     
     func showSubscription() {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let vcSubscri = storyboard.instantiateViewController(withIdentifier: "SubscriptionViewController") as! SubscriptionViewController
+        let storyboard = UIStoryboard(name: "Enhancement", bundle: nil)
+        let vcSubscri = storyboard.instantiateViewController(withIdentifier: "SubsciptionVc") as! SubsciptionVc
         vcSubscri.modalPresentationStyle = .fullScreen
         vcSubscri.modalTransitionStyle = .crossDissolve
         
@@ -645,4 +813,19 @@ class chengethemeViewController: UIViewController, UICollectionViewDelegate, UIC
         self.present(vcSubscri, animated: true, completion: nil)
     }
 
+}
+
+extension URL {
+    var videoThumbNail: UIImage? {
+        do {
+            let generate1 = AVAssetImageGenerator.init(asset: AVURLAsset.init(url: self))
+            generate1.appliesPreferredTrackTransform = true
+            let oneRef = try generate1.copyCGImage(at: CMTime(seconds: 0, preferredTimescale: 0), actualTime: nil)
+            return UIImage(cgImage: oneRef)
+        }
+        catch {
+            print(" videoThumbNail Error: %@", error.localizedDescription)
+            return nil
+        }
+    }
 }

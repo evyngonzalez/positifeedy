@@ -20,14 +20,15 @@ class WebViewFeedy: UIViewController,WKNavigationDelegate
     var myDocID : String?
     var isBookmark: Bool = false
     var positifeedy : PositifeedAllSet?
+    var arrRecentlyView = NSMutableArray()
 
     //let bookmark = UIButton(type: .custom)
     //let share = UIButton(type: .custom)
     
     @IBOutlet weak var imgBookmark1: UIImageView!
     @IBOutlet weak var imgshare1: UIImageView!
-    let imgBookmark = UIImage.init(named: "book_mark_ic")!
-    let imgBookmarkSelected = UIImage.init(named: "selected_bookmark_ic")!
+    let imgBookmark = UIImage.init(named: "bm-0")!
+    let imgBookmarkSelected = UIImage.init(named: "bm-1")!
     let imgShare = UIImage.init(named: "share_ic")!
     
     @IBOutlet weak var navview: UIView!
@@ -39,7 +40,7 @@ class WebViewFeedy: UIViewController,WKNavigationDelegate
         super.viewDidLoad()
         
         tabBarController?.tabBar.isHidden = true
-        
+        getRecentlyViews()
         self.arrBookMarkArrray = NSMutableArray.init()
         self.getBookmarsDataOther()
         
@@ -75,6 +76,54 @@ class WebViewFeedy: UIViewController,WKNavigationDelegate
         NotificationCenter.default.addObserver(self, selector: #selector(self.reloadWeb(_:)), name: NSNotification.Name(rawValue: "RELOAD_WEB_FEED"), object: nil)
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        
+        if(positifeedy == nil){
+            return
+        }
+       // let mutablearray = NSMutableArray.init()
+        print("Call recent !")
+       var db: Firestore!
+       db = Firestore.firestore()
+       
+       guard let appDel = UIApplication.shared.delegate as? AppDelegate else {
+           return
+       }
+        
+//        let searchPredicate = NSPredicate(format: "documentID beginswith[C] %@",positifeedy!.documentID ?? "")
+        var searchPredicate = NSPredicate()
+        if(positifeedy!.documentID != nil){
+            searchPredicate = NSPredicate(format: "documentID beginswith[C] %@",positifeedy!.documentID ?? "")
+        }else{
+            searchPredicate = NSPredicate(format: "link beginswith[C] %@",positifeedy!.link ?? "")
+        }
+        
+        let  arrrResult = self.arrRecentlyView.filter{ searchPredicate.evaluate(with: $0) };
+        if(arrrResult.count > 0){
+            return
+        }else{
+            
+            let timestamp = Date().currentTimeMillis()
+            let mutabledict = NSMutableDictionary.init()
+            mutabledict.setValue(myDocID!, forKey: "feed")
+            mutabledict.setValue(positifeedy!.documentID, forKey: "documentID")
+            mutabledict.setValue("\(timestamp)", forKey: "timestamp")
+            mutabledict.addEntries(from: positifeedy!.toDictionary())
+            self.arrRecentlyView.add(mutabledict)
+
+            let d2 = ["recentlyArray" : arrRecentlyView]
+             db.collection("users").document(myDocID!).updateData(d2) { (error) in
+                 if error != nil
+                 {
+                     print(error!.localizedDescription)
+                 }else {print("ok")}
+             }
+        }
+        //self.arrBookMarkArrray.add(mutabledict)
+        print("My Array :\(arrRecentlyView)")
+        
+    }
+
     
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!)
        {
@@ -83,6 +132,45 @@ class WebViewFeedy: UIViewController,WKNavigationDelegate
            self.loader.isHidden = true
        }
     
+    
+    //MARK:- recently view :
+    func getRecentlyViews()
+       {
+           var db: Firestore!
+           
+           db = Firestore.firestore()
+           
+           db.collection("users").getDocuments { (snap, error) in
+               if error != nil
+               {
+                   print("error ", error!.localizedDescription)
+                   return
+               }
+               
+               for doc in snap?.documents ?? []
+               {
+                   let  d = doc.data()
+                   
+                   if d.count > 0
+                   {
+                       if (d["uid"] as! String) == Auth.auth().currentUser?.uid
+                       {
+                          
+                         let arr = d["recentlyArray"] as? NSArray
+                         if arr != nil
+                         {
+                             self.arrRecentlyView = NSMutableArray.init(array: arr!)
+                         }
+                         else
+                         {
+                             self.arrRecentlyView = NSMutableArray.init()
+                         }
+                         
+                       }
+                   }
+               }
+           }
+       }
     
     @objc func reloadWeb(_ noti: Notification) {
         

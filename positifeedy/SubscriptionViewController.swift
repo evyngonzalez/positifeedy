@@ -59,6 +59,7 @@ class SubscriptionViewController: UIViewController
         if(fromEnhancement){
             self.dismiss(animated: true, completion: nil)
         }else{
+            UserDefaults.standard.removeObject(forKey: "UserProfileImage")
             let storyboard = UIStoryboard(name: "Enhancement", bundle: nil)
             let vcHome = storyboard.instantiateViewController(withIdentifier: "MyTabbarVC") as! MyTabbarVC
             vcHome.selectedIndex = 0

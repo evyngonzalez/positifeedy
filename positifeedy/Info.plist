@@ -106,6 +106,12 @@
 		<string>SF-Pro-Display-Medium.otf</string>
 		<string>SF-Pro-Display-Semibold</string>
 		<string>SF-Pro-Display-Regular</string>
+		<string>Alegreya-SemiBold.ttf</string>
+		<string>Alegreya-Bold.ttf</string>
+		<string>Alegreya-Italic.ttf</string>
+		<string>Alegreya-Medium.ttf</string>
+		<string>Alegreya-Regular.ttf</string>
+		<string>AlegreyaSans-Regular.ttf</string>
 	</array>
 	<key>UIBackgroundModes</key>
 	<array>

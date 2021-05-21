@@ -15,16 +15,17 @@ class WebViewVC: UIViewController,WKNavigationDelegate {
     
     @IBOutlet weak var webView : WKWebView!
     var arrBookMarkArrray : NSMutableArray!
-    
+    var arrRecentlyView : NSMutableArray!
     var myDocID : String?
     var isBookmark: Bool = false
     var url : String?
+    var objPositifeedAllSet: PositifeedAllSet?
     
     //let bookmark = UIButton(type: .custom)
     //let share = UIButton(type: .custom)
     
-    let imgBookmark = UIImage.init(named: "book_mark_ic")!
-    let imgBookmarkSelected = UIImage.init(named: "selected_bookmark_ic")!
+    let imgBookmark = UIImage.init(named: "bm-0")!
+    let imgBookmarkSelected = UIImage.init(named: "bm-1")!
     let imgShare = UIImage.init(named: "share_ic")!
     
     @IBOutlet weak var imgBookmark1: UIImageView!
@@ -40,9 +41,10 @@ class WebViewVC: UIViewController,WKNavigationDelegate {
         tabBarController?.tabBar.isHidden = true
         
         self.arrBookMarkArrray = NSMutableArray.init()
-       
+        self.arrRecentlyView = NSMutableArray.init()
         self.getBookmarsDataOther()
-        
+        self.getRecentlyViews()
+
         self.navigationController?.navigationBar.isHidden = true
 //        bookmark.setImage(isBookmark ? imgBookmarkSelected : imgBookmark, for: .normal)
 //        bookmark.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
@@ -103,6 +105,126 @@ class WebViewVC: UIViewController,WKNavigationDelegate {
         self.loader.stopAnimating()
         self.loader.isHidden = true
     }
+    
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        
+        if(objPositifeedAllSet == nil){
+            return
+        }
+       // let mutablearray = NSMutableArray.init()
+        print("Call recent !")
+       var db: Firestore!
+       db = Firestore.firestore()
+       
+       guard let appDel = UIApplication.shared.delegate as? AppDelegate else {
+           return
+       }
+        
+//        let searchPredicate = NSPredicate(format: "link beginswith[C] %@",url!)
+        var searchPredicate = NSPredicate()
+        if(objPositifeedAllSet!.documentID != nil){
+            searchPredicate = NSPredicate(format: "documentID beginswith[C] %@",objPositifeedAllSet!.documentID ?? "")
+        }else{
+            searchPredicate = NSPredicate(format: "link beginswith[C] %@",objPositifeedAllSet!.link ?? "")
+        }
+        
+        let  arrrResult = self.arrRecentlyView.filter{ searchPredicate.evaluate(with: $0) };
+        if(arrrResult.count>0){
+            return
+        }else{
+            let timestamp = Date().currentTimeMillis()
+            let mutabledict = NSMutableDictionary.init()
+            mutabledict.setValue(url!, forKey: "link")
+            mutabledict.setValue("\(timestamp)", forKey: "timestamp")
+            mutabledict.addEntries(from: objPositifeedAllSet!.toDictionary())
+            self.arrRecentlyView.add(mutabledict)
+            
+            //self.arrBookMarkArrray.add(mutabledict)
+            print("My Array :\(arrRecentlyView)")
+             
+              let d2 = ["recentlyArray" : arrRecentlyView]
+               db.collection("users").document(myDocID!).updateData(d2) { (error) in
+                   if error != nil
+                   {
+                       print(error!.localizedDescription)
+                   }else {print("ok")}
+               }
+        }
+
+        
+              /*
+               if isBookmark
+               {
+                   appDel.arrBookMarkLink.append(url!)
+                   let d = ["links" : appDel.arrBookMarkLink]
+                   db.collection("users").document(myDocID!).updateData(d) { (error) in
+                       if error != nil
+                       {
+                           print(error!.localizedDescription)
+                       }
+                   }
+                   
+                   let timestamp = Date().currentTimeMillis()
+                   let searchPredicate = NSPredicate(format: "link beginswith[C] %@",url!)
+                   let  arrrDict = self.arrBookMarkArrray.filter { searchPredicate.evaluate(with: $0) };
+                   let filterArray = NSMutableArray.init(array: arrrDict)
+                   if(filterArray.count > 0)
+                   {
+                           // alerady exitst
+                   }
+                   else
+                   {
+                       // not exist
+                      
+                   }
+                   
+                   
+               }
+               else
+               {
+                   if let index = appDel.arrBookMarkLink.firstIndex(of: url!) {
+                       appDel.arrBookMarkLink.remove(at: index)
+                   }
+                   
+                   let d = ["links" : appDel.arrBookMarkLink]
+                   db.collection("users").document(myDocID!).updateData(d) { (error) in
+                       if error != nil
+                       {
+                           print(error!.localizedDescription)
+                       }
+                   }
+                   
+                      
+         
+                      let searchPredicate = NSPredicate(format: "link beginswith[C] %@",url!)
+                      let  arrrDict = self.arrBookMarkArrray.filter { searchPredicate.evaluate(with: $0) };
+                      let filterArray = NSMutableArray.init(array: arrrDict)
+                      if(filterArray.count > 0)
+                      {
+                              // alerady exitst
+                          let dict = filterArray.object(at: 0) as? NSDictionary
+                          // alerady exitst
+                          self.arrBookMarkArrray.remove(dict)
+                          
+                          let d2 = ["bookmarkarray" : self.arrBookMarkArrray]
+                          db.collection("users").document(myDocID!).updateData(d2) { (error) in
+                              if error != nil
+                              {
+                                  print(error!.localizedDescription)
+                              }
+                          }
+                          
+                      }
+                   
+                   
+               }
+                */
+        
+    }
+    
+    
+    
     
     
     @objc func bookmarkTapped() {
@@ -418,6 +540,47 @@ class WebViewVC: UIViewController,WKNavigationDelegate {
             }
         }
     }
+    
+    
+    //MARK:- recently view :
+    func getRecentlyViews()
+       {
+           var db: Firestore!
+           
+           db = Firestore.firestore()
+           
+           db.collection("users").getDocuments { (snap, error) in
+               if error != nil
+               {
+                   print("error ", error!.localizedDescription)
+                   return
+               }
+               
+               for doc in snap?.documents ?? []
+               {
+                   let  d = doc.data()
+                   
+                   if d.count > 0
+                   {
+                       if (d["uid"] as! String) == Auth.auth().currentUser?.uid
+                       {
+                          
+                         let arr = d["recentlyArray"] as? NSArray
+                         if arr != nil
+                         {
+                             self.arrRecentlyView = NSMutableArray.init(array: arr!)
+                         }
+                         else
+                         {
+                             self.arrRecentlyView = NSMutableArray.init()
+                         }
+                         
+                       }
+                   }
+               }
+           }
+       }
+       
     
     
     func showShareSheet(url: URL) {

@@ -16,6 +16,8 @@ struct Constants {
     }
 }
 
+
+
 let storyBoard = UIStoryboard.init(name: "Main", bundle: nil)
 
 let arrFeedy: [[String: String]] = [
@@ -24,7 +26,7 @@ let arrFeedy: [[String: String]] = [
       "feed_image" : "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/images/BigBuckBunny.jpg",
       "title" : "Big Buck Bunny",
       "feed_type" : "video",
-      "timestamp" : "1537571653"
+      "timestamp" : "1537571653",
     ],
     [ "desc" : "The first Blender Open Movie from 2006. Learn how to use Chromecast with Google Play Movies and more at google.com/chromecast.",
       "feed_video" : "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4" ,
@@ -116,61 +118,102 @@ let arrTheme:[[String: Any]] = [
     
     [
         "themeId":1,
-        "themeUrl":"https://firebasestorage.googleapis.com/v0/b/positifeedy-2020a.appspot.com/o/themes%2Fv1.mp4?alt=media&token=e029c842-fd89-4ff3-ae6c-96d5c8c4b784",
+        "themeUrl":"https://firebasestorage.googleapis.com/v0/b/positifeedy-2020a.appspot.com/o/themes%2Ffreevideo1.mp4?alt=media&token=0839524c-49bc-40a7-a5c5-a223913c146f",
+        "thumbUrl":"https://firebasestorage.googleapis.com/v0/b/positifeedy-2020a.appspot.com/o/themes%2FthumbImage_0.png?alt=media&token=744b99f7-f816-4ab3-bd31-2e4709c30b7e",
         "isFree":true,
-        "isVideo":true
+        "isVideo":true,
+        "maxColor" : "#38332A"
     ],
     [
         "themeId":2,
-        "themeUrl":"https://firebasestorage.googleapis.com/v0/b/positifeedy-2020a.appspot.com/o/themes%2F1.jpeg?alt=media&token=7e0b647d-0d4b-487e-8ba2-6e994311fef4",
+        "themeUrl":"https://firebasestorage.googleapis.com/v0/b/positifeedy-2020a.appspot.com/o/themes%2Ffreevideo2.mp4?alt=media&token=9feb45e7-ab3d-46bc-a1e2-900f65597bdb",
+        "thumbUrl":"https://firebasestorage.googleapis.com/v0/b/positifeedy-2020a.appspot.com/o/themes%2FthumbImage_1.png?alt=media&token=e549cf21-3ba7-4007-8caa-1ef9c0b8087a",
         "isFree":true,
-        "isVideo":false
+        "isVideo":true,
+        "maxColor":"030501"
     ],
     [
         "themeId":3,
-        "themeUrl":"https://firebasestorage.googleapis.com/v0/b/positifeedy-2020a.appspot.com/o/themes%2F2.jpeg?alt=media&token=42b3e8d8-c51a-4e64-bef9-b0f46ff8da48",
-        "isFree":false,
-        "isVideo":false
+        "themeUrl":"https://firebasestorage.googleapis.com/v0/b/positifeedy-2020a.appspot.com/o/themes%2Ffreevideo3.mp4?alt=media&token=421c4a31-23c9-4c72-96a0-577aebe8d0e9",
+        "thumbUrl":"https://firebasestorage.googleapis.com/v0/b/positifeedy-2020a.appspot.com/o/themes%2FthumbImage_2.png?alt=media&token=fcfca2e2-478d-4f9c-b1bc-757c2593d857",
+        "isFree":true,
+        "isVideo":true,
+        "maxColor":"212118"
     ],
     [
         "themeId":4,
-        "themeUrl":"https://firebasestorage.googleapis.com/v0/b/positifeedy-2020a.appspot.com/o/themes%2Fv2.mp4?alt=media&token=429bba87-8ce5-4a4a-85a0-6425ff4cb71c",
+        "themeUrl":"https://firebasestorage.googleapis.com/v0/b/positifeedy-2020a.appspot.com/o/themes%2Fpaidvideo1.mp4?alt=media&token=b55a7018-5da6-4622-82a7-b4af67bff602",
+        "thumbUrl":"https://firebasestorage.googleapis.com/v0/b/positifeedy-2020a.appspot.com/o/themes%2FthumbImage_3.png?alt=media&token=42f6fcca-f870-4637-86a6-35c6d1fcb5ec",
         "isFree":false,
-        "isVideo":true
+        "isVideo":true,
+        "maxColor":"798590"
     ],
     [
         "themeId":5,
-        "themeUrl":"https://firebasestorage.googleapis.com/v0/b/positifeedy-2020a.appspot.com/o/themes%2F3.jpeg?alt=media&token=56b0c788-8a71-4d30-be2f-b703daca0405",
+        "themeUrl":"https://firebasestorage.googleapis.com/v0/b/positifeedy-2020a.appspot.com/o/themes%2Fpaidvideo2.mp4?alt=media&token=02af6d8e-cdbb-4dc3-b639-7accccfcdd6c",
+        "thumbUrl":"https://firebasestorage.googleapis.com/v0/b/positifeedy-2020a.appspot.com/o/themes%2FthumbImage_4.png?alt=media&token=8f802e5e-109f-4730-8245-93dd44846e89",
         "isFree":false,
-        "isVideo":false
+        "isVideo":true,
+        "maxColor":"1F2F3D"
     ],
     [
         "themeId":6,
-        "themeUrl":"https://firebasestorage.googleapis.com/v0/b/positifeedy-2020a.appspot.com/o/themes%2F4.jpeg?alt=media&token=566a8615-5add-49f2-9a98-d62cfb93e010",
+        "themeUrl":"https://firebasestorage.googleapis.com/v0/b/positifeedy-2020a.appspot.com/o/themes%2Fpaidvideo3.mp4?alt=media&token=f444bf90-7153-46a5-821d-249e81af4346",
+        "thumbUrl":"https://firebasestorage.googleapis.com/v0/b/positifeedy-2020a.appspot.com/o/themes%2FthumbImage_5.png?alt=media&token=f45afd5d-6eba-4eff-885d-c90274be8fcb",
         "isFree":false,
-        "isVideo":false
+        "isVideo":true,
+        "maxColor":"A6CAFE"
     ],
-    [
-        "themeId":7,
-        "themeUrl":"https://firebasestorage.googleapis.com/v0/b/positifeedy-2020a.appspot.com/o/themes%2Fv3.mp4?alt=media&token=1e7bf25c-aeee-470f-94f8-0153086df232",
-        "isFree":false,
-        "isVideo":true
-    ],
-    [
-        "themeId":8,
-        "themeUrl":"https://firebasestorage.googleapis.com/v0/b/positifeedy-2020a.appspot.com/o/themes%2F5.jpeg?alt=media&token=b08fd103-7c15-43b6-8812-04918e7e7675",
-        "isFree":false,
-        "isVideo":false
-    ],
-    [
-        "themeId":9,
-        "themeUrl":"https://firebasestorage.googleapis.com/v0/b/positifeedy-2020a.appspot.com/o/themes%2F6.jpeg?alt=media&token=8987917b-3cc2-4f24-a578-11962e607cf4",
-        "isFree":false,
-        "isVideo":false
-    ],
+    
 ]
 
 var videoPlayer = AVPlayer()
 var playerLayer:AVPlayerLayer?
 //var videoCacheManager : VideoCache?
 
+
+let defaultGradientColor : UIColor = colorWithHexString(hexString: "#38332A")
+
+extension UIImage{
+    func roundedImageWithBorder(width: CGFloat) -> UIImage? {
+        let green = UIColor.systemGreen//colorWithHexString(hexString: "#2FD88E")
+
+            let square = CGSize(width: min(size.width, size.height) + width * 2, height: min(size.width, size.height) + width * 2)
+            let imageView = UIImageView(frame: CGRect(origin: CGPoint(x: 0, y: 0), size: square))
+            imageView.contentMode = .center
+            imageView.image = self
+            imageView.layer.cornerRadius = square.width/2
+            imageView.clipsToBounds = true
+            imageView.contentMode = .scaleAspectFill
+            imageView.layer.borderWidth = width
+            imageView.layer.borderColor = green.cgColor
+            UIGraphicsBeginImageContextWithOptions(imageView.bounds.size, false, scale)
+            guard let context = UIGraphicsGetCurrentContext() else { return nil }
+            imageView.layer.render(in: context)
+            var result = UIGraphicsGetImageFromCurrentImageContext()
+            UIGraphicsEndImageContext()
+            result = result?.withRenderingMode(UIImage.RenderingMode.alwaysOriginal)
+            return result
+        }
+    
+    func resizedImage() -> UIImage {
+        let targetSize = CGSize(width: 30, height: 30)
+        return UIGraphicsImageRenderer(size:targetSize).image { _ in
+            self.draw(in: CGRect(origin: .zero, size: targetSize))
+        }
+    }
+    
+//    func resizedImage() -> UIImage {
+//        let im = self
+//        let newWidth : CGFloat = 60
+//        let scale = newWidth / self.size.width
+//        let newHeight = self.size.height * scale
+//        UIGraphicsBeginImageContext(CGSize(width: newWidth, height: newWidth))
+//        self.draw(in: CGRect(x: 0, y: 0, width: newWidth, height: newWidth))
+//        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+//        UIGraphicsEndImageContext()
+//
+//        return newImage!
+//    }
+    
+}

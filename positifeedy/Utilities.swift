@@ -22,6 +22,13 @@ struct Global {
         
         static let  semibold = "SF-Pro-Display-Semibold"
     }
+    struct NewFont {
+         static let semiBold = "Alegreya-SemiBold"
+         static let regular = "Alegreya-Regular"
+         static let medium = "Alegreya-Medium"
+         static let italic = "Alegreya-Italic"
+         static let bold = "Alegreya-Bold"
+    }
 }
 
 extension UITextField{
@@ -482,4 +489,17 @@ extension UIImage {
     }
 }
 
+extension Date {
 
+    func toString(withFormat format: String = "EEEE ، d MMMM yyyy") -> String {
+
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+        dateFormatter.timeZone = .current
+        dateFormatter.calendar = Calendar(identifier: .persian)
+        dateFormatter.dateFormat = format
+        let str = dateFormatter.string(from: self)
+
+        return str
+    }
+}

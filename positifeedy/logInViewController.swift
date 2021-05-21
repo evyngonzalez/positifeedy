@@ -549,13 +549,12 @@ class logInViewController: UIViewController, GIDSignInDelegate,ASAuthorizationCo
     
     func transitionToHome() {
         
-        
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-       let vcSubscri = storyboard.instantiateViewController(withIdentifier: "SubscriptionViewController") as! SubscriptionViewController
-       vcSubscri.modalPresentationStyle = .fullScreen
-       vcSubscri.modalTransitionStyle = .crossDissolve
-        self.present(vcSubscri, animated: true, completion: nil)
-        
+        let storyboard = UIStoryboard(name: "Enhancement", bundle: nil)
+        let vcSubscri = storyboard.instantiateViewController(withIdentifier: "SubsciptionVc") as! SubsciptionVc
+        vcSubscri.modalPresentationStyle = .fullScreen
+        vcSubscri.modalTransitionStyle = .crossDissolve
+        self.navigationController?.pushViewController(vcSubscri, animated: true)
+
         
         //let appDel = UIApplication.shared.delegate as! AppDelegate
         //appDel.setRoot()

@@ -17,17 +17,24 @@ import SDWebImage
 import EMPageViewController
 import VideoBackground
 import LinkPresentation
+import UIImageColors
+import DLLocalNotifications
+
 class NewsArticalScreenViewController: UIViewController,UIScrollViewDelegate {
     
     @IBOutlet weak var videoShowHideVIew: UIView!
    
-    @IBOutlet weak var gradintviewforbg: UIView!
+    @IBOutlet weak var gradintviewforbg: Gradient!
     @IBOutlet weak var lbltitle: UILabel!
+    
+    @IBOutlet weak var imgTest: UIImageView!
     
     //@IBOutlet weak var scrollview: UIScrollView!
     @IBOutlet weak var greadintView: Gradient!
     //@IBOutlet weak var dailyAffirmation: UILabel!
     //@IBOutlet weak var doubletabview: UIView!
+    
+    var IsSubscripted = false
     
     //@IBOutlet weak var height: NSLayoutConstraint!
     @IBOutlet weak var tableview: UITableView!
@@ -53,8 +60,13 @@ class NewsArticalScreenViewController: UIViewController,UIScrollViewDelegate {
         UIColor(red: 245.0/255.0, green: 171.0/255.0, blue: 53.0/255.0, alpha: 1.0),
         UIColor(red: 214.0/255.0, green: 69.0/255.0, blue: 65.0/255.0, alpha: 1.0)
     ]
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.greadintView.endColor = .clear
+        self.gradintviewforbg.startColor = .clear
+        
         self.tableview.separatorStyle = UITableViewCell.SeparatorStyle.none
         gradintviewforbg.isHidden = true
         tabBarController?.tabBar.isHidden = false
@@ -74,7 +86,6 @@ class NewsArticalScreenViewController: UIViewController,UIScrollViewDelegate {
         tableview.register(UINib(nibName: "AdsTableViewCell", bundle: nil), forCellReuseIdentifier: "adsCell")
         tableview.register(UINib(nibName: "AdsTableViewNew", bundle: nil), forCellReuseIdentifier: "AdsTableViewNew")
 
-        
         tableview.tableFooterView = UIView()
         tableview.dataSource = self
         tableview.delegate = self
@@ -88,39 +99,117 @@ class NewsArticalScreenViewController: UIViewController,UIScrollViewDelegate {
         //getFeeds()
         getPositifeedy()
         getProfileData()
+        setupNotification()
         
         gestureaddonbackground()
         gestureAdd()
         
         
+        refreshControl.attributedTitle = NSAttributedString(string: "")
+        refreshControl.tintColor = .white
+        refreshControl.addTarget(self, action: #selector(self.refresh(_:)), for: .valueChanged)
+        tableview.addSubview(refreshControl) // not required when using UITableViewController
+        
     }
+    
+        
+    @objc func refresh(_ sender: AnyObject) {
+       // Code to refresh table view
+        print("Refreshing")
+        
+        getBookmarsData()
+        getBookmarsDataFeedy()
+        
+        //getFeeds()
+        getPositifeedy()
+
+
+    }
+    
     override func viewWillDisappear(_ animated: Bool) {
          super.viewWillDisappear(animated)
          
      }
     
+    @IBAction func btnLogoutClicked(_ sender: Any) {
+        let alertVC = UIAlertController(title: "Postifeedy", message: "Are you sure?", preferredStyle: UIAlertController.Style.alert)
+        
+        alertVC.addAction(UIAlertAction(title: "No", style: .cancel, handler: nil))
+        alertVC.addAction(UIAlertAction(title: "Yes", style: .default, handler: { (action) in
+            
+            do
+            {
+                try   Auth.auth().signOut()
+                
+                let appDel =  UIApplication.shared.delegate as! AppDelegate
+                appDel.arrBookMarkLink = []
+                
+                UserDefaults.standard.set(false, forKey: "isLogin")
+                let scheduler = DLNotificationScheduler()
+                scheduler.cancelAlllNotifications()
+
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                let loginVC = storyboard.instantiateViewController(withIdentifier: "logInViewController") as! logInViewController
+                
+                
+                let nav = UINavigationController(rootViewController: loginVC )
+                nav.setNavigationBarHidden(true, animated: false)
+                
+                appDel.window?.rootViewController = nav
+                appDel.window?.makeKeyAndVisible()
+            }
+            catch
+            {
+                self.view.makeToast(error.localizedDescription)
+            }
+        }))
+        
+        present(alertVC, animated: true, completion: nil)
+    }
+    
+    @IBAction func btnCategoriesClicked(_ sender: Any) {
+        let vc = storyboard?.instantiateViewController(withIdentifier: "categoriesViewController") as! categoriesViewController
+        vc.IsSubscription = IsSubscripted
+        navigationController?.pushViewController(vc, animated: true)
+    }
     
     @IBAction func btnThemeClicked(_ sender: Any) {
         let vc = storyboard?.instantiateViewController(withIdentifier: "chengethemeViewController") as! chengethemeViewController
+        vc.IsSubscription = IsSubscripted
         navigationController?.pushViewController(vc, animated: true)
     }
     
     //MARK:- SCrollview Delegate
     func scrollViewDidScroll(_ scrollView: UIScrollView!) {
         gradintviewforbg.isHidden = false
+//        print(tableview.contentOffset.y)
         if(tableview.contentOffset.y >= 0 && tableview.contentOffset.y <= 150.0) {
             let  percent = (tableview.contentOffset.y / 180);
-                         self.gradintviewforbg.alpha = percent;
+             self.gradintviewforbg.alpha = percent;
 
-              } else if (tableview.contentOffset.y > 180.0){
+          } else if (tableview.contentOffset.y > 180.0){
+                
             self.gradintviewforbg.alpha = 0.8;
 
-              } else if (tableview.contentOffset.y < 0) {
-           // self.gradintviewforbg.alpha = 0.5
-              }
+          } else if (tableview.contentOffset.y < 0) {
+                self.gradintviewforbg.alpha = 0
+          }
 //              print(self.scrollview.contentOffset.y)
     }
     override func viewWillAppear(_ animated: Bool) {
+        getCategoriData()
+        self.tableview.reloadData()
+        let data = UserDefaults.standard.data(forKey: "UserProfileImage") ?? Data()
+        if(data.count > 0){
+            let image = UIImage(data: data)!
+            
+//                                            self.tabBarController?.tabBar.items?[3].image = resized
+//                                            self.tabBarController?.tabBar.items?[3].selectedImage = resized
+
+            self.tabBarController?.tabBar.items?[3].image = image.resizedImage().roundedImageWithBorder(width: 0)!.withRenderingMode(.alwaysOriginal)
+            self.tabBarController?.tabBar.items?[3].selectedImage = image.resizedImage().roundedImageWithBorder(width: 2)!.withRenderingMode(.alwaysOriginal)
+        }
+        
         tabBarController?.tabBar.isHidden = false
         super.viewWillAppear(animated)
         setNavTitle(title : "positifeedy")
@@ -148,6 +237,7 @@ class NewsArticalScreenViewController: UIViewController,UIScrollViewDelegate {
 //        scrollview.isHidden = false
         videoShowHideVIew.isHidden = true
       tabBarController?.tabBar.isHidden = false
+        gradintviewforbg.alpha = oldAlpha
         
     }
    func gestureAdd()
@@ -157,6 +247,7 @@ class NewsArticalScreenViewController: UIViewController,UIScrollViewDelegate {
 //    doubletabview.addGestureRecognizer(tap)
    
     }
+    var oldAlpha : CGFloat = 0.0
     @objc func doubleTapped() {
 //        scrollview.isHidden = true
         greadintView.isHidden = true
@@ -164,12 +255,14 @@ class NewsArticalScreenViewController: UIViewController,UIScrollViewDelegate {
         tableview.isHidden = true
         tabBarController?.tabBar.isHidden = true
          videoShowHideVIew.isHidden = false
-        
+        oldAlpha = gradintviewforbg.alpha
+        gradintviewforbg.alpha = 0.0
     }
+    
     
     var BGVideoView = UIView()
     var videoBG = VideoBackgroundURL()
-    let BGImageView = UIImageView()
+    //let BGImageView = UIImageView()
     var IsLightText = true
     private func setupVideoView() {
         
@@ -198,13 +291,58 @@ class NewsArticalScreenViewController: UIViewController,UIScrollViewDelegate {
         }
         
 //        url = "http://techslides.com/demos/sample-videos/small.mp4"
+        
+        self.greadintView.endColor = .clear
+        self.gradintviewforbg.startColor = .clear
+        
+        var maxColor = themeData.value(forKey: "maxColor") as? String ?? ""
+        
+        let ownTheme = UserDefaults.standard.bool(forKey: "OwnTheme")
+        if(ownTheme){
+            let selectedTheme = UserDefaults.standard.string(forKey: "SelectedTheme")
+            if(selectedTheme != nil && selectedTheme != ""){
+                let ownThemeType = UserDefaults.standard.string(forKey: "SelectedThemeType")
+                if(ownThemeType != nil && ownThemeType == "Image"){
+                    isVideo = false
+                    let docsUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+                    let destinationUrl = docsUrl.appendingPathComponent("Themes").appendingPathComponent(selectedTheme!)
+                    url = destinationUrl.absoluteString
+                }
+                if(ownThemeType != nil && ownThemeType == "Video"){
+                    isVideo = true
+                    let docsUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+                    let destinationUrl = docsUrl.appendingPathComponent("Themes").appendingPathComponent(selectedTheme!)
+                    url = destinationUrl.absoluteString
+                    maxColor = UserDefaults.standard.value(forKey: "maxColor")as? String ?? ""
+                    
+                }
+                UserDefaults.standard.set(false, forKey: "OwnTheme")
+                UserDefaults.standard.set("", forKey: "SelectedTheme")
+                UserDefaults.standard.removeObject(forKey: "SelectedThemeType")
+            }
+        }
+
+
         if(isVideo){
+            UserDefaults.standard.set(true, forKey:"IsVideo")
+            UserDefaults.standard.synchronize()
+            
             let volume = themeData.value(forKey: "volume") as? Float ?? 0.0
+            
+            
+            if(maxColor != ""){
+                self.greadintView.endColor = colorWithHexString(hexString: maxColor)
+                self.gradintviewforbg.startColor = colorWithHexString(hexString: maxColor)
+            }else{
+                self.greadintView.endColor = defaultGradientColor
+                self.gradintviewforbg.startColor = defaultGradientColor
+            }
             
             let asset = videoPlayer.currentItem?.asset
             if asset == nil {
               print("nil") // It is not nil. It doesn't go within this if-clause
             }
+            
 //            var currentPlayerUrl = ""
 //            if let urlAsset = asset as? AVURLAsset {
 //                currentPlayerUrl = urlAsset.url.absoluteString
@@ -214,12 +352,25 @@ class NewsArticalScreenViewController: UIViewController,UIScrollViewDelegate {
 //                videoPlayer.volume = volume
 //                return
 //            }
-            let options = VideoOptionsURL(
+            
+            var options = VideoOptionsURL(
                 pathToVideo: url,
                 pathToImage: "",
                 volume: volume,
                 shouldLoop: true
             )
+            
+            options = VideoOptionsURL(
+                pathToVideo: url,
+                pathToImage: "",
+                volume: volume,
+                shouldLoop: true
+            )
+            
+//            let col = image?.getPixelColor(pos: CGPoint(x: 0, y: 0))
+//            self.greadintView.endColor = col!
+//            self.gradintviewforbg.startColor = col!
+
             BGVideoView = UIView.init(frame: view.frame)
             
             videoPlayer.pause()
@@ -230,29 +381,74 @@ class NewsArticalScreenViewController: UIViewController,UIScrollViewDelegate {
             videoBG = VideoBackgroundURL(frame: view.frame, options: options)
             
             BGVideoView.insertSubview(videoBG, at: 0)
-            BGImageView.removeFromSuperview()
+            //BGImageView.removeFromSuperview()
             
             BGVideoView.isHidden = false
-            BGImageView.isHidden = true
+            imgTest.isHidden = true
             
             view.insertSubview(BGVideoView, at: 0)
         }else{
             
-            BGImageView.frame = view.frame
+            UserDefaults.standard.set(false, forKey:"IsVideo")
+            UserDefaults.standard.synchronize()
             
-            BGImageView.sd_setImage(with: URL(string: url), placeholderImage: UIImage.init(named: "album_placeholder"), options: .highPriority, completed: nil)
-            BGImageView.contentMode = .scaleAspectFill
+            //BGImageView.frame = view.frame
+            
+            let docsUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+            let destinationUrl = docsUrl.appendingPathComponent("Themes").appendingPathComponent(URL(string: url)!.lastPathComponent)
+
+            if(FileManager().fileExists(atPath: destinationUrl.path)){
+                let imageURL = destinationUrl
+                let image    = UIImage(contentsOfFile: imageURL.path)
+                imgTest.image = image
+                
+                let col = image?.getColors({ (colors) in
+                    self.greadintView.endColor = colors?.primary ?? defaultGradientColor
+                    self.gradintviewforbg.startColor = colors?.primary ?? defaultGradientColor
+
+                })
+                
+                //imgTest.image = image
+                //imgTest.frame = view.frame
+            }else{
+                
+                imgTest.sd_setImage(with: URL(string: url), placeholderImage: UIImage.init(named: "album_placeholder"), options: .highPriority) { (image, error, type, url) in
+                    do{
+                        do {
+                            try FileManager.default.createDirectory(atPath: docsUrl.appendingPathComponent("Themes").path, withIntermediateDirectories: true, attributes: nil)
+                        } catch {
+                            print(error.localizedDescription)
+                        }
+                        let path = try FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
+                        let newPath = path.appendingPathComponent("Themes").appendingPathComponent(url!.lastPathComponent)
+                        let imageData = image!.jpegData(compressionQuality: 1.0)
+                        let result = try imageData!.write(to: newPath)
+                        print(result)
+                        
+                        
+                        let col = image?.getColors({ (colors) in
+                            self.greadintView.endColor = colors?.primary ?? defaultGradientColor
+                            self.gradintviewforbg.startColor = colors?.primary ?? defaultGradientColor
+                        })
+
+                    }catch{
+                        print("Save Image Error")
+                    }
+                }
+            }
+            
+            //BGImageView.contentMode = .scaleAspectFill
             
             BGVideoView.removeFromSuperview()
             
             BGVideoView.isHidden = true
-            BGImageView.isHidden = false
+            imgTest.isHidden = false
             
             videoPlayer.pause()
             videoPlayer = AVPlayer()
             playerLayer?.player?.pause()
-            
-            view.insertSubview(BGImageView, at: 0)
+
+//            view.insertSubview(BGImageView, at: 0)
         }
         
 
@@ -280,7 +476,7 @@ class NewsArticalScreenViewController: UIViewController,UIScrollViewDelegate {
     {
              var db: Firestore!
              db = Firestore.firestore()
-             db.collection("userNew").getDocuments { (snap, error) in
+             db.collection("users").getDocuments { (snap, error) in
                  if error != nil
                  {
                      print("error ", error!.localizedDescription)
@@ -297,11 +493,32 @@ class NewsArticalScreenViewController: UIViewController,UIScrollViewDelegate {
                          if (d["uid"] as! String)  ==  Auth.auth().currentUser?.uid
                          {
                              self.myDocId = doc.documentID
-                             let fname = (d["firstname"] as! String)
+                                                        
+                            let fname = (d["firstname"] as! String)
                             self.themeData = (d["CurrentTheme"] as? NSDictionary ?? NSDictionary()).mutableCopy() as? NSMutableDictionary ?? NSMutableDictionary()
                             
                             self.setupVideoView()
-                            
+                            if let strURL = (d["profileImage"] as? String)
+                            {
+                               let url = URL(string: strURL)!
+                               do
+                               {
+                                   DispatchQueue.main.async {
+                                    
+                                    if !NetworkState.isConnected(){
+                                        let data = try! Data(contentsOf: url)
+                                        let image = UIImage(data: data)!
+                                        UserDefaults.standard.setValue(data, forKey: "UserProfileImage")
+                                        UserDefaults.standard.synchronize()
+                    
+//                                        let resized: UIImage = image.resizedImage().roundedImageWithBorder(width: 2, color: UIColor.green)!.withRenderingMode(.alwaysOriginal)
+                                        self.tabBarController?.tabBar.items?[3].image = image.resizedImage().roundedImageWithBorder(width: 0)!.withRenderingMode(.alwaysOriginal)
+                                        self.tabBarController?.tabBar.items?[3].selectedImage = image.resizedImage().roundedImageWithBorder(width: 2)!.withRenderingMode(.alwaysOriginal)                                    }
+                                   }
+                               }catch{
+                                   self.view.makeToast("Profile image not found")
+                               }
+                           }
                             
                             // let hour = NSCalendar.currentCalendar().component(.Hour, fromDate: NSDate()) Swift 2 legacy
                             let hour = Calendar.current.component(.hour, from: Date())
@@ -330,11 +547,13 @@ class NewsArticalScreenViewController: UIViewController,UIScrollViewDelegate {
                                 if subscription == "0"
                                 {
                                     // Not subscribe !
+                                    self.IsSubscripted = false
                                    // self.suscriptionView.isHidden = false
                                     
                                 }else
                                 {
                                     // subscribed :
+                                    self.IsSubscripted = true
                                     //self.suscriptionView.isHidden = true
                                 }
                                 
@@ -345,7 +564,7 @@ class NewsArticalScreenViewController: UIViewController,UIScrollViewDelegate {
                                    let d = ["Subscription" : "0"]
                                    var db: Firestore!
                                    db = Firestore.firestore()
-                                   db.collection("userNew").document(self.myDocId!).updateData(d) { (error) in
+                                   db.collection("users").document(self.myDocId!).updateData(d) { (error) in
                                        if error != nil
                                        {
                                            print(error!.localizedDescription)
@@ -353,6 +572,8 @@ class NewsArticalScreenViewController: UIViewController,UIScrollViewDelegate {
                                    }
                                    print("point added :")
                             }
+                            
+                            
                             
                             //---------------- START -------------------//
                                   // list of added journal :
@@ -427,7 +648,7 @@ class NewsArticalScreenViewController: UIViewController,UIScrollViewDelegate {
                                                        let d = ["myPoint" : str]
                                                        var db: Firestore!
                                                        db = Firestore.firestore()
-                                                       db.collection("userNew").document(self.myDocId!).updateData(d) { (error) in
+                                                       db.collection("users").document(self.myDocId!).updateData(d) { (error) in
                                                            if error != nil
                                                            {
                                                                print(error!.localizedDescription)
@@ -448,7 +669,7 @@ class NewsArticalScreenViewController: UIViewController,UIScrollViewDelegate {
                                                let d = ["myPoint" : "0"]
                                                var db: Firestore!
                                                db = Firestore.firestore()
-                                               db.collection("userNew").document(self.myDocId!).updateData(d) { (error) in
+                                               db.collection("users").document(self.myDocId!).updateData(d) { (error) in
                                                    if error != nil
                                                    {
                                                        print(error!.localizedDescription)
@@ -464,7 +685,7 @@ class NewsArticalScreenViewController: UIViewController,UIScrollViewDelegate {
                                                 let d1 = ["mindstatus" : "beginner".capitalized]
                                                     var db1: Firestore!
                                                     db1 = Firestore.firestore()
-                                                    db1.collection("userNew").document(self.myDocId!).updateData(d1) { (error) in
+                                                    db1.collection("users").document(self.myDocId!).updateData(d1) { (error) in
                                                         if error != nil
                                                         {
                                                             print(error!.localizedDescription)
@@ -510,7 +731,7 @@ class NewsArticalScreenViewController: UIViewController,UIScrollViewDelegate {
                                                 let d1 = ["mindstatus" : "beginner".capitalized]
                                                 var db1: Firestore!
                                                 db1 = Firestore.firestore()
-                                                db1.collection("userNew").document(self.myDocId!).updateData(d1) { (error) in
+                                                db1.collection("users").document(self.myDocId!).updateData(d1) { (error) in
                                                     if error != nil
                                                     {
                                                         print(error!.localizedDescription)
@@ -557,7 +778,7 @@ class NewsArticalScreenViewController: UIViewController,UIScrollViewDelegate {
                                                let d1 = ["mindstatus" : "intermediate".capitalized]
                                                  var db1: Firestore!
                                                  db1 = Firestore.firestore()
-                                                 db1.collection("userNew").document(self.myDocId!).updateData(d1) { (error) in
+                                                 db1.collection("users").document(self.myDocId!).updateData(d1) { (error) in
                                                      if error != nil
                                                      {
                                                          print(error!.localizedDescription)
@@ -603,7 +824,7 @@ class NewsArticalScreenViewController: UIViewController,UIScrollViewDelegate {
                                             let d1 = ["mindstatus" : "advanced".capitalized]
                                             var db1: Firestore!
                                             db1 = Firestore.firestore()
-                                            db1.collection("userNew").document(self.myDocId!).updateData(d1) { (error) in
+                                            db1.collection("users").document(self.myDocId!).updateData(d1) { (error) in
                                                 if error != nil
                                                 {
                                                     print(error!.localizedDescription)
@@ -648,7 +869,7 @@ class NewsArticalScreenViewController: UIViewController,UIScrollViewDelegate {
                                               let d1 = ["mindstatus" : "expert".capitalized]
                                               var db1: Firestore!
                                               db1 = Firestore.firestore()
-                                              db1.collection("userNew").document(self.myDocId!).updateData(d1) { (error) in
+                                              db1.collection("users").document(self.myDocId!).updateData(d1) { (error) in
                                                   if error != nil
                                                   {
                                                       print(error!.localizedDescription)
@@ -692,7 +913,7 @@ class NewsArticalScreenViewController: UIViewController,UIScrollViewDelegate {
                                                     let d1 = ["mindstatus" : "master".capitalized]
                                                      var db1: Firestore!
                                                      db1 = Firestore.firestore()
-                                                     db1.collection("userNew").document(self.myDocId!).updateData(d1) { (error) in
+                                                     db1.collection("users").document(self.myDocId!).updateData(d1) { (error) in
                                                          if error != nil
                                                          {
                                                              print(error!.localizedDescription)
@@ -738,7 +959,7 @@ class NewsArticalScreenViewController: UIViewController,UIScrollViewDelegate {
                                            let d1 = ["mindstatus" : "beginner".capitalized]
                                            var db1: Firestore!
                                            db1 = Firestore.firestore()
-                                           db1.collection("userNew").document(self.myDocId!).updateData(d1) { (error) in
+                                           db1.collection("users").document(self.myDocId!).updateData(d1) { (error) in
                                                if error != nil
                                                {
                                                    print(error!.localizedDescription)
@@ -750,7 +971,7 @@ class NewsArticalScreenViewController: UIViewController,UIScrollViewDelegate {
                                          //  let d = ["myPoint" : str]
                                            var db: Firestore!
                                            db = Firestore.firestore()
-                                           db.collection("userNew").document(self.myDocId!).updateData(d) { (error) in
+                                           db.collection("users").document(self.myDocId!).updateData(d) { (error) in
                                                if error != nil
                                                {
                                                    print(error!.localizedDescription)
@@ -766,6 +987,123 @@ class NewsArticalScreenViewController: UIViewController,UIScrollViewDelegate {
                  }
              }
          }
+    func setupNotification()
+   {
+            var db: Firestore!
+            db = Firestore.firestore()
+            db.collection("users").getDocuments { (snap, error) in
+                if error != nil
+                {
+                    print("error ", error!.localizedDescription)
+                    return
+                }
+                
+                for doc in snap?.documents ?? []
+                {
+                    let  d = doc.data()
+                    if d.count > 0
+                    {
+                        print("data = ",  d)
+                        
+                        if (d["uid"] as! String)  ==  Auth.auth().currentUser?.uid
+                        {
+                           self.myDocId = doc.documentID
+                           
+                           let arr = d["ManifestEntry"] as? NSArray
+                           var arrMyManifestEntry = NSMutableArray()
+                           if arr != nil
+                           {
+                               if arr!.count > 0
+                               {
+                                   arrMyManifestEntry = NSMutableArray.init(array: arr!)
+                                   print("My Manifest :\(arrMyManifestEntry)")
+                                   for i in (0..<arrMyManifestEntry.count)
+                                   {
+                                    let dict = (arrMyManifestEntry.object(at: i) as? NSDictionary ?? NSDictionary()).mutableCopy() as? NSMutableDictionary ?? NSMutableDictionary()
+                                    
+                                    if dict.object(forKey: "isActive") != nil
+                                       {
+                                           let active = dict.value(forKey: "isActive") as? Bool ?? false
+                                           if(active){
+                                               
+                                            
+                                            print(dict)
+                                            
+                                            let title = "Manifestation"
+                                            let message = dict.value(forKey: "answer") as? String ?? "NA"
+                                            let strSelectedDate = dict.value(forKey: "manifestTime") as? String ?? ""
+                                            let strEndDate = dict.value(forKey: "endDate") as? String ?? ""
+                                            let selectedDay = dict.value(forKey: "manifestDay")as? String ?? ""
+                                            
+                                            let totalSecondsInDay = 24 * 60 * 60    //86400 //DayHour * HourMinute * MinuteSecond
+
+                                            
+                                            let dateFormatter = DateFormatter()
+                                            dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+                                            dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss Z"
+                                            let startDate = dateFormatter.date(from:strSelectedDate)!
+
+                                            var newDate = startDate
+                                            newDate = Calendar.current.date(bySettingHour: startDate.hour, minute: startDate.minute, second: 0, of: Date())!
+
+                                            
+                                            let dateFormatter1 = DateFormatter()
+                                            dateFormatter1.locale = Locale(identifier: "en_US_POSIX")
+                                            dateFormatter1.dateFormat = "yyyy-MM-dd HH:mm:ss"
+                                            let endDate = Calendar.current.date(byAdding: .month, value: 1, to: newDate)!
+                                            let newEnd = dateFormatter1.string(from: endDate)
+                                            let newStart = dateFormatter1.string(from: newDate)
+                                            
+                                            dict.setValue(newStart, forKey: "startDate")
+                                            dict.setValue(newEnd, forKey: "endDate")
+                                            
+                                            print("Dinal J" + "\(newDate.hour):\(newDate.minute):\(newDate.second)")
+                                            
+                                            let scheduler = DLNotificationScheduler()
+                                            scheduler.cancelAlllNotifications()
+
+                                            if(selectedDay == "every day"){
+                                                let interval = Double(totalSecondsInDay)
+                                                scheduler.repeatsFromToDate(identifier: "First Notification", alertTitle: title, alertBody: message, fromDate: newDate, toDate: endDate, interval: interval, repeats: .none )
+                                                scheduler.scheduleAllNotifications()
+                                            }else if(selectedDay == "once a week"){
+                                                let interval = Double(totalSecondsInDay * 7)
+                                                scheduler.repeatsFromToDate(identifier: "First Notification", alertTitle: title, alertBody: message, fromDate: newDate, toDate: endDate, interval: interval, repeats: .none )
+                                                scheduler.scheduleAllNotifications()
+
+                                            }else if(selectedDay == "every 3 days"){
+                                                let interval = Double(totalSecondsInDay * 3)
+                                                scheduler.repeatsFromToDate(identifier: "First Notification", alertTitle: title, alertBody: message, fromDate: newDate, toDate: endDate, interval: interval, repeats: .none )
+                                                scheduler.scheduleAllNotifications()
+                                            }
+                                            
+                                            arrMyManifestEntry.replaceObject(at: i, with: dict)
+                                            
+                                            
+                                            let d = ["ManifestEntry" : arrMyManifestEntry]
+
+                                            db.collection("users").document(self.myDocId!).updateData(d) { (error) in
+                                                    if error != nil
+                                                    {
+                                                        print(error!.localizedDescription)
+                                                    }
+                                                }
+                                            
+                                            break
+                                           }
+                                       }else{
+                                           
+                                       }
+                                   }
+                               }
+                           }
+                           
+                        }
+                    }
+                }
+            }
+        }
+    
     func getPositifeedy() {
              
                var db: Firestore!
@@ -847,53 +1185,53 @@ class NewsArticalScreenViewController: UIViewController,UIScrollViewDelegate {
              }
          }
     func getBookmarsData()
+    {
+        var db: Firestore!
+        
+        db = Firestore.firestore()
+        
+        db.collection("users").getDocuments { (snap, error) in
+            if error != nil
             {
-                var db: Firestore!
+                print("error ", error!.localizedDescription)
+                return
+            }
+            
+            for doc in snap?.documents ?? []
+            {
+                let  d = doc.data()
                 
-                db = Firestore.firestore()
-                
-                db.collection("users").getDocuments { (snap, error) in
-                    if error != nil
+                if d.count > 0
+                {
+                    if (d["uid"] as! String) == Auth.auth().currentUser?.uid
                     {
-                        print("error ", error!.localizedDescription)
-                        return
-                    }
-                    
-                    for doc in snap?.documents ?? []
-                    {
-                        let  d = doc.data()
+                        let appDel = UIApplication.shared.delegate as! AppDelegate
+
+                        self.myDocID = doc.documentID
+                        appDel.myDocID = doc.documentID
                         
-                        if d.count > 0
+                        if let links = (d["links"] as? [String])
                         {
-                            if (d["uid"] as! String) == Auth.auth().currentUser?.uid
-                            {
-                                let appDel = UIApplication.shared.delegate as! AppDelegate
-
-                                self.myDocID = doc.documentID
-                                appDel.myDocID = doc.documentID
-                                
-                                if let links = (d["links"] as? [String])
-                                {
-                                    appDel.arrBookMarkLink = links
-                                }
-
-                              let arr = d["bookmarkarray"] as? NSArray
-                              if arr != nil
-                              {
-                                  self.arrBookMarkArrray = NSMutableArray.init(array: arr!)
-                              }
-                              else
-                              {
-                                  self.arrBookMarkArrray = NSMutableArray.init()
-                              }
-                              
-                              self.tableview.reloadData()
-                              
-                            }
+                            appDel.arrBookMarkLink = links
                         }
+
+                      let arr = d["bookmarkarray"] as? NSArray
+                      if arr != nil
+                      {
+                          self.arrBookMarkArrray = NSMutableArray.init(array: arr!)
+                      }
+                      else
+                      {
+                          self.arrBookMarkArrray = NSMutableArray.init()
+                      }
+                      
+                      self.tableview.reloadData()
+                      
                     }
                 }
             }
+        }
+    }
     func getBookmarsDataFeedy()
     {
         var db: Firestore!
@@ -955,7 +1293,7 @@ class NewsArticalScreenViewController: UIViewController,UIScrollViewDelegate {
                  if self.isRefresh == false {
                      SVProgressHUD.show()
                  }
-                 
+                AF.session.configuration.timeoutIntervalForRequest = 120
                AF.request(Global.feedURL, method: .get,  parameters: nil, encoding: JSONEncoding.default)
                    .responseJSON { response in
                        switch response.result {
@@ -963,7 +1301,7 @@ class NewsArticalScreenViewController: UIViewController,UIScrollViewDelegate {
                            if let json = value as? [String: Any] {
                               
                                SVProgressHUD.dismiss()
-                               
+                                self.refreshControl.endRefreshing()
                                let result = json["result"] as? NSDictionary
                                if result!.count > 0
                                {
@@ -1208,137 +1546,194 @@ class NewsArticalScreenViewController: UIViewController,UIScrollViewDelegate {
                  let activityVC = UIActivityViewController(activityItems: [promoText, url], applicationActivities: nil)
                  self.present(activityVC, animated: true, completion: nil)
              }
+    
+    
+    
     @objc func btnBookMarkClick(_ sender : UIButton) {
                  
-                 let appDel = UIApplication.shared.delegate as! AppDelegate
-                 //      let context = appDel.persistentContainer.viewContext
-                 
-                 var db: Firestore!
-                 db = Firestore.firestore()
-                 
-                 if sender.isSelected == false
-                 {
-                     sender.isSelected = true
-                     
-                     if selectedTab == 0 {
-                       
-                       let feed = arrPositifeedy[sender.tag]
-                       if feed.description_d != nil
-                       {
-                           appDel.arrBookMarkLink.append(feed.link!)
-                             let d = ["links" : appDel.arrBookMarkLink]
-                             db.collection("users").document(myDocID!).updateData(d) { (error) in
-                                 if error != nil
-                                 {
-                                     print(error!.localizedDescription)
-                                 }
-                             }
-                           
-                               let timestamp = Date().currentTimeMillis()
-                               let searchPredicate = NSPredicate(format: "link beginswith[C] %@",feed.link!)
-                               let  arrrDict = self.arrBookMarkArrray.filter { searchPredicate.evaluate(with: $0) };
-                               let filterArray = NSMutableArray.init(array: arrrDict)
-                               if(filterArray.count > 0)
-                               {
-                                       // alerady exitst
-                               }
-                               else
-                               {
-                                   // not exist
-                                   let mutabledict = NSMutableDictionary.init()
-                                   mutabledict.setValue(feed.link, forKey: "link")
-                                   mutabledict.setValue("\(timestamp)", forKey: "timestamp")
-                                   self.arrBookMarkArrray.add(mutabledict)
-                                  
-                                   let d2 = ["bookmarkarray" : self.arrBookMarkArrray]
-                                    db.collection("users").document(myDocID!).updateData(d2) { (error) in
-                                        if error != nil
-                                        {
-                                            print(error!.localizedDescription)
-                                        }
-                                    }
-                               }
-                           
-                       }else
-                       {
-                           appDel.arrBookMarkLinkFeedy.append(arrPositifeedy[sender.tag].documentID!)
-                                           let d = ["linksFeedy" : appDel.arrBookMarkLinkFeedy]
-                                           db.collection("users").document(myDocID!).updateData(d) { (error) in
-                                               if error != nil
-                                               {
-                                                   print(error!.localizedDescription)
-                                               }
-                                           }
-                                        
-                                         
-                                         let timestamp = Date().currentTimeMillis()
-                                         let searchPredicate = NSPredicate(format: "feed beginswith[C] %@",arrPositifeedy[sender.tag].documentID!)
-                                         let  arrrDict = self.arrBookMarkArrray.filter { searchPredicate.evaluate(with: $0) };
-                                         let filterArray = NSMutableArray.init(array: arrrDict)
-                                         if(filterArray.count > 0)
-                                         {
-                                                 // alerady exitst
-                                         }
-                                         else
-                                         {
-                                             // not exist
-                                             let mutabledict = NSMutableDictionary.init()
-                                             mutabledict.setValue(arrPositifeedy[sender.tag].documentID!, forKey: "feed")
-                                             mutabledict.setValue("\(timestamp)", forKey: "timestamp")
-                                             self.arrBookMarkArrray.add(mutabledict)
-                                            
-                                             let d2 = ["bookmarkarray" : self.arrBookMarkArrray]
-                                              db.collection("users").document(myDocID!).updateData(d2) { (error) in
-                                                  if error != nil
-                                                  {
-                                                      print(error!.localizedDescription)
-                                                  }
-                                              }
-                                         }
-                           
-                       }
-                       
-                       
-                       
-                       
-                     } else {
-                         
-                                      
+         let appDel = UIApplication.shared.delegate as! AppDelegate
+         //      let context = appDel.persistentContainer.viewContext
+         
+         var db: Firestore!
+         db = Firestore.firestore()
+         
+         if sender.isSelected == false
+         {
+             sender.isSelected = true
+             
+             if selectedTab == 0 {
+               
+               let feed = arrPositifeedy[sender.tag]
+               if feed.description_d != nil
+               {
+                   appDel.arrBookMarkLink.append(feed.link!)
+                     let d = ["links" : appDel.arrBookMarkLink]
+                     db.collection("users").document(myDocID!).updateData(d) { (error) in
+                         if error != nil
+                         {
+                             print(error!.localizedDescription)
+                         }
                      }
+                   
+                       let timestamp = Date().currentTimeMillis()
+                       let searchPredicate = NSPredicate(format: "link beginswith[C] %@",feed.link!)
+                       let  arrrDict = self.arrBookMarkArrray.filter { searchPredicate.evaluate(with: $0) };
+                       let filterArray = NSMutableArray.init(array: arrrDict)
+                       if(filterArray.count > 0)
+                       {
+                               // alerady exitst
+                       }
+                       else
+                       {
+                           // not exist
+                           let mutabledict = NSMutableDictionary.init()
+                           mutabledict.setValue(feed.link, forKey: "link")
+                           mutabledict.setValue("\(timestamp)", forKey: "timestamp")
+                           self.arrBookMarkArrray.add(mutabledict)
+                          
+                           let d2 = ["bookmarkarray" : self.arrBookMarkArrray]
+                            db.collection("users").document(myDocID!).updateData(d2) { (error) in
+                                if error != nil
+                                {
+                                    print(error!.localizedDescription)
+                                }
+                            }
+                       }
+                   
+               }else
+               {
+                   appDel.arrBookMarkLinkFeedy.append(arrPositifeedy[sender.tag].documentID!)
+                   let d = ["linksFeedy" : appDel.arrBookMarkLinkFeedy]
+                   db.collection("users").document(myDocID!).updateData(d) { (error) in
+                       if error != nil
+                       {
+                           print(error!.localizedDescription)
+                       }
+                   }
+                    
                      
-                 }
-                 else
-                 {
-                     sender.isSelected = false
-                     
-                     if selectedTab == 0 {
-                       
-                       let feed = self.arrPositifeedy[sender.tag]
-                       
-                       if feed.description_d != nil {
-                           
+                     let timestamp = Date().currentTimeMillis()
+                     let searchPredicate = NSPredicate(format: "feed beginswith[C] %@",arrPositifeedy[sender.tag].documentID!)
+                     let  arrrDict = self.arrBookMarkArrray.filter { searchPredicate.evaluate(with: $0) };
+                     let filterArray = NSMutableArray.init(array: arrrDict)
+                     if(filterArray.count > 0)
+                     {
+                             // alerady exitst
+                     }
+                     else
+                     {
+                         // not exist
+                         let mutabledict = NSMutableDictionary.init()
+                         mutabledict.setValue(arrPositifeedy[sender.tag].documentID!, forKey: "feed")
+                         mutabledict.setValue("\(timestamp)", forKey: "timestamp")
+                         self.arrBookMarkArrray.add(mutabledict)
+                        
+                         let d2 = ["bookmarkarray" : self.arrBookMarkArrray]
+                          db.collection("users").document(myDocID!).updateData(d2) { (error) in
+                              if error != nil
+                              {
+                                  print(error!.localizedDescription)
+                              }
+                          }
+                     }
+                   
+               }
+               
+               
+               
+               
+             } else {
+                 
+                              
+             }
+             
+         }
+         else
+         {
+             sender.isSelected = false
+             
+             if selectedTab == 0 {
+               
+               let feed = self.arrPositifeedy[sender.tag]
+               
+               if feed.description_d != nil {
+                   
 
-                                                   let link = feed.link
-                                             
-                                             if let index = appDel.arrBookMarkLink.firstIndex(of: link!) {
-                                                 appDel.arrBookMarkLink.remove(at: index)
-                                             }
-                                             
-                                             let d = ["links" : appDel.arrBookMarkLink]
-                                             db.collection("users").document(myDocID!).updateData(d) { (error) in
-                                                 if error != nil
-                                                 {
-                                                     print(error!.localizedDescription)
-                                                 }
-                                             }
-                                           
+                                           let link = feed.link
+                                     
+                                     if let index = appDel.arrBookMarkLink.firstIndex(of: link!) {
+                                         appDel.arrBookMarkLink.remove(at: index)
+                                     }
+                                     
+                                     let d = ["links" : appDel.arrBookMarkLink]
+                                     db.collection("users").document(myDocID!).updateData(d) { (error) in
+                                         if error != nil
+                                         {
+                                             print(error!.localizedDescription)
+                                         }
+                                     }
+                                   
+                                   let timestamp = Date().currentTimeMillis()
+                                  let searchPredicate = NSPredicate(format: "link beginswith[C] %@",feed.link!)
+                                   let  arrrDict = self.arrBookMarkArrray.filter { searchPredicate.evaluate(with: $0) };
+                                   let filterArray = NSMutableArray.init(array: arrrDict)
+                                   if(filterArray.count > 0)
+                                   {
+                                           // alerady exitst
+                                       let dict = filterArray.object(at: 0) as? NSDictionary
+                                       // alerady exitst
+                                       self.arrBookMarkArrray.remove(dict)
+                                       
+                                       let d2 = ["bookmarkarray" : self.arrBookMarkArrray]
+                                       db.collection("users").document(myDocID!).updateData(d2) { (error) in
+                                           if error != nil
+                                           {
+                                               print(error!.localizedDescription)
+                                           }
+                                       }
+                                       
+                                   }
+                                   else
+                                   {
+                                       // not exist
+                   //                    let mutabledict = NSMutableDictionary.init()
+                   //                    mutabledict.setValue(arrPositifeedy[sender.tag].documentID!, forKey: "link")
+                   //                    mutabledict.setValue("\(timestamp)", forKey: "timestamp")
+                   //                    self.arrBookMarkArrray.add(mutabledict)
+                   //
+                   //                    let d2 = ["bookmarkarray" : "\(self.arrBookMarkArrray)"]
+                   //                     db.collection("users").document(myDocID!).updateData(d2) { (error) in
+                   //                         if error != nil
+                   //                         {
+                   //                             print(error!.localizedDescription)
+                   //                         }
+                   //                     }
+                                   }
+                                   
+                   
+               }else
+               {
+                     let link = arrPositifeedy[sender.tag].documentID
+                                     
+                                     if let index = appDel.arrBookMarkLinkFeedy.firstIndex(of: link!) {
+                                         appDel.arrBookMarkLinkFeedy.remove(at: index)
+                                     }
+                                     
+                                     let d = ["linksFeedy" : appDel.arrBookMarkLinkFeedy]
+                                     db.collection("users").document(myDocID!).updateData(d) { (error) in
+                                         if error != nil
+                                         {
+                                             print(error!.localizedDescription)
+                                         }
+                                     }
+                                   
+                                   
                                            let timestamp = Date().currentTimeMillis()
-                                          let searchPredicate = NSPredicate(format: "link beginswith[C] %@",feed.link!)
+                                           let searchPredicate = NSPredicate(format: "feed beginswith[C] %@",arrPositifeedy[sender.tag].documentID!)
                                            let  arrrDict = self.arrBookMarkArrray.filter { searchPredicate.evaluate(with: $0) };
                                            let filterArray = NSMutableArray.init(array: arrrDict)
                                            if(filterArray.count > 0)
                                            {
-                                                   // alerady exitst
                                                let dict = filterArray.object(at: 0) as? NSDictionary
                                                // alerady exitst
                                                self.arrBookMarkArrray.remove(dict)
@@ -1350,90 +1745,38 @@ class NewsArticalScreenViewController: UIViewController,UIScrollViewDelegate {
                                                        print(error!.localizedDescription)
                                                    }
                                                }
-                                               
                                            }
                                            else
                                            {
-                                               // not exist
-                           //                    let mutabledict = NSMutableDictionary.init()
-                           //                    mutabledict.setValue(arrPositifeedy[sender.tag].documentID!, forKey: "link")
-                           //                    mutabledict.setValue("\(timestamp)", forKey: "timestamp")
-                           //                    self.arrBookMarkArrray.add(mutabledict)
-                           //
-                           //                    let d2 = ["bookmarkarray" : "\(self.arrBookMarkArrray)"]
-                           //                     db.collection("users").document(myDocID!).updateData(d2) { (error) in
-                           //                         if error != nil
-                           //                         {
-                           //                             print(error!.localizedDescription)
-                           //                         }
-                           //                     }
+                   //                            // not exist
+                   //                            let mutabledict = NSMutableDictionary.init()
+                   //                            mutabledict.setValue(arrPositifeedy[sender.tag].documentID!, forKey: "feed")
+                   //                            mutabledict.setValue("\(timestamp)", forKey: "timestamp")
+                   //                            self.arrBookMarkArrray.add(mutabledict)
+                   //
+                   //                            let d2 = ["bookmarkarray" : "\(self.arrBookMarkArrray)"]
+                   //                             db.collection("users").document(myDocID!).updateData(d2) { (error) in
+                   //                                 if error != nil
+                   //                                 {
+                   //                                     print(error!.localizedDescription)
+                   //                                 }
+                   //                             }
                                            }
-                                           
-                           
-                       }else
-                       {
-                             let link = arrPositifeedy[sender.tag].documentID
-                                             
-                                             if let index = appDel.arrBookMarkLinkFeedy.firstIndex(of: link!) {
-                                                 appDel.arrBookMarkLinkFeedy.remove(at: index)
-                                             }
-                                             
-                                             let d = ["linksFeedy" : appDel.arrBookMarkLinkFeedy]
-                                             db.collection("users").document(myDocID!).updateData(d) { (error) in
-                                                 if error != nil
-                                                 {
-                                                     print(error!.localizedDescription)
-                                                 }
-                                             }
-                                           
-                                           
-                                                   let timestamp = Date().currentTimeMillis()
-                                                   let searchPredicate = NSPredicate(format: "feed beginswith[C] %@",arrPositifeedy[sender.tag].documentID!)
-                                                   let  arrrDict = self.arrBookMarkArrray.filter { searchPredicate.evaluate(with: $0) };
-                                                   let filterArray = NSMutableArray.init(array: arrrDict)
-                                                   if(filterArray.count > 0)
-                                                   {
-                                                       let dict = filterArray.object(at: 0) as? NSDictionary
-                                                       // alerady exitst
-                                                       self.arrBookMarkArrray.remove(dict)
-                                                       
-                                                       let d2 = ["bookmarkarray" : self.arrBookMarkArrray]
-                                                       db.collection("users").document(myDocID!).updateData(d2) { (error) in
-                                                           if error != nil
-                                                           {
-                                                               print(error!.localizedDescription)
-                                                           }
-                                                       }
-                                                   }
-                                                   else
-                                                   {
-                           //                            // not exist
-                           //                            let mutabledict = NSMutableDictionary.init()
-                           //                            mutabledict.setValue(arrPositifeedy[sender.tag].documentID!, forKey: "feed")
-                           //                            mutabledict.setValue("\(timestamp)", forKey: "timestamp")
-                           //                            self.arrBookMarkArrray.add(mutabledict)
-                           //
-                           //                            let d2 = ["bookmarkarray" : "\(self.arrBookMarkArrray)"]
-                           //                             db.collection("users").document(myDocID!).updateData(d2) { (error) in
-                           //                                 if error != nil
-                           //                                 {
-                           //                                     print(error!.localizedDescription)
-                           //                                 }
-                           //                             }
-                                                   }
-                           
-                       }
-                      
-                       
-                     } else {
-                       
-                       
-                       
-                     }
-                     
-                 }
-                 tableview.reloadData()
+                   
+               }
+              
+               
+             } else {
+               
+               
+               
              }
+             
+         }
+//         tableview.reloadData()
+        let indexpath = IndexPath(row: sender.tag, section: 0)
+        tableview.reloadRows(at: [indexpath], with: .none)
+    }
     
     func isBookMark(link : String,desc: String) -> Bool
               {
@@ -1490,6 +1833,166 @@ class NewsArticalScreenViewController: UIViewController,UIScrollViewDelegate {
               //  print("deinit: \(self.greeting!)")
             }
 
+    
+    var dailyAffirmation = NSMutableDictionary()
+    var categoriData = [String]()
+    func getCategoriData()
+    {
+        
+
+            var db: Firestore!
+            db = Firestore.firestore()
+            db.collection("users").getDocuments { [self] (snap, error) in
+                
+                if error != nil
+                {
+                    print("error ", error!.localizedDescription)
+                    return
+                }
+                for doc in snap?.documents ?? []
+                {
+                    let  d = doc.data()
+                    if d.count > 0
+                    {
+                        print("data = ",  d)
+                        
+                        if (d["uid"] as! String)  ==  Auth.auth().currentUser?.uid
+                        {
+                            self.myDocId = doc.documentID
+                            self.categoriData = (d["checkCategories"]) as? [String] ?? []
+                            print(self.categoriData)
+                            
+                            self.dailyAffirmation = (d["DailyAffirmation"] as? NSDictionary ?? NSDictionary()).mutableCopy() as? NSMutableDictionary ?? NSMutableDictionary()
+                            
+
+                            
+                            if(categoriData.count == 0){
+                                categoriData = ["SELF LOVE"]
+                                
+                                var db: Firestore!
+                                db = Firestore.firestore()
+                                
+                                let d1 = ["checkCategories" : categoriData]
+                                var db1: Firestore!
+                                db1 = Firestore.firestore()
+                                db1.collection("users").document(self.myDocId!).updateData(d1) { (error) in
+                                    if error != nil
+                                    {
+                                      print(error!.localizedDescription)
+                                    }
+                                    self.checkForAffirmation()
+                                }
+                            }
+                            
+                            self.checkForAffirmation()
+
+                            break
+                        }
+                    }
+                }
+        }
+        
+    }
+    var currentAffirmationMessage = "Daliy Affirmation"
+    func checkForAffirmation(){
+        let date = dailyAffirmation.value(forKey: "date") as? String ?? ""
+        let message = dailyAffirmation.value(forKey: "message") as? String ?? ""
+        
+        let isCategoryChange = UserDefaults.standard.bool(forKey: "IsCategoryChange")
+        
+        if((date == "" && message == "") || isCategoryChange){
+            UserDefaults.standard.set(false, forKey: "IsCategoryChange")
+            //Generate new [yyy-mm-dd]
+            let formatter = DateFormatter()
+            formatter.dateFormat = "yyyy-MM-dd"
+            let dateData = Date()
+            let data = formatter.string(from: dateData) as? String
+            dailyAffirmation.setValue(data, forKey: "date")
+            
+            //get Affirmation with random method
+            
+            let totalLength = self.categoriData.count
+            let randomInt = Int.random(in: 0..<totalLength)
+            let strCatName = self.categoriData[randomInt] as? String
+            let array = dict.value(forKey: strCatName!) as? NSArray ?? NSArray()
+            if array.count > 0
+            {
+                print("general array :\(array)")
+                let randomeArray = Int.random(in: 0..<array.count)
+                let mess = array.object(at: randomeArray) as? String
+                
+                currentAffirmationMessage = mess!
+                tableview.reloadData()
+                dailyAffirmation.setValue(mess, forKey: "message")
+            }
+            
+            var db: Firestore!
+            db = Firestore.firestore()
+            print(dailyAffirmation)
+            let d1 = ["DailyAffirmation" : dailyAffirmation]
+            var db1: Firestore!
+            db1 = Firestore.firestore()
+            db1.collection("users").document(self.myDocId!).updateData(d1) { (error) in
+                if error != nil
+                {
+                    print(error!.localizedDescription)
+                }
+            }
+            
+        }else{
+            let formatter = DateFormatter()
+            formatter.dateFormat = "yyyy-MM-dd"
+            let dateData = Date()
+            let strDate = formatter.string(from: dateData) as! String
+
+            var newMessage = ""
+            if date != strDate
+            {
+                let dateData = Date()
+                let data = formatter.string(from: dateData) as? String
+                dailyAffirmation.setValue(data, forKey: "date")
+
+                repeat{
+                    let totalLength = self.categoriData.count
+                    let randomInt = Int.random(in: 0..<totalLength)
+                    let strCatName = self.categoriData[randomInt] as? String
+                    let array = dict.value(forKey: strCatName!) as? NSArray
+                    if array!.count > 0
+                    {
+                        let randomeArray = Int.random(in: 0..<array!.count)
+                        let mess = array?.object(at: randomeArray) as? String
+                        newMessage = mess!
+                    }
+                }while(newMessage == message)
+                
+                
+                currentAffirmationMessage = newMessage
+                tableview.reloadData()
+                dailyAffirmation.setValue(newMessage, forKey: "message")
+                
+                var db: Firestore!
+                db = Firestore.firestore()
+                
+                let d1 = ["DailyAffirmation" : dailyAffirmation]
+                var db1: Firestore!
+                db1 = Firestore.firestore()
+                db1.collection("users").document(self.myDocId!).updateData(d1) { (error) in
+                    if error != nil
+                    {
+                        print(error!.localizedDescription)
+                    }
+                }
+            }
+            else
+            {
+                currentAffirmationMessage = message
+                tableview.reloadData()
+
+            }
+            
+        }
+    }
+    
         
         // MARK: - EMPageViewController Data Source
     //
@@ -1613,12 +2116,13 @@ class NewsArticalScreenViewController: UIViewController,UIScrollViewDelegate {
             self.tableview.isHidden = selectedTab == 0 ? (arrPositifeedy.count == 0) : (arrFeeds.count == 0)
             return selectedTab == 0 ? arrPositifeedy.count : arrFeeds.count
         }
-    
         
         func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-            
-            
-            if indexPath.row % 5 == 0 && indexPath.row != 0
+          
+            if(indexPath.row == 112){
+                print("")
+            }
+            if indexPath.row % 5 == 0 && indexPath.row != 0 && !IsSubscripted
             {
 //                let cell = tableView.dequeueReusableCell(withIdentifier: "adsCell", for: indexPath) as! AdsTableViewCell
 //                cell.controller = self
@@ -1651,10 +2155,17 @@ class NewsArticalScreenViewController: UIViewController,UIScrollViewDelegate {
                     cell.btnShare.tag = indexPath.row
                    cell.btnShare.addTarget(self, action: #selector(btnShareClickFeed), for: .touchUpInside)
                   
-                   cell.btnBookmark.setImage(UIImage(named: "book_mark_ic"), for: .normal)
-                   cell.btnBookmark.setImage(UIImage(named: "bookmarkSelected"), for: .selected)
+//                   cell.btnBookmark.setImage(UIImage(named: "book_mark_ic"), for: .normal)
+//                   cell.btnBookmark.setImage(UIImage(named: "bookmarkSelected"), for: .selected)
                    cell.btnBookmark.tag = indexPath.row
                    cell.btnBookmark.isSelected = isBookMark(link: feed.link!,desc: feed.description_d!)
+                    
+                    if(isBookMark(link: feed.link!,desc: feed.description_d!)){
+                        cell.imgBookmark.image = UIImage(named: "bookmarkSelected")
+                    }else{
+                        cell.imgBookmark.image = UIImage(named: "book_mark_ic")
+                    }
+                    
                    cell.btnBookmark.addTarget(self, action: #selector(btnBookMarkClick), for: .touchUpInside)
                    cell.img.cornerRadius(10)
                   
@@ -1663,7 +2174,6 @@ class NewsArticalScreenViewController: UIViewController,UIScrollViewDelegate {
                     cell.img.sd_imageIndicator?.startAnimatingIndicator()
                     
                     DispatchQueue.main.async {[weak self] in
-                        
                         if #available(iOS 13.0, *) {
                             
                             if feed.link != nil
@@ -1739,9 +2249,17 @@ class NewsArticalScreenViewController: UIViewController,UIScrollViewDelegate {
                 }else
                 {
                     cell.bindData(feed: feed)
-
+                    
                     cell.btnBookmark.tag = indexPath.row
                     cell.btnBookmark.isSelected = isBookMark(link: feed.documentID!,desc: "")
+
+                    if(isBookMark(link: feed.documentID!,desc: "")){
+                        cell.imgBookmark.image = UIImage(named: "bookmarkSelected")
+                    }else{
+                        cell.imgBookmark.image = UIImage(named: "book_mark_ic")
+                    }
+//                    cell.btnBookmark.tag = indexPath.row
+//                    cell.btnBookmark.isSelected = isBookMark(link: feed.documentID!,desc: "")
                     cell.btnBookmark.addTarget(self, action: #selector(btnBookMarkClick), for: .touchUpInside)
                     
                     cell.btnShare.tag = indexPath.row
@@ -1781,7 +2299,6 @@ class NewsArticalScreenViewController: UIViewController,UIScrollViewDelegate {
                 
                 let date =  feed.time?.toDate()
                 
-                
                 cell.btnShare.tag = indexPath.row
                 cell.btnShare.addTarget(self, action: #selector(btnShareClickFeed), for: .touchUpInside)
                 
@@ -1790,8 +2307,8 @@ class NewsArticalScreenViewController: UIViewController,UIScrollViewDelegate {
                 cell.lblDesc.text = feed.desc
                 cell.lblTime.text  = date!.getElapsedInterval((feed.time?.getTimeZone())!)
                 
-                cell.btnBookMark.setImage(UIImage(named: "book_mark_ic"), for: .normal)
-                cell.btnBookMark.setImage(UIImage(named: "bookmarkSelected"), for: .selected)
+//                cell.btnBookMark.setImage(UIImage(named: "book_mark_ic"), for: .normal)
+//                cell.btnBookMark.setImage(UIImage(named: "bookmarkSelected"), for: .selected)
                 cell.btnBookMark.tag = indexPath.row
                 cell.btnBookMark.isSelected = isBookMark(link: feed.link!,desc: feed.desc!)
                 cell.btnBookMark.addTarget(self, action: #selector(btnBookMarkClick), for: .touchUpInside)
@@ -1815,6 +2332,7 @@ class NewsArticalScreenViewController: UIViewController,UIScrollViewDelegate {
                         }
                     }
                 }
+                
                 return cell
             }
             
@@ -1823,9 +2341,16 @@ class NewsArticalScreenViewController: UIViewController,UIScrollViewDelegate {
         @objc func btnPlayTapped(_ sender: UIButton) {
             
             let feed = arrPositifeedy[sender.tag]
-            if let strUrl = feed.feed_video, let url = URL(string: strUrl) {
-                self.playVideo(url: url)
+            if(feed.link?.contains("youtube") ?? false){
+                if let strUrl = feed.link, let url = URL(string: strUrl) {
+                    self.playVideo(url: url)
+                }
+            }else{
+                if let strUrl = feed.feed_video, let url = URL(string: strUrl) {
+                    self.playVideo(url: url)
+                }
             }
+            
         }
     }
 
@@ -1834,13 +2359,18 @@ class NewsArticalScreenViewController: UIViewController,UIScrollViewDelegate {
     extension NewsArticalScreenViewController : UITableViewDelegate
     {
         func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-            let headerView = UIView.init(frame: CGRect.init(x: 0, y: 0, width: tableView.frame.width, height: UIScreen.main.bounds.height/2))
+            let headerView = UIView.init(frame: CGRect.init(x: 0, y: 0, width: tableView.frame.width-20, height: UIScreen.main.bounds.height/2))
                 headerView.backgroundColor = .clear
                 let label = UILabel()
-                label.frame = CGRect.init(x: 0, y: 0, width: UIScreen.main.bounds.width, height: headerView.frame.height-10)
-                label.text = "Daily Affirmation"
+                label.frame = CGRect.init(x: 10, y: 0, width: UIScreen.main.bounds.width-20, height: headerView.frame.height-10)
                 label.textAlignment = .center
-                label.font = .boldSystemFont(ofSize: 30)
+                //label.font = .boldSystemFont(ofSize: 30)
+                label.font = UIFont(name: Global.NewFont.medium, size: 38)
+                label.font = label.font.withSize(38)
+                label.numberOfLines = 0
+                label.textAlignment = .center
+                label.text = currentAffirmationMessage
+
                 if(IsLightText){
                     label.textColor = .white
                 }else{
@@ -1862,7 +2392,7 @@ class NewsArticalScreenViewController: UIViewController,UIScrollViewDelegate {
         }
         func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
             
-            if indexPath.row % 5 == 0 && indexPath.row != 0
+            if indexPath.row % 5 == 0 && indexPath.row != 0 && !IsSubscripted
             {
                 let pref_ad = UserDefaults.standard.object(forKey: PREF_AD_HEIGHT) as? String
                 if pref_ad  != nil
@@ -1924,8 +2454,8 @@ class NewsArticalScreenViewController: UIViewController,UIScrollViewDelegate {
                     webVC.url = link
                     webVC.myDocID = self.myDocID
                     webVC.isBookmark = isBookMark(link: link,desc: feed.description_d!)
+                    webVC.objPositifeedAllSet = feed
                     navigationController?.pushViewController(webVC, animated: true)
-                    
                 }else
                 {
                     if feed_type == "link" {
@@ -1941,7 +2471,6 @@ class NewsArticalScreenViewController: UIViewController,UIScrollViewDelegate {
                         detailVC.positifeedy = arrPositifeedy[indexPath.row]
                         navigationController?.pushViewController(detailVC, animated: true)
                     }
-                    
                 }
                 
             } else {
@@ -1959,3 +2488,9 @@ class NewsArticalScreenViewController: UIViewController,UIScrollViewDelegate {
 
 
 
+extension UINavigationController {
+    override public func viewDidLoad() {
+        super.viewDidLoad()
+        interactivePopGestureRecognizer?.delegate = nil
+    }
+}

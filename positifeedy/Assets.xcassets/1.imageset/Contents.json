@@ -1,15 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "p-trans1.png",
+      "filename" : "plant 1.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "plant 1@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
+      "filename" : "plant 1@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

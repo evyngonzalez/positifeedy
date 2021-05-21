@@ -109,6 +109,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             application.registerUserNotificationSettings(settings)
         }
         
+        UNUserNotificationCenter.current().delegate = self
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { success, error in
+            if success {
+                print("")
+            } else if let error = error {
+                print(error.localizedDescription)
+            }
+        }
+        
         application.registerForRemoteNotifications()
         
         setRoot()
@@ -241,6 +250,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     
+    func updateSubscription(isPurchased: Bool){
+        let subscription = isPurchased ? "1" : "0"
+        let d = ["Subscription" : subscription]
+        var db: Firestore!
+        db = Firestore.firestore()
+        db.collection("users").document(self.myDocID!).updateData(d) { (error) in
+             if error != nil
+             {
+                 print(error!.localizedDescription)
+             }
+         }
+    }
+    
      func checkIfPurchaed () {
             
             // monthly plan :
@@ -255,9 +277,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                         productId: productId,
                         inReceipt: receipt)
                     
+                    var isPurchased = false
                     switch purchaseResult {
                     case .purchased(let expiryDate, let items):
-                        
+                        isPurchased = true
                         let currentdate = Date()
                         if currentdate.isGreaterThan(expiryDate)
                         {
@@ -273,6 +296,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                         //UserDefaults.standard.setValue("1", forKey: PREF_SUBSCRIBE)
                     case .expired(let expiryDate, let items):
                         print("\(productId) is expired since \(expiryDate)\n\(items)\n")
+                        isPurchased = false
                         let currentdate = Date()
                         if currentdate.isGreaterThan(expiryDate)
                         {
@@ -285,9 +309,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                         }
                        //  UserDefaults.standard.removeObject(forKey: PREF_SUBSCRIBE)
                     case .notPurchased:
+                        isPurchased = false
                         print("The user has never purchased \(productId)")
                     }
-
+                    self.updateSubscription(isPurchased: isPurchased)
                 case .error(let error):
                     print("Receipt verification failed: \(error)")
                 }
@@ -305,10 +330,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                         ofType: .autoRenewable, //or .nonRenewing
                         productId: productId,
                         inReceipt: receipt)
-
+                    var isPurchased = false
                     switch purchaseResult {
                     case .purchased(let expiryDate, let items):
-
+                        isPurchased = true
                         let currentdate = Date()
                         if currentdate.isGreaterThan(expiryDate)
                         {
@@ -325,6 +350,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                         
                         //UserDefaults.standard.setValue("1", forKey: PREF_SUBSCRIBE)
                     case .expired(let expiryDate, let items):
+                        isPurchased = false
                         print("\(productId) is expired since \(expiryDate)\n\(items)\n")
                         
                         
@@ -342,8 +368,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                         //UserDefaults.standard.setValue("1", forKey: PREF_SUBSCRIBE)
                         //UserDefaults.standard.removeObject(forKey: PREF_SUBSCRIBE)
                     case .notPurchased:
+                        isPurchased = false
                         print("The user has never purchased \(productId)")
                     }
+                    self.updateSubscription(isPurchased: isPurchased)
 
                 case .error(let error):
                     print("Receipt verification failed: \(error)")
@@ -678,8 +706,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                                 timestamp: dict["feedTime"] as? String,
                                 documentID: dict["feedURL"] as? String,
                                 
-                                link: (dict["link"] as? String)!, guid: (dict["guid"] as? String)!,
-                                time: (dict["time"] as? String)!, description_d: (dict["description_d"] as? String)!
+                                link: (dict["link"] as? String) ?? "", guid: (dict["guid"] as? String) ?? "",
+                                time: (dict["time"] as? String) ?? "", description_d: (dict["description_d"] as? String) ?? ""
                                 
                             )
                             
@@ -785,8 +813,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
             UserDefaults.standard.set(true, forKey: "isLogin")
             
-                let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                let vcSubscri = storyboard.instantiateViewController(withIdentifier: "SubscriptionViewController") as! SubscriptionViewController
+                let storyboard = UIStoryboard(name: "Enhancement", bundle: nil)
+                let vcSubscri = storyboard.instantiateViewController(withIdentifier: "SubsciptionVc") as! SubsciptionVc
                 vcSubscri.modalPresentationStyle = .fullScreen
                 vcSubscri.modalTransitionStyle = .crossDissolve
                 self.window?.rootViewController = vcSubscri
@@ -916,12 +944,16 @@ lazy var persistentContainer: NSPersistentContainer = {
 
 extension AppDelegate : UNUserNotificationCenterDelegate
 {
-      func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void)
-     {
-         print("willPresent notification")
-        completionHandler([.alert, .badge, .sound])
-    }
+//      func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void)
+//     {
+//         print("willPresent notification")
+//        completionHandler([.alert, .badge, .sound])
+//    }
     
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        completionHandler([.alert, .sound, .badge])
+    }
     
       func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void)
      {

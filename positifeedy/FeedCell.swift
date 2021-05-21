@@ -14,12 +14,16 @@ class FeedCell: UITableViewCell {
     @IBOutlet weak var lblTitle : UILabel!
     @IBOutlet weak var lblDesc : UILabel!
     @IBOutlet weak var imgView : UIImageView!
-    
+    @IBOutlet weak var imgminilogo : UIImageView!
+
     
     @IBOutlet weak var lblTime : UILabel!
     @IBOutlet weak var btnBookMark : UIButton!
     
     @IBOutlet weak var btnShare: UIButton!
+    
+    @IBOutlet weak var imgShare : UIImageView!
+    @IBOutlet weak var imgBookmark : UIImageView!
     
     @IBOutlet weak var btnPlay: UIButton!
     

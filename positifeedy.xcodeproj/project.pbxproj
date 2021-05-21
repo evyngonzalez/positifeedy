@@ -20,8 +20,6 @@
 		50066E3C258512720026FE90 /* SetttingScreenVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50066E3B258512720026FE90 /* SetttingScreenVC.swift */; };
 		50066E3F2585145B0026FE90 /* TblSettingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50066E3D2585145B0026FE90 /* TblSettingCell.swift */; };
 		50066E402585145B0026FE90 /* TblSettingCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50066E3E2585145B0026FE90 /* TblSettingCell.xib */; };
-		50126D1525C589EF00E0CCF5 /* TblFeedTextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50126D1325C589EF00E0CCF5 /* TblFeedTextCell.swift */; };
-		50126D1625C589EF00E0CCF5 /* TblFeedTextCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50126D1425C589EF00E0CCF5 /* TblFeedTextCell.xib */; };
 		5021713F2588CCEC0050B0FE /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5021713E2588CCEC0050B0FE /* StoreKit.framework */; };
 		50235B3D25AC8CE600F02DD9 /* PrivacyPolicyScreenVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50235B3C25AC8CE600F02DD9 /* PrivacyPolicyScreenVC.swift */; };
 		502CDCD625824D7F0034AE5F /* SubscriptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502CDCD525824D7F0034AE5F /* SubscriptionViewController.swift */; };
@@ -43,14 +41,30 @@
 		881D22AF251DC476006AE1D8 /* AdsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 881D22AD251DC476006AE1D8 /* AdsTableViewCell.swift */; };
 		881D22B0251DC476006AE1D8 /* AdsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 881D22AE251DC476006AE1D8 /* AdsTableViewCell.xib */; };
 		8838C123251DFA62005FDF45 /* GoogleAdBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8838C122251DFA62005FDF45 /* GoogleAdBannerView.swift */; };
+		8847A7542645412300986C44 /* Alegreya-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8847A74F2645412200986C44 /* Alegreya-SemiBold.ttf */; };
+		8847A7552645412300986C44 /* Alegreya-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8847A7502645412200986C44 /* Alegreya-Bold.ttf */; };
+		8847A7562645412300986C44 /* Alegreya-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8847A7512645412200986C44 /* Alegreya-Medium.ttf */; };
+		8847A7572645412300986C44 /* Alegreya-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8847A7522645412200986C44 /* Alegreya-Italic.ttf */; };
+		8847A7582645412300986C44 /* Alegreya-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8847A7532645412300986C44 /* Alegreya-Regular.ttf */; };
 		884D5A13253710F900259DBE /* JournalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 884D5A12253710F900259DBE /* JournalViewController.swift */; };
 		884D5A162537293200259DBE /* AdsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 884D5A142537293200259DBE /* AdsCollectionViewCell.swift */; };
 		884D5A172537293200259DBE /* AdsCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 884D5A152537293200259DBE /* AdsCollectionViewCell.xib */; };
+		8853780A2654F1CD006ABC59 /* JournalListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 885378092654F1CD006ABC59 /* JournalListCell.swift */; };
+		8853780D26550B5B006ABC59 /* ManifestDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8853780C26550B5B006ABC59 /* ManifestDetailViewController.swift */; };
+		8853781026553809006ABC59 /* StaggesOfMindfullnessVc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8853780F26553809006ABC59 /* StaggesOfMindfullnessVc.swift */; };
 		88592646263C2B9A001A3231 /* AdsTableViewNew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88592644263C2B9A001A3231 /* AdsTableViewNew.swift */; };
 		88592647263C2B9A001A3231 /* AdsTableViewNew.xib in Resources */ = {isa = PBXBuildFile; fileRef = 88592645263C2B9A001A3231 /* AdsTableViewNew.xib */; };
+		885FA040265245E900D760CB /* AddManifestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 885FA03F265245E900D760CB /* AddManifestViewController.swift */; };
+		8860062926464FB60067A81C /* EditProfileVc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8860062426464FB60067A81C /* EditProfileVc.swift */; };
+		8860062A26464FB60067A81C /* MenifestsationprofileVc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8860062526464FB60067A81C /* MenifestsationprofileVc.swift */; };
+		8860062B26464FB60067A81C /* JournalEntriesVc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8860062626464FB60067A81C /* JournalEntriesVc.swift */; };
+		8860062C26464FB60067A81C /* ProfilVc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8860062726464FB60067A81C /* ProfilVc.swift */; };
+		8860062D26464FB60067A81C /* BookMarkVcFor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8860062826464FB60067A81C /* BookMarkVcFor.swift */; };
+		8860066C2646753F0067A81C /* AddJournalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8860066B2646753F0067A81C /* AddJournalViewController.swift */; };
 		8864EB303CD9FFED00E4ED32 /* PresetThemeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8864EB2F3CD9FFED00E4ED32 /* PresetThemeCell.swift */; };
 		8864EB343CD9FFED00E4ED32 /* OwnThemeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8864EB333CD9FFED00E4ED32 /* OwnThemeCell.swift */; };
 		8866384C263A99000088EE13 /* VideoBackgroundURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8866384B263A99000088EE13 /* VideoBackgroundURL.swift */; };
+		887723A82657C81E00A3C019 /* JournalDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 887723A72657C81E00A3C019 /* JournalDetailViewController.swift */; };
 		887C2996251F0F9E009AFA9E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 887C2995251F0F9E009AFA9E /* GoogleService-Info.plist */; };
 		887C2999251F1D8D009AFA9E /* MyTabbarVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 887C2998251F1D8D009AFA9E /* MyTabbarVC.swift */; };
 		887C299E251F6FEE009AFA9E /* SF-Pro-Display-Semibold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 887C299B251F6FEA009AFA9E /* SF-Pro-Display-Semibold.otf */; };
@@ -60,6 +74,7 @@
 		887C29AC251F751E009AFA9E /* UIScrollView+TPKeyboardAvoidingAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 887C29A6251F7513009AFA9E /* UIScrollView+TPKeyboardAvoidingAdditions.m */; };
 		887C29AD251F751E009AFA9E /* TPKeyboardAvoidingScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 887C29A8251F7519009AFA9E /* TPKeyboardAvoidingScrollView.m */; };
 		887C29AE251F751E009AFA9E /* TPKeyboardAvoidingCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 887C29AA251F751E009AFA9E /* TPKeyboardAvoidingCollectionView.m */; };
+		88807E76264E3A0F003E80CC /* SubsciptionVc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88807E75264E3A0F003E80CC /* SubsciptionVc.swift */; };
 		8885D47025493D9E004340CE /* MetadataCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8885D46F25493D9E004340CE /* MetadataCache.swift */; };
 		8885D472254967D4004340CE /* WebViewFeedy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8885D471254967D4004340CE /* WebViewFeedy.swift */; };
 		8885D47E25498882004340CE /* SYPhotoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8885D47825498882004340CE /* SYPhotoViewController.m */; };
@@ -68,12 +83,15 @@
 		8885D48525498F80004340CE /* DALabeledCircularProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8885D48125498F77004340CE /* DALabeledCircularProgressView.m */; };
 		8885D48625498F80004340CE /* DACircularProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8885D48325498F7D004340CE /* DACircularProgressView.m */; };
 		88886A7F253D61DE00998E07 /* TTSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88886A7E253D61DE00998E07 /* TTSegmentedControl.swift */; };
+		888E50A526456FB900B02DBA /* ReflectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 888E50A426456FB900B02DBA /* ReflectionViewController.swift */; };
+		889313B82656874D006384FE /* PresentCategriesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 889313B72656874D006384FE /* PresentCategriesCell.swift */; };
 		889616BF263149CB00758ED5 /* FeedyCellUr.xib in Resources */ = {isa = PBXBuildFile; fileRef = 889616BD263149C600758ED5 /* FeedyCellUr.xib */; };
 		889616C0263149CB00758ED5 /* FeedyCellUr.swift in Sources */ = {isa = PBXBuildFile; fileRef = 889616BE263149CA00758ED5 /* FeedyCellUr.swift */; };
 		889616C526314A5600758ED5 /* viewAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 889616C226314A5500758ED5 /* viewAnimation.swift */; };
 		889616C626314A5600758ED5 /* Gradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 889616C326314A5500758ED5 /* Gradient.swift */; };
 		889616C726314A5600758ED5 /* ImageAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 889616C426314A5500758ED5 /* ImageAnimation.swift */; };
 		889616C926316F2B00758ED5 /* VideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 889616C826316F2B00758ED5 /* VideoViewController.swift */; };
+		88C9D7C5264BE7AC0061D380 /* AlegreyaSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 88C9D7C4264BE7AB0061D380 /* AlegreyaSans-Regular.ttf */; };
 		88D279FD2535AC3000B1DE72 /* FAPaginationLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88D279FC2535AC3000B1DE72 /* FAPaginationLayout.swift */; };
 		88D27A002535ADBA00B1DE72 /* PositifeedyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88D279FE2535ADBA00B1DE72 /* PositifeedyCell.swift */; };
 		88D27A012535ADBA00B1DE72 /* PositifeedyCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 88D279FF2535ADBA00B1DE72 /* PositifeedyCell.xib */; };
@@ -123,8 +141,6 @@
 		50066E3B258512720026FE90 /* SetttingScreenVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetttingScreenVC.swift; sourceTree = "<group>"; };
 		50066E3D2585145B0026FE90 /* TblSettingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TblSettingCell.swift; sourceTree = "<group>"; };
 		50066E3E2585145B0026FE90 /* TblSettingCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TblSettingCell.xib; sourceTree = "<group>"; };
-		50126D1325C589EF00E0CCF5 /* TblFeedTextCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TblFeedTextCell.swift; sourceTree = "<group>"; };
-		50126D1425C589EF00E0CCF5 /* TblFeedTextCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TblFeedTextCell.xib; sourceTree = "<group>"; };
 		5021713E2588CCEC0050B0FE /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		50235B3C25AC8CE600F02DD9 /* PrivacyPolicyScreenVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyPolicyScreenVC.swift; sourceTree = "<group>"; };
 		502CDCD525824D7F0034AE5F /* SubscriptionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionViewController.swift; sourceTree = "<group>"; };
@@ -147,14 +163,30 @@
 		881D22AE251DC476006AE1D8 /* AdsTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AdsTableViewCell.xib; sourceTree = "<group>"; };
 		881D22B1251DCD61006AE1D8 /* positifeedy.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = positifeedy.entitlements; sourceTree = "<group>"; };
 		8838C122251DFA62005FDF45 /* GoogleAdBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleAdBannerView.swift; sourceTree = "<group>"; };
+		8847A74F2645412200986C44 /* Alegreya-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Alegreya-SemiBold.ttf"; sourceTree = "<group>"; };
+		8847A7502645412200986C44 /* Alegreya-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Alegreya-Bold.ttf"; sourceTree = "<group>"; };
+		8847A7512645412200986C44 /* Alegreya-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Alegreya-Medium.ttf"; sourceTree = "<group>"; };
+		8847A7522645412200986C44 /* Alegreya-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Alegreya-Italic.ttf"; sourceTree = "<group>"; };
+		8847A7532645412300986C44 /* Alegreya-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Alegreya-Regular.ttf"; sourceTree = "<group>"; };
 		884D5A12253710F900259DBE /* JournalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalViewController.swift; sourceTree = "<group>"; };
 		884D5A142537293200259DBE /* AdsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdsCollectionViewCell.swift; sourceTree = "<group>"; };
 		884D5A152537293200259DBE /* AdsCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AdsCollectionViewCell.xib; sourceTree = "<group>"; };
+		885378092654F1CD006ABC59 /* JournalListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalListCell.swift; sourceTree = "<group>"; };
+		8853780C26550B5B006ABC59 /* ManifestDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManifestDetailViewController.swift; sourceTree = "<group>"; };
+		8853780F26553809006ABC59 /* StaggesOfMindfullnessVc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StaggesOfMindfullnessVc.swift; sourceTree = "<group>"; };
 		88592644263C2B9A001A3231 /* AdsTableViewNew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdsTableViewNew.swift; sourceTree = "<group>"; };
 		88592645263C2B9A001A3231 /* AdsTableViewNew.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AdsTableViewNew.xib; sourceTree = "<group>"; };
+		885FA03F265245E900D760CB /* AddManifestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddManifestViewController.swift; sourceTree = "<group>"; };
+		8860062426464FB60067A81C /* EditProfileVc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditProfileVc.swift; sourceTree = "<group>"; };
+		8860062526464FB60067A81C /* MenifestsationprofileVc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenifestsationprofileVc.swift; sourceTree = "<group>"; };
+		8860062626464FB60067A81C /* JournalEntriesVc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JournalEntriesVc.swift; sourceTree = "<group>"; };
+		8860062726464FB60067A81C /* ProfilVc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfilVc.swift; sourceTree = "<group>"; };
+		8860062826464FB60067A81C /* BookMarkVcFor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookMarkVcFor.swift; sourceTree = "<group>"; };
+		8860066B2646753F0067A81C /* AddJournalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddJournalViewController.swift; sourceTree = "<group>"; };
 		8864EB2F3CD9FFED00E4ED32 /* PresetThemeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresetThemeCell.swift; sourceTree = "<group>"; };
 		8864EB333CD9FFED00E4ED32 /* OwnThemeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnThemeCell.swift; sourceTree = "<group>"; };
 		8866384B263A99000088EE13 /* VideoBackgroundURL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoBackgroundURL.swift; sourceTree = "<group>"; };
+		887723A72657C81E00A3C019 /* JournalDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JournalDetailViewController.swift; sourceTree = "<group>"; };
 		887C2995251F0F9E009AFA9E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		887C2998251F1D8D009AFA9E /* MyTabbarVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyTabbarVC.swift; sourceTree = "<group>"; };
 		887C299B251F6FEA009AFA9E /* SF-Pro-Display-Semibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Display-Semibold.otf"; sourceTree = "<group>"; };
@@ -169,6 +201,7 @@
 		887C29A8251F7519009AFA9E /* TPKeyboardAvoidingScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPKeyboardAvoidingScrollView.m; sourceTree = "<group>"; };
 		887C29A9251F751B009AFA9E /* TPKeyboardAvoidingScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPKeyboardAvoidingScrollView.h; sourceTree = "<group>"; };
 		887C29AA251F751E009AFA9E /* TPKeyboardAvoidingCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPKeyboardAvoidingCollectionView.m; sourceTree = "<group>"; };
+		88807E75264E3A0F003E80CC /* SubsciptionVc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubsciptionVc.swift; sourceTree = "<group>"; };
 		8885D46F25493D9E004340CE /* MetadataCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MetadataCache.swift; sourceTree = "<group>"; };
 		8885D471254967D4004340CE /* WebViewFeedy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewFeedy.swift; sourceTree = "<group>"; };
 		8885D47825498882004340CE /* SYPhotoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYPhotoViewController.m; sourceTree = "<group>"; };
@@ -182,12 +215,15 @@
 		8885D48325498F7D004340CE /* DACircularProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DACircularProgressView.m; sourceTree = "<group>"; };
 		8885D48425498F80004340CE /* DACircularProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DACircularProgressView.h; sourceTree = "<group>"; };
 		88886A7E253D61DE00998E07 /* TTSegmentedControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TTSegmentedControl.swift; sourceTree = "<group>"; };
+		888E50A426456FB900B02DBA /* ReflectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReflectionViewController.swift; sourceTree = "<group>"; };
+		889313B72656874D006384FE /* PresentCategriesCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PresentCategriesCell.swift; sourceTree = "<group>"; };
 		889616BD263149C600758ED5 /* FeedyCellUr.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FeedyCellUr.xib; sourceTree = "<group>"; };
 		889616BE263149CA00758ED5 /* FeedyCellUr.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedyCellUr.swift; sourceTree = "<group>"; };
 		889616C226314A5500758ED5 /* viewAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = viewAnimation.swift; sourceTree = "<group>"; };
 		889616C326314A5500758ED5 /* Gradient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Gradient.swift; sourceTree = "<group>"; };
 		889616C426314A5500758ED5 /* ImageAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageAnimation.swift; sourceTree = "<group>"; };
 		889616C826316F2B00758ED5 /* VideoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoViewController.swift; sourceTree = "<group>"; };
+		88C9D7C4264BE7AB0061D380 /* AlegreyaSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AlegreyaSans-Regular.ttf"; sourceTree = "<group>"; };
 		88D279FC2535AC3000B1DE72 /* FAPaginationLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FAPaginationLayout.swift; sourceTree = "<group>"; };
 		88D279FE2535ADBA00B1DE72 /* PositifeedyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PositifeedyCell.swift; sourceTree = "<group>"; };
 		88D279FF2535ADBA00B1DE72 /* PositifeedyCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PositifeedyCell.xib; sourceTree = "<group>"; };
@@ -278,11 +314,7 @@
 		40CF1B4E250BC432003B3B82 /* positifeedy */ = {
 			isa = PBXGroup;
 			children = (
-<<<<<<< Updated upstream
-				50126D1225C589D000E0CCF5 /* New Group */,
-=======
 				88FBFD0B26304240008E8DD5 /* Enhancement */,
->>>>>>> Stashed changes
 				5057A18C25ADF63D002255CB /* splash.mov */,
 				5057A17F25ADB7EB002255CB /* TermsAndPrivacy */,
 				502D47902583B7DC0051F512 /* TableViewCell */,
@@ -306,8 +338,6 @@
 				880B12EC2543EE9900C08169 /* PostDetailViewController.swift */,
 				88D279FE2535ADBA00B1DE72 /* PositifeedyCell.swift */,
 				88D279FF2535ADBA00B1DE72 /* PositifeedyCell.xib */,
-				50126D1325C589EF00E0CCF5 /* TblFeedTextCell.swift */,
-				50126D1425C589EF00E0CCF5 /* TblFeedTextCell.xib */,
 				88E1F3D0251C91A60086E650 /* FeedCell.swift */,
 				88E1F416251CBD260086E650 /* FeedCell.xib */,
 				88EE3EBE254848C300E87380 /* FeedyCell.swift */,
@@ -341,13 +371,6 @@
 			path = positifeedy;
 			sourceTree = "<group>";
 		};
-		50126D1225C589D000E0CCF5 /* New Group */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = "New Group";
-			sourceTree = "<group>";
-		};
 		502D47902583B7DC0051F512 /* TableViewCell */ = {
 			isa = PBXGroup;
 			children = (
@@ -371,8 +394,10 @@
 		8864EB2E3CD9FFED00E4ED32 /* Cell */ = {
 			isa = PBXGroup;
 			children = (
+				889313B72656874D006384FE /* PresentCategriesCell.swift */,
 				8864EB2F3CD9FFED00E4ED32 /* PresetThemeCell.swift */,
 				8864EB333CD9FFED00E4ED32 /* OwnThemeCell.swift */,
+				885378092654F1CD006ABC59 /* JournalListCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -388,6 +413,12 @@
 		887C299A251F6FDA009AFA9E /* Font */ = {
 			isa = PBXGroup;
 			children = (
+				88C9D7C4264BE7AB0061D380 /* AlegreyaSans-Regular.ttf */,
+				8847A7502645412200986C44 /* Alegreya-Bold.ttf */,
+				8847A7522645412200986C44 /* Alegreya-Italic.ttf */,
+				8847A7512645412200986C44 /* Alegreya-Medium.ttf */,
+				8847A7532645412300986C44 /* Alegreya-Regular.ttf */,
+				8847A74F2645412200986C44 /* Alegreya-SemiBold.ttf */,
 				887C299C251F6FEC009AFA9E /* SF-Pro-Display-Medium.otf */,
 				887C299D251F6FEE009AFA9E /* SF-Pro-Display-Regular.otf */,
 				887C299B251F6FEA009AFA9E /* SF-Pro-Display-Semibold.otf */,
@@ -480,12 +511,24 @@
 		88F820642631489C005889A2 /* ViewController  */ = {
 			isa = PBXGroup;
 			children = (
+				887723A72657C81E00A3C019 /* JournalDetailViewController.swift */,
+				8853780F26553809006ABC59 /* StaggesOfMindfullnessVc.swift */,
+				88807E75264E3A0F003E80CC /* SubsciptionVc.swift */,
+				8860062826464FB60067A81C /* BookMarkVcFor.swift */,
+				8860062426464FB60067A81C /* EditProfileVc.swift */,
+				8860062626464FB60067A81C /* JournalEntriesVc.swift */,
+				8860062526464FB60067A81C /* MenifestsationprofileVc.swift */,
+				8860062726464FB60067A81C /* ProfilVc.swift */,
 				88F8206226313700005889A2 /* NewsArticalScreenViewController.swift */,
 				889616C826316F2B00758ED5 /* VideoViewController.swift */,
 				889616BE263149CA00758ED5 /* FeedyCellUr.swift */,
 				889616BD263149C600758ED5 /* FeedyCellUr.xib */,
 				88FB22CB2633FAA100DB697F /* chengethemeViewController.swift */,
 				88FB22CD2633FAB300DB697F /* categoriesViewController.swift */,
+				888E50A426456FB900B02DBA /* ReflectionViewController.swift */,
+				8860066B2646753F0067A81C /* AddJournalViewController.swift */,
+				885FA03F265245E900D760CB /* AddManifestViewController.swift */,
+				8853780C26550B5B006ABC59 /* ManifestDetailViewController.swift */,
 			);
 			path = "ViewController ";
 			sourceTree = "<group>";
@@ -565,15 +608,20 @@
 				88E1F3E5251C960E0086E650 /* blunt-therapy.jpg in Resources */,
 				88E1F3E9251C960E0086E650 /* mrsmindfulness.jpg in Resources */,
 				88E1F3E4251C960E0086E650 /* thetreamentspecialist.png in Resources */,
+				8847A7562645412300986C44 /* Alegreya-Medium.ttf in Resources */,
+				8847A7542645412300986C44 /* Alegreya-SemiBold.ttf in Resources */,
 				887C299E251F6FEE009AFA9E /* SF-Pro-Display-Semibold.otf in Resources */,
 				887C299F251F6FEE009AFA9E /* SF-Pro-Display-Medium.otf in Resources */,
 				50066E402585145B0026FE90 /* TblSettingCell.xib in Resources */,
+				8847A7582645412300986C44 /* Alegreya-Regular.ttf in Resources */,
 				88E1F3E8251C960E0086E650 /* psychologytoday.png in Resources */,
 				5057A18D25ADF63D002255CB /* splash.mov in Resources */,
 				887C2996251F0F9E009AFA9E /* GoogleService-Info.plist in Resources */,
 				88592647263C2B9A001A3231 /* AdsTableViewNew.xib in Resources */,
+				8847A7572645412300986C44 /* Alegreya-Italic.ttf in Resources */,
 				502D47942583B7F90051F512 /* tblJournalCell.xib in Resources */,
 				88E1F3E2251C960E0086E650 /* mindful.png in Resources */,
+				8847A7552645412300986C44 /* Alegreya-Bold.ttf in Resources */,
 				88FBFD0D2630425E008E8DD5 /* Enhancement.storyboard in Resources */,
 				40CF1B5C250BC434003B3B82 /* LaunchScreen.storyboard in Resources */,
 				5057A18925ADB838002255CB /* terms_doc.pdf in Resources */,
@@ -591,8 +639,8 @@
 				5057A18825ADB838002255CB /* privacy_doc.pdf in Resources */,
 				40CF1B57250BC432003B3B82 /* Main.storyboard in Resources */,
 				881D22B0251DC476006AE1D8 /* AdsTableViewCell.xib in Resources */,
+				88C9D7C5264BE7AC0061D380 /* AlegreyaSans-Regular.ttf in Resources */,
 				88D27A012535ADBA00B1DE72 /* PositifeedyCell.xib in Resources */,
-				50126D1625C589EF00E0CCF5 /* TblFeedTextCell.xib in Resources */,
 				887C29A0251F6FEE009AFA9E /* SF-Pro-Display-Regular.otf in Resources */,
 				88E1F3E7251C960E0086E650 /* natashatracy.jpg in Resources */,
 			);
@@ -671,20 +719,29 @@
 				887C29AB251F751E009AFA9E /* TPKeyboardAvoidingTableView.m in Sources */,
 				88E1F3F1251CB1350086E650 /* positifeedy.xcdatamodeld in Sources */,
 				884D5A162537293200259DBE /* AdsCollectionViewCell.swift in Sources */,
+				8860062A26464FB60067A81C /* MenifestsationprofileVc.swift in Sources */,
 				502CDCD625824D7F0034AE5F /* SubscriptionViewController.swift in Sources */,
 				50066E3F2585145B0026FE90 /* TblSettingCell.swift in Sources */,
+				8860062D26464FB60067A81C /* BookMarkVcFor.swift in Sources */,
+				887723A82657C81E00A3C019 /* JournalDetailViewController.swift in Sources */,
+				8860066C2646753F0067A81C /* AddJournalViewController.swift in Sources */,
+				8853781026553809006ABC59 /* StaggesOfMindfullnessVc.swift in Sources */,
 				889616C926316F2B00758ED5 /* VideoViewController.swift in Sources */,
 				88E1F3D1251C91A60086E650 /* FeedCell.swift in Sources */,
 				50913DB9258A45F300878FD3 /* GreetingViewController.swift in Sources */,
 				88E1F3CF251C7E610086E650 /* Feed.swift in Sources */,
 				889616C526314A5600758ED5 /* viewAnimation.swift in Sources */,
+				889313B82656874D006384FE /* PresentCategriesCell.swift in Sources */,
+				8860062B26464FB60067A81C /* JournalEntriesVc.swift in Sources */,
 				40CF1B6E250C9039003B3B82 /* welcomeViewController.swift in Sources */,
 				8864EB303CD9FFED00E4ED32 /* PresetThemeCell.swift in Sources */,
 				889616C0263149CB00758ED5 /* FeedyCellUr.swift in Sources */,
+				888E50A526456FB900B02DBA /* ReflectionViewController.swift in Sources */,
 				88EE3EC0254848C300E87380 /* FeedyCell.swift in Sources */,
 				502D47962583BD1D0051F512 /* AnswerDetailsVC.swift in Sources */,
 				887C2999251F1D8D009AFA9E /* MyTabbarVC.swift in Sources */,
 				88E1F3EE251CA5A40086E650 /* WebViewVC.swift in Sources */,
+				8860062926464FB60067A81C /* EditProfileVc.swift in Sources */,
 				40CF1B50250BC432003B3B82 /* AppDelegate.swift in Sources */,
 				8885D48525498F80004340CE /* DALabeledCircularProgressView.m in Sources */,
 				887C29AE251F751E009AFA9E /* TPKeyboardAvoidingCollectionView.m in Sources */,
@@ -697,6 +754,7 @@
 				884D5A13253710F900259DBE /* JournalViewController.swift in Sources */,
 				50066E3C258512720026FE90 /* SetttingScreenVC.swift in Sources */,
 				88FB22CE2633FAB300DB697F /* categoriesViewController.swift in Sources */,
+				885FA040265245E900D760CB /* AddManifestViewController.swift in Sources */,
 				8885D48025498882004340CE /* SYPhotoBrowser.m in Sources */,
 				40CF1B66250C8F15003B3B82 /* signUpViewController.swift in Sources */,
 				8838C123251DFA62005FDF45 /* GoogleAdBannerView.swift in Sources */,
@@ -705,20 +763,20 @@
 				887C29AD251F751E009AFA9E /* TPKeyboardAvoidingScrollView.m in Sources */,
 				88FB22CC2633FAA100DB697F /* chengethemeViewController.swift in Sources */,
 				502D478F25839F8B0051F512 /* AnswerOfQuestionVC.swift in Sources */,
+				8860062C26464FB60067A81C /* ProfilVc.swift in Sources */,
 				40CF1B68250C8F24003B3B82 /* logInViewController.swift in Sources */,
 				88D279FD2535AC3000B1DE72 /* FAPaginationLayout.swift in Sources */,
 				8885D472254967D4004340CE /* WebViewFeedy.swift in Sources */,
 				880B12ED2543EE9900C08169 /* PostDetailViewController.swift in Sources */,
+				8853780D26550B5B006ABC59 /* ManifestDetailViewController.swift in Sources */,
 				8885D47E25498882004340CE /* SYPhotoViewController.m in Sources */,
 				8885D48625498F80004340CE /* DACircularProgressView.m in Sources */,
 				505AE183258792A900DD7079 /* TermsNConditionVC.swift in Sources */,
 				40CF1B6A250C8F39003B3B82 /* Constants.swift in Sources */,
+				8853780A2654F1CD006ABC59 /* JournalListCell.swift in Sources */,
 				8885D47025493D9E004340CE /* MetadataCache.swift in Sources */,
-<<<<<<< Updated upstream
-				50126D1525C589EF00E0CCF5 /* TblFeedTextCell.swift in Sources */,
-=======
 				8866384C263A99000088EE13 /* VideoBackgroundURL.swift in Sources */,
->>>>>>> Stashed changes
+				88807E76264E3A0F003E80CC /* SubsciptionVc.swift in Sources */,
 				50955B3B258B83F900B84DD6 /* GreetingViewControllerProfile.swift in Sources */,
 				50235B3D25AC8CE600F02DD9 /* PrivacyPolicyScreenVC.swift in Sources */,
 				88592646263C2B9A001A3231 /* AdsTableViewNew.swift in Sources */,
@@ -884,8 +942,6 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0.1;
-<<<<<<< Updated upstream
-=======
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -1052,7 +1108,6 @@
 					"-weak_framework",
 					"\"WebKit\"",
 				);
->>>>>>> Stashed changes
 				PRODUCT_BUNDLE_IDENTIFIER = com.staypos.StayPositive;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = staypos_dev;
@@ -1082,8 +1137,6 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0.1;
-<<<<<<< Updated upstream
-=======
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -1250,7 +1303,6 @@
 					"-weak_framework",
 					"\"WebKit\"",
 				);
->>>>>>> Stashed changes
 				PRODUCT_BUNDLE_IDENTIFIER = com.staypos.StayPositive;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = staypos_dev;

@@ -20,6 +20,7 @@ import FTPopOverMenu_Swift
 import Alamofire
 import EMPageViewController
 import SVProgressHUD
+import DLLocalNotifications
 
 class BookMarkVc: UIViewController,EMPageViewControllerDataSource, EMPageViewControllerDelegate
 {
@@ -386,6 +387,9 @@ class BookMarkVc: UIViewController,EMPageViewControllerDataSource, EMPageViewCon
                 
                 UserDefaults.standard.set(false, forKey: "isLogin")
                 
+                let scheduler = DLNotificationScheduler()
+                scheduler.cancelAlllNotifications()
+
                 let loginVC = self.storyboard?.instantiateViewController(withIdentifier: "logInViewController") as! logInViewController
                 
                 
@@ -1043,7 +1047,8 @@ extension BookMarkVc : UITableViewDataSource
                 cell.lblDesc.text = feed.desc
                 cell.lblTime.text  = date!.getElapsedInterval((feed.time?.getTimeZone())!)
                 
-                cell.btnBookMark.setImage(UIImage(named: "cancel"), for: .normal)
+//                cell.btnBookMark.setImage(UIImage(named: "cancel"), for: .normal)
+                cell.imgBookmark.image = UIImage(named: "unsave_ic")
                         
                 cell.btnBookMark.tag = indexPath.row
                 cell.btnBookMark.addTarget(self, action: #selector(btnBookMarkRemoveClick), for: .touchUpInside)

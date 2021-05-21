@@ -590,7 +590,7 @@ class signUpViewController: UIViewController, GIDSignInDelegate,ASAuthorizationC
         
         db = Firestore.firestore()
         
-        db.collection("userNew").whereField("uid", isEqualTo: uid).getDocuments { (snap, error) in
+        db.collection("users").whereField("uid", isEqualTo: uid).getDocuments { (snap, error) in
             
             if error != nil
             {
@@ -604,7 +604,7 @@ class signUpViewController: UIViewController, GIDSignInDelegate,ASAuthorizationC
                 if snap!.documents.count > 0 {
                     
                     let data = ["firstname":firstName, "lastname":lastName, "uid": uid]
-                    db.collection("userNew").document(snap!.documents[0].documentID).updateData(data) { (error) in
+                    db.collection("users").document(snap!.documents[0].documentID).updateData(data) { (error) in
                         
                         SVProgressHUD.dismiss()
                         if error != nil
@@ -630,7 +630,7 @@ class signUpViewController: UIViewController, GIDSignInDelegate,ASAuthorizationC
         // User was created successfully, now store the first name and last name
         let db = Firestore.firestore()
         
-        db.collection("userNew").addDocument(data: ["firstname":firstName, "lastname":lastName, "uid": uid]) { (error) in
+        db.collection("users").addDocument(data: ["firstname":firstName, "lastname":lastName, "uid": uid]) { (error) in
             
             SVProgressHUD.dismiss()
             

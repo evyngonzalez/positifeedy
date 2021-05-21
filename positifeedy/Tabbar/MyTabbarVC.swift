@@ -14,18 +14,22 @@ class MyTabbarVC: UITabBarController,  UITabBarControllerDelegate {
         super.viewDidLoad()
 
         delegate = self
-        tabBar.tintColor = .green
         
+        let green = colorWithHexString(hexString: "#2FD88E")
+        let grey = colorWithHexString(hexString: "#263238")
+        tabBar.tintColor = green
+        tabBar.unselectedItemTintColor = grey
+
         tabBarItem.setTitleTextAttributes([NSAttributedString.Key.font : UIFont(name: "Avenir", size: 12) as Any], for: .normal)
-        
+                
     }
-    
     
     override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
-        
-        
-        
+        if item == (self.tabBar.items as! [UITabBarItem])[3]{
+            
+        }
     }
+    
     
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
         
