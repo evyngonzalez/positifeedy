@@ -348,7 +348,7 @@ class JournalDetailViewController: UIViewController,UITextViewDelegate,AVAudioRe
                     print("Question List :\(self.arrQuestionList)")
                    if self.arrQuestionList.count > 0
                    {
-                        let currentInx = UserDefaults.standard.object(forKey: PREF_DAILY_QUESTION_COUNT) as? Int
+                        let currentInx = UserDefaults.standard.object(forKey: PREF_DAILY_QUESTION_COUNT) as? Int ?? 0
                         if currentInx != nil
                         {
                             if currentInx == 0
@@ -394,7 +394,7 @@ class JournalDetailViewController: UIViewController,UITextViewDelegate,AVAudioRe
                             else
                             {
                                  // question
-                                                            let questionItem = self.arrQuestionList[currentInx!]
+                                                            let questionItem = self.arrQuestionList[currentInx]
                                                             self.lblQuestion.text = questionItem.question
                                                             
                                                             // current date with suffix :

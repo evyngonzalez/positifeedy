@@ -19,6 +19,9 @@ class ReflectionViewController: UIViewController {
     @IBOutlet weak var viewManifest: UIView!
     
     @IBOutlet weak var viewLockManifest: UIView!
+
+    @IBOutlet weak var lblJournalTitle: UILabel!
+    @IBOutlet weak var lblManifestTitle: UILabel!
     
     @IBOutlet weak var btnJournal: UIView!
     @IBOutlet weak var btnManifest: UIView!
@@ -49,13 +52,14 @@ class ReflectionViewController: UIViewController {
         viewManifest.layer.cornerRadius = radius
         
         updateLockView()
-        setQuestionDetails()
-        getNotificationQuote()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         self.tabBarController?.tabBar.isHidden = false
         getProfileData()
+        getNotificationQuote()
+        setQuestionDetails()
+
     }
     
     func updateLockView() {
@@ -95,7 +99,6 @@ class ReflectionViewController: UIViewController {
                     let obj = try jsonDecoder.decode([QuestionListItem].self, from: jsonData)
                     self.arrQuestionList = obj
                     
-                    
 //                    self.arrQuestionList = obj.sorted(by: { (feed1, feed2) -> Bool in
 //                        let date1 = Date(timeIntervalSince1970: Double(feed1.timestamp ?? "\(Date().timeIntervalSince1970)")!)
 //                        let date2 = Date(timeIntervalSince1970: Double(feed2.timestamp ?? "\(Date().timeIntervalSince1970)")!)
@@ -109,7 +112,7 @@ class ReflectionViewController: UIViewController {
                 print("Question List :\(self.arrQuestionList)")
                if self.arrQuestionList.count > 0
                {
-                    let currentInx = UserDefaults.standard.object(forKey: PREF_DAILY_QUESTION_COUNT) as? Int
+                    let currentInx = UserDefaults.standard.object(forKey: PREF_DAILY_QUESTION_COUNT) as? Int ?? 0
                     if currentInx != nil
                     {
                         if currentInx == 0
@@ -118,7 +121,6 @@ class ReflectionViewController: UIViewController {
                             let questionItem = self.arrQuestionList[0]
                             let newQuestionItem = self.arrQuestionList[1]
 
-                            
                             //self.lblQuestion.text = questionItem.question
                             
                             // current date with suffix :
@@ -128,6 +130,9 @@ class ReflectionViewController: UIViewController {
                             let dateString = dateFormatter.string(from: date)
                             //self.lbldate.text = String.init(format: "%@%@", dateString,self.daySuffix(from: date))
                             
+                            if let strQuestion = (questionItem.question){
+                                self.lblJournalTitle.text = strQuestion
+                            }
                             
                             // image :
                             if let strURL = (questionItem.link)
@@ -160,7 +165,7 @@ class ReflectionViewController: UIViewController {
                         else
                         {
                              // question
-                            let questionItem = self.arrQuestionList[currentInx!]
+                            let questionItem = self.arrQuestionList[currentInx]
                             //self.lblQuestion.text = questionItem.question
                             
                             // current date with suffix :
@@ -170,11 +175,11 @@ class ReflectionViewController: UIViewController {
                             let dateString = dateFormatter.string(from: date)
                             //self.lbldate.text = String.init(format: "%@%@", dateString,self.daySuffix(from: date))
                             
-                            var newIndex = currentInx!
+                            var newIndex = currentInx
                             repeat{
                                 newIndex -= 1
                                 if(newIndex < 0){
-                                    newIndex = currentInx! + 1
+                                    newIndex = currentInx + 1
                                 }
                                 if(newIndex > self.arrQuestionList.count){
                                     newIndex = 0
@@ -182,6 +187,10 @@ class ReflectionViewController: UIViewController {
                             }while(newIndex == currentInx && newIndex < self.arrQuestionList.count)
                             let newQuestionItem = self.arrQuestionList[newIndex]
 
+                            if let strQuestion = (questionItem.question){
+                                self.lblJournalTitle.text = strQuestion
+                            }
+                            
                             // image :
                             if let strURL = (questionItem.link)
                                {
@@ -320,9 +329,37 @@ class ReflectionViewController: UIViewController {
                             self.updateLockView()
                         }
                         
+                        
+                        let arr = d["ManifestEntry"] as? NSArray
+                        var arrMyManifestEntry = NSMutableArray()
+                        if arr != nil
+                        {
+                            if arr!.count > 0
+                            {
+                                arrMyManifestEntry = NSMutableArray.init(array: arr!)
+                                for i in (0..<arrMyManifestEntry.count)
+                                {
+                                    let dict = arrMyManifestEntry.object(at: i) as? NSDictionary
+                                    var IsEditingOn = true
+                                    if dict?.object(forKey: "isActive") != nil{
+                                        let active = dict?.value(forKey: "isActive") as? Bool ?? false
+                                        IsEditingOn = active
+                                    }else{
+                                        IsEditingOn = false
+                                    }
+                                    
+                                    if(IsEditingOn){
+                                        if ((dict?.value(forKey: "answer") as? String) != nil)
+                                        {
+                                            self.lblManifestTitle.text = String.init(format: "%@",(dict?.value(forKey: "answer") as? CVarArg)!)
+                                        }
+                                        break
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
-                
             }
         }
     }
@@ -341,11 +378,13 @@ class ReflectionViewController: UIViewController {
     
     @IBAction func btnDailyJornalClicked(_ sender: Any) {
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "AddJournalViewController") as! AddJournalViewController
+        vc.IsSubscripted = IsSubscription
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
     @IBAction func btnManifestationClicked(_ sender: Any) {
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "AddManifestViewController") as! AddManifestViewController
+        vc.IsSubscripted = IsSubscription
         self.navigationController?.pushViewController(vc, animated: true)
     }
 }

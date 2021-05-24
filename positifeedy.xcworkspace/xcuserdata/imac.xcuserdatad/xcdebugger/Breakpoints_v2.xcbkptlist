@@ -7,38 +7,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "908A617B-7814-4495-BA5A-78C7F7C6F360"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "positifeedy/Enhancement/ViewController /ReflectionViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "196"
-            endingLineNumber = "196"
-            landmarkName = "setQuestionDetails()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "AF05BC7F-8DEE-4275-A672-390520BDD4BD"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "positifeedy/Enhancement/ViewController /ReflectionViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "142"
-            endingLineNumber = "142"
-            landmarkName = "setQuestionDetails()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "E7AA9A83-F1E4-485A-B198-CFEB8FBA9B29"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
@@ -52,14 +20,14 @@
             landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "E7AA9A83-F1E4-485A-B198-CFEB8FBA9B29 - 7add9970fb7b73ab"
+                  uuid = "E7AA9A83-F1E4-485A-B198-CFEB8FBA9B29 - 998126f80bb0e2ef"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "closure #1 (SwiftyStoreKit.PurchaseResult) -&gt; () in positifeedy.SubsciptionVc.startInAppPurchase(strType: Swift.String) -&gt; ()"
                   moduleName = "positifeedy"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Volumes/DATA/Dinal/iOS/GitHub/Positifeedy/positifeedy/positifeedy/Enhancement/ViewController%20/SubsciptionVc.swift"
+                  urlString = "file:///Volumes/DATA/Dinal/iOS/GitHub/PositifeedyDinalJivani/Untitled/positifeedy/Enhancement/ViewController%20/SubsciptionVc.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "68"
@@ -67,14 +35,14 @@
                   offsetFromSymbolStart = "180">
                </Location>
                <Location
-                  uuid = "E7AA9A83-F1E4-485A-B198-CFEB8FBA9B29 - 7add9970fb7b73ab"
+                  uuid = "E7AA9A83-F1E4-485A-B198-CFEB8FBA9B29 - 998126f80bb0e2ef"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "closure #1 (SwiftyStoreKit.PurchaseResult) -&gt; () in positifeedy.SubsciptionVc.startInAppPurchase(strType: Swift.String) -&gt; ()"
                   moduleName = "positifeedy"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Volumes/DATA/Dinal/iOS/GitHub/Positifeedy/positifeedy/positifeedy/Enhancement/ViewController%20/SubsciptionVc.swift"
+                  urlString = "file:///Volumes/DATA/Dinal/iOS/GitHub/PositifeedyDinalJivani/Untitled/positifeedy/Enhancement/ViewController%20/SubsciptionVc.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "68"
@@ -87,22 +55,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "7BE2B706-E813-4F94-986E-6AE64D16A05C"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "positifeedy/Enhancement/ViewController /NewsArticalScreenViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "178"
-            endingLineNumber = "178"
-            landmarkName = "btnThemeClicked(_:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "369C223D-BDF0-48A8-ADB9-B28F2070E334"
             shouldBeEnabled = "No"
             ignoreCount = "0"
@@ -110,8 +62,8 @@
             filePath = "positifeedy/Enhancement/ViewController /NewsArticalScreenViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "547"
-            endingLineNumber = "547"
+            startingLineNumber = "572"
+            endingLineNumber = "572"
             landmarkName = "getProfileData()"
             landmarkType = "7">
          </BreakpointContent>
@@ -119,97 +71,129 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "6DBA8E5D-F03F-4208-A684-9019F69DA1DB"
+            uuid = "A52A867F-C6BF-4A1C-96D4-3903822D5FBC"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "positifeedy/AppDelegate.swift"
+            filePath = "positifeedy/Enhancement/ViewController /ReflectionViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "272"
-            endingLineNumber = "272"
-            landmarkName = "checkIfPurchaed()"
+            startingLineNumber = "116"
+            endingLineNumber = "116"
+            landmarkName = "setQuestionDetails()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "0C9B8982-6EB7-45FA-9771-E68D55BCFDDE"
+            uuid = "29AE3FFC-C511-4DAC-AC47-7E87D94E33F2"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "positifeedy/AppDelegate.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "294"
-            endingLineNumber = "294"
-            landmarkName = "checkIfPurchaed()"
+            startingLineNumber = "149"
+            endingLineNumber = "149"
+            landmarkName = "application(_:didFinishLaunchingWithOptions:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "A4321197-B23F-4397-BBC6-2EFBB236F876"
+            uuid = "82D4A329-B8F4-4E57-8E66-D7D426A9CAA2"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "positifeedy/AppDelegate.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "325"
-            endingLineNumber = "325"
-            landmarkName = "checkIfPurchaed()"
+            startingLineNumber = "178"
+            endingLineNumber = "178"
+            landmarkName = "application(_:didFinishLaunchingWithOptions:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "835A0AC8-2239-4089-A3DF-2C8AB3009752"
+            uuid = "3F80D974-7D86-4C0C-811B-3F4D9C21CC3B"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "positifeedy/AppDelegate.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "281"
-            endingLineNumber = "281"
-            landmarkName = "checkIfPurchaed()"
+            startingLineNumber = "196"
+            endingLineNumber = "196"
+            landmarkName = "application(_:didFinishLaunchingWithOptions:)"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "835A0AC8-2239-4089-A3DF-2C8AB3009752 - 754b6fa01e2a1621"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (SwiftyStoreKit.VerifyReceiptResult) -&gt; () in positifeedy.AppDelegate.checkIfPurchaed() -&gt; ()"
-                  moduleName = "positifeedy"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Volumes/DATA/Dinal/iOS/GitHub/Positifeedy/positifeedy/positifeedy/AppDelegate.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "283"
-                  endingLineNumber = "283"
-                  offsetFromSymbolStart = "1892">
-               </Location>
-               <Location
-                  uuid = "835A0AC8-2239-4089-A3DF-2C8AB3009752 - 754b6fa01e2a1621"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (SwiftyStoreKit.VerifyReceiptResult) -&gt; () in positifeedy.AppDelegate.checkIfPurchaed() -&gt; ()"
-                  moduleName = "positifeedy"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Volumes/DATA/Dinal/iOS/GitHub/Positifeedy/positifeedy/positifeedy/AppDelegate.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "283"
-                  endingLineNumber = "283"
-                  offsetFromSymbolStart = "1916">
-               </Location>
-            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "623ECD1D-6D27-4FFE-A7C4-0C474E376333"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "positifeedy/Enhancement/ViewController /ReflectionViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "133"
+            endingLineNumber = "133"
+            landmarkName = "setQuestionDetails()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "3E52F5F9-031C-41B8-B2CB-B520AC9B2B86"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "positifeedy/Enhancement/ViewController /ReflectionViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "195"
+            endingLineNumber = "195"
+            landmarkName = "setQuestionDetails()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "61551581-2AD7-4397-8C40-3D1437F7A557"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "positifeedy/Enhancement/ViewController /ReflectionViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "178"
+            endingLineNumber = "178"
+            landmarkName = "setQuestionDetails()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "C2021B65-8C4B-435E-A901-AF2A9C2FF561"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "positifeedy/Enhancement/ViewController /ReflectionViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "138"
+            endingLineNumber = "138"
+            landmarkName = "setQuestionDetails()"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

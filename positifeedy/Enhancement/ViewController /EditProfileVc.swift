@@ -41,7 +41,14 @@ class EditProfileVc: UIViewController,UIImagePickerControllerDelegate , UINaviga
     var myDocId : String?
     var isProfileImgLoad = true
 
+    @IBOutlet weak var boxView: UIView!
+
     override func viewDidLoad() {
+        
+        DispatchQueue.main.async {
+            self.boxView.layer.cornerRadius = 20
+            self.boxView.dropShadow(color: .lightGray, opacity: 0.4, offSet: CGSize(width: 1, height: 1), radius: 20, scale: true)
+        }
         
         profileData()
         super.viewDidLoad()

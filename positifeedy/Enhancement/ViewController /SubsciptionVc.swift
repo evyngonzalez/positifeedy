@@ -47,10 +47,10 @@ class SubsciptionVc: UIViewController {
         if(fromEnhancement){
             self.dismiss(animated: true, completion: nil)
         }else{
-        UserDefaults.standard.removeObject(forKey: "UserProfileImage")
-        let storyboard = UIStoryboard(name: "Enhancement", bundle: nil)
-        let vcHome = storyboard.instantiateViewController(withIdentifier: "MyTabbarVC") as! MyTabbarVC
-        self.navigationController?.pushViewController(vcHome, animated: true)
+            UserDefaults.standard.removeObject(forKey: "UserProfileImage")
+            let storyboard = UIStoryboard(name: "Enhancement", bundle: nil)
+            let vcHome = storyboard.instantiateViewController(withIdentifier: "MyTabbarVC") as! MyTabbarVC
+            self.navigationController?.pushViewController(vcHome, animated: true)
         }
     }
     
@@ -152,12 +152,18 @@ class SubsciptionVc: UIViewController {
                 self.view.makeToast("Subscription Successfully done!")
                 
                 let storyboard = UIStoryboard(name: "Enhancement", bundle: nil)
+//                let vcHome = storyboard.instantiateViewController(withIdentifier: "MyTabbarVC") as! MyTabbarVC
+//                vcHome.selectedIndex = 0
+//                vcHome.modalPresentationStyle = .fullScreen
+//                vcHome.modalTransitionStyle = .crossDissolve
+//                self.present(vcHome, animated: true, completion: nil)
+                
                 let vcHome = storyboard.instantiateViewController(withIdentifier: "MyTabbarVC") as! MyTabbarVC
                 vcHome.selectedIndex = 0
                 vcHome.modalPresentationStyle = .fullScreen
                 vcHome.modalTransitionStyle = .crossDissolve
-                self.present(vcHome, animated: true, completion: nil)
-                
+                self.navigationController?.pushViewController(vcHome, animated: true)
+ 
              }
         }
     //MARK:- Alert Controller

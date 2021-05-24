@@ -490,6 +490,7 @@ class signUpViewController: UIViewController, GIDSignInDelegate,ASAuthorizationC
            self.startSignInWithAppleFlow()
         } else {
             // show sad face emoji
+            self.view.makeToast("Please upgrade you iOS version!")
         }
         
     }

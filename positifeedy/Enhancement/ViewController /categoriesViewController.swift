@@ -128,7 +128,6 @@ let dict : NSDictionary = ["SELF LOVE":["Today, I choose me.",
 "I am self-reliant, creative, and persistent in whatever I do.",
 "I deserve to be rich."]]
 class categoriesViewController: UIViewController,UITableViewDelegate,UITableViewDataSource{
-  
  
     var myDocId : String?
     var IsSubscription = false
@@ -221,7 +220,7 @@ class categoriesViewController: UIViewController,UITableViewDelegate,UITableView
         }
         else
         {
-            cell.viewBG.dropShadow(color: .lightGray, opacity: 0.4, offSet: CGSize(width: 1, height: 1), radius: 5, scale: true)
+            cell.viewBG.dropShadow(color: .lightGray, opacity: 0.4, offSet: CGSize(width: 1, height: 1), radius: 3, scale: true)
             cell.viewBG.backgroundColor = UIColor(red: 246/255.0, green: 245/255.0, blue: 245/255.0, alpha: 1)
              
 //            cell.viewBG.dropShadow(color: .white, opacity: 1, offSet: CGSize(width: -1, height: 1), radius: 3, scale: true)

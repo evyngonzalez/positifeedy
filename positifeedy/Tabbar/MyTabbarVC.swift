@@ -21,6 +21,11 @@ class MyTabbarVC: UITabBarController,  UITabBarControllerDelegate {
         tabBar.unselectedItemTintColor = grey
 
         tabBarItem.setTitleTextAttributes([NSAttributedString.Key.font : UIFont(name: "Avenir", size: 12) as Any], for: .normal)
+        
+        
+        if(UserDefaults.standard.object(forKey: PREF_DAILY_QUESTION_COUNT) as? Int == nil){
+            UserDefaults.standard.setValue(0, forKey: PREF_DAILY_QUESTION_COUNT)
+        }
                 
     }
     

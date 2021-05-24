@@ -35,9 +35,9 @@ class StaggesOfMindfullnessVc: UIViewController {
 
     @IBOutlet weak var stagesview: UIView!
 
-    @IBOutlet weak var lbl2: UILabel!
-    @IBOutlet weak var lbl3: UILabel!
-    @IBOutlet weak var lbl1: UILabel!
+    @IBOutlet weak var viewProgressTotal: UIView!
+    @IBOutlet weak var constLblProgressHeight: NSLayoutConstraint!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tabBarController?.tabBar.isHidden = true
@@ -46,6 +46,7 @@ class StaggesOfMindfullnessVc: UIViewController {
         self.currentPoint = 0
         self.arrListOfJourny = NSMutableArray.init()
         self.getProfileData()
+        
     }
     
     //MARK:- Buttons
@@ -180,6 +181,19 @@ class StaggesOfMindfullnessVc: UIViewController {
                                            
                                            print("Goal :\(point)")
                                            
+                                        
+                                        DispatchQueue.main.asyncAfter(deadline: .now()) {
+                                            UIView.animate(withDuration: 1.0) {
+                                                let total = self.viewProgressTotal.frame.height
+                                                
+                                                let progress = (CGFloat(point!) * total) / 100
+                                                
+                                                self.constLblProgressHeight.constant = progress
+                                                self.view.layoutIfNeeded()
+                                            }
+                                        }
+                                        
+                                        
                                            if point == 0
                                            {
                                             // beginer
@@ -194,13 +208,13 @@ class StaggesOfMindfullnessVc: UIViewController {
                                                     }
                                             
                                                // Beginner
-                                               self.lbl1.isHidden = false
+//                                               self.lbl1.isHidden = false
                                                self.imgone.isHidden = false
     
-                                               self.lbl2.isHidden = false
+//                                               self.lbl2.isHidden = false
                                                self.imgtwo.isHidden = false
     
-                                               self.lbl3.isHidden = false
+//                                               self.lbl3.isHidden = false
                                                self.imgthree.isHidden = false
                                             
                                                self.imgFour.isHidden = false
@@ -230,13 +244,13 @@ class StaggesOfMindfullnessVc: UIViewController {
                                                 }
                                               
     //                                           // beginer
-                                               self.lbl1.isHidden = false
+//                                               self.lbl1.isHidden = false
                                                self.imgone.isHidden = false
     
-                                               self.lbl2.isHidden = false
+//                                               self.lbl2.isHidden = false
                                                self.imgtwo.isHidden = false
     
-                                               self.lbl3.isHidden = false
+//                                               self.lbl3.isHidden = false
                                                self.imgthree.isHidden = false
                                             
                                                self.imgFour.isHidden = false
@@ -273,19 +287,19 @@ class StaggesOfMindfullnessVc: UIViewController {
                                                  }
                                                
                                             
-                                               self.lbl1.isHidden = false
+//                                               self.lbl1.isHidden = false
                                                self.imgone.isHidden = false
     
-                                               self.lbl2.isHidden = false
+//                                               self.lbl2.isHidden = false
                                                self.imgtwo.isHidden = false
     
-                                               self.lbl3.isHidden = false
+//                                               self.lbl3.isHidden = false
                                                self.imgthree.isHidden = false
     
                                                self.imgFour.isHidden =  false
                                                
                                             
-                                                self.lbl1.backgroundColor = UIColor.init(red: 99/255, green: 158/255, blue: 121/255, alpha: 1)
+//                                                self.lbl1.backgroundColor = UIColor.init(red: 99/255, green: 158/255, blue: 121/255, alpha: 1)
                                                 self.imgone.image = UIImage.init(named: "complete_ic_")
                                                 
                                                 //self.lbl2.backgroundColor = UIColor.init(red: 200/255, green: 200/255, blue: 200/255, alpha: 1)
@@ -312,22 +326,22 @@ class StaggesOfMindfullnessVc: UIViewController {
                                                 }
                                             }
                                                    
-                                               self.lbl1.isHidden = false
+//                                               self.lbl1.isHidden = false
                                                self.imgone.isHidden = false
     
-                                               self.lbl2.isHidden = false
+//                                               self.lbl2.isHidden = false
                                                self.imgtwo.isHidden = false
     
-                                               self.lbl3.isHidden = false
+//                                               self.lbl3.isHidden = false
                                                self.imgthree.isHidden = false
     
                                                self.imgFour.isHidden = false
     
                                             
-                                                    self.lbl1.backgroundColor = UIColor.init(red: 99/255, green: 158/255, blue: 121/255, alpha: 1)
+//                                                    self.lbl1.backgroundColor = UIColor.init(red: 99/255, green: 158/255, blue: 121/255, alpha: 1)
                                                     self.imgone.image = UIImage.init(named: "complete_ic_")
     
-                                                    self.lbl2.backgroundColor = UIColor.init(red: 99/255, green: 158/255, blue: 121/255, alpha: 1)
+//                                                    self.lbl2.backgroundColor = UIColor.init(red: 99/255, green: 158/255, blue: 121/255, alpha: 1)
                                                     self.imgtwo.image = UIImage.init(named: "complete_ic_")
     //
                                                     //self.lbl3.backgroundColor = UIColor.init(red: 200/255, green: 200/255, blue: 200/255, alpha: 1)
@@ -388,24 +402,24 @@ class StaggesOfMindfullnessVc: UIViewController {
                                                          }
                                                      }
                                             //Master
-                                                  self.lbl1.isHidden = false
+//                                                  self.lbl1.isHidden = false
                                                  self.imgone.isHidden = false
     
-                                                 self.lbl2.isHidden = false
+//                                                 self.lbl2.isHidden = false
                                                  self.imgtwo.isHidden = false
     
-                                                 self.lbl3.isHidden = false
+//                                                 self.lbl3.isHidden = false
                                                  self.imgthree.isHidden = false
 
                                                  self.imgFour.isHidden = false
                                             
-                                                   self.lbl1.backgroundColor = UIColor.init(red: 99/255, green: 158/255, blue: 121/255, alpha: 1)
+//                                                   self.lbl1.backgroundColor = UIColor.init(red: 99/255, green: 158/255, blue: 121/255, alpha: 1)
                                                     self.imgone.image = UIImage.init(named: "complete_ic_")
                                             
-                                                   self.lbl2.backgroundColor = UIColor.init(red: 99/255, green: 158/255, blue: 121/255, alpha: 1)
+//                                                   self.lbl2.backgroundColor = UIColor.init(red: 99/255, green: 158/255, blue: 121/255, alpha: 1)
                                                     self.imgtwo.image = UIImage.init(named: "complete_ic_")
     
-                                            self.lbl3.backgroundColor = UIColor.init(red: 99/255, green: 158/255, blue: 121/255, alpha: 1)
+//                                            self.lbl3.backgroundColor = UIColor.init(red: 99/255, green: 158/255, blue: 121/255, alpha: 1)
                                                     self.imgthree.image = UIImage.init(named: "complete_ic_")
     //
     //                                                self.lbl4.backgroundColor = UIColor.init(red: 123/255, green: 246/255, blue: 171/255, alpha: 1)

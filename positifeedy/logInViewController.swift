@@ -150,6 +150,7 @@ class logInViewController: UIViewController, GIDSignInDelegate,ASAuthorizationCo
     
     @available(iOS 13, *)
       func startSignInWithAppleFlow() {
+        
           let nonce = randomNonceString()
           currentNonce = nonce
           let appleIDProvider = ASAuthorizationAppleIDProvider()
@@ -209,7 +210,11 @@ class logInViewController: UIViewController, GIDSignInDelegate,ASAuthorizationCo
     @available(iOS 13, *)
     //MARK:- apple sign in :
     func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
+        
+        SVProgressHUD.show()
         if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
+            
+            SVProgressHUD.dismiss()
             guard let nonce = currentNonce else {
                 fatalError("Invalid state: A login callback was received, but no login request was sent.")
             }
@@ -221,10 +226,12 @@ class logInViewController: UIViewController, GIDSignInDelegate,ASAuthorizationCo
                 print("Unable to serialize token string from data: \(appleIDToken.debugDescription)")
                 return
             }
+            SVProgressHUD.show()
             let credential = OAuthProvider.credential(withProviderID: "apple.com",
                                                       idToken: idTokenString,
                                                       rawNonce: nonce)
             Auth.auth().signIn(with: credential) { (authResult, error) in
+                SVProgressHUD.dismiss()
                 if (error != nil) {
                     // Error. If error.code == .MissingOrInvalidNonce, make sure
                     // you're sending the SHA256-hashed nonce as a hex string with
@@ -268,6 +275,7 @@ class logInViewController: UIViewController, GIDSignInDelegate,ASAuthorizationCo
           @available(iOS 13, *)
     func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
         // Handle error.
+        SVProgressHUD.dismiss()
         print("Sign in with Apple errored: \(error)")
     }
           @available(iOS 13, *)
@@ -285,10 +293,12 @@ class logInViewController: UIViewController, GIDSignInDelegate,ASAuthorizationCo
     @IBAction func onclickforLoginwithApple(_ sender: Any)
     {
         if #available(iOS 13, *) {
-                  self.startSignInWithAppleFlow()
-               } else {
-                   // show sad face emoji
-               }
+              self.startSignInWithAppleFlow()
+           } else {
+               // show sad face emoji
+            self.view.makeToast("Please upgrade you iOS version!")
+            
+           }
         
     }
     
@@ -416,6 +426,8 @@ class logInViewController: UIViewController, GIDSignInDelegate,ASAuthorizationCo
     }
     
     @IBAction func btnGoogle(_ sender: Any) {
+//        let data = GIDAuthentication.refreshTokens(handler:)
+        
         GIDSignIn.sharedInstance()?.delegate = self
         GIDSignIn.sharedInstance()?.presentingViewController = self
         GIDSignIn.sharedInstance().signIn()
@@ -487,6 +499,7 @@ class logInViewController: UIViewController, GIDSignInDelegate,ASAuthorizationCo
     func checkUserIfAlready(firstName: String, lastName: String, uid: String)
     {
         var db: Firestore!
+        SVProgressHUD.show()
         
         db = Firestore.firestore()
         
@@ -527,6 +540,7 @@ class logInViewController: UIViewController, GIDSignInDelegate,ASAuthorizationCo
     
     func createUserCloudData(firstName: String, lastName: String, uid: String) {
         
+        SVProgressHUD.show()
         // User was created successfully, now store the first name and last name
         let db = Firestore.firestore()
         

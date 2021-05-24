@@ -17,6 +17,7 @@ import AVKit
 import AVFoundation
 import SDWebImage
 import SVProgressHUD
+import DLLocalNotifications
 
 class ManifestDetailViewController: UIViewController,UITextViewDelegate,AVAudioRecorderDelegate, AVAudioPlayerDelegate, UNUserNotificationCenterDelegate
 {
@@ -335,7 +336,7 @@ class ManifestDetailViewController: UIViewController,UITextViewDelegate,AVAudioR
                     print("Question List :\(self.arrQuestionList)")
                    if self.arrQuestionList.count > 0
                    {
-                        let currentInx = UserDefaults.standard.object(forKey: PREF_DAILY_QUESTION_COUNT) as? Int
+                        let currentInx = UserDefaults.standard.object(forKey: PREF_DAILY_QUESTION_COUNT) as? Int ?? 0
                         if currentInx != nil
                         {
                             if currentInx == 0
@@ -369,7 +370,7 @@ class ManifestDetailViewController: UIViewController,UITextViewDelegate,AVAudioR
                             else
                             {
                                  // question
-                                let questionItem = self.arrQuestionList[currentInx!]
+                                let questionItem = self.arrQuestionList[currentInx]
 //                                self.lblQuestion.text = questionItem.question
                                 
                                 // current date with suffix :
@@ -500,6 +501,10 @@ class ManifestDetailViewController: UIViewController,UITextViewDelegate,AVAudioR
                         }
                         SVProgressHUD.dismiss()
     //                    UserDefaults.standard.setValue(dateString, forKey: PREF_BOOKED_DATE)
+                        
+                        let scheduler = DLNotificationScheduler()
+                        scheduler.cancelAlllNotifications()
+                        
                         self.view.makeToast("Updated Successfully!")
                         self.navigationController?.popViewController(animated: true)
                     }

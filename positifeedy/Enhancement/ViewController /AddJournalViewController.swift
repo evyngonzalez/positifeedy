@@ -81,6 +81,7 @@ class AddJournalViewController: UIViewController,UITextViewDelegate,AVAudioRecor
         self.getProfileData()
         self.setQuestionDetails()
         updateTextview()
+        updateUIForSubscription()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -297,7 +298,7 @@ class AddJournalViewController: UIViewController,UITextViewDelegate,AVAudioRecor
                     print("Question List :\(self.arrQuestionList)")
                    if self.arrQuestionList.count > 0
                    {
-                        let currentInx = UserDefaults.standard.object(forKey: PREF_DAILY_QUESTION_COUNT) as? Int
+                        let currentInx = UserDefaults.standard.object(forKey: PREF_DAILY_QUESTION_COUNT) as? Int ?? 0
                         if currentInx != nil
                         {
                             if currentInx == 0
@@ -343,7 +344,7 @@ class AddJournalViewController: UIViewController,UITextViewDelegate,AVAudioRecor
                             else
                             {
                                  // question
-                                                            let questionItem = self.arrQuestionList[currentInx!]
+                                                            let questionItem = self.arrQuestionList[currentInx]
                                                             self.lblQuestion.text = questionItem.question
                                                             
                                                             // current date with suffix :
@@ -1019,16 +1020,17 @@ class AddJournalViewController: UIViewController,UITextViewDelegate,AVAudioRecor
                         dictMutable!.setValue(self.imgURL, forKey: "link")
                         dictMutable!.setValue("\(timestamp)", forKey: "timestamp")
                         dictMutable!.setValue("\(dateString)", forKey: "current_date")
-                        dictMutable!.setValue("5", forKey: "point")
                         
                         if self.strtype == "1"
                         {
+                            dictMutable!.setValue("5", forKey: "point")
                             dictMutable!.setValue(String.init(format: "%.2f", self.currentMin), forKey: "play_time")
                             dictMutable!.setValue(self.firebaseaudioURL, forKey: "audio_url")
                             dictMutable!.setValue("1", forKey: "type")
                         }
                         else
                         {
+                            dictMutable!.setValue("3", forKey: "point")
                             dictMutable!.setValue("0", forKey: "type")
                         }
                         self.arrMyJourncyEntry.replaceObject(at: i, with: dictMutable)
@@ -1076,15 +1078,16 @@ class AddJournalViewController: UIViewController,UITextViewDelegate,AVAudioRecor
                 dict.setValue(self.imgURL, forKey: "link")
                 dict.setValue("\(timestamp)", forKey: "timestamp")
                 dict.setValue("\(dateString)", forKey: "current_date")
-                dict.setValue("5", forKey: "point")
                 if self.strtype == "1"
                 {
+                    dict.setValue("5", forKey: "point")
                     dict.setValue(self.firebaseaudioURL, forKey: "audio_url")
                     dict.setValue("1", forKey: "type")
                     dict.setValue(String.init(format: "%.2f", self.currentMin), forKey: "play_time")
                 }
                 else
                 {
+                    dict.setValue("3", forKey: "point")
                     dict.setValue("0", forKey: "type")
                 }
                 
@@ -1103,7 +1106,13 @@ class AddJournalViewController: UIViewController,UITextViewDelegate,AVAudioRecor
                             print(error!.localizedDescription)
                         }
                    
-                       let str = String.init(format: "%d", self.currentPoint + 5)
+                       var str = ""
+                    if(self.strtype == "1"){
+                        str = String.init(format: "%d", self.currentPoint + 5)
+                    }else{
+                        str = String.init(format: "%d", self.currentPoint + 3)
+                    }
+                    
                        let d1 = ["myPoint" : str]
                        var db1: Firestore!
                        db1 = Firestore.firestore()
@@ -1141,17 +1150,20 @@ class AddJournalViewController: UIViewController,UITextViewDelegate,AVAudioRecor
             dict.setValue(self.imgURL, forKey: "link")
             dict.setValue("\(timestamp)", forKey: "timestamp")
             dict.setValue("\(dateString)", forKey: "current_date")
-            dict.setValue("5", forKey: "point")
             
             
             if self.strtype == "1"
             {
+                dict.setValue("5", forKey: "point")
+
                 dict.setValue(self.firebaseaudioURL, forKey: "audio_url")
                 dict.setValue("1", forKey: "type")
                 dict.setValue(String.init(format: "%.2f", self.currentMin), forKey: "play_time")
             }
             else
             {
+                dict.setValue("3", forKey: "point")
+
                 dict.setValue("0", forKey: "type")
             }
             
@@ -1172,7 +1184,12 @@ class AddJournalViewController: UIViewController,UITextViewDelegate,AVAudioRecor
                     }
                     
                 
-                let str = String.init(format: "%d", self.currentPoint + 5)
+                var str = ""
+                if(self.strtype == "1"){
+                    str = String.init(format: "%d", self.currentPoint + 5)
+                }else{
+                    str = String.init(format: "%d", self.currentPoint + 3)
+                }
                 let d1 = ["myPoint" : str]
                 var db1: Firestore!
                 db1 = Firestore.firestore()

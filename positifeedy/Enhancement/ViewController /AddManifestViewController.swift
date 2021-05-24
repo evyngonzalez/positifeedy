@@ -82,6 +82,10 @@ class AddManifestViewController: UIViewController,UITextViewDelegate,AVAudioReco
     {
         super.viewDidLoad()
         
+        if #available(iOS 13.4, *) {
+            timePicker.preferredDatePickerStyle = UIDatePickerStyle.wheels
+        }
+        
         self.check_record_permission()
         
         self.arrListOfJourny = NSMutableArray.init()
@@ -94,6 +98,7 @@ class AddManifestViewController: UIViewController,UITextViewDelegate,AVAudioReco
         
         timePicker.date = selectedDate
         updateTimeLabel()
+        updateUIForSubscription()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -297,7 +302,7 @@ class AddManifestViewController: UIViewController,UITextViewDelegate,AVAudioReco
                     print("Question List :\(self.arrQuestionList)")
                    if self.arrQuestionList.count > 0
                    {
-                        let currentInx = UserDefaults.standard.object(forKey: PREF_DAILY_QUESTION_COUNT) as? Int
+                        let currentInx = UserDefaults.standard.object(forKey: PREF_DAILY_QUESTION_COUNT) as? Int ?? 0
                         if currentInx != nil
                         {
                             if currentInx == 0
@@ -332,11 +337,11 @@ class AddManifestViewController: UIViewController,UITextViewDelegate,AVAudioReco
                             else
                             {
                                  // question
-                                var newIndex = currentInx!
+                                var newIndex = currentInx
                                 repeat{
                                     newIndex -= 1
                                     if(newIndex < 0){
-                                        newIndex = currentInx! + 1
+                                        newIndex = currentInx + 1
                                     }
                                     if(newIndex > self.arrQuestionList.count){
                                         newIndex = 0
@@ -993,7 +998,6 @@ class AddManifestViewController: UIViewController,UITextViewDelegate,AVAudioReco
                         dictMutable!.setValue("\(dateString)", forKey: "current_date")
                         dictMutable!.setValue("\(startDateString)", forKey: "startDate")
                         dictMutable!.setValue("\(endDateString)", forKey: "endDate")
-                        dictMutable!.setValue("5", forKey: "point")
 
                         dictMutable!.setValue("\(selectedDate)", forKey: "manifestTime")
                         dictMutable!.setValue(selectedDay, forKey: "manifestDay")
@@ -1004,12 +1008,16 @@ class AddManifestViewController: UIViewController,UITextViewDelegate,AVAudioReco
 
                         if self.strtype == "1"
                         {
+                            dictMutable!.setValue("7", forKey: "point")
+
                             dictMutable!.setValue(String.init(format: "%.2f", self.currentMin), forKey: "play_time")
                             dictMutable!.setValue(self.firebaseaudioURL, forKey: "audio_url")
                             dictMutable!.setValue("1", forKey: "type")
                         }
                         else
                         {
+                            dictMutable!.setValue("5", forKey: "point")
+
                             dictMutable!.setValue("0", forKey: "type")
                         }
                         self.arrMyManifestEntry.replaceObject(at: i, with: dictMutable)
@@ -1045,7 +1053,6 @@ class AddManifestViewController: UIViewController,UITextViewDelegate,AVAudioReco
                 dict.setValue("\(dateString)", forKey: "current_date")
                 dict.setValue("\(startDateString)", forKey: "startDate")
                 dict.setValue("\(endDateString)", forKey: "endDate")
-                dict.setValue("5", forKey: "point")
                 
                 dict.setValue("\(selectedDate)", forKey: "manifestTime")
                 dict.setValue(selectedDay, forKey: "manifestDay")
@@ -1054,12 +1061,16 @@ class AddManifestViewController: UIViewController,UITextViewDelegate,AVAudioReco
                 
                 if self.strtype == "1"
                 {
+                    dict.setValue("7", forKey: "point")
+
                     dict.setValue(self.firebaseaudioURL, forKey: "audio_url")
                     dict.setValue("1", forKey: "type")
                     dict.setValue(String.init(format: "%.2f", self.currentMin), forKey: "play_time")
                 }
                 else
                 {
+                    dict.setValue("5", forKey: "point")
+
                     dict.setValue("0", forKey: "type")
                 }
                 
@@ -1078,7 +1089,12 @@ class AddManifestViewController: UIViewController,UITextViewDelegate,AVAudioReco
                             print(error!.localizedDescription)
                         }
                    
-                       let str = String.init(format: "%d", self.currentPoint + 5)
+                       var str = ""
+                    if(self.strtype == "1"){
+                        str = String.init(format: "%d", self.currentPoint + 7)
+                    }else{
+                        str = String.init(format: "%d", self.currentPoint + 5)
+                    }
                        let d1 = ["myPoint" : str]
                        var db1: Firestore!
                        db1 = Firestore.firestore()
@@ -1112,7 +1128,6 @@ class AddManifestViewController: UIViewController,UITextViewDelegate,AVAudioReco
             dict.setValue("\(dateString)", forKey: "current_date")
             dict.setValue("\(startDateString)", forKey: "startDate")
             dict.setValue("\(endDateString)", forKey: "endDate")
-            dict.setValue("5", forKey: "point")
             
             dict.setValue("\(selectedDate)", forKey: "manifestTime")
             dict.setValue(selectedDay, forKey: "manifestDay")
@@ -1120,12 +1135,14 @@ class AddManifestViewController: UIViewController,UITextViewDelegate,AVAudioReco
             
             if self.strtype == "1"
             {
+                dict.setValue("7", forKey: "point")
                 dict.setValue(self.firebaseaudioURL, forKey: "audio_url")
                 dict.setValue("1", forKey: "type")
                 dict.setValue(String.init(format: "%.2f", self.currentMin), forKey: "play_time")
             }
             else
             {
+                dict.setValue("5", forKey: "point")
                 dict.setValue("0", forKey: "type")
             }
             
@@ -1145,7 +1162,13 @@ class AddManifestViewController: UIViewController,UITextViewDelegate,AVAudioReco
                 }
                 
             
-            let str = String.init(format: "%d", self.currentPoint + 5)
+//            let str = String.init(format: "%d", self.currentPoint + 5)
+            var str = ""
+             if(self.strtype == "1"){
+                 str = String.init(format: "%d", self.currentPoint + 7)
+             }else{
+                 str = String.init(format: "%d", self.currentPoint + 5)
+             }
             let d1 = ["myPoint" : str]
             var db1: Firestore!
             db1 = Firestore.firestore()

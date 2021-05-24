@@ -29,12 +29,22 @@ class ProfilVc: UIViewController {
     @IBOutlet weak var levelLogo: UIImageView!
     @IBOutlet weak  var activity : UIActivityIndicatorView!
     @IBOutlet weak var backgroundImage: UIImageView!
-    
+          
+    @IBOutlet weak var boxView: UIView!
     var myDocId : String?
     var arrListOfJourny : NSMutableArray!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        DispatchQueue.main.async {
+            self.boxView.layer.cornerRadius = 20
+            self.boxView.dropShadow(color: .lightGray, opacity: 0.4, offSet: CGSize(width: 1, height: 1), radius: 20, scale: true)
+        }
+        
+        
+//        boxView.layer.borderWidth = 2
+//        boxView.layer.borderColor = UIColor.black.cgColor
         
         SVProgressHUD.dismiss()
         
@@ -56,6 +66,12 @@ class ProfilVc: UIViewController {
 //            self.tabBarController?.tabBar.items?[3].image = resized
 //            self.tabBarController?.tabBar.items?[3].selectedImage = resized
             
+            self.tabBarController?.tabBar.items?[3].image = image.resizedImage().roundedImageWithBorder(width: 0)!.withRenderingMode(.alwaysOriginal)
+            self.tabBarController?.tabBar.items?[3].selectedImage = image.resizedImage().roundedImageWithBorder(width: 2)!.withRenderingMode(.alwaysOriginal)
+            
+        }else{
+            
+            let image = UIImage(named: "profile-placeholder-big")!
             self.tabBarController?.tabBar.items?[3].image = image.resizedImage().roundedImageWithBorder(width: 0)!.withRenderingMode(.alwaysOriginal)
             self.tabBarController?.tabBar.items?[3].selectedImage = image.resizedImage().roundedImageWithBorder(width: 2)!.withRenderingMode(.alwaysOriginal)
             
@@ -142,6 +158,10 @@ class ProfilVc: UIViewController {
                                             if(data.count > 0){
                                                 UserDefaults.standard.setValue(data, forKey: "UserProfileImage")
                                                 UserDefaults.standard.synchronize()
+                                            }else{
+                                                let image = UIImage(named: "profile-placeholder-big")!
+                                                self.tabBarController?.tabBar.items?[3].image = image.resizedImage().roundedImageWithBorder(width: 0)!.withRenderingMode(.alwaysOriginal)
+                                                self.tabBarController?.tabBar.items?[3].selectedImage = image.resizedImage().roundedImageWithBorder(width: 2)!.withRenderingMode(.alwaysOriginal)
                                             }
                                             
 //                                            self.tabBarController?.tabBar.items?[3].image = resized

@@ -91,6 +91,7 @@
 		889616C626314A5600758ED5 /* Gradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 889616C326314A5500758ED5 /* Gradient.swift */; };
 		889616C726314A5600758ED5 /* ImageAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 889616C426314A5500758ED5 /* ImageAnimation.swift */; };
 		889616C926316F2B00758ED5 /* VideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 889616C826316F2B00758ED5 /* VideoViewController.swift */; };
+		88B71501265BAB3F0092EB7F /* AlegreyaSans-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 88B71500265BAB3F0092EB7F /* AlegreyaSans-Medium.ttf */; };
 		88C9D7C5264BE7AC0061D380 /* AlegreyaSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 88C9D7C4264BE7AB0061D380 /* AlegreyaSans-Regular.ttf */; };
 		88D279FD2535AC3000B1DE72 /* FAPaginationLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88D279FC2535AC3000B1DE72 /* FAPaginationLayout.swift */; };
 		88D27A002535ADBA00B1DE72 /* PositifeedyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88D279FE2535ADBA00B1DE72 /* PositifeedyCell.swift */; };
@@ -223,6 +224,7 @@
 		889616C326314A5500758ED5 /* Gradient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Gradient.swift; sourceTree = "<group>"; };
 		889616C426314A5500758ED5 /* ImageAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageAnimation.swift; sourceTree = "<group>"; };
 		889616C826316F2B00758ED5 /* VideoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoViewController.swift; sourceTree = "<group>"; };
+		88B71500265BAB3F0092EB7F /* AlegreyaSans-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AlegreyaSans-Medium.ttf"; sourceTree = "<group>"; };
 		88C9D7C4264BE7AB0061D380 /* AlegreyaSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AlegreyaSans-Regular.ttf"; sourceTree = "<group>"; };
 		88D279FC2535AC3000B1DE72 /* FAPaginationLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FAPaginationLayout.swift; sourceTree = "<group>"; };
 		88D279FE2535ADBA00B1DE72 /* PositifeedyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PositifeedyCell.swift; sourceTree = "<group>"; };
@@ -413,6 +415,7 @@
 		887C299A251F6FDA009AFA9E /* Font */ = {
 			isa = PBXGroup;
 			children = (
+				88B71500265BAB3F0092EB7F /* AlegreyaSans-Medium.ttf */,
 				88C9D7C4264BE7AB0061D380 /* AlegreyaSans-Regular.ttf */,
 				8847A7502645412200986C44 /* Alegreya-Bold.ttf */,
 				8847A7522645412200986C44 /* Alegreya-Italic.ttf */,
@@ -613,6 +616,7 @@
 				887C299E251F6FEE009AFA9E /* SF-Pro-Display-Semibold.otf in Resources */,
 				887C299F251F6FEE009AFA9E /* SF-Pro-Display-Medium.otf in Resources */,
 				50066E402585145B0026FE90 /* TblSettingCell.xib in Resources */,
+				88B71501265BAB3F0092EB7F /* AlegreyaSans-Medium.ttf in Resources */,
 				8847A7582645412300986C44 /* Alegreya-Regular.ttf in Resources */,
 				88E1F3E8251C960E0086E650 /* psychologytoday.png in Resources */,
 				5057A18D25ADF63D002255CB /* splash.mov in Resources */,

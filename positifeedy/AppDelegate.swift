@@ -147,6 +147,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 if diff > 100
                 {
                     UserDefaults.standard.setValue(0, forKey: PREF_DAILY_QUESTION_COUNT)
+                    
+                    let date = Date()
+                    let dateFormatter = DateFormatter()
+                    dateFormatter.dateFormat = "yyyy-MM-dd"
+                    let dateString = dateFormatter.string(from: date)
+                    KeychainItem.store_start_date = dateString
+
                 }
                 else
                 {
@@ -243,80 +250,79 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         completeIAPTransactions()
         checkIfPurchaed()
         
-        
-        
-        
         return true
     }
     
     
     func updateSubscription(isPurchased: Bool){
-        let subscription = isPurchased ? "1" : "0"
-        let d = ["Subscription" : subscription]
-        var db: Firestore!
-        db = Firestore.firestore()
-        db.collection("users").document(self.myDocID!).updateData(d) { (error) in
-             if error != nil
-             {
-                 print(error!.localizedDescription)
-             }
-         }
+        if(self.myDocID != nil && self.myDocID != ""){
+            let subscription = isPurchased ? "1" : "0"
+            let d = ["Subscription" : subscription]
+            var db: Firestore!
+            db = Firestore.firestore()
+            db.collection("users").document(self.myDocID!).updateData(d) { (error) in
+                 if error != nil
+                 {
+                     print(error!.localizedDescription)
+                 }
+            }
+        }
     }
     
      func checkIfPurchaed () {
             
             // monthly plan :
-            let appleValidator = AppleReceiptValidator(service: .production, sharedSecret: "eb8e064a837a42c5b7f9e7910f517911")
-            SwiftyStoreKit.verifyReceipt(using: appleValidator) { result in
-                switch result {
-                case .success(let receipt):
-                    let productId = IN_APP_PURCHASE.BUY_MONTHLY_PLAN
-                    // Verify the purchase of a Subscription
-                    let purchaseResult = SwiftyStoreKit.verifySubscription(
-                        ofType: .autoRenewable, //or .nonRenewing
-                        productId: productId,
-                        inReceipt: receipt)
-                    
-                    var isPurchased = false
-                    switch purchaseResult {
-                    case .purchased(let expiryDate, let items):
-                        isPurchased = true
-                        let currentdate = Date()
-                        if currentdate.isGreaterThan(expiryDate)
-                        {
-                            //alerady expired !
-                            UserDefaults.standard.removeObject(forKey: PREF_SUBSCRIBE_MONTH)
-                        }
-                        else
-                        {
-                            UserDefaults.standard.setValue("1", forKey: PREF_SUBSCRIBE_MONTH)
-                        }
-                        print("\(productId) is valid until \(expiryDate)\n\(items)\n")
-                        
-                        //UserDefaults.standard.setValue("1", forKey: PREF_SUBSCRIBE)
-                    case .expired(let expiryDate, let items):
-                        print("\(productId) is expired since \(expiryDate)\n\(items)\n")
-                        isPurchased = false
-                        let currentdate = Date()
-                        if currentdate.isGreaterThan(expiryDate)
-                        {
-                            //alerady expired !
-                            UserDefaults.standard.removeObject(forKey: PREF_SUBSCRIBE_MONTH)
-                        }
-                        else
-                        {
-                            UserDefaults.standard.setValue("1", forKey: PREF_SUBSCRIBE_MONTH)
-                        }
-                       //  UserDefaults.standard.removeObject(forKey: PREF_SUBSCRIBE)
-                    case .notPurchased:
-                        isPurchased = false
-                        print("The user has never purchased \(productId)")
-                    }
-                    self.updateSubscription(isPurchased: isPurchased)
-                case .error(let error):
-                    print("Receipt verification failed: \(error)")
-                }
-            }
+//            let appleValidator = AppleReceiptValidator(service: .production, sharedSecret: "eb8e064a837a42c5b7f9e7910f517911")
+//            SwiftyStoreKit.verifyReceipt(using: appleValidator) { result in
+//                switch result {
+//                case .success(let receipt):
+//                    let productId = IN_APP_PURCHASE.BUY_MONTHLY_PLAN
+//                    // Verify the purchase of a Subscription
+//                    let purchaseResult = SwiftyStoreKit.verifySubscription(
+//                        ofType: .autoRenewable, //or .nonRenewing
+//                        productId: productId,
+//                        inReceipt: receipt)
+//
+//                    var isPurchased = false
+//                    switch purchaseResult {
+//                    case .purchased(let expiryDate, let items):
+//                        isPurchased = true
+//                        let currentdate = Date()
+//                        if currentdate.isGreaterThan(expiryDate)
+//                        {
+//                            //alerady expired !
+//                            UserDefaults.standard.removeObject(forKey: PREF_SUBSCRIBE_MONTH)
+//                        }
+//                        else
+//                        {
+//                            UserDefaults.standard.setValue("1", forKey: PREF_SUBSCRIBE_MONTH)
+//                        }
+//                        print("\(productId) is valid until \(expiryDate)\n\(items)\n")
+//
+//                        //UserDefaults.standard.setValue("1", forKey: PREF_SUBSCRIBE)
+//                    case .expired(let expiryDate, let items):
+//                        print("\(productId) is expired since \(expiryDate)\n\(items)\n")
+//                        isPurchased = false
+//                        let currentdate = Date()
+//                        if currentdate.isGreaterThan(expiryDate)
+//                        {
+//                            //alerady expired !
+//                            UserDefaults.standard.removeObject(forKey: PREF_SUBSCRIBE_MONTH)
+//                        }
+//                        else
+//                        {
+//                            UserDefaults.standard.setValue("1", forKey: PREF_SUBSCRIBE_MONTH)
+//                        }
+//                       //  UserDefaults.standard.removeObject(forKey: PREF_SUBSCRIBE)
+//                    case .notPurchased:
+//                        isPurchased = false
+//                        print("The user has never purchased \(productId)")
+//                    }
+//                    self.updateSubscription(isPurchased: isPurchased)
+//                case .error(let error):
+//                    print("Receipt verification failed: \(error)")
+//                }
+//            }
             
             // Annual Plan :
             
@@ -520,6 +526,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        }
         else
         {
+            UserDefaults.standard.setValue(Data(), forKey: "UserProfileImage")
+            
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let welcomeViewController = storyboard.instantiateViewController(withIdentifier: "navLogin") as! UINavigationController
 
@@ -814,10 +822,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             UserDefaults.standard.set(true, forKey: "isLogin")
             
                 let storyboard = UIStoryboard(name: "Enhancement", bundle: nil)
-                let vcSubscri = storyboard.instantiateViewController(withIdentifier: "SubsciptionVc") as! SubsciptionVc
-                vcSubscri.modalPresentationStyle = .fullScreen
-                vcSubscri.modalTransitionStyle = .crossDissolve
-                self.window?.rootViewController = vcSubscri
+//                let vcSubscri = storyboard.instantiateViewController(withIdentifier: "SubsciptionVc") as! SubsciptionVc
+//                vcSubscri.modalPresentationStyle = .fullScreen
+//                vcSubscri.modalTransitionStyle = .crossDissolve
+//                self.window?.rootViewController = vcSubscri
+            
+            
+            let welcomeViewController = storyboard.instantiateViewController(withIdentifier: "navLogin") as! UINavigationController
+            self.window?.rootViewController = welcomeViewController
+            self.window?.makeKeyAndVisible()
+
                 //self.present(vcSubscri, animated: true, completion: nil)
             
             // Transition to the home screen

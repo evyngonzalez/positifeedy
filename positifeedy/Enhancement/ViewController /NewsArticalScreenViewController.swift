@@ -27,7 +27,10 @@ class NewsArticalScreenViewController: UIViewController,UIScrollViewDelegate {
     @IBOutlet weak var gradintviewforbg: Gradient!
     @IBOutlet weak var lbltitle: UILabel!
     
+    @IBOutlet weak var lblBGAffirmation: UILabel!
+    
     @IBOutlet weak var imgTest: UIImageView!
+    @IBOutlet weak var loaderIndicator: UIActivityIndicatorView!
     
     //@IBOutlet weak var scrollview: UIScrollView!
     @IBOutlet weak var greadintView: Gradient!
@@ -63,6 +66,11 @@ class NewsArticalScreenViewController: UIViewController,UIScrollViewDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        lblBGAffirmation.text = currentAffirmationMessage
+        
+        loaderIndicator.startAnimating()
+        loaderIndicator.isHidden = false
         
         self.greadintView.endColor = .clear
         self.gradintviewforbg.startColor = .clear
@@ -197,17 +205,24 @@ class NewsArticalScreenViewController: UIViewController,UIScrollViewDelegate {
 //              print(self.scrollview.contentOffset.y)
     }
     override func viewWillAppear(_ animated: Bool) {
+        lblBGAffirmation.isHidden = true
+
         getCategoriData()
         self.tableview.reloadData()
         let data = UserDefaults.standard.data(forKey: "UserProfileImage") ?? Data()
         if(data.count > 0){
             let image = UIImage(data: data)!
             
-//                                            self.tabBarController?.tabBar.items?[3].image = resized
-//                                            self.tabBarController?.tabBar.items?[3].selectedImage = resized
-
             self.tabBarController?.tabBar.items?[3].image = image.resizedImage().roundedImageWithBorder(width: 0)!.withRenderingMode(.alwaysOriginal)
             self.tabBarController?.tabBar.items?[3].selectedImage = image.resizedImage().roundedImageWithBorder(width: 2)!.withRenderingMode(.alwaysOriginal)
+        }else{
+            
+            let image = UIImage(named: "profile-placeholder-big")!
+            
+            self.tabBarController?.tabBar.items?[3].image = image.resizedImage().roundedImageWithBorder(width: 0)!.withRenderingMode(.alwaysOriginal)
+            self.tabBarController?.tabBar.items?[3].selectedImage = image.resizedImage().roundedImageWithBorder(width: 2)!.withRenderingMode(.alwaysOriginal)
+
+            
         }
         
         tabBarController?.tabBar.isHidden = false
@@ -238,6 +253,7 @@ class NewsArticalScreenViewController: UIViewController,UIScrollViewDelegate {
         videoShowHideVIew.isHidden = true
       tabBarController?.tabBar.isHidden = false
         gradintviewforbg.alpha = oldAlpha
+        lblBGAffirmation.isHidden = true
         
     }
    func gestureAdd()
@@ -257,6 +273,8 @@ class NewsArticalScreenViewController: UIViewController,UIScrollViewDelegate {
          videoShowHideVIew.isHidden = false
         oldAlpha = gradintviewforbg.alpha
         gradintviewforbg.alpha = 0.0
+        
+        lblBGAffirmation.isHidden = false
     }
     
     
@@ -282,6 +300,13 @@ class NewsArticalScreenViewController: UIViewController,UIScrollViewDelegate {
         
         var isVideo = themeData.value(forKey: "isVideo") as? Bool ?? true
         IsLightText = themeData.value(forKey: "TextColorIsLight") as? Bool ?? true
+        
+        if(IsLightText){
+            lblBGAffirmation.textColor = .white
+        }else{
+            lblBGAffirmation.textColor = .black
+        }
+        
         self.tableview.reloadData()
 
         var url = themeData.value(forKey: "themeUrl") as? String ?? ""
@@ -643,7 +668,7 @@ class NewsArticalScreenViewController: UIViewController,UIScrollViewDelegate {
                                                   //self.view.makeToast("diffrent day 4:\(diff) :  store date: \(start_date) and final date :\(final_date)")
                                                    if diff >= 3
                                                    {
-                                                       let set_new_point = point! - 5
+                                                       let set_new_point = point! - 2
                                                        let str = String.init(format: "%d",set_new_point)
                                                        let d = ["myPoint" : str]
                                                        var db: Firestore!
@@ -1291,7 +1316,9 @@ class NewsArticalScreenViewController: UIViewController,UIScrollViewDelegate {
                  }
                  
                  if self.isRefresh == false {
-                     SVProgressHUD.show()
+//                     SVProgressHUD.show()
+                    loaderIndicator.startAnimating()
+                    loaderIndicator.isHidden = false
                  }
                 AF.session.configuration.timeoutIntervalForRequest = 120
                AF.request(Global.feedURL, method: .get,  parameters: nil, encoding: JSONEncoding.default)
@@ -1300,7 +1327,11 @@ class NewsArticalScreenViewController: UIViewController,UIScrollViewDelegate {
                        case .success(let value):
                            if let json = value as? [String: Any] {
                               
-                               SVProgressHUD.dismiss()
+                               //SVProgressHUD.dismiss()
+                            
+                            self.loaderIndicator.stopAnimating()
+                            self.loaderIndicator.isHidden = true
+                            
                                 self.refreshControl.endRefreshing()
                                let result = json["result"] as? NSDictionary
                                if result!.count > 0
@@ -1368,7 +1399,7 @@ class NewsArticalScreenViewController: UIViewController,UIScrollViewDelegate {
               
                /*AF.request(Global.feedURL).responseDecodable(of: FeedResponse.self)  { (response) in
                      
-                     SVProgressHUD.dismiss()
+                     //SVProgressHUD.dismiss()
                       
                    print("arr response :\(response)")
                      switch response.result
@@ -1413,12 +1444,16 @@ class NewsArticalScreenViewController: UIViewController,UIScrollViewDelegate {
                                 components.queryItems = [feedURL]
                                 
                                 guard let linkParameter = components.url else {
-                                    SVProgressHUD.dismiss()
+                                    //SVProgressHUD.dismiss()
+                                    self.loaderIndicator.stopAnimating()
+                                    self.loaderIndicator.isHidden = true
                                     return
                                 }
                                 
                                 guard let shareLink = DynamicLinkComponents.init(link: linkParameter, domainURIPrefix: "https://positifeedy.page.link") else {
-                                    SVProgressHUD.dismiss()
+                                    //SVProgressHUD.dismiss()
+                                    self.loaderIndicator.stopAnimating()
+                                    self.loaderIndicator.isHidden = true
                                     return
                                 }
                                 
@@ -1429,12 +1464,16 @@ class NewsArticalScreenViewController: UIViewController,UIScrollViewDelegate {
                                 shareLink.iOSParameters?.appStoreID = "1484015088"
                                 
                                 guard let longURL = shareLink.url else {
-                                    SVProgressHUD.dismiss()
+                                    //SVProgressHUD.dismiss()
+                                    self.loaderIndicator.stopAnimating()
+                                    self.loaderIndicator.isHidden = true
                                     return
                                 }
                                 
                                 shareLink.shorten { [weak self] (url, warnings, error) in
-                                    SVProgressHUD.dismiss()
+                                    //SVProgressHUD.dismiss()
+                                    self?.loaderIndicator.stopAnimating()
+                                    self?.loaderIndicator.isHidden = true
                                     if let error = error {
                                         self?.view.makeToast(error.localizedDescription)
                                         return
@@ -1457,8 +1496,10 @@ class NewsArticalScreenViewController: UIViewController,UIScrollViewDelegate {
              }
     @objc func btnShareClick(_ sender : UIButton) {
         
-        SVProgressHUD.show()
-
+//        SVProgressHUD.show()
+        loaderIndicator.startAnimating()
+        loaderIndicator.isHidden = false
+        
         let positifeedy = arrPositifeedy[sender.tag]
         
       if positifeedy.documentID != nil
@@ -1502,12 +1543,16 @@ class NewsArticalScreenViewController: UIViewController,UIScrollViewDelegate {
           components.queryItems = arrCompo
           
           guard let linkParameter = components.url else {
-              SVProgressHUD.dismiss()
+              //SVProgressHUD.dismiss()
+            self.loaderIndicator.stopAnimating()
+            self.loaderIndicator.isHidden = true
               return
           }
           
           guard let shareLink = DynamicLinkComponents.init(link: linkParameter, domainURIPrefix: "https://positifeedy.page.link") else {
-              SVProgressHUD.dismiss()
+              //SVProgressHUD.dismiss()
+            self.loaderIndicator.stopAnimating()
+            self.loaderIndicator.isHidden = true
               return
           }
           
@@ -1519,13 +1564,17 @@ class NewsArticalScreenViewController: UIViewController,UIScrollViewDelegate {
           
           guard shareLink.url != nil else {
               
-              SVProgressHUD.dismiss()
+              //SVProgressHUD.dismiss()
+            self.loaderIndicator.stopAnimating()
+            self.loaderIndicator.isHidden = true
               return
           }
           
           shareLink.shorten { [weak self] (url, warnings, error) in
               
-              SVProgressHUD.dismiss()
+              //SVProgressHUD.dismiss()
+            self?.loaderIndicator.stopAnimating()
+            self?.loaderIndicator.isHidden = true
 
               if let error = error {
                   self?.view.makeToast(error.localizedDescription)
@@ -1922,6 +1971,7 @@ class NewsArticalScreenViewController: UIViewController,UIScrollViewDelegate {
                 let mess = array.object(at: randomeArray) as? String
                 
                 currentAffirmationMessage = mess!
+                lblBGAffirmation.text = currentAffirmationMessage
                 tableview.reloadData()
                 dailyAffirmation.setValue(mess, forKey: "message")
             }
@@ -1967,6 +2017,7 @@ class NewsArticalScreenViewController: UIViewController,UIScrollViewDelegate {
                 
                 
                 currentAffirmationMessage = newMessage
+                lblBGAffirmation.text = currentAffirmationMessage
                 tableview.reloadData()
                 dailyAffirmation.setValue(newMessage, forKey: "message")
                 
@@ -1986,6 +2037,7 @@ class NewsArticalScreenViewController: UIViewController,UIScrollViewDelegate {
             else
             {
                 currentAffirmationMessage = message
+                lblBGAffirmation.text = currentAffirmationMessage
                 tableview.reloadData()
 
             }

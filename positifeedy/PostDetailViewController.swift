@@ -51,6 +51,7 @@ class PostDetailViewController: UIViewController {
         getRecentlyViews()
         self.getBookmarsDataOther()
         
+        tabBarController?.tabBar.isHidden = false
         self.navigationController?.navigationBar.isHidden = true
 //        bookmark.setImage(isBookmark ? imgBookmarkSelected : imgBookmark, for: .normal)
 //        bookmark.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
