@@ -40,8 +40,8 @@ class PostDetailViewController: UIViewController {
     //let bookmark = UIButton(type: .custom)
     //let share = UIButton(type: .custom)
     
-    let imgBookmark = UIImage.init(named: "bm-0")!
-    let imgBookmarkSelected = UIImage.init(named: "bm-1")!
+    let imgBookmark = UIImage.init(named: "bookmark-gray")!
+    let imgBookmarkSelected = UIImage.init(named: "bookmark-black-fill")!
     let imgShare = UIImage.init(named: "share_ic")!
     
     override func viewDidLoad() {

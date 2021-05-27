@@ -38,7 +38,7 @@ class NewsArticalScreenViewController: UIViewController,UIScrollViewDelegate {
     //@IBOutlet weak var doubletabview: UIView!
     
     var IsSubscripted = false
-    
+    var Message = [String]()
     //@IBOutlet weak var height: NSLayoutConstraint!
     @IBOutlet weak var tableview: UITableView!
     var myDocId : String!
@@ -79,7 +79,7 @@ class NewsArticalScreenViewController: UIViewController,UIScrollViewDelegate {
         gradintviewforbg.isHidden = true
         tabBarController?.tabBar.isHidden = false
         //        videoShowHideVIew.isHidden = true
-//        setupVideoView()
+//        setupVideo View()
 //        dailyAffirmation.isUserInteractionEnabled = false
         self.navigationController?.navigationBar.isHidden = true
         tableview.rowHeight = UITableView.automaticDimension
@@ -105,13 +105,23 @@ class NewsArticalScreenViewController: UIViewController,UIScrollViewDelegate {
         getBookmarsDataFeedy()
         
         //getFeeds()
+        getThemes()
         getPositifeedy()
-        getProfileData()
-        setupNotification()
+        
+        let scheduler = DLNotificationScheduler()
+        scheduler.getScheduledNotifications { (request) in
+            request?.forEach({ (item) in
+                if(item.identifier.contains("manifest")){
+                    scheduler.cancelNotification(identifier: item.identifier)
+                }
+            })
+            self.setupNotification()
+        }
+
+        
         
         gestureaddonbackground()
         gestureAdd()
-        
         
         refreshControl.attributedTitle = NSAttributedString(string: "")
         refreshControl.tintColor = .white
@@ -120,6 +130,49 @@ class NewsArticalScreenViewController: UIViewController,UIScrollViewDelegate {
         
     }
     
+    func getThemes() {
+        var db: Firestore!
+        db = Firestore.firestore()
+        db.collection("Themes").getDocuments { (snap, error) in
+            if error != nil
+            {
+                print("error ", error!.localizedDescription)
+                return
+            }
+            
+            for doc in snap?.documents ?? []
+            {
+                let  d = doc.data()
+                if d.count > 0{
+                    var arr : [[String : Any]] = []
+                    arrTheme = d["Themes"]! as? [[String : Any]] ?? []
+                    
+                    for item in arrTheme {
+                        let data = item as? NSDictionary
+                        let isFree = data?.value(forKey: "isFree") as? Bool ?? false
+                        if(isFree){
+                            arr.append(item)
+                        }
+                    }
+                    for item in arrTheme {
+                        let data = item as? NSDictionary
+                        let isFree = data?.value(forKey: "isFree") as? Bool ?? false
+                        if(!isFree){
+                            arr.append(item)
+                        }
+                    }
+                    
+                    arrTheme = arr
+                    print(arrTheme)
+                    
+                    if(arrTheme.count > 0){
+                        self.getProfileData()
+                        break
+                    }
+                }
+            }
+        }
+    }
         
     @objc func refresh(_ sender: AnyObject) {
        // Code to refresh table view
@@ -140,48 +193,58 @@ class NewsArticalScreenViewController: UIViewController,UIScrollViewDelegate {
      }
     
     @IBAction func btnLogoutClicked(_ sender: Any) {
-        let alertVC = UIAlertController(title: "Postifeedy", message: "Are you sure?", preferredStyle: UIAlertController.Style.alert)
-        
-        alertVC.addAction(UIAlertAction(title: "No", style: .cancel, handler: nil))
-        alertVC.addAction(UIAlertAction(title: "Yes", style: .default, handler: { (action) in
-            
-            do
-            {
-                try   Auth.auth().signOut()
-                
-                let appDel =  UIApplication.shared.delegate as! AppDelegate
-                appDel.arrBookMarkLink = []
-                
-                UserDefaults.standard.set(false, forKey: "isLogin")
-                let scheduler = DLNotificationScheduler()
-                scheduler.cancelAlllNotifications()
-
-                let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                let loginVC = storyboard.instantiateViewController(withIdentifier: "logInViewController") as! logInViewController
-                
-                
-                let nav = UINavigationController(rootViewController: loginVC )
-                nav.setNavigationBarHidden(true, animated: false)
-                
-                appDel.window?.rootViewController = nav
-                appDel.window?.makeKeyAndVisible()
-            }
-            catch
-            {
-                self.view.makeToast(error.localizedDescription)
-            }
-        }))
-        
-        present(alertVC, animated: true, completion: nil)
+//        let alertVC = UIAlertController(title: "Postifeedy", message: "Are you sure?", preferredStyle: UIAlertController.Style.alert)
+//
+//        alertVC.addAction(UIAlertAction(title: "No", style: .cancel, handler: nil))
+//        alertVC.addAction(UIAlertAction(title: "Yes", style: .default, handler: { (action) in
+//
+//            do
+//            {
+//                try   Auth.auth().signOut()
+//
+//                let appDel =  UIApplication.shared.delegate as! AppDelegate
+//                appDel.arrBookMarkLink = []
+//
+//                UserDefaults.standard.set(false, forKey: "isLogin")
+//                let scheduler = DLNotificationScheduler()
+//                scheduler.cancelNotif ication(identifier: "Manifest")
+//
+//                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+//                let loginVC = storyboard.instantiateViewController(withIdentifier: "logInViewController") as! logInViewController
+//
+//
+//                let nav = UINavigationController(rootViewController: loginVC )
+//                nav.setNavigationBarHidden(true, animated: false)
+//
+//                appDel.window?.rootViewController = nav
+//                appDel.window?.makeKeyAndVisible()
+//            }
+//            catch
+//            {
+//                self.view.makeToast(error.localizedDescription)
+//            }
+//        }))
+//
+//        present(alertVC, animated: true, completion: nil)
     }
     
     @IBAction func btnCategoriesClicked(_ sender: Any) {
+        
+        if(dict.allKeys.count <= 0){
+            return
+        }
+        
         let vc = storyboard?.instantiateViewController(withIdentifier: "categoriesViewController") as! categoriesViewController
         vc.IsSubscription = IsSubscripted
         navigationController?.pushViewController(vc, animated: true)
     }
     
     @IBAction func btnThemeClicked(_ sender: Any) {
+        
+        if(arrTheme.count<=0){
+            return
+        }
+        
         let vc = storyboard?.instantiateViewController(withIdentifier: "chengethemeViewController") as! chengethemeViewController
         vc.IsSubscription = IsSubscripted
         navigationController?.pushViewController(vc, animated: true)
@@ -207,7 +270,7 @@ class NewsArticalScreenViewController: UIViewController,UIScrollViewDelegate {
     override func viewWillAppear(_ animated: Bool) {
         lblBGAffirmation.isHidden = true
 
-        getCategoriData()
+        loadCategoriData()
         self.tableview.reloadData()
         let data = UserDefaults.standard.data(forKey: "UserProfileImage") ?? Data()
         if(data.count > 0){
@@ -552,7 +615,7 @@ class NewsArticalScreenViewController: UIViewController,UIScrollViewDelegate {
                                 self.lbltitle.text = String.init(format: "Good Morning, \(fname)! %@" ,"")
                                 //self.lblsun.image =  UIImage.init(named: "sun")
                             case 12 :
-                                self.lbltitle.text = String.init(format: "Good Noon, \(fname)! %@","")
+                                self.lbltitle.text = String.init(format: "Good Afternoon, \(fname)! %@","")
                                 //self.lblsun.image =  UIImage.init(named: "sun")
                             case 13..<17 :
                                 self.lbltitle.text = String.init(format: "Good Afternoon, \(fname)! %@","")
@@ -1012,46 +1075,48 @@ class NewsArticalScreenViewController: UIViewController,UIScrollViewDelegate {
                  }
              }
          }
+    
     func setupNotification()
    {
-            var db: Firestore!
-            db = Firestore.firestore()
-            db.collection("users").getDocuments { (snap, error) in
-                if error != nil
+        var db: Firestore!
+        db = Firestore.firestore()
+        db.collection("users").getDocuments { (snap, error) in
+            if error != nil
+            {
+                print("error ", error!.localizedDescription)
+                return
+            }
+            
+            for doc in snap?.documents ?? []
+            {
+                let  d = doc.data()
+                if d.count > 0
                 {
-                    print("error ", error!.localizedDescription)
-                    return
-                }
-                
-                for doc in snap?.documents ?? []
-                {
-                    let  d = doc.data()
-                    if d.count > 0
+                    print("data = ",  d)
+                    
+                    if (d["uid"] as! String)  ==  Auth.auth().currentUser?.uid
                     {
-                        print("data = ",  d)
-                        
-                        if (d["uid"] as! String)  ==  Auth.auth().currentUser?.uid
-                        {
-                           self.myDocId = doc.documentID
-                           
-                           let arr = d["ManifestEntry"] as? NSArray
-                           var arrMyManifestEntry = NSMutableArray()
-                           if arr != nil
+                       self.myDocId = doc.documentID
+                       
+                       let arr = d["ManifestEntry"] as? NSArray
+                       var arrMyManifestEntry = NSMutableArray()
+                        var isActiveManifestAvailable = false
+                       if arr != nil
+                       {
+                           if arr!.count > 0
                            {
-                               if arr!.count > 0
+                               arrMyManifestEntry = NSMutableArray.init(array: arr!)
+                               print("My Manifest :\(arrMyManifestEntry)")
+                               for i in (0..<arrMyManifestEntry.count)
                                {
-                                   arrMyManifestEntry = NSMutableArray.init(array: arr!)
-                                   print("My Manifest :\(arrMyManifestEntry)")
-                                   for i in (0..<arrMyManifestEntry.count)
+                                let dict = (arrMyManifestEntry.object(at: i) as? NSDictionary ?? NSDictionary()).mutableCopy() as? NSMutableDictionary ?? NSMutableDictionary()
+                                
+                                if dict.object(forKey: "isActive") != nil
                                    {
-                                    let dict = (arrMyManifestEntry.object(at: i) as? NSDictionary ?? NSDictionary()).mutableCopy() as? NSMutableDictionary ?? NSMutableDictionary()
-                                    
-                                    if dict.object(forKey: "isActive") != nil
-                                       {
-                                           let active = dict.value(forKey: "isActive") as? Bool ?? false
-                                           if(active){
-                                               
-                                            
+                                       let active = dict.value(forKey: "isActive") as? Bool ?? false
+                                       if(active){
+                                           
+                                            isActiveManifestAvailable = true
                                             print(dict)
                                             
                                             let title = "Manifestation"
@@ -1082,26 +1147,36 @@ class NewsArticalScreenViewController: UIViewController,UIScrollViewDelegate {
                                             dict.setValue(newStart, forKey: "startDate")
                                             dict.setValue(newEnd, forKey: "endDate")
                                             
+                                            print("\(newStart) - \(newEnd)")
+                                        
                                             print("Dinal J" + "\(newDate.hour):\(newDate.minute):\(newDate.second)")
                                             
+                                            let scheduler1 = DLNotificationScheduler()
+                                            scheduler1.getScheduledNotifications { (request) in
+                                                request?.forEach({ (item) in
+                                                    if(item.identifier.contains("journal")){
+                                                        scheduler1.cancelNotification(identifier: item.identifier)
+                                                    }
+                                                })
+                                            }
+                                            
                                             let scheduler = DLNotificationScheduler()
-                                            scheduler.cancelAlllNotifications()
 
                                             if(selectedDay == "every day"){
                                                 let interval = Double(totalSecondsInDay)
-                                                scheduler.repeatsFromToDate(identifier: "First Notification", alertTitle: title, alertBody: message, fromDate: newDate, toDate: endDate, interval: interval, repeats: .none )
+                                                scheduler.repeatsFromToDate(identifier: "manifest", alertTitle: title, alertBody: message, fromDate: newDate, toDate: endDate, interval: interval, repeats: .none )
                                                 scheduler.scheduleAllNotifications()
                                             }else if(selectedDay == "once a week"){
                                                 let interval = Double(totalSecondsInDay * 7)
-                                                scheduler.repeatsFromToDate(identifier: "First Notification", alertTitle: title, alertBody: message, fromDate: newDate, toDate: endDate, interval: interval, repeats: .none )
+                                                scheduler.repeatsFromToDate(identifier: "manifest", alertTitle: title, alertBody: message, fromDate: newDate, toDate: endDate, interval: interval, repeats: .none )
                                                 scheduler.scheduleAllNotifications()
 
                                             }else if(selectedDay == "every 3 days"){
                                                 let interval = Double(totalSecondsInDay * 3)
-                                                scheduler.repeatsFromToDate(identifier: "First Notification", alertTitle: title, alertBody: message, fromDate: newDate, toDate: endDate, interval: interval, repeats: .none )
+                                                scheduler.repeatsFromToDate(identifier: "manifest", alertTitle: title, alertBody: message, fromDate: newDate, toDate: endDate, interval: interval, repeats: .none )
                                                 scheduler.scheduleAllNotifications()
                                             }
-                                            
+                                                                                        
                                             arrMyManifestEntry.replaceObject(at: i, with: dict)
                                             
                                             
@@ -1115,19 +1190,124 @@ class NewsArticalScreenViewController: UIViewController,UIScrollViewDelegate {
                                                 }
                                             
                                             break
-                                           }
-                                       }else{
-                                           
                                        }
+                                   }else{
+                                       
                                    }
                                }
                            }
-                           
+                       }
+                       
+                        if(!isActiveManifestAvailable){
+                            let scheduler1 = DLNotificationScheduler()
+                            scheduler1.getScheduledNotifications { (request) in
+                                request?.forEach({ (item) in
+                                    if(item.identifier.contains("journal")){
+                                        scheduler1.cancelNotification(identifier: item.identifier)
+                                    }
+                                })
+                                self.setupJournalNotification()
+                            }
                         }
+                        
+                        
                     }
                 }
             }
         }
+        
+    }
+    
+    func setupJournalNotification()
+   {
+        var arrQuestionList = [QuestionListItem]()
+        let notificationTime = 11
+
+        var db: Firestore!
+        db = Firestore.firestore()
+        db.collection("QuestionList").getDocuments { (snap, error) in
+            if error != nil
+            {
+                print("error ", error!.localizedDescription)
+                return
+            }
+            
+            if let arr = snap?.documents {
+                let arrData = arr.map { (snap) -> [String: Any] in
+                    var dict = snap.data()
+                    dict["documentID"] = snap.documentID
+                    return dict
+                }
+                
+                do {
+                    
+                    let jsonData = try JSONSerialization.data(withJSONObject: arrData, options: .prettyPrinted)
+                    let jsonDecoder = JSONDecoder()
+                    let obj = try jsonDecoder.decode([QuestionListItem].self, from: jsonData)
+                    arrQuestionList = obj
+                    
+                    if arrQuestionList.count > 0
+                    {
+                         var currentInx = UserDefaults.standard.object(forKey: PREF_DAILY_QUESTION_COUNT) as? Int ?? 0
+                        
+                        var index = 0
+                        
+                        let hour = Calendar.current.component(.hour, from: Date())
+                        if(hour > notificationTime){
+                            currentInx += 1
+                            index += 1
+                        }
+                        
+                        if(currentInx < 0 || currentInx > (arrQuestionList.count-1)){
+                            currentInx = 0
+                        }
+                        
+                        for i in currentInx..<arrQuestionList.count {
+                            
+                            let questionItem = arrQuestionList[i]
+                            
+                            var dayComponent    = DateComponents()
+                            dayComponent.day    = index
+
+                            var newDate = Date()
+                            newDate = Calendar.current.date(bySettingHour: notificationTime, minute: 0, second: 0, of: Date())!
+                            
+                            let theCalendar     = Calendar.current
+                            let nextDate = theCalendar.date(byAdding: dayComponent, to:newDate)!
+                            
+                            let dateFormatter = DateFormatter()
+                            dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+                            let dateString = dateFormatter.string(from: nextDate)
+                            print("DKL :" + dateString)
+                             
+//                            let interval = Double(500)
+//                            scheduler.repeatsFromToDate(identifier: "journal\(i)", alertTitle: "Journal Question", alertBody: questionItem.question ?? "", fromDate: newDate, toDate: newDate, interval: interval, repeats: .none )
+//                            scheduler.scheduleAllNotifications()
+
+                            let scheduler = DLNotificationScheduler()
+
+                            let firstNotification = DLNotification(identifier: "journal\(index)", alertTitle: "Journal Question", alertBody: questionItem.question ?? "", date: nextDate)
+                            scheduler.scheduleNotification(notification: firstNotification)
+                            scheduler.scheduleAllNotifications()
+                            
+                            if(index>30){
+                                break
+                            }
+                            index += 1
+                        }
+
+                        print("Set journal notification completed")
+                        
+                    }
+                }
+                catch {
+                    print(error)
+                }
+               
+            }
+        }
+        
+    }
     
     func getPositifeedy() {
              
@@ -1885,10 +2065,34 @@ class NewsArticalScreenViewController: UIViewController,UIScrollViewDelegate {
     
     var dailyAffirmation = NSMutableDictionary()
     var categoriData = [String]()
+    func loadCategoriData()
+    {
+            var db: Firestore!
+            db = Firestore.firestore()
+            db.collection("Affirmation").getDocuments { [self] (snap, error) in
+                
+                if error != nil
+                {
+                    print("error ", error!.localizedDescription)
+                    return
+                }
+                for doc in snap?.documents ?? []
+                {
+                    let  d = doc.data()
+                    if d.count > 0
+                    {
+                        dict = d as NSDictionary
+                        //print(dict)
+                        
+                        self.getCategoriData()
+                    }
+                }
+        }
+        
+    }
     func getCategoriData()
     {
         
-
             var db: Firestore!
             db = Firestore.firestore()
             db.collection("users").getDocuments { [self] (snap, error) in
@@ -1913,10 +2117,21 @@ class NewsArticalScreenViewController: UIViewController,UIScrollViewDelegate {
                             
                             self.dailyAffirmation = (d["DailyAffirmation"] as? NSDictionary ?? NSDictionary()).mutableCopy() as? NSMutableDictionary ?? NSMutableDictionary()
                             
-
-                            
                             if(categoriData.count == 0){
-                                categoriData = ["SELF LOVE"]
+                                
+                                let sortedKeys = (dict.allKeys as [String]).sorted()
+                                if(sortedKeys.count > 0){
+                                    for item in sortedKeys {
+                                        let key = item as? String ?? ""
+                                        let data = dict.value(forKey: key) as? NSDictionary
+                                        let isFree = data?.value(forKey: "Isfree") as? Bool ?? false
+                                        if(isFree){
+                                            categoriData.append(key)
+                                        }
+                                    }
+                                }else{
+                                    categoriData = ["SELF LOVE"]
+                                }
                                 
                                 var db: Firestore!
                                 db = Firestore.firestore()
@@ -1934,6 +2149,28 @@ class NewsArticalScreenViewController: UIViewController,UIScrollViewDelegate {
                             }
                             
                             self.checkForAffirmation()
+                            
+                            
+                            let fname = (d["firstname"] as? String ?? "")
+
+                            let hour = Calendar.current.component(.hour, from: Date())
+                            switch hour {
+                            case 6..<12 :
+                                self.lbltitle.text = String.init(format: "Good Morning, \(fname)! %@" ,"")
+                                //self.lblsun.image =  UIImage.init(named: "sun")
+                            case 12 :
+                                self.lbltitle.text = String.init(format: "Good Afternoon, \(fname)! %@","")
+                                //self.lblsun.image =  UIImage.init(named: "sun")
+                            case 13..<17 :
+                                self.lbltitle.text = String.init(format: "Good Afternoon, \(fname)! %@","")
+                                //self.lblsun.image =  UIImage.init(named: "sun")
+                            case 17..<22 :
+                                self.lbltitle.text = String.init(format: "Good Evening, \(fname)! %@","")
+                               // self.lblsun.image =  UIImage.init(named: "moon")
+                            default:
+                                self.lbltitle.text = String.init(format: "Good Night, \(fname)! %@","")
+                               // self.lblsun.image =  UIImage.init(named: "moon")
+                            }
 
                             break
                         }
@@ -1963,14 +2200,17 @@ class NewsArticalScreenViewController: UIViewController,UIScrollViewDelegate {
             let totalLength = self.categoriData.count
             let randomInt = Int.random(in: 0..<totalLength)
             let strCatName = self.categoriData[randomInt] as? String
-            let array = dict.value(forKey: strCatName!) as? NSArray ?? NSArray()
+          
+            let dataCat = dict.value(forKey: strCatName!) as? NSDictionary ?? NSDictionary()
+            let array = dataCat.value(forKey: "Messages") as? [String] ?? []
+
             if array.count > 0
             {
                 print("general array :\(array)")
                 let randomeArray = Int.random(in: 0..<array.count)
-                let mess = array.object(at: randomeArray) as? String
+                let mess = array[randomeArray] as String
                 
-                currentAffirmationMessage = mess!
+                currentAffirmationMessage = mess
                 lblBGAffirmation.text = currentAffirmationMessage
                 tableview.reloadData()
                 dailyAffirmation.setValue(mess, forKey: "message")
@@ -2006,12 +2246,13 @@ class NewsArticalScreenViewController: UIViewController,UIScrollViewDelegate {
                     let totalLength = self.categoriData.count
                     let randomInt = Int.random(in: 0..<totalLength)
                     let strCatName = self.categoriData[randomInt] as? String
-                    let array = dict.value(forKey: strCatName!) as? NSArray
-                    if array!.count > 0
+                    let dataCat = dict.value(forKey: strCatName!) as? NSDictionary ?? NSDictionary()
+                    let array = dataCat.value(forKey: "Messages") as? [String] ?? []
+                    if array.count > 0
                     {
-                        let randomeArray = Int.random(in: 0..<array!.count)
-                        let mess = array?.object(at: randomeArray) as? String
-                        newMessage = mess!
+                        let randomeArray = Int.random(in: 0..<array.count)
+                        let mess = array[randomeArray] as String
+                        newMessage = mess
                     }
                 }while(newMessage == message)
                 

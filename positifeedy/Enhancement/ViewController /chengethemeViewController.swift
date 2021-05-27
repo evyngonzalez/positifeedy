@@ -64,6 +64,7 @@ class chengethemeViewController: UIViewController, UICollectionViewDelegate, UIC
         updateLightDarkButtons()
 //        startDownload(index: downloadIndex)
         
+        
     }
 //    var downloadIndex = 0
 //    func startDownload(index : Int){
@@ -332,8 +333,6 @@ class chengethemeViewController: UIViewController, UICollectionViewDelegate, UIC
             }
         }
         
-        
-        
     }
     
     //MARK:- Collectionview Delegate
@@ -346,7 +345,7 @@ class chengethemeViewController: UIViewController, UICollectionViewDelegate, UIC
         return 0
     }
 
-    var arrThumbs = Array<UIImage?>(repeating: nil, count:arrTheme.count)
+//    var arrThumbs = Array<UIImage?>(repeating: nil, count:arrTheme.count)
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if(collectionView == clvPresetTheme){

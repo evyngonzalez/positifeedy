@@ -55,7 +55,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         
         window = UIWindow(frame: UIScreen.main.bounds)
-        
+                
        // UserDefaults.standard.register(defaults: ["UserAgent" : "iOS-CompanyName/versionNumber"])
         
         FirebaseApp.configure()
@@ -70,6 +70,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         IQKeyboardManager.shared.enable = true
         IQKeyboardManager.shared.shouldResignOnTouchOutside = true
         
+//        var db: Firestore!
+//        db = Firestore.firestore()
+//        let d = ["Affirmation" : arrTheme]
+//
+//        db.collection("Affirmation").addDocument(data: dict as! [String : Any]) { (error) in
+//             if error != nil
+//             {
+//                 print(error!.localizedDescription)
+//             }
+//        }
+
         if #available(iOS 13, *) {
             let appleIDProvider = ASAuthorizationAppleIDProvider()
             appleIDProvider.getCredentialState(forUserID: KeychainItem.currentUserIdentifier ?? "") { (credentialState, error) in
@@ -343,7 +354,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                         let currentdate = Date()
                         if currentdate.isGreaterThan(expiryDate)
                         {
-                            //alerady expired !
+                            //already expired!
                             UserDefaults.standard.removeObject(forKey: PREF_SUBSCRIBE_ANNUAL)
                         }
                         else
@@ -526,8 +537,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        }
         else
         {
-            UserDefaults.standard.setValue(Data(), forKey: "UserProfileImage")
-            
+            UserDefaults.standard.removeObject(forKey: "UserProfileImage")
+            UserDefaults.standard.synchronize()
+
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let welcomeViewController = storyboard.instantiateViewController(withIdentifier: "navLogin") as! UINavigationController
 
@@ -535,8 +547,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             self.window?.makeKeyAndVisible()
         }
     }
-    
-    
     
     
     func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
@@ -995,7 +1005,6 @@ extension AppDelegate : MessagingDelegate
         print( remoteMessage.appData)
     }
 }
-
 
 
 extension UIApplication {

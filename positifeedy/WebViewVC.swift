@@ -24,8 +24,9 @@ class WebViewVC: UIViewController,WKNavigationDelegate {
     //let bookmark = UIButton(type: .custom)
     //let share = UIButton(type: .custom)
     
-    let imgBookmark = UIImage.init(named: "bm-0")!
-    let imgBookmarkSelected = UIImage.init(named: "bm-1")!
+    let imgBookmark = UIImage.init(named: "bookmark-gray")!
+    let imgBookmarkSelected = UIImage.init(named: "bookmark-black-fill")!
+    //bm-0 & bm-1
     let imgShare = UIImage.init(named: "share_ic")!
     
     @IBOutlet weak var imgBookmark1: UIImageView!
@@ -44,6 +45,9 @@ class WebViewVC: UIViewController,WKNavigationDelegate {
         self.arrRecentlyView = NSMutableArray.init()
         self.getBookmarsDataOther()
         self.getRecentlyViews()
+        
+        let appDel =  UIApplication.shared.delegate as! AppDelegate
+        myDocID = appDel.myDocID
 
         self.navigationController?.navigationBar.isHidden = true
 //        bookmark.setImage(isBookmark ? imgBookmarkSelected : imgBookmark, for: .normal)

@@ -27,8 +27,8 @@ class WebViewFeedy: UIViewController,WKNavigationDelegate
     
     @IBOutlet weak var imgBookmark1: UIImageView!
     @IBOutlet weak var imgshare1: UIImageView!
-    let imgBookmark = UIImage.init(named: "bm-0")!
-    let imgBookmarkSelected = UIImage.init(named: "bm-1")!
+    let imgBookmark = UIImage.init(named: "bookmark-gray")!
+    let imgBookmarkSelected = UIImage.init(named: "bookmark-black-fill")!
     let imgShare = UIImage.init(named: "share_ic")!
     
     @IBOutlet weak var navview: UIView!

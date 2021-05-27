@@ -153,22 +153,24 @@ class ProfilVc: UIViewController {
                                         self.userProfile.sd_setImage(with: url, placeholderImage: UIImage(named: "profile-placeholder-big"), options: .highPriority) { (image, error, type, url) in
                                             
 //                                            let resized: UIImage = image!.resizedImage().roundedImageWithBorder(width: 2, color: UIColor.green)!.withRenderingMode(.alwaysOriginal)
-                                            
-                                            let data = image?.pngData() ?? Data()
-                                            if(data.count > 0){
-                                                UserDefaults.standard.setValue(data, forKey: "UserProfileImage")
-                                                UserDefaults.standard.synchronize()
-                                            }else{
-                                                let image = UIImage(named: "profile-placeholder-big")!
-                                                self.tabBarController?.tabBar.items?[3].image = image.resizedImage().roundedImageWithBorder(width: 0)!.withRenderingMode(.alwaysOriginal)
-                                                self.tabBarController?.tabBar.items?[3].selectedImage = image.resizedImage().roundedImageWithBorder(width: 2)!.withRenderingMode(.alwaysOriginal)
+                                            if(image != nil){
+                                                let data = image?.pngData() ?? Data()
+                                                if(data.count > 0){
+                                                    UserDefaults.standard.setValue(data, forKey: "UserProfileImage")
+                                                    UserDefaults.standard.synchronize()
+                                                }else{
+                                                    let image = UIImage(named: "profile-placeholder-big")!
+                                                    self.tabBarController?.tabBar.items?[3].image = image.resizedImage().roundedImageWithBorder(width: 0)!.withRenderingMode(.alwaysOriginal)
+                                                    self.tabBarController?.tabBar.items?[3].selectedImage = image.resizedImage().roundedImageWithBorder(width: 2)!.withRenderingMode(.alwaysOriginal)
+                                                }
+                                                
+    //                                            self.tabBarController?.tabBar.items?[3].image = resized
+    //                                            self.tabBarController?.tabBar.items?[3].selectedImage = resized
+                                                self.tabBarController?.tabBar.items?[3].image = image!.resizedImage().roundedImageWithBorder(width: 0)!.withRenderingMode(.alwaysOriginal)
+                                                self.tabBarController?.tabBar.items?[3].selectedImage = image!.resizedImage().roundedImageWithBorder(width: 2)!.withRenderingMode(.alwaysOriginal)
+
                                             }
                                             
-//                                            self.tabBarController?.tabBar.items?[3].image = resized
-//                                            self.tabBarController?.tabBar.items?[3].selectedImage = resized
-                                            self.tabBarController?.tabBar.items?[3].image = image!.resizedImage().roundedImageWithBorder(width: 0)!.withRenderingMode(.alwaysOriginal)
-                                            self.tabBarController?.tabBar.items?[3].selectedImage = image!.resizedImage().roundedImageWithBorder(width: 2)!.withRenderingMode(.alwaysOriginal)
-
                                         }
                 
                                         self.activity.stopAnimating()

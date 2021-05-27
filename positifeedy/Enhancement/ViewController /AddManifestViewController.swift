@@ -53,6 +53,7 @@ class AddManifestViewController: UIViewController,UITextViewDelegate,AVAudioReco
     @IBOutlet weak var lblMinChar: UILabel!
     @IBOutlet weak var scrollview: UIScrollView!
     @IBOutlet weak var btnsave: UIButton!
+    @IBOutlet weak var lblDisableInfo: UILabel!
     @IBOutlet weak var btnrestart: UIButton!
     @IBOutlet weak var btnSubscribe: UIButton!
     @IBOutlet weak var txtcomment: UITextView!
@@ -77,6 +78,8 @@ class AddManifestViewController: UIViewController,UITextViewDelegate,AVAudioReco
     
     var selectedDate = Date()
     var selectedDay = "every day"
+    
+    @IBOutlet weak var imgProfile: UIImageView!
     
     override func viewDidLoad()
     {
@@ -559,25 +562,27 @@ class AddManifestViewController: UIViewController,UITextViewDelegate,AVAudioReco
             return
         }
         
-        if self.txtcomment.text == "Write Here..."
-        {
-           self.view.makeToast("Please enter your answer!")
-            return
-        }
-        else
-        {
-           if self.txtcomment.text.count > 5
-           {
-               // save to another !
-               
-               self.savetoUserManifestEntry()
-           }
-           else
-           {
-                self.view.makeToast("Please enter atleast 5 characters!")
-                return
-           }
-        }
+//        if self.txtcomment.text == "Write Here..."
+//        {
+//           self.view.makeToast("Please enter your answer!")
+//            return
+//        }
+//        else
+//        {
+//           if self.txtcomment.text.count > 5
+//           {
+//               // save to another !
+//               
+//               self.savetoUserManifestEntry()
+//           }
+//           else
+//           {
+//                self.view.makeToast("Please enter atleast 5 characters!")
+//                return
+//           }
+//        }
+        self.savetoUserManifestEntry()
+
         if self.strtype == "1"
         {
             
@@ -673,39 +678,63 @@ class AddManifestViewController: UIViewController,UITextViewDelegate,AVAudioReco
     @IBAction func onclickforRetry(_ sender: Any)
     {
         
-        if(IsEditingOn){
-            return
+        strAudiFileName = nil
+        firebaseaudioURL = ""
+        
+        self.isPlayFlag = 0
+        self.btnpla.setImage(UIImage.init(named: "n_play"), for: .normal)
+        
+        if(audioPlayer != nil){
+            audioPlayer.stop()
         }
+        isPlaying = false
+        
+        self.timerPlaying?.invalidate()
+        self.timerPlaying = nil
+        self.timer?.invalidate()
+        self.timer = nil
+
+        self.lblMinit.text = "00:00 / 00:00"
+        self.currentMin = 0.0
+        self.totalSecond = 0.0
+        
+        self.strtype = "0"
+        self.isPlayfstTime = 0
+
+        self.progressbar.setProgress(0, animated: true)
+        self.btnStartRecFirst.setImage(UIImage.init(named: "n_start_record"), for: .normal)
+
+        
+        
+        
         // inital video : start video
-         self.isPlayfstTime = 1
-         
-         self.strtype = "1"
-         self.lblMinit.text = "00:00 / 00:00"
-         self.currentMin = 0.0
-         self.timer?.invalidate()
-         self.timer = nil
-         self.timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(update), userInfo: nil, repeats: true)
-         self.btnStartRecFirst.setImage(UIImage.init(named: "stop_record"), for: .normal)
-        
-         self.strAudiFileName = String.init(format: "%@.m4a", self.randomString(length: 4))
-         setup_recorder()
-         audioRecorder.record()
-         self.meterTimer = Timer.scheduledTimer(timeInterval: 0.1, target:self, selector:#selector(self.updateAudioMeter(timer:)), userInfo:nil, repeats:true)
-         //record_btn_ref.setTitle("Stop", for: .normal)
-         //play_btn_ref.isEnabled = false
-         isRecording = true
-         self.btnpla.setImage(UIImage.init(named: "n_play"), for: .normal)
-         self.progressbar.setProgress(0.0, animated: true)
-         
-        
-        
-         if self.audioPlayer != nil
-         {
-             self.timerPlaying?.invalidate()
-             self.timerPlaying = nil
-             self.audioPlayer.stop()
-             self.progressbar.setProgress(0, animated: true)
-         }
+//         self.isPlayfstTime = 1
+//
+//         self.strtype = "1"
+//         self.lblMinit.text = "00:00 / 00:00"
+//         self.currentMin = 0.0
+//         self.timer?.invalidate()
+//         self.timer = nil
+//         self.timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(update), userInfo: nil, repeats: true)
+//         self.btnStartRecFirst.setImage(UIImage.init(named: "stop_record"), for: .normal)
+//
+//         self.strAudiFileName = String.init(format: "%@.m4a", self.randomString(length: 4))
+//         setup_recorder()
+//         audioRecorder.record()
+//         self.meterTimer = Timer.scheduledTimer(timeInterval: 0.1, target:self, selector:#selector(self.updateAudioMeter(timer:)), userInfo:nil, repeats:true)
+//         //record_btn_ref.setTitle("Stop", for: .normal)
+//         //play_btn_ref.isEnabled = false
+//         isRecording = true
+//         self.btnpla.setImage(UIImage.init(named: "n_play"), for: .normal)
+//         self.progressbar.setProgress(0.0, animated: true)
+//
+//        if self.audioPlayer != nil
+//         {
+//             self.timerPlaying?.invalidate()
+//             self.timerPlaying = nil
+//             self.audioPlayer.stop()
+//             self.progressbar.setProgress(0, animated: true)
+//         }
         
     }
     
@@ -715,7 +744,7 @@ class AddManifestViewController: UIViewController,UITextViewDelegate,AVAudioReco
         {
             if self.isPlayfstTime == 1
             {
-                self.view.makeToast("Recorning is working now! please wait..")
+                self.view.makeToast("Recording is working now! please wait..")
             }
             else
             {
@@ -989,10 +1018,15 @@ class AddManifestViewController: UIViewController,UITextViewDelegate,AVAudioReco
                     let dict = self.arrMyManifestEntry.object(at: i) as? NSDictionary
                     if dict?.value(forKey: "isActive") as? Bool ?? false
                     {
+                        var comment = self.txtcomment.text
+                        if comment == "Write Here..."{
+                            comment = ""
+                        }
+                        
                         let timestamp = Date().currentTimeMillis()
                         let dictMutable = dict?.mutableCopy() as? NSMutableDictionary
 //                        dictMutable!.setValue(self.lblQuestion.text, forKey: "question")
-                        dictMutable!.setValue(self.txtcomment.text, forKey: "answer")
+                        dictMutable!.setValue(comment, forKey: "answer")
                         dictMutable!.setValue(self.imgURL, forKey: "link")
                         dictMutable!.setValue("\(timestamp)", forKey: "timestamp")
                         dictMutable!.setValue("\(dateString)", forKey: "current_date")
@@ -1016,8 +1050,8 @@ class AddManifestViewController: UIViewController,UITextViewDelegate,AVAudioReco
                         }
                         else
                         {
+                            dictMutable!.setValue(self.firebaseaudioURL, forKey: "audio_url")
                             dictMutable!.setValue("5", forKey: "point")
-
                             dictMutable!.setValue("0", forKey: "type")
                         }
                         self.arrMyManifestEntry.replaceObject(at: i, with: dictMutable)
@@ -1043,11 +1077,14 @@ class AddManifestViewController: UIViewController,UITextViewDelegate,AVAudioReco
             }
             else
             {
-            
+                var comment = self.txtcomment.text
+                if comment == "Write Here..."{
+                    comment = ""
+                }
                 let timestamp = Date().currentTimeMillis()
                 let dict = NSMutableDictionary.init()
 //                dict.setValue(self.lblQuestion.text, forKey: "question")
-                dict.setValue(self.txtcomment.text, forKey: "answer")
+                dict.setValue(comment, forKey: "answer")
                 dict.setValue(self.imgURL, forKey: "link")
                 dict.setValue("\(timestamp)", forKey: "timestamp")
                 dict.setValue("\(dateString)", forKey: "current_date")
@@ -1117,12 +1154,16 @@ class AddManifestViewController: UIViewController,UITextViewDelegate,AVAudioReco
         }
         else
         {
+            var comment = self.txtcomment.text
+            if comment == "Write Here..."{
+                comment = ""
+            }
             self.arrMyManifestEntry = NSMutableArray.init()
 
             let timestamp = Date().currentTimeMillis()
             let dict = NSMutableDictionary.init()
 //            dict.setValue(self.lblQuestion.text, forKey: "question")
-            dict.setValue(self.txtcomment.text, forKey: "answer")
+            dict.setValue(comment, forKey: "answer")
             dict.setValue(self.imgURL, forKey: "link")
             dict.setValue("\(timestamp)", forKey: "timestamp")
             dict.setValue("\(dateString)", forKey: "current_date")
@@ -1187,37 +1228,52 @@ class AddManifestViewController: UIViewController,UITextViewDelegate,AVAudioReco
         }
         
         let scheduler = DLNotificationScheduler()
-        scheduler.cancelAlllNotifications()
-        
         let title = "Manifestation"
-        let message = self.txtcomment.text ?? ""
+        var message = self.txtcomment.text ?? ""
 
-        let totalSecondsInDay = 24 * 60 * 60    //86400 //DayHour * HourMinute * MinuteSecond
-        
-//        print("Dinal J")
-//        print(dateString)
-//        print(endDateString)
-//        print(selectedDate)
-        
-        var newDate = selectedDate
-        newDate = Calendar.current.date(bySettingHour: selectedDate.hour, minute: selectedDate.minute, second: 0, of: selectedDate)!
+        scheduler.getScheduledNotifications { (request) in
+            request?.forEach({ (item) in
+                if(item.identifier.contains("manifest")){
+                    scheduler.cancelNotification(identifier: item.identifier)
+                }
+            })
+            //Setup new notification for manifestations
+            if message == "Write Here..."{
+                message = ""
+            }
+            let totalSecondsInDay = 24 * 60 * 60    //86400 //DayHour * HourMinute * MinuteSecond
+            
+            var newDate = self.selectedDate
+            newDate = Calendar.current.date(bySettingHour: self.selectedDate.hour, minute: self.selectedDate.minute, second: 0, of: self.selectedDate)!
 
-        print("Dinal J" + "\(newDate.hour):\(newDate.minute):\(newDate.second)")
-        
-        if(selectedDay == "every day"){
-            let interval = Double(totalSecondsInDay)
-            scheduler.repeatsFromToDate(identifier: "First Notification", alertTitle: title, alertBody: message, fromDate: newDate, toDate: endDate, interval: interval, repeats: .none )
-            scheduler.scheduleAllNotifications()
-        }else if(selectedDay == "once a week"){
-            let interval = Double(totalSecondsInDay * 7)
-            scheduler.repeatsFromToDate(identifier: "First Notification", alertTitle: title, alertBody: message, fromDate: newDate, toDate: endDate, interval: interval, repeats: .none )
-            scheduler.scheduleAllNotifications()
+            print("Dinal J" + "\(newDate.hour):\(newDate.minute):\(newDate.second)")
+            
+            if(self.selectedDay == "every day"){
+                let interval = Double(totalSecondsInDay)
+                scheduler.repeatsFromToDate(identifier: "manifest", alertTitle: title, alertBody: message, fromDate: newDate, toDate: endDate, interval: interval, repeats: .none )
+                scheduler.scheduleAllNotifications()
+            }else if(self.selectedDay == "once a week"){
+                let interval = Double(totalSecondsInDay * 7)
+                scheduler.repeatsFromToDate(identifier: "manifest", alertTitle: title, alertBody: message, fromDate: newDate, toDate: endDate, interval: interval, repeats: .none )
+                scheduler.scheduleAllNotifications()
 
-        }else if(selectedDay == "every 3 days"){
-            let interval = Double(totalSecondsInDay * 3)
-            scheduler.repeatsFromToDate(identifier: "First Notification", alertTitle: title, alertBody: message, fromDate: newDate, toDate: endDate, interval: interval, repeats: .none )
-            scheduler.scheduleAllNotifications()
+            }else if(self.selectedDay == "every 3 days"){
+                let interval = Double(totalSecondsInDay * 3)
+                scheduler.repeatsFromToDate(identifier: "manifest", alertTitle: title, alertBody: message, fromDate: newDate, toDate: endDate, interval: interval, repeats: .none )
+                scheduler.scheduleAllNotifications()
+            }
+            
+            let scheduler1 = DLNotificationScheduler()
+            scheduler1.getScheduledNotifications { (request) in
+                request?.forEach({ (item) in
+                    if(item.identifier.contains("journal")){
+                        scheduler1.cancelNotification(identifier: item.identifier)
+                    }
+                })
+            }
+            
         }
+        
         
 
         
@@ -1266,6 +1322,13 @@ class AddManifestViewController: UIViewController,UITextViewDelegate,AVAudioReco
                               
                            }
                             
+                            if let strURL = (d["profileImage"] as? String)
+                            {
+                                let url = URL(string: strURL)
+                                self.imgProfile.sd_setImage(with: url, placeholderImage: UIImage(named: "profile-placeholder-big"))
+                            }else{
+                                 self.imgProfile.image = UIImage(named: "profile-placeholder-big")
+                            }
                             
                             let subscription = d["Subscription"] as? String
                             if subscription != nil
@@ -1303,6 +1366,7 @@ class AddManifestViewController: UIViewController,UITextViewDelegate,AVAudioReco
                                         
                                         if(self.IsEditingOn){
                                             self.btnsave.isHidden = true
+                                            self.lblDisableInfo.isHidden = false
                                             if ((dict?.value(forKey: "answer") as? String) != nil)
                                             {
                                                 self.txtcomment.text = String.init(format: "%@",(dict?.value(forKey: "answer") as? CVarArg)!)
@@ -1388,6 +1452,8 @@ class AddManifestViewController: UIViewController,UITextViewDelegate,AVAudioReco
                             
                             if(!self.IsEditingOn){
                                 self.btnsave.isHidden = false
+                                self.lblDisableInfo.isHidden = true
+                                
                                 self.txtcomment.text = ""
                                 self.selectedDate = Date()
                                 self.selectedDay = "every day"

@@ -68,6 +68,8 @@ class JournalDetailViewController: UIViewController,UITextViewDelegate,AVAudioRe
     //@IBOutlet weak var btnWrite: UIButton!
     //@IBOutlet weak var btnRecord: UIButton!
     
+    @IBOutlet weak var imgProfile: UIImageView!
+    
     
     var DataJournal = NSMutableDictionary()
     var IsEditingOn = false
@@ -87,6 +89,9 @@ class JournalDetailViewController: UIViewController,UITextViewDelegate,AVAudioRe
             self.getProfileData()
             self.setQuestionDetails()
         }else{
+            
+            self.getProfilePic()
+
             txtcomment.isEditable = false
             btnSubscribe.isHidden = true
             btnsave.isHidden = true
@@ -101,6 +106,8 @@ class JournalDetailViewController: UIViewController,UITextViewDelegate,AVAudioRe
                 
                 let time = DataJournal.value(forKey: "play_time") as? String ?? "0.0"
                 totalSecond = Float(time)!
+                self.lblMinit.text = String.init(format: "%.2f / %.2f", self.currentMin,self.totalSecond)
+
             }
             
             let message = DataJournal.value(forKey: "answer") as? String ?? ""
@@ -136,6 +143,12 @@ class JournalDetailViewController: UIViewController,UITextViewDelegate,AVAudioRe
         }
         
         updateTextview()
+        
+        if(txtcomment.text == "Write Here..."){
+            txtcomment.isHidden = true
+        }else{
+            txtcomment.isHidden = false
+        }
     }
     
     func updateUIForSubscription(){
@@ -753,7 +766,7 @@ class JournalDetailViewController: UIViewController,UITextViewDelegate,AVAudioRe
         {
             if self.isPlayfstTime == 1
             {
-                self.view.makeToast("Recorning is working now! please wait..")
+                self.view.makeToast("Recording is working now! please wait..")
             }
             else
             {
@@ -1246,7 +1259,41 @@ class JournalDetailViewController: UIViewController,UITextViewDelegate,AVAudioRe
     }
     
     
-    
+    func getProfilePic()
+    {
+        var db: Firestore!
+        db = Firestore.firestore()
+        db.collection("users").getDocuments { (snap, error) in
+            if error != nil{
+                print("error ", error!.localizedDescription)
+                return
+            }
+            
+            for doc in snap?.documents ?? []
+            {
+                let  d = doc.data()
+                if d.count > 0
+                {
+                    print("data = ",  d)
+                    
+                    if (d["uid"] as! String)  ==  Auth.auth().currentUser?.uid
+                    {
+                        
+                       self.strUID = Auth.auth().currentUser?.uid
+                        self.myDocId = doc.documentID
+                       if let strURL = (d["profileImage"] as? String)
+                       {
+                           let url = URL(string: strURL)
+                           self.imgProfile.sd_setImage(with: url, placeholderImage: UIImage(named: "profile-placeholder-big"))
+                        
+                       }else{
+                            self.imgProfile.image = UIImage(named: "profile-placeholder-big")
+                       }
+                    }
+                }
+            }
+        }
+    }
     // uer profile :
     func getProfileData()
         {
@@ -1273,29 +1320,11 @@ class JournalDetailViewController: UIViewController,UITextViewDelegate,AVAudioRe
                             
                            self.strUID = Auth.auth().currentUser?.uid
                             self.myDocId = doc.documentID
-                           if let strURL = (d["pic"] as? String)
+                           if let strURL = (d["profileImage"] as? String)
                            {
                                let url = URL(string: strURL)
-                                
-//                               self.imgProfile.sd_setImage(with: url, placeholderImage: UIImage(named: "ReflectionBG"))
+                               self.imgProfile.sd_setImage(with: url, placeholderImage: UIImage(named: "profile-placeholder-big"))
                             
-                               //self.activity.startAnimating()
-                               //self.activity.isHidden = false
-    //                               DispatchQueue.global(qos: .background).async {
-    //                                   do
-    //                                   {
-    //                                       let data = try Data(contentsOf: url!)
-    //                                       DispatchQueue.main.async {
-    //                                           self.imgProfile.image = UIImage(data: data)
-    //                                           //self.activity.stopAnimating()
-    //                                           //self.activity.isHidden = true
-    //                                       }
-    //
-    //                                   }
-    //                                   catch{
-    //                                       self.view.makeToast("Somthing went to wrong")
-    //                                   }
-    //                               }
                            }
                             
                             let arr = d["JournalEntry"] as? NSArray

@@ -563,8 +563,13 @@ class logInViewController: UIViewController, GIDSignInDelegate,ASAuthorizationCo
     
     func transitionToHome() {
         
+        SVProgressHUD.dismiss()
+        UserDefaults.standard.removeObject(forKey: "UserProfileImage")
+        UserDefaults.standard.synchronize()
+
         let storyboard = UIStoryboard(name: "Enhancement", bundle: nil)
         let vcSubscri = storyboard.instantiateViewController(withIdentifier: "SubsciptionVc") as! SubsciptionVc
+        vcSubscri.fromLogin = true
         vcSubscri.modalPresentationStyle = .fullScreen
         vcSubscri.modalTransitionStyle = .crossDissolve
         self.navigationController?.pushViewController(vcSubscri, animated: true)

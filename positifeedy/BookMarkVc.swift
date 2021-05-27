@@ -388,8 +388,12 @@ class BookMarkVc: UIViewController,EMPageViewControllerDataSource, EMPageViewCon
                 UserDefaults.standard.set(false, forKey: "isLogin")
                 
                 let scheduler = DLNotificationScheduler()
-                scheduler.cancelAlllNotifications()
-
+                scheduler.getScheduledNotifications { (request) in
+                    request?.forEach({ (item) in
+                        scheduler.cancelNotification(identifier: item.identifier)
+                    })
+                }
+                
                 let loginVC = self.storyboard?.instantiateViewController(withIdentifier: "logInViewController") as! logInViewController
                 
                 

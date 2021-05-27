@@ -147,12 +147,15 @@ class JournalEntriesVc: UIViewController, UICollectionViewDelegate, UICollection
                             if arr!.count > 0
                             {
                                 self.arrMyJournalEntry = NSMutableArray.init(array: arr!)
+                                self.arrMyJournalEntry = (self.arrMyJournalEntry.reversed() as! NSArray).mutableCopy() as! NSMutableArray
+
                             }
                         }
                         else
                         {
                             print("No JournalEntry Object !")
                         }
+                        
                         self.clvJournalList.reloadData()
                         
                     }

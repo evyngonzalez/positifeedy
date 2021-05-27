@@ -67,6 +67,10 @@ class ManifestDetailViewController: UIViewController,UITextViewDelegate,AVAudioR
     @IBOutlet weak var lblSelectedDay: UILabel!
     
     @IBOutlet weak var viewIsActiveManifest: UIView!
+    @IBOutlet weak var lblActive: UILabel!
+    @IBOutlet weak var imgProfile: UIImageView!
+    
+    @IBOutlet weak var constBtnCheckBoxSize: NSLayoutConstraint!
     
     var selectedDate = Date()
     var selectedDay = "every day"
@@ -90,6 +94,11 @@ class ManifestDetailViewController: UIViewController,UITextViewDelegate,AVAudioR
 //        self.getProfileData()
 //        self.setQuestionDetails()
         
+        getProfilePic()
+        
+//        lblActive.text = [NSString stringWithFormat:@"%C", 0xe04f];
+
+        
         txtcomment.text = DataMessage
         if(DataTime != ""){
             
@@ -109,9 +118,13 @@ class ManifestDetailViewController: UIViewController,UITextViewDelegate,AVAudioR
             lbldate.text = String.init(format: "%@%@, %@", dateString,self.daySuffix(from: date), dateString1)
         }
         if(DataIsActive){
-            viewIsActiveManifest.isHidden = false
+//            viewIsActiveManifest.isHidden = false
+            constBtnCheckBoxSize.constant = 0
+            lblActive.text = "Has this manifestation been fulfilled?"
         }else{
-            viewIsActiveManifest.isHidden = true
+//            viewIsActiveManifest.isHidden = true
+            constBtnCheckBoxSize.constant = 25
+            lblActive.text = "This manifestation has been fulfilled 😌"
         }
         selectedDay = DataDay
         firebaseaudioURL = DataAudio
@@ -178,6 +191,11 @@ class ManifestDetailViewController: UIViewController,UITextViewDelegate,AVAudioR
         }else{
             txtcomment.text = txtcomment.text
             txtcomment.textColor = UIColor.white
+        }
+        if(txtcomment.text == "Write Here..."){
+            txtcomment.isHidden = true
+        }else{
+            txtcomment.isHidden = false
         }
     }
     
@@ -298,6 +316,14 @@ class ManifestDetailViewController: UIViewController,UITextViewDelegate,AVAudioR
         self.audioView.layer.cornerRadius = 8
         self.audioView.clipsToBounds = true
         self.lblMinit.text = "00:00 / 00:00"
+        
+        
+        DispatchQueue.main.async {
+            self.viewIsActiveManifest.layer.cornerRadius = self.viewIsActiveManifest.frame.height/2
+            self.viewIsActiveManifest.clipsToBounds = true
+            self.viewIsActiveManifest.layer.borderColor = UIColor.white.cgColor
+            self.viewIsActiveManifest.layer.borderWidth = 1
+        }
         
     }
     
@@ -444,6 +470,9 @@ class ManifestDetailViewController: UIViewController,UITextViewDelegate,AVAudioR
     @IBAction func btnDisableManifest(_ sender: Any)
     {
         
+        if(!DataIsActive){
+            return
+        }
         if !NetworkState.isConnected()
         {
             let alert = UIAlertController(title: Utilities.appName(), message: "Internet not connected", preferredStyle: .alert)
@@ -500,10 +529,27 @@ class ManifestDetailViewController: UIViewController,UITextViewDelegate,AVAudioR
                             print(error!.localizedDescription)
                         }
                         SVProgressHUD.dismiss()
-    //                    UserDefaults.standard.setValue(dateString, forKey: PREF_BOOKED_DATE)
                         
                         let scheduler = DLNotificationScheduler()
-                        scheduler.cancelAlllNotifications()
+                        scheduler.getScheduledNotifications { (request) in
+                            request?.forEach({ (item) in
+                                if(item.identifier.contains("manifest")){
+                                    scheduler.cancelNotification(identifier: item.identifier)
+                                }
+                            })
+                            
+                        }
+                        let scheduler1 = DLNotificationScheduler()
+                        scheduler1.getScheduledNotifications { (request) in
+                            request?.forEach({ (item) in
+                                if(item.identifier.contains("journal")){
+                                    scheduler1.cancelNotification(identifier: item.identifier)
+                                }
+                            })
+                            self.setupJournalNotification()
+                        }
+//                        scheduler.cancelAlllNotifications()
+                        
                         
                         self.view.makeToast("Updated Successfully!")
                         self.navigationController?.popViewController(animated: true)
@@ -518,8 +564,99 @@ class ManifestDetailViewController: UIViewController,UITextViewDelegate,AVAudioR
         present(alert, animated: true, completion: nil)
         return
 
+    }
+    
+    func setupJournalNotification()
+   {
+        var arrQuestionList = [QuestionListItem]()
+        let notificationTime = 11
+
+        var db: Firestore!
+        db = Firestore.firestore()
+        db.collection("QuestionList").getDocuments { (snap, error) in
+            if error != nil
+            {
+                print("error ", error!.localizedDescription)
+                return
+            }
+            
+            if let arr = snap?.documents {
+                let arrData = arr.map { (snap) -> [String: Any] in
+                    var dict = snap.data()
+                    dict["documentID"] = snap.documentID
+                    return dict
+                }
+                
+                do {
+                    
+                    let jsonData = try JSONSerialization.data(withJSONObject: arrData, options: .prettyPrinted)
+                    let jsonDecoder = JSONDecoder()
+                    let obj = try jsonDecoder.decode([QuestionListItem].self, from: jsonData)
+                    arrQuestionList = obj
+                    
+                    if arrQuestionList.count > 0
+                    {
+                         var currentInx = UserDefaults.standard.object(forKey: PREF_DAILY_QUESTION_COUNT) as? Int ?? 0
+                        
+                        var index = 0
+                        
+                        let hour = Calendar.current.component(.hour, from: Date())
+                        if(hour > notificationTime){
+                            currentInx += 1
+                            index += 1
+                        }
+                        
+                        if(currentInx < 0 || currentInx > (arrQuestionList.count-1)){
+                            currentInx = 0
+                        }
+                        
+                        for i in currentInx..<arrQuestionList.count {
+                            
+                            let questionItem = arrQuestionList[i]
+                            
+                            var dayComponent    = DateComponents()
+                            dayComponent.day    = index
+
+                            var newDate = Date()
+                            newDate = Calendar.current.date(bySettingHour: notificationTime, minute: 0, second: 0, of: Date())!
+                            
+                            let theCalendar     = Calendar.current
+                            let nextDate = theCalendar.date(byAdding: dayComponent, to:newDate)!
+                            
+                            let dateFormatter = DateFormatter()
+                            dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+                            let dateString = dateFormatter.string(from: nextDate)
+                            print("DKL :" + dateString)
+                            
+//                            let interval = Double(500)
+//                            scheduler.repeatsFromToDate(identifier: "journal\(i)", alertTitle: "Journal Question", alertBody: questionItem.question ?? "", fromDate: newDate, toDate: newDate, interval: interval, repeats: .none )
+//                            scheduler.scheduleAllNotifications()
+
+                            let scheduler = DLNotificationScheduler()
+
+                            let firstNotification = DLNotification(identifier: "journal\(index)", alertTitle: "Journal Question", alertBody: questionItem.question ?? "", date: nextDate)
+                            scheduler.scheduleNotification(notification: firstNotification)
+                            scheduler.scheduleAllNotifications()
+                            
+                            if(index>30){
+                                break
+                            }
+                            index += 1
+                        }
+
+                        print("Set journal notification completed")
+                        
+                    }
+                }
+                catch {
+                    print(error)
+                }
+               
+            }
+        }
         
     }
+
     
 //    @IBAction func onclickforSubscribe(_ sender: Any)
 //    {
@@ -583,7 +720,7 @@ class ManifestDetailViewController: UIViewController,UITextViewDelegate,AVAudioR
         {
             if self.isPlayfstTime == 1
             {
-                self.view.makeToast("Recorning is working now! please wait..")
+                self.view.makeToast("Recording is working now! please wait..")
             }
             else
             {
@@ -1007,12 +1144,12 @@ class ManifestDetailViewController: UIViewController,UITextViewDelegate,AVAudioR
 ////        if(selectedDay == "every day"){
 ////            for i in 1...7 {
 ////                let newDate = createDate(weekday: i, hour: selectedDate.hour, minute: selectedDate.minute, year: selectedDate.year)
-////                scheduleNotification(at: newDate, body: self.txtcomment.text, title: "Manifest")
+////                scheduleNotification(at: newDate, body: self.txtcomment.text, title: "manifest")
 ////            }
 ////        }else if(selectedDay == "once a week"){
 ////            let weekday = Calendar.current.component(.weekday, from: selectedDate)
 ////            let newDate = createDate(weekday: weekday, hour: selectedDate.hour, minute: selectedDate.minute, year: selectedDate.year)
-////            scheduleNotification(at: newDate, body: self.txtcomment.text, title: "Manifest")
+////            scheduleNotification(at: newDate, body: self.txtcomment.text, title: "manifest")
 ////        }else if(selectedDay == "every 3 days"){
 ////
 ////        }
@@ -1065,7 +1202,39 @@ class ManifestDetailViewController: UIViewController,UITextViewDelegate,AVAudioR
         return weekDay
     }
 
-    
+    func getProfilePic()
+    {
+        var db: Firestore!
+        db = Firestore.firestore()
+        db.collection("users").getDocuments { (snap, error) in
+            if error != nil{
+                print("error ", error!.localizedDescription)
+                return
+            }
+            
+            for doc in snap?.documents ?? []
+            {
+                let  d = doc.data()
+                if d.count > 0
+                {
+                    print("data = ",  d)
+                    
+                    if (d["uid"] as! String)  ==  Auth.auth().currentUser?.uid
+                    {
+                        
+                       self.strUID = Auth.auth().currentUser?.uid
+                        self.myDocId = doc.documentID
+                       if let strURL = (d["profileImage"] as? String)
+                       {
+                           let url = URL(string: strURL)
+                           self.imgProfile.sd_setImage(with: url, placeholderImage: UIImage(named: "profile-placeholder-big"))
+                        
+                       }
+                    }
+                }
+            }
+        }
+    }
     // uer profile :
     func getProfileData()
         {
@@ -1092,12 +1261,12 @@ class ManifestDetailViewController: UIViewController,UITextViewDelegate,AVAudioR
                             
                            self.strUID = Auth.auth().currentUser?.uid
                             self.myDocId = doc.documentID
-                           if let strURL = (d["pic"] as? String)
-                           {
-                               let url = URL(string: strURL)
-                              
-                           }
-                            
+                            if let strURL = (d["profileImage"] as? String)
+                            {
+                                let url = URL(string: strURL)
+                                self.imgProfile.sd_setImage(with: url, placeholderImage: UIImage(named: "profile-placeholder-big"))
+                             
+                            }
                             
                             let subscription = d["Subscription"] as? String
                             if subscription != nil
@@ -1137,6 +1306,7 @@ class ManifestDetailViewController: UIViewController,UITextViewDelegate,AVAudioR
                                             {
                                                 self.txtcomment.text = String.init(format: "%@",(dict?.value(forKey: "answer") as? CVarArg)!)
                                                 self.updateTextview()
+                                                
                                             }
                                             if dict?.object(forKey: "type") != nil
                                             {

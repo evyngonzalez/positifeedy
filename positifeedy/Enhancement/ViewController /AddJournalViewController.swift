@@ -46,6 +46,7 @@ class AddJournalViewController: UIViewController,UITextViewDelegate,AVAudioRecor
     var isPlaying = false
     var IsSubscripted = false
 
+    
     @IBOutlet weak var audioView: UIView!
     @IBOutlet weak var lblMinChar: UILabel!
     @IBOutlet weak var scrollview: UIScrollView!
@@ -67,6 +68,8 @@ class AddJournalViewController: UIViewController,UITextViewDelegate,AVAudioRecor
     @IBOutlet weak var recordingview: UIView!
     //@IBOutlet weak var btnWrite: UIButton!
     //@IBOutlet weak var btnRecord: UIButton!
+    
+    @IBOutlet weak var imgProfile: UIImageView!
     
     override func viewDidLoad()
     {
@@ -556,23 +559,25 @@ class AddJournalViewController: UIViewController,UITextViewDelegate,AVAudioRecor
         }
         
         
-        if self.txtcomment.text == "Write Here..."
-           {
-               self.view.makeToast("Please enter your answer!")
-           }
-           else
-           {
-               if self.txtcomment.text.count > 5
-               {
-                   // save to another !
-                   
-                   self.savetoUserJournalEntry()
-               }
-               else
-               {
-                    self.view.makeToast("Please enter atleast 5 characters!")
-               }
-           }
+        self.savetoUserJournalEntry()
+
+//        if self.txtcomment.text == "Write Here..."
+//       {
+//           self.view.makeToast("Please enter your answer!")
+//       }
+//       else
+//       {
+//           if self.txtcomment.text.count > 5
+//           {
+//               // save to another !
+//
+//               self.savetoUserJournalEntry()
+//           }
+//           else
+//           {
+//                self.view.makeToast("Please enter atleast 5 characters!")
+//           }
+//       }
         
        
         
@@ -616,84 +621,62 @@ class AddJournalViewController: UIViewController,UITextViewDelegate,AVAudioRecor
     
     @IBAction func onclickforRetry(_ sender: Any)
     {
+                
+        strAudiFileName = nil
+        firebaseaudioURL = ""
         
-        // inital video : start video
-         self.isPlayfstTime = 1
-         
-         self.strtype = "1"
-         self.lblMinit.text = "00:00 / 00:00"
-         self.currentMin = 0.0
-         self.timer?.invalidate()
-         self.timer = nil
-         self.timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(update), userInfo: nil, repeats: true)
-         self.btnStartRecFirst.setImage(UIImage.init(named: "stop_record"), for: .normal)
+        self.isPlayFlag = 0
+        self.btnpla.setImage(UIImage.init(named: "n_play"), for: .normal)
         
-         self.strAudiFileName = String.init(format: "%@.m4a", self.randomString(length: 4))
-         setup_recorder()
-         audioRecorder.record()
-         self.meterTimer = Timer.scheduledTimer(timeInterval: 0.1, target:self, selector:#selector(self.updateAudioMeter(timer:)), userInfo:nil, repeats:true)
-         //record_btn_ref.setTitle("Stop", for: .normal)
-         //play_btn_ref.isEnabled = false
-         isRecording = true
-         self.btnpla.setImage(UIImage.init(named: "n_play"), for: .normal)
-         self.progressbar.setProgress(0.0, animated: true)
-         
+        if(audioPlayer != nil){
+            audioPlayer.stop()
+        }
+        isPlaying = false
         
-        
-         if self.audioPlayer != nil
-         {
-             self.timerPlaying?.invalidate()
-             self.timerPlaying = nil
-             self.audioPlayer.stop()
-             self.progressbar.setProgress(0, animated: true)
-         }
-        
-        
-        
-        
-        
-        
-//        if(isPlaying)
-//        {
-//            audioPlayer.stop()
-//            //record_btn_ref.isEnabled = true
-//            //play_btn_ref.setTitle("Play", for: .normal)
-//            isPlaying = false
-//        }
-//        else
-//        {
-//            if FileManager.default.fileExists(atPath: getFileUrl().path)
-//            {
-//                //record_btn_ref.isEnabled = false
-//                //play_btn_ref.setTitle("pause", for: .normal)
-//                prepare_play()
-//                audioPlayer.setVolume(3, fadeDuration: 1)
-//                audioPlayer.play()
-//                isPlaying = true
-//            }
-//            else
-//            {
-//                //display_alert(msg_title: "Error", msg_desc: "Audio is missing.", action_title: "OK")
-//            }
-//        }
+        self.timerPlaying?.invalidate()
+        self.timerPlaying = nil
+        self.timer?.invalidate()
+        self.timer = nil
 
-//        self.isPlayfstTime = 0
-//        self.strtype = "1"
-//        self.lblMinit.text = "0.0 / 1.00"
-//        self.currentMin = 0.0
-//        self.timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(update), userInfo: nil, repeats: true)
-//        self.btnpla.setImage(UIImage.init(named: "pause"), for: .normal)
-//        self.progressbar.setProgress(0.0, animated: true)
+        self.lblMinit.text = "00:00 / 00:00"
+        self.currentMin = 0.0
+        self.totalSecond = 0.0
+        
+        self.strtype = "0"
+        self.isPlayfstTime = 0
+
+        self.progressbar.setProgress(0, animated: true)
+        self.btnStartRecFirst.setImage(UIImage.init(named: "n_start_record"), for: .normal)
+
+        
+//        // inital video : start video
+//         self.isPlayfstTime = 1
 //
-//        self.strAudiFileName = String.init(format: "%@.m4a", self.randomString(length: 4))
-//        setup_recorder()
-//        audioRecorder.record()
-//        meterTimer = Timer.scheduledTimer(timeInterval: 0.1, target:self, selector:#selector(self.updateAudioMeter(timer:)), userInfo:nil, repeats:true)
-//        //record_btn_ref.setTitle("Stop", for: .normal)
-//        //play_btn_ref.isEnabled = false
-//        isRecording = true
-        
-        
+//         self.strtype = "1"
+//         self.lblMinit.text = "00:00 / 00:00"
+//         self.currentMin = 0.0
+//         self.timer?.invalidate()
+//         self.timer = nil
+//         self.timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(update), userInfo: nil, repeats: true)
+//         self.btnStartRecFirst.setImage(UIImage.init(named: "stop_record"), for: .normal)
+//
+//         self.strAudiFileName = String.init(format: "%@.m4a", self.randomString(length: 4))
+//         setup_recorder()
+//         audioRecorder.record()
+//         self.meterTimer = Timer.scheduledTimer(timeInterval: 0.1, target:self, selector:#selector(self.updateAudioMeter(timer:)), userInfo:nil, repeats:true)
+//         //record_btn_ref.setTitle("Stop", for: .normal)
+//         //play_btn_ref.isEnabled = false
+//         isRecording = true
+//         self.btnpla.setImage(UIImage.init(named: "n_play"), for: .normal)
+//         self.progressbar.setProgress(0.0, animated: true)
+//
+//         if self.audioPlayer != nil
+//         {
+//             self.timerPlaying?.invalidate()
+//             self.timerPlaying = nil
+//             self.audioPlayer.stop()
+//             self.progressbar.setProgress(0, animated: true)
+//         }
         
     }
     
@@ -703,7 +686,7 @@ class AddJournalViewController: UIViewController,UITextViewDelegate,AVAudioRecor
         {
             if self.isPlayfstTime == 1
             {
-                self.view.makeToast("Recorning is working now! please wait..")
+                self.view.makeToast("Recording is working now! please wait..")
             }
             else
             {
@@ -1013,10 +996,16 @@ class AddJournalViewController: UIViewController,UITextViewDelegate,AVAudioRecor
                     let dict = self.arrMyJourncyEntry.object(at: i) as? NSDictionary
                     if dict?.value(forKey: "current_date") as? String == dateString
                     {
+                        
+                        var comment = self.txtcomment.text
+                        if comment == "Write Here..."{
+                            comment = ""
+                        }
+                        
                         let timestamp = Date().currentTimeMillis()
                         let dictMutable = dict?.mutableCopy() as? NSMutableDictionary
                         dictMutable!.setValue(self.lblQuestion.text, forKey: "question")
-                        dictMutable!.setValue(self.txtcomment.text, forKey: "answer")
+                        dictMutable!.setValue(comment, forKey: "answer")
                         dictMutable!.setValue(self.imgURL, forKey: "link")
                         dictMutable!.setValue("\(timestamp)", forKey: "timestamp")
                         dictMutable!.setValue("\(dateString)", forKey: "current_date")
@@ -1030,6 +1019,7 @@ class AddJournalViewController: UIViewController,UITextViewDelegate,AVAudioRecor
                         }
                         else
                         {
+                            dictMutable!.setValue(self.firebaseaudioURL, forKey: "audio_url")
                             dictMutable!.setValue("3", forKey: "point")
                             dictMutable!.setValue("0", forKey: "type")
                         }
@@ -1070,11 +1060,14 @@ class AddJournalViewController: UIViewController,UITextViewDelegate,AVAudioRecor
 
             }else
             {
-            
+                var comment = self.txtcomment.text
+                if comment == "Write Here..."{
+                    comment = ""
+                }
                 let timestamp = Date().currentTimeMillis()
                 let dict = NSMutableDictionary.init()
                 dict.setValue(self.lblQuestion.text, forKey: "question")
-                dict.setValue(self.txtcomment.text, forKey: "answer")
+                dict.setValue(comment, forKey: "answer")
                 dict.setValue(self.imgURL, forKey: "link")
                 dict.setValue("\(timestamp)", forKey: "timestamp")
                 dict.setValue("\(dateString)", forKey: "current_date")
@@ -1143,10 +1136,14 @@ class AddJournalViewController: UIViewController,UITextViewDelegate,AVAudioRecor
             let dateString = dateFormatter.string(from: date)
             
             
+            var comment = self.txtcomment.text
+            if comment == "Write Here..."{
+                comment = ""
+            }
             let timestamp = Date().currentTimeMillis()
             let dict = NSMutableDictionary.init()
             dict.setValue(self.lblQuestion.text, forKey: "question")
-            dict.setValue(self.txtcomment.text, forKey: "answer")
+            dict.setValue(comment, forKey: "answer")
             dict.setValue(self.imgURL, forKey: "link")
             dict.setValue("\(timestamp)", forKey: "timestamp")
             dict.setValue("\(dateString)", forKey: "current_date")
@@ -1264,6 +1261,14 @@ class AddJournalViewController: UIViewController,UITextViewDelegate,AVAudioRecor
     //                               }
                            }
                             
+                            if let strURL = (d["profileImage"] as? String)
+                            {
+                                let url = URL(string: strURL)
+                                self.imgProfile.sd_setImage(with: url, placeholderImage: UIImage(named: "profile-placeholder-big"))
+                            }else{
+                                 self.imgProfile.image = UIImage(named: "profile-placeholder-big")
+                            }
+                            
                             let arr = d["JournalEntry"] as? NSArray
                             let subscription = d["Subscription"] as? String
                             if subscription != nil
@@ -1297,44 +1302,47 @@ class AddJournalViewController: UIViewController,UITextViewDelegate,AVAudioRecor
                                         {
                                             self.txtcomment.text = String.init(format: "%@",(dict?.value(forKey: "answer") as? CVarArg)!)
                                             self.updateTextview()
-                                        }
-                                        if dict?.object(forKey: "type") != nil
-                                        {
-                                            if dict?.value(forKey: "type") as? String == "1"
-                                            {
-                                                self.strtype = "1"
-                                            }
-                                            else
-                                            {
-                                                self.strtype = "0"
-                                            }
-                                        }
                                             
-                                        if dict?.object(forKey: "audio_url") != nil
-                                        {
-                                            if dict?.value(forKey: "audio_url") as? String  != ""
+                                            
+                                            if dict?.object(forKey: "type") != nil
                                             {
-                                                self.firebaseaudioURL = dict?.value(forKey: "audio_url") as? String
+                                                if dict?.value(forKey: "type") as? String == "1"
+                                                {
+                                                    self.strtype = "1"
+                                                }
+                                                else
+                                                {
+                                                    self.strtype = "0"
+                                                }
                                             }
-                                            else
+                                                
+                                            if dict?.object(forKey: "audio_url") != nil
                                             {
-                                                self.firebaseaudioURL = ""
+                                                if dict?.value(forKey: "audio_url") as? String  != ""
+                                                {
+                                                    self.firebaseaudioURL = dict?.value(forKey: "audio_url") as? String
+                                                }
+                                                else
+                                                {
+                                                    self.firebaseaudioURL = ""
+                                                }
+                                            }
+                                            if dict?.object(forKey: "play_time") != nil
+                                            {
+                                                let play_time = dict?.value(forKey: "play_time") as? String ?? ""
+                                                if play_time != "" && play_time != ""
+                                                {
+                                                    self.totalSecond = Float(play_time) ?? 0.0
+                                                    self.lblMinit.text = String.init(format: "%.2f / %.2f", self.currentMin,self.totalSecond)
+                                                }
+                                                else
+                                                {
+                                                    self.totalSecond = 0.0
+                                                    self.lblMinit.text = "00:00 / 00:00"
+                                                }
                                             }
                                         }
-                                        if dict?.object(forKey: "play_time") != nil
-                                        {
-                                            let play_time = dict?.value(forKey: "play_time") as? String ?? ""
-                                            if play_time != "" && play_time != ""
-                                            {
-                                                self.totalSecond = Float(play_time) ?? 0.0
-                                                self.lblMinit.text = String.init(format: "%.2f / %.2f", self.currentMin,self.totalSecond)
-                                            }
-                                            else
-                                            {
-                                                self.totalSecond = 0.0
-                                                self.lblMinit.text = "00:00 / 00:00"
-                                            }
-                                        }
+                                        
                                         
                                     }
                                 }

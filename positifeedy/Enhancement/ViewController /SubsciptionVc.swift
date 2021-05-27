@@ -24,6 +24,7 @@ class SubsciptionVc: UIViewController {
     var myDocId : String!
     var Isselected : Int!
     var fromEnhancement : Bool = false
+    var fromLogin : Bool = false
     @IBOutlet weak var subscribeBtn : UIButton!
     @IBOutlet weak var scrollview : UIScrollView!
     @IBOutlet weak var Scinsideview : UIView!
@@ -47,7 +48,6 @@ class SubsciptionVc: UIViewController {
         if(fromEnhancement){
             self.dismiss(animated: true, completion: nil)
         }else{
-            UserDefaults.standard.removeObject(forKey: "UserProfileImage")
             let storyboard = UIStoryboard(name: "Enhancement", bundle: nil)
             let vcHome = storyboard.instantiateViewController(withIdentifier: "MyTabbarVC") as! MyTabbarVC
             self.navigationController?.pushViewController(vcHome, animated: true)
@@ -68,7 +68,7 @@ class SubsciptionVc: UIViewController {
                    case .success(let purchase):
                        print(purchase.productId)
                        self.serviceCallToBuySubscription()
-                       //self.serviceCallToBuySubscription(transaction: purchase.transaction)
+                       //self.serviceCallTo BuySubscription(transaction: purchase.transaction)
                    case .error(let error):
                      SVProgressHUD.dismiss()
                      self.view.isUserInteractionEnabled = true
@@ -121,7 +121,7 @@ class SubsciptionVc: UIViewController {
     
     //MARK:-
     func serviceCallToBuySubscription()
-        //func serviceCallToBuySubscription(transaction : PaymentTransaction)
+        //func serviceCallToB uySubscription(transaction : PaymentTransaction)
         {
             //print("Subscription :\(transaction.transactionIdentifier) and \(transaction.transactionState)")
             
@@ -152,18 +152,21 @@ class SubsciptionVc: UIViewController {
                 self.view.makeToast("Subscription Successfully done!")
                 
                 let storyboard = UIStoryboard(name: "Enhancement", bundle: nil)
-//                let vcHome = storyboard.instantiateViewController(withIdentifier: "MyTabbarVC") as! MyTabbarVC
-//                vcHome.selectedIndex = 0
-//                vcHome.modalPresentationStyle = .fullScreen
-//                vcHome.modalTransitionStyle = .crossDissolve
-//                self.present(vcHome, animated: true, completion: nil)
+
+                if(self.fromLogin){
+                    let vcHome = storyboard.instantiateViewController(withIdentifier: "MyTabbarVC") as! MyTabbarVC
+                    vcHome.selectedIndex = 0
+                    vcHome.modalPresentationStyle = .fullScreen
+                    vcHome.modalTransitionStyle = .crossDissolve
+                    self.navigationController?.pushViewController(vcHome, animated: true)
+                }else{
+                    let vcHome = storyboard.instantiateViewController(withIdentifier: "MyTabbarVC") as! MyTabbarVC
+                    vcHome.selectedIndex = 0
+                    vcHome.modalPresentationStyle = .fullScreen
+                    vcHome.modalTransitionStyle = .crossDissolve
+                    self.present(vcHome, animated: true, completion: nil)
+                }
                 
-                let vcHome = storyboard.instantiateViewController(withIdentifier: "MyTabbarVC") as! MyTabbarVC
-                vcHome.selectedIndex = 0
-                vcHome.modalPresentationStyle = .fullScreen
-                vcHome.modalTransitionStyle = .crossDissolve
-                self.navigationController?.pushViewController(vcHome, animated: true)
- 
              }
         }
     //MARK:- Alert Controller

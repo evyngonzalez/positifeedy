@@ -717,7 +717,7 @@ class AnswerOfQuestionVC: UIViewController,UITextViewDelegate,AVAudioRecorderDel
         {
             if self.isPlayfstTime == 1
             {
-                self.view.makeToast("Recorning is working now! please wait..")
+                self.view.makeToast("Recording is working now! please wait..")
             }
             else
             {

@@ -414,6 +414,9 @@ class signUpViewController: UIViewController, GIDSignInDelegate,ASAuthorizationC
     
     func transitionToHome() {
         
+        UserDefaults.standard.removeObject(forKey: "UserProfileImage")
+        UserDefaults.standard.synchronize()
+
         let appDel = UIApplication.shared.delegate as! AppDelegate
         appDel.setRoot()
     }

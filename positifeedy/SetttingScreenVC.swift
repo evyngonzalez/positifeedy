@@ -117,50 +117,98 @@ class SetttingScreenVC: UIViewController,UITableViewDelegate,UITableViewDataSour
                                     if (d["uid"] as! String)  ==  Auth.auth().currentUser?.uid
                                     {
                                         
-                                        let user = Auth.auth().currentUser
-
-                                        user?.delete { error in
-                                          if let error = error {
-                                            // An error happened.
-                                          } else {
-                                            // Account deleted.
-                                            print("Document successfully removed! finally !")
-                                          }
-                                        }
-                                       
-                                        mydocument_ID = doc.documentID
-                                        if mydocument_ID != ""
-                                        {
-                                            print("my doc :\(mydocument_ID)")
-                                            db.collection("users").document(mydocument_ID).delete() { err in
-                                                if let err = err {
-                                                    print("Error removing document: \(err)")
-                                                } else {
-                                                    print("Document successfully removed!")
+                                        DispatchQueue.main.async {
+                                            let user = Auth.auth().currentUser
+                                            
+                                            user?.delete { error in
+                                              if let error = error {
+                                                // An error happened.
+                                                print("Delete user :: " + error.localizedDescription)
+                                                if(error.localizedDescription.contains("requires recent authentication")){
+                                                    self.view.makeToast("Please re-login to delete your account!")
+                                                    DispatchQueue.main.asyncAfter(deadline: .now()+1.0) {
+                                                        let appDel =  UIApplication.shared.delegate as! AppDelegate
+                                                        appDel.arrBookMarkLink = []
+                                                        
+                                                        let scheduler = DLNotificationScheduler()
+                                                        scheduler.getScheduledNotifications { (request) in
+                                                            request?.forEach({ (item) in
+                                                                if(item.identifier.contains("manifest")){
+                                                                    scheduler.cancelNotification(identifier: item.identifier)
+                                                                }
+                                                            })
+                                                        }
+                                                        UserDefaults.standard.set(false, forKey: "isLogin")
+                                                        
+                                                        UserDefaults.standard.removeObject(forKey: PREF_DAILY_QUESTION_COUNT)
+                                                        UserDefaults.standard.removeObject(forKey: PREF_CURRENT_DATE)
+                                                        UserDefaults.standard.removeObject(forKey: PREF_BOOKED_DATE)
+                                                        
+                                                        let loginVC = self.storyboard?.instantiateViewController(withIdentifier: "logInViewController") as! logInViewController
+                                                        
+                                                        let nav = UINavigationController(rootViewController: loginVC )
+                                                        nav.setNavigationBarHidden(true, animated: false)
+                                                        
+                                                        appDel.window?.rootViewController = nav
+                                                        appDel.window?.makeKeyAndVisible()
+                                                    }
                                                     
-                                                    let appDel =  UIApplication.shared.delegate as! AppDelegate
-                                                    appDel.arrBookMarkLink = []
-                                                    
-                                                    let scheduler = DLNotificationScheduler()
-                                                    scheduler.cancelAlllNotifications()
-
-                                                    UserDefaults.standard.set(false, forKey: "isLogin")
-                                                    
-                                                    UserDefaults.standard.removeObject(forKey: PREF_DAILY_QUESTION_COUNT)
-                                                    UserDefaults.standard.removeObject(forKey: PREF_CURRENT_DATE)
-                                                    UserDefaults.standard.removeObject(forKey: PREF_BOOKED_DATE)
-                                                    
-                                                    let loginVC = self.storyboard?.instantiateViewController(withIdentifier: "logInViewController") as! logInViewController
-                                                    
-                                                    
-                                                    let nav = UINavigationController(rootViewController: loginVC )
-                                                    nav.setNavigationBarHidden(true, animated: false)
-                                                    
-                                                    appDel.window?.rootViewController = nav
-                                                    appDel.window?.makeKeyAndVisible()
                                                 }
+
+                                              } else {
+                                                // Account deleted.
+                                                print("Delete user :: Document successfully removed! finally !")
+                                                mydocument_ID = doc.documentID
+                                                if mydocument_ID != ""
+                                                {
+                                                    print("my doc :\(mydocument_ID)")
+                                                    db.collection("users").document(mydocument_ID).delete() { err in
+                                                        if let err = err {
+                                                            print("Error removing document: \(err)")
+                                                        } else {
+                                                            print("Document successfully removed!")
+                                                            
+                                                            let appDel =  UIApplication.shared.delegate as! AppDelegate
+                                                            appDel.arrBookMarkLink = []
+                                                            
+                                                            let scheduler = DLNotificationScheduler()
+                                                            scheduler.getScheduledNotifications { (request) in
+                                                                request?.forEach({ (item) in
+                                                                    if(item.identifier.contains("manifest")){
+                                                                        scheduler.cancelNotification(identifier: item.identifier)
+                                                                    }
+                                                                })
+                                                            }
+                                                            UserDefaults.standard.set(false, forKey: "isLogin")
+                                                            
+                                                            UserDefaults.standard.removeObject(forKey: PREF_DAILY_QUESTION_COUNT)
+                                                            UserDefaults.standard.removeObject(forKey: PREF_CURRENT_DATE)
+                                                            UserDefaults.standard.removeObject(forKey: PREF_BOOKED_DATE)
+                                                            
+//                                                            DispatchQueue.main.async {
+//                                                                Auth.auth().currentUser?.delete(completion: { (error) in
+//                                                                    print("Delete user :: " + error.debugDescription)
+//                                                                })
+//                                                            }
+                                                            
+                                                            
+                                                            
+                                                            let loginVC = self.storyboard?.instantiateViewController(withIdentifier: "logInViewController") as! logInViewController
+                                                            
+                                                            let nav = UINavigationController(rootViewController: loginVC )
+                                                            nav.setNavigationBarHidden(true, animated: false)
+                                                            
+                                                            appDel.window?.rootViewController = nav
+                                                            appDel.window?.makeKeyAndVisible()
+                                                        }
+                                                    }
+                                                }
+                                              }
                                             }
+                                           
                                         }
+                                        
+                                        
                                             
                                     }
                                 }

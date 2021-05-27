@@ -102,6 +102,7 @@ class EditProfileVc: UIViewController,UIImagePickerControllerDelegate , UINaviga
                        if (d["uid"] as! String)  ==  Auth.auth().currentUser?.uid
                        {
                         self.myDocId = doc.documentID
+//                        self.EditUserName.text = String.init(format: "%@", (d["firstname"] as? String ?? ""))
                         self.EditUserName.text = String.init(format: "%@ %@", (d["firstname"] as? String ?? ""),(d["lastname"] as? String ?? ""))
                         self.AboutName.text = String.init(format: "%@", (d["About"] as? String ?? ""))
                          self.LoactionArea.text = String.init(format: "%@", (d["Location"] as? String ?? ""))
@@ -384,34 +385,33 @@ class EditProfileVc: UIViewController,UIImagePickerControllerDelegate , UINaviga
                    {
                        print(error!.localizedDescription)
                    }
+               }
         }
             //Location
-            let d2 = ["Location" : self.LoactionArea.text]
-               var db2: Firestore!
-               db2 = Firestore.firestore()
-               db2.collection("users").document(self.myDocId!).updateData(d2) { (error) in
-                   if error != nil
-                   {
-                       print(error!.localizedDescription)
-                   }
-                //Name
-                let d3 = ["firstname" : self.EditUserName.text,"lastname" : ""] as [String : Any]
-                   var db3: Firestore!
-                   db3 = Firestore.firestore()
-                   db3.collection("users").document(self.myDocId!).updateData(d3) { (error) in
-                       if error != nil
-                       {
-                           print(error!.localizedDescription)
-                       }
-                        if(!self.IsBgSet && !self.IsProfileSet){
-                            SVProgressHUD.dismiss()
-                            self.navigationController?.popViewController(animated: true)
-                        }
-                   }
-               }
+        let d2 = ["Location" : self.LoactionArea.text]
+       var db2: Firestore!
+       db2 = Firestore.firestore()
+       db2.collection("users").document(self.myDocId!).updateData(d2) { (error) in
+           if error != nil
+           {
+               print(error!.localizedDescription)
            }
-        
-                  
+        //Name
+        let d3 = ["firstname" : self.EditUserName.text,"lastname" : ""] as [String : Any]
+           var db3: Firestore!
+           db3 = Firestore.firestore()
+           db3.collection("users").document(self.myDocId!).updateData(d3) { (error) in
+               if error != nil
+               {
+                   print(error!.localizedDescription)
+               }
+                if(!self.IsBgSet && !self.IsProfileSet){
+                    SVProgressHUD.dismiss()
+                    self.navigationController?.popViewController(animated: true)
+                }
+           }
+       }
+           
         
     }
 
