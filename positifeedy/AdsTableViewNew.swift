@@ -35,10 +35,10 @@ class AdsTableViewNew: UITableViewCell, GADUnifiedNativeAdDelegate, GADUnifiedNa
         
         
         // local : ca-app-pub-3940256099942544/3986624511
-        //ca-app-pub-5392374810652881/4568120220
+        // live :   ca-app-pub-5392374810652881/4568120220
         
         
-        adLoader = GADAdLoader(adUnitID: "ca-app-pub-3940256099942544/3986624511", rootViewController: controller, adTypes: [GADAdLoaderAdType.unifiedNative], options: nil)
+        adLoader = GADAdLoader(adUnitID: "ca-app-pub-5392374810652881/4568120220", rootViewController: controller, adTypes: [GADAdLoaderAdType.unifiedNative], options: nil)
         adLoader.delegate = self
         
         let adRequest = GADRequest()
