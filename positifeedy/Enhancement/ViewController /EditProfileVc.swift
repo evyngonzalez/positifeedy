@@ -235,15 +235,15 @@ class EditProfileVc: UIViewController,UIImagePickerControllerDelegate , UINaviga
                         return
                     }
                     if imageType {
-                        IsBgSet = false
+                        self.IsBgSet = false
                     }else {
-                        IsProfileSet = false
+                        self.IsProfileSet = false
                     }
 
-                    if IsProfileSet{
+                    if self.IsProfileSet{
                         SVProgressHUD.show()
-                        IsProfileSet = false
-                        uploadImage(imageType: false)
+                        self.IsProfileSet = false
+                        self.uploadImage(imageType: false)
                     }else{
                         self.navigationController?.popViewController(animated: true)
                     }

@@ -113,6 +113,7 @@ FBSDKSETTINGS_PLIST_CONFIGURATION_SETTING_IMPL(NSNumber, FacebookAdvertiserIDCol
 FBSDKSETTINGS_PLIST_CONFIGURATION_SETTING_IMPL(NSNumber, FacebookCodelessDebugLogEnabled, _codelessDebugLogEnabled,
   _setCodelessDebugLogEnabled, @0, YES);
 
+
 + (BOOL)isGraphErrorRecoveryEnabled
 {
   return !g_disableErrorRecovery;

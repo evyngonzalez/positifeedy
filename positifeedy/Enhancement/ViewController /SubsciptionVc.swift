@@ -67,7 +67,9 @@ class SubsciptionVc: UIViewController {
                    switch result {
                    case .success(let purchase):
                        print(purchase.productId)
+                    print(purchase.transaction.transactionIdentifier)
                        self.serviceCallToBuySubscription()
+                    
                        //self.serviceCallTo BuySubscription(transaction: purchase.transaction)
                    case .error(let error):
                      SVProgressHUD.dismiss()

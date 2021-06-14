@@ -149,7 +149,7 @@ class chengethemeViewController: UIViewController, UICollectionViewDelegate, UIC
                         self.sliderVolume.value = volume
                         
                         self.IsLightSelected = self.themeData.value(forKey: "TextColorIsLight") as? Bool ?? true
-                        updateLightDarkButtons()
+                        self.updateLightDarkButtons()
                         self.updateUI()
                         
                         break
@@ -616,7 +616,27 @@ class chengethemeViewController: UIViewController, UICollectionViewDelegate, UIC
                     print("*** Error generating thumbnail: \(error.localizedDescription)")
                 }
                 if(videoURL?.absoluteString != ""){
-                    selectedVideoUrl = videoURL?.absoluteString
+                    
+                    do{
+                        
+                        let userId = Auth.auth().currentUser!.uid
+                        let id = "\(userId).mp4"
+
+                        let path = try FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
+                        let newPath = path.appendingPathComponent("Themes").appendingPathComponent(id)
+                        let videoData = NSData(contentsOf: videoURL as! URL)
+                        let result = try videoData!.write(to: newPath)
+                        print(result)
+                        
+                        let color = themeData.value(forKey: "maxColor") as! String
+
+                        selectedVideoUrl = newPath.absoluteString
+
+                        
+                    }catch{
+                        print("Save Video Error")
+                    }
+                    
 //                    uploadVideo(videoURL: (videoURL?.absoluteString)!)
                 }
                 
@@ -713,7 +733,7 @@ class chengethemeViewController: UIViewController, UICollectionViewDelegate, UIC
             self.navigationController?.popViewController(animated: true)
             
         }catch{
-            print("Save Video Error")
+            print("Save Image Error")
         }
     
         
@@ -778,11 +798,11 @@ class chengethemeViewController: UIViewController, UICollectionViewDelegate, UIC
         }
 
         do{
-            let path = try FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
-            let newPath = path.appendingPathComponent("Themes").appendingPathComponent(id)
-            let videoData = NSData(contentsOf: URL(string: videoURL!)!)
-            let result = try videoData!.write(to: newPath)
-            print(result)
+//            let path = try FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
+//            let newPath = path.appendingPathComponent("Themes").appendingPathComponent(id)
+//            let videoData = NSData(contentsOf: URL(string: videoURL!)!)
+//            let result = try videoData!.write(to: newPath)
+//            print(result)
             
             let color = themeData.value(forKey: "maxColor") as! String
 

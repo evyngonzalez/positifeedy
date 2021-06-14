@@ -29,6 +29,8 @@ import LinkPresentation
 import StoreKit
 import SwiftyStoreKit
 import AuthenticationServices
+//import FBAudienceNetwork
+
 
 struct IN_APP_PURCHASE {
 
@@ -57,7 +59,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window = UIWindow(frame: UIScreen.main.bounds)
                 
        // UserDefaults.standard.register(defaults: ["UserAgent" : "iOS-CompanyName/versionNumber"])
-        
+        //Settings.setAdvertiserTrackingEnabled(true)
+
         FirebaseApp.configure()
         GIDSignIn.sharedInstance().clientID = FirebaseApp.app()?.options.clientID
         ApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)

@@ -27,6 +27,9 @@ class NewsArticalScreenViewController: UIViewController,UIScrollViewDelegate {
     @IBOutlet weak var gradintviewforbg: Gradient!
     @IBOutlet weak var lbltitle: UILabel!
     
+    @IBOutlet weak var btnTheme: UIButton!
+    @IBOutlet weak var btnCategory: UIButton!
+    
     @IBOutlet weak var lblBGAffirmation: UILabel!
     
     @IBOutlet weak var imgTest: UIImageView!
@@ -365,9 +368,15 @@ class NewsArticalScreenViewController: UIViewController,UIScrollViewDelegate {
         IsLightText = themeData.value(forKey: "TextColorIsLight") as? Bool ?? true
         
         if(IsLightText){
+            lbltitle.textColor = .white
             lblBGAffirmation.textColor = .white
+            btnTheme.setTitleColor(.white, for: .normal)
+            btnCategory.setTitleColor(.white, for: .normal)
         }else{
+            lbltitle.textColor = .black
             lblBGAffirmation.textColor = .black
+            btnTheme.setTitleColor(.black, for: .normal)
+            btnCategory.setTitleColor(.black, for: .normal)
         }
         
         self.tableview.reloadData()
@@ -2117,26 +2126,26 @@ class NewsArticalScreenViewController: UIViewController,UIScrollViewDelegate {
                             
                             self.dailyAffirmation = (d["DailyAffirmation"] as? NSDictionary ?? NSDictionary()).mutableCopy() as? NSMutableDictionary ?? NSMutableDictionary()
                             
-                            if(categoriData.count == 0){
+                            if(self.categoriData.count == 0){
                                 
-                                let sortedKeys = (dict.allKeys as [String]).sorted()
+                                let sortedKeys = (dict.allKeys as! [String]).sorted()
                                 if(sortedKeys.count > 0){
                                     for item in sortedKeys {
                                         let key = item as? String ?? ""
                                         let data = dict.value(forKey: key) as? NSDictionary
                                         let isFree = data?.value(forKey: "Isfree") as? Bool ?? false
                                         if(isFree){
-                                            categoriData.append(key)
+                                            self.categoriData.append(key)
                                         }
                                     }
                                 }else{
-                                    categoriData = ["SELF LOVE"]
+                                    self.categoriData = ["SELF LOVE"]
                                 }
                                 
                                 var db: Firestore!
                                 db = Firestore.firestore()
                                 
-                                let d1 = ["checkCategories" : categoriData]
+                                let d1 = ["checkCategories" : self.categoriData]
                                 var db1: Firestore!
                                 db1 = Firestore.firestore()
                                 db1.collection("users").document(self.myDocId!).updateData(d1) { (error) in

@@ -39,7 +39,7 @@ class categoriesViewController: UIViewController,UITableViewDelegate,UITableView
 //        CategoryName = ["Self Love","Motivation","Managing stress","Family","Career"]
         
         
-        let sortedKeys = (dict.allKeys as [String]).sorted()
+        let sortedKeys = (dict.allKeys as! [String]).sorted()
 
         for item in sortedKeys {
             let key = item as? String ?? ""

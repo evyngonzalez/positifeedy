@@ -85,9 +85,9 @@ class AddManifestViewController: UIViewController,UITextViewDelegate,AVAudioReco
     {
         super.viewDidLoad()
         
-        if #available(iOS 13.4, *) {
-            timePicker.preferredDatePickerStyle = UIDatePickerStyle.wheels
-        }
+//        if #available(iOS 13.4, *) {
+//            timePicker.preferredDatePickerStyle = UIDatePickerStyle.wheels
+//        }
         
         self.check_record_permission()
         

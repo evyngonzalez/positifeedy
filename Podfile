@@ -33,8 +33,11 @@ pod 'SwiftyStoreKit'
 pod 'EMPageViewController'
 pod 'VideoBackground'
 pod 'CryptoKit', '~> 0.4'
-
 pod 'UIImageColors'
 pod 'DLLocalNotifications'
+pod 'FBSDKShareKit'
+pod 'FBSDKLoginKit'
+pod 'FBSDKCoreKit'
+
 
 end
